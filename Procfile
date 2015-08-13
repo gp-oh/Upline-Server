@@ -1,0 +1,1 @@
+web: gunicorn upline_server.wsgi
