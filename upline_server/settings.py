@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'm*^q4c8y9ir@82vr!d#k)b7fkl3@^b_&h&*f@failins&d4bb4'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 # ALLOWED_HOSTS = []
 
@@ -40,6 +40,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     "push_notifications",
     'oauth2_provider',
+    'corsheaders',
     'rest_framework',
     'upline',
 )
@@ -80,9 +81,9 @@ WSGI_APPLICATION = 'upline_server.wsgi.application'
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 
 # Parse database configuration from $DATABASE_URL
-import dj_database_url
-DATABASES = {}
-DATABASES['default'] =  dj_database_url.config()
+# import dj_database_url
+# DATABASES = {}
+# DATABASES['default'] =  dj_database_url.config()
 
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
@@ -98,16 +99,16 @@ STATIC_URL = '/static/'
 
 STATICFILES_DIRS = (
     )
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'upline',
-#         'USER': 'root',
-#         'PASSWORD': '',
-#         'HOST': '127.0.0.1',
-#         'PORT': '3306',
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'upline',
+        'USER': 'root',
+        'PASSWORD': '',
+        'HOST': '127.0.0.1',
+        'PORT': '3306',
+    }
+}
 
 
 # Internationalization
@@ -125,6 +126,7 @@ USE_TZ = True
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.SessionAuthentication',
         'oauth2_provider.ext.rest_framework.OAuth2Authentication',
     )
 }
