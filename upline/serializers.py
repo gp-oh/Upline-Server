@@ -26,22 +26,24 @@ class TrainingSetpSerializer(serializers.HyperlinkedModelSerializer):
     training = TrainingSerializer()
     class Meta:
         model = TrainingStep
-        fields = ('training','title','media_url','step','description',)
+        fields = ('training','title','media','step','description',)
 
-class ParentSerializer(serializers.HyperlinkedModelSerializer):
-    level = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
-    training_steps = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
-    class Meta:
-        model = Member
-        fields = ('external_id','name','active','points','avatar_url','phone','gender','postal_code','city','state','address','password','dream','status','level','training_steps')
-
-class MemberSerializer(serializers.HyperlinkedModelSerializer):
+class DownlineSerializer(serializers.HyperlinkedModelSerializer):
     level = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
     training_steps = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
     parent = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
     class Meta:
         model = Member
-        fields = ('parent','external_id','name','active','points','avatar_url','phone','gender','postal_code','city','state','address','password','dream','status','level','training_steps')
+        fields = ('parent','external_id','name','points','avatar','phone','gender','postal_code','city','state','address','dream','status','level','training_steps')
+
+class MemberSerializer(serializers.HyperlinkedModelSerializer):
+    level = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
+    training_steps = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
+    parent = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
+    downlines = DownlineSerializer(many=True, read_only=True)
+    class Meta:
+        model = Member
+        fields = ('parent','downlines','external_id','name','points','avatar','phone','gender','postal_code','city','state','address','dream','status','level','training_steps')
 
 class ContactSerializer(serializers.HyperlinkedModelSerializer):
     contact_category = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
