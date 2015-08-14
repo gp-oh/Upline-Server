@@ -21,6 +21,10 @@ class GroupViewSet(viewsets.ModelViewSet):
     serializer_class = GroupSerializer
 
 class MemberViewSet(viewsets.ModelViewSet):
+    def list(self, request):
+        queryset = Member.objects.filter(parent__user=request.user)
+        serializer = MemberSerializer(queryset, many=True,context={'request': request})
+        return Response(serializer.data)
     """
     API endpoint that allows users to be viewed or edited.
     """
