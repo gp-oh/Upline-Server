@@ -146,4 +146,21 @@ class PostSerializer(serializers.HyperlinkedModelSerializer):
         model = Post
         fields = ('id',"user","title","category","content","media","create_time","update_time")
 
+class CalendarSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Calendar
+        fields = ("id","name")
 
+class PlaceSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Place
+        fields = ("id","title","postal_code","region","city","state","address","lat","lng")
+
+class EventSerializer(serializers.HyperlinkedModelSerializer):
+    place = PlaceSerializer()
+    invited = ContactSerializer(many=True)
+    members = DownlineSerializer(many=True)
+    calendar = CalendarSerializer()
+    class Meta:
+        model = Event
+        fields = ("id","title","place","all_day","begin_time","end_time","invited","members","calendar","note")

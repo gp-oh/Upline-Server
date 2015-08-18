@@ -245,14 +245,58 @@ class Post(models.Model):
     def __unicode__(self):
         return self.title
 
+class MODELNAME(models.Model):
+
+    class Meta:
+        verbose_name = "MODELNAME"
+        verbose_name_plural = "MODELNAMEs"
+
+    def __str__(self):
+        pass
+    
+class Calendar(models.Model):
+    name = models.CharField(max_length=255)
+    class Meta:
+        verbose_name = "Calendar"
+        verbose_name_plural = "Calendars"
+
+    def __str__(self):
+        pass
+    
+class Place(models.Model):
+    title = models.CharField(max_length=255)
+    postal_code = models.CharField(max_length=255)
+    region = models.CharField(max_length=255, blank=True, null=True)
+    city = models.CharField(max_length=255, blank=True, null=True)
+    state = models.CharField(max_length=255, blank=True, null=True)
+    address = models.CharField(max_length=255, blank=True, null=True)
+    lat = models.FloatField()
+    lng = models.FloatField()
+    class Meta:
+        verbose_name = "Place"
+        verbose_name_plural = "Places"
+
+    def __unicode__(self):
+        return self.title
+    
+
 class Event(models.Model):
+    title = models.CharField(max_length=255)
+    place = models.ForeignKey(Place)
+    all_day = models.BooleanField(default=False)
+    begin_time = models.DateTimeField(null=True)
+    end_time = models.DateTimeField(null=True)
+    invited = models.ForeignKey(Contact)
+    members = models.ForeignKey(Member)
+    calendar = models.ForeignKey(Calendar,related_name='events')
+    note = models.TextField(null=True,blank=True)
 
     class Meta:
         verbose_name = "Event"
         verbose_name_plural = "Events"
 
-    def __str__(self):
-        pass
+    def __unicode__(self):
+        return self.title
     
     
 

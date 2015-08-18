@@ -10,6 +10,7 @@ r.register(r'contacts', api.ContactViewSet)
 r.register(r'member', api.MemberViewSet)
 r.register(r'training', api.TrainingViewSet)
 r.register(r'post', api.PostViewSet)
+r.register(r'event', api.EventViewSet)
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.
