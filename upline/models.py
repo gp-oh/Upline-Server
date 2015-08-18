@@ -51,6 +51,7 @@ class Member(models.Model):
     parent = models.ForeignKey('self', blank=True, null=True, related_name='downlines')
     external_id = models.IntegerField(unique=True, blank=True, null=True)
     name = models.CharField(max_length=255)
+    quickblox_id = models.CharField(max_length=255,null=True)
     slug = AutoSlugField(populate_from='name',unique=True)
     points = models.IntegerField(default=0)
     avatar = models.ImageField(upload_to='members', blank=True, null=True)
@@ -119,7 +120,6 @@ class Contact(models.Model):
     address = models.CharField(max_length=255, blank=True, null=True)
     create_time = models.DateTimeField(auto_now_add=True)
     update_time = models.DateTimeField(auto_now=True)
-
 
     class Meta:
         verbose_name = "Contact"
