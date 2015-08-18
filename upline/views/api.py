@@ -1,21 +1,22 @@
+import json
 from django.contrib.auth.models import User, Group
-from rest_framework import viewsets, permissions, status
-from upline.serializers import *
-from upline.models import *
-from upline.forms import *
-from rest_framework.response import Response
-from django.shortcuts import redirect
 from django.core.urlresolvers import reverse
-from oauth2_provider.views import TokenView
+from django.shortcuts import redirect
+from rest_framework import viewsets, permissions, status
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from upline.forms import *
+from upline.models import *
 from upline.permissions import IsAuthenticatedOrCreate
+from upline.serializers import *
+from oauthlib.oauth2 import Server
+from oauth2_provider.settings import oauth2_settings
+from oauth2_provider.views.mixins import OAuthLibMixin
+from oauth2_provider.models import AccessToken
 
 class UserViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows users to be viewed or edited.
-    """
     queryset = User.objects.all().order_by('-date_joined')
     serializer_class = UserSerializer
-
 
 class GroupViewSet(viewsets.ModelViewSet):
     """
@@ -24,10 +25,31 @@ class GroupViewSet(viewsets.ModelViewSet):
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
 
+class Login(APIView,OAuthLibMixin):
+    permission_classes = (permissions.AllowAny,)
+    server_class = Server
+    validator_class = oauth2_settings.OAUTH2_VALIDATOR_CLASS
+    oauthlib_backend_class = oauth2_settings.OAUTH2_BACKEND_CLASS
+
+    def post(self,request, *args, **kwargs):
+        url, headers, body, s = self.create_token_response(request)
+        token = json.loads(body)
+        if s == 200:
+            
+            user = AccessToken.objects.get(token=token["access_token"]).user
+            member = Member.objects.get(user=user)
+            serializer = MemberSerializer(member)
+            return Response({"token":token,"member":serializer.data}, status=status.HTTP_201_CREATED)
+        else:
+            return Response(token, status=status.HTTP_400_BAD_REQUEST)
 
 class MemberViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticatedOrCreate,)
     queryset = Member.objects.all()
+    server_class = Server
+    validator_class = oauth2_settings.OAUTH2_VALIDATOR_CLASS
+    oauthlib_backend_class = oauth2_settings.OAUTH2_BACKEND_CLASS
+
     def list(self, request):
         queryset = Member.objects.filter(parent__user=request.user)
         serializer = MemberSerializer(queryset, many=True,context={'request': request})
@@ -37,8 +59,7 @@ class MemberViewSet(viewsets.ModelViewSet):
         serializer = MemberRegisterSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return TokenView.as_view()(request, *args, **kwargs)
-            # return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return Login.as_view()(request, *args, **kwargs)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def get_serializer_class(self):

@@ -13,4 +13,5 @@ r.register(r'member', api.MemberViewSet)
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [
     url(r'^api/v1/', include(r.urls)),
+    url(r'^api/v1/login/$',api.Login.as_view())
 ]
