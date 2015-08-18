@@ -113,3 +113,29 @@ class SaleSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Sale
         fields = ("id","client","sale_items","active","total","points","create_time")
+
+class TrainingStepSerializer(serializers.HyperlinkedModelSerializer):
+    status = serializers.SerializerMethodField()
+    answer = serializers.SerializerMethodField()
+
+    def get_status(self,training_step):
+        members = training_step.members.filter(member__user=self.context['request'].user)
+        if len(members) > 0:
+            return True
+        return False
+
+    def get_answer(self,training_step):
+        members = training_step.members.filter(member__user=self.context['request'].user)
+        if len(members) > 0:
+            return members[0].answer
+        return None
+
+    class Meta:
+        model = TrainingStep
+        fields = ('id','status','answer','title','media','step','description','need_answer')
+
+class TrainingSerializer(serializers.HyperlinkedModelSerializer):
+    training_steps = TrainingStepSerializer(many=True)
+    class Meta:
+        model = Training
+        fields = ('id','name','training_steps')

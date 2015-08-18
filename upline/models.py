@@ -15,14 +15,14 @@ class Training(models.Model):
         return self.name
 
 class TrainingStep(models.Model):
-    training = models.ForeignKey(Training)
+    training = models.ForeignKey(Training,related_name='training_steps')
     title = models.CharField(max_length=255)
     media = models.FileField(upload_to="training_steps",blank=True, null=True)
     step = models.IntegerField()
     description = models.TextField(blank=True, null=True)
+    need_answer = models.BooleanField(default=False)
     create_time = models.DateTimeField(auto_now_add=True)
     update_time = models.DateTimeField(auto_now=True)
-
 
     class Meta:
         verbose_name = "Training Step"
@@ -65,10 +65,8 @@ class Member(models.Model):
     status = models.TextField(blank=True, null=True)
     birthday = models.DateField(null=True)
     level = models.ForeignKey(Level,null=True)
-    training_steps = models.ManyToManyField(TrainingStep,null=True)
     create_time = models.DateTimeField(auto_now_add=True)
     update_time = models.DateTimeField(auto_now=True)
-
 
     class Meta:
         verbose_name = "Member"
@@ -76,6 +74,18 @@ class Member(models.Model):
 
     def __unicode__(self):
         return self.name
+
+class MemberTraingStep(models.Model):
+    member = models.ForeignKey(Member,related_name='training_steps')
+    training_step = models.ForeignKey(TrainingStep,related_name='members')
+    answer = models.TextField()
+
+    class Meta:
+        verbose_name = "MemberTraingStep"
+        verbose_name_plural = "MemberTraingSteps"
+
+    def __unicode__(self):
+        return self.member.name+' - '+self.training_step.title
 
 class Team(models.Model):
     owner = models.ForeignKey(Member,related_name="team_owner")

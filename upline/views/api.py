@@ -14,17 +14,6 @@ from oauth2_provider.settings import oauth2_settings
 from oauth2_provider.views.mixins import OAuthLibMixin
 from oauth2_provider.models import AccessToken
 
-class UserViewSet(viewsets.ModelViewSet):
-    queryset = User.objects.all().order_by('-date_joined')
-    serializer_class = UserSerializer
-
-class GroupViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows groups to be viewed or edited.
-    """
-    queryset = Group.objects.all()
-    serializer_class = GroupSerializer
-
 class Login(APIView,OAuthLibMixin):
     permission_classes = (permissions.AllowAny,)
     server_class = Server
@@ -42,6 +31,17 @@ class Login(APIView,OAuthLibMixin):
             return Response({"token":token,"member":serializer.data}, status=status.HTTP_201_CREATED)
         else:
             return Response(token, status=status.HTTP_400_BAD_REQUEST)
+
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all().order_by('-date_joined')
+    serializer_class = UserSerializer
+
+class GroupViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows groups to be viewed or edited.
+    """
+    queryset = Group.objects.all()
+    serializer_class = GroupSerializer
 
 class MemberViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticatedOrCreate,)
@@ -70,13 +70,15 @@ class MemberViewSet(viewsets.ModelViewSet):
             return MemberSerializer
 
 class ContactViewSet(viewsets.ModelViewSet):
+    
+    queryset = Contact.objects.all()
+    serializer_class = ContactSerializer
+
     def list(self, request):
         queryset = Contact.objects.filter(owner__user=request.user)
         serializer = ContactSerializer(queryset, many=True,context={'request': request})
         return Response(serializer.data)
 
-    queryset = Contact.objects.all()
-    serializer_class = ContactSerializer
 
 class SaleViewSet(viewsets.ModelViewSet):
     def list(self, request):
@@ -86,3 +88,7 @@ class SaleViewSet(viewsets.ModelViewSet):
 
     queryset = Sale.objects.all()
     serializer_class = SaleSerializer
+
+class TrainingViewSet(viewsets.ModelViewSet):
+    queryset = Training.objects.all()
+    serializer_class = TrainingSerializer
