@@ -4,6 +4,7 @@ from upline.views import api
 
 r = routers.DefaultRouter()
 r.register(r'users', api.UserViewSet)
+r.register(r'sales', api.SaleViewSet)
 r.register(r'groups', api.GroupViewSet)
 r.register(r'contacts', api.ContactViewSet)
 r.register(r'member', api.MemberViewSet)

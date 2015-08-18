@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from autoslug import AutoSlugField
 
 class Training(models.Model):
     name = models.CharField(max_length=255)
@@ -50,7 +51,8 @@ class Member(models.Model):
     parent = models.ForeignKey('self', blank=True, null=True, related_name='downlines')
     external_id = models.IntegerField(unique=True, blank=True, null=True)
     name = models.CharField(max_length=255)
-    points = models.IntegerField()
+    slug = AutoSlugField(populate_from='name',unique=True)
+    points = models.IntegerField(default=0)
     avatar = models.ImageField(upload_to='members', blank=True, null=True)
     phone = models.CharField(max_length=45, blank=True, null=True)
     gender = models.IntegerField()
@@ -60,10 +62,11 @@ class Member(models.Model):
     address = models.CharField(max_length=255, blank=True, null=True)
     dream = models.TextField(blank=True, null=True)
     status = models.TextField(blank=True, null=True)
+    birthday = models.DateField(null=True)
+    level = models.ForeignKey(Level,null=True)
+    training_steps = models.ManyToManyField(TrainingStep,null=True)
     create_time = models.DateTimeField(auto_now_add=True)
     update_time = models.DateTimeField(auto_now=True)
-    level = models.ForeignKey(Level)
-    training_steps = models.ManyToManyField(TrainingStep)
 
 
     class Meta:
@@ -101,10 +104,16 @@ class Contact(models.Model):
     owner = models.ForeignKey(Member,related_name="contact_owner")
     member = models.ForeignKey(Member,related_name="contact_member", blank=True, null=True)
     contact_category = models.ForeignKey(ContactCategory)
-    name = models.CharField(max_length=255)
-    phone = models.CharField(max_length=45, blank=True, null=True)
     gender = models.IntegerField()
+    name = models.CharField(max_length=255)
+    email = models.EmailField(max_length=255,null=True)
+    phone = models.CharField(max_length=45, blank=True, null=True)
+    cellphone = models.CharField(max_length=45, blank=True, null=True)
+    birthday = models.DateField(null=True)
+    cpf = models.CharField(max_length=45, blank=True, null=True)
+    rg = models.CharField(max_length=45, blank=True, null=True)
     postal_code = models.CharField(max_length=255)
+    region = models.CharField(max_length=255, blank=True, null=True)
     city = models.CharField(max_length=255, blank=True, null=True)
     state = models.CharField(max_length=255, blank=True, null=True)
     address = models.CharField(max_length=255, blank=True, null=True)
@@ -148,3 +157,64 @@ class LogMemberLogin(models.Model):
 
     def __unicode__(self):
         return self.member.name
+
+
+class DistributionCenter(models.Model):
+    name = models.CharField(max_length=255)
+    create_time = models.DateTimeField(auto_now_add=True)
+    update_time = models.DateTimeField(auto_now=True)
+    class Meta:
+        verbose_name = "DistributionCenter"
+        verbose_name_plural = "DistributionCenters"
+
+    def __unicode__(self):
+        return self.name
+    
+class Product(models.Model):
+    name = models.CharField(max_length=255)
+    active = models.BooleanField(default=True)
+    reference_value = models.DecimalField(max_digits=11, decimal_places=2)
+    table_value = models.DecimalField(max_digits=11, decimal_places=2)
+    create_time = models.DateTimeField(auto_now_add=True)
+    update_time = models.DateTimeField(auto_now=True)
+    class Meta:
+        verbose_name = "Product"
+        verbose_name_plural = "Products"
+
+    def __unicode__(self):
+        return self.name
+
+class Sale(models.Model):
+    member = models.ForeignKey(Member)
+    client = models.ForeignKey(Contact)
+    active = models.BooleanField(default=True)
+    total = models.DecimalField(max_digits=11, decimal_places=2)
+    points = models.IntegerField(default=0)
+    create_time = models.DateTimeField(auto_now_add=True)
+    update_time = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "Sale"
+        verbose_name_plural = "Sales"
+
+    def __unicode__(self):
+        return str(self.id)
+
+class SaleItem(models.Model):
+    product = models.ForeignKey(Product)
+    sale = models.ForeignKey(Sale,related_name='sale_items')
+    quantity = models.IntegerField(default=0)
+    total = models.DecimalField(max_digits=11, decimal_places=2)
+    delivery_prevision = models.DateField()
+    notificate_at = models.DateField()
+    create_time = models.DateTimeField(auto_now_add=True)
+    update_time = models.DateTimeField(auto_now=True)
+    class Meta:
+        verbose_name = "SaleItem"
+        verbose_name_plural = "SaleItems"
+
+    def __unicode__(self):
+        return str(self.id)
+    
+    
+
