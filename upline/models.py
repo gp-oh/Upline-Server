@@ -114,6 +114,7 @@ class ContactCategory(models.Model):
 class Contact(models.Model):
     owner = models.ForeignKey(Member,related_name="contact_owner")
     member = models.ForeignKey(Member,related_name="contact_member", blank=True, null=True)
+    avatar = models.ImageField(upload_to='contacts', blank=True, null=True)
     contact_category = models.ForeignKey(ContactCategory)
     gender = models.IntegerField()
     name = models.CharField(max_length=255)
@@ -225,6 +226,33 @@ class SaleItem(models.Model):
 
     def __unicode__(self):
         return str(self.id)
+    
+class Post(models.Model):
+    user = models.ForeignKey(User,related_name='posts')
+    title = models.CharField(max_length=255)
+    category = models.IntegerField()
+    content = models.TextField(null=True,blank=True,default=None)
+    media = models.FileField(upload_to="posts",null=True,blank=True,default=None)
+    create_time = models.DateTimeField(auto_now_add=True)
+    update_time = models.DateTimeField(auto_now=True)
+
+
+
+    class Meta:
+        verbose_name = "Post"
+        verbose_name_plural = "Posts"
+
+    def __unicode__(self):
+        return self.title
+
+class Event(models.Model):
+
+    class Meta:
+        verbose_name = "Event"
+        verbose_name_plural = "Events"
+
+    def __str__(self):
+        pass
     
     
 

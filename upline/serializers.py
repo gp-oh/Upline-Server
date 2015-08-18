@@ -139,3 +139,11 @@ class TrainingSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Training
         fields = ('id','name','training_steps')
+
+class PostSerializer(serializers.HyperlinkedModelSerializer):
+    user = UserSerializer()
+    class Meta:
+        model = Post
+        fields = ('id',"user","title","category","content","media","create_time","update_time")
+
+
