@@ -84,9 +84,19 @@ class MemberSerializer(serializers.HyperlinkedModelSerializer):
         model = Member
         fields = ("id",'parent','downlines','create_time','slug','external_id','name','points','avatar','phone','gender','postal_code','city','state','address','dream','status','level','training_steps')
 
+class MemberLoginSerializer(serializers.HyperlinkedModelSerializer):
+    level = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
+    training_steps = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
+    parent = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
+    downlines = DownlineSerializer(many=True, read_only=True)
+    class Meta:
+        model = Member
+        fields = ("id",'quickblox_login','quickblox_password','parent','downlines','create_time','slug','external_id','name','points','avatar','phone','gender','postal_code','city','state','address','dream','status','level','training_steps')
+
+
 class ContactSerializer(serializers.HyperlinkedModelSerializer):
-    contact_category = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
-    member = MemberSerializer()
+    contact_category = serializers.PrimaryKeyRelatedField(many=False,queryset=ContactCategory.objects.all())
+    member = MemberSerializer(read_only=True)
     class Meta:
         model = Contact
         fields = ("id",'member','contact_category','name','phone','gender','postal_code','city','state','address')
@@ -108,8 +118,8 @@ class SaleItemSerializer(serializers.HyperlinkedModelSerializer):
         fields = ("id","product","quantity","total","delivery_prevision","notificate_at")
 
 class SaleSerializer(serializers.HyperlinkedModelSerializer):
-    client = ContactSerializer()
-    sale_items = SaleItemSerializer(many=True)
+    client = ContactSerializer(read_only=True)
+    sale_items = SaleItemSerializer(many=True,read_only=True)
     class Meta:
         model = Sale
         fields = ("id","client","sale_items","active","total","points","create_time")
@@ -135,13 +145,13 @@ class TrainingStepSerializer(serializers.HyperlinkedModelSerializer):
         fields = ('id','status','answer','title','media','step','description','need_answer')
 
 class TrainingSerializer(serializers.HyperlinkedModelSerializer):
-    training_steps = TrainingStepSerializer(many=True)
+    training_steps = TrainingStepSerializer(many=True,read_only=True)
     class Meta:
         model = Training
         fields = ('id','name','training_steps')
 
 class PostSerializer(serializers.HyperlinkedModelSerializer):
-    user = UserSerializer()
+    user = UserSerializer(read_only=True)
     class Meta:
         model = Post
         fields = ('id',"user","title","category","content","media","create_time","update_time")
@@ -157,10 +167,10 @@ class PlaceSerializer(serializers.HyperlinkedModelSerializer):
         fields = ("id","title","postal_code","region","city","state","address","lat","lng")
 
 class EventSerializer(serializers.HyperlinkedModelSerializer):
-    place = PlaceSerializer()
-    invited = ContactSerializer(many=True)
-    members = DownlineSerializer(many=True)
-    calendar = CalendarSerializer()
+    place = PlaceSerializer(read_only=True)
+    invited = ContactSerializer(many=True,read_only=True)
+    members = DownlineSerializer(many=True,read_only=True)
+    calendar = CalendarSerializer(read_only=True)
     class Meta:
         model = Event
         fields = ("id","title","place","all_day","begin_time","end_time","invited","members","calendar","note")

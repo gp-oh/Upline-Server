@@ -27,7 +27,7 @@ class Login(APIView,OAuthLibMixin):
             
             user = AccessToken.objects.get(token=token["access_token"]).user
             member = Member.objects.get(user=user)
-            serializer = MemberSerializer(member)
+            serializer = MemberLoginSerializer(member)
             return Response({"token":token,"member":serializer.data}, status=status.HTTP_201_CREATED)
         else:
             return Response(token, status=status.HTTP_400_BAD_REQUEST)
@@ -63,8 +63,7 @@ class MemberViewSet(viewsets.ModelViewSet):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def get_serializer_class(self):
-        print 'Method is:', self.request.method
-        if self.request.method == "POST":
+        if self.action == "create" or self.action == "update":
             return MemberRegisterSerializer
         else:
             return MemberSerializer
