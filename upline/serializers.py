@@ -2,15 +2,15 @@ from django.contrib.auth.models import User, Group
 from upline.models import *
 from rest_framework import serializers
 
+class UserSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = User
+        fields = ("id",'url', 'username', 'email')
+
 class GroupSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Group
         fields = ("id",'url', 'name')
-
-class UserSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = User
-        fields = ("id",'url', 'username', 'email', 'groups')
 
 class LevelSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
@@ -34,7 +34,7 @@ class DownlineSerializer(serializers.HyperlinkedModelSerializer):
     parent = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
     class Meta:
         model = Member
-        fields = ("id",'parent','slug','create_time','external_id','name','points','avatar','phone','gender','postal_code','city','state','address','dream','status','level','training_steps')
+        fields = ("id",'parent','slug','create_time','external_id','name','points','avatar','phone','gender','postal_code','city','state','address','dream1','dream2','status','level','training_steps')
 
 class MemberRegisterSerializer(serializers.HyperlinkedModelSerializer):
     username = serializers.EmailField()
@@ -82,7 +82,7 @@ class MemberSerializer(serializers.HyperlinkedModelSerializer):
     downlines = DownlineSerializer(many=True, read_only=True)
     class Meta:
         model = Member
-        fields = ("id",'parent','downlines','create_time','slug','external_id','name','points','avatar','phone','gender','postal_code','city','state','address','dream','status','level','training_steps')
+        fields = ("id",'parent','downlines','create_time','slug','external_id','name','points','avatar','phone','gender','postal_code','city','state','address','dream1','dream2','status','level','training_steps')
 
 class MemberLoginSerializer(serializers.HyperlinkedModelSerializer):
     level = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
@@ -91,7 +91,7 @@ class MemberLoginSerializer(serializers.HyperlinkedModelSerializer):
     downlines = DownlineSerializer(many=True, read_only=True)
     class Meta:
         model = Member
-        fields = ("id",'quickblox_login','quickblox_password','parent','downlines','create_time','slug','external_id','name','points','avatar','phone','gender','postal_code','city','state','address','dream','status','level','training_steps')
+        fields = ("id",'quickblox_login','quickblox_password','parent','downlines','create_time','slug','external_id','name','points','avatar','phone','gender','postal_code','city','state','address','dream1','dream2','status','level','training_steps')
 
 
 class ContactSerializer(serializers.HyperlinkedModelSerializer):
@@ -99,12 +99,15 @@ class ContactSerializer(serializers.HyperlinkedModelSerializer):
     member = MemberSerializer(read_only=True)
     class Meta:
         model = Contact
-        fields = ("id",'member','contact_category','name','phone','gender','postal_code','city','state','address')
+        fields = ("id","avatar","email","cellphone","birthday","cpf","rg","region",'member','contact_category','name','phone','gender','postal_code','city','state','address')
 
-class DistributionCenterSerializer(serializers.HyperlinkedModelSerializer):
+class ContactDownlineSerializer(serializers.HyperlinkedModelSerializer):
+    contact_category = serializers.PrimaryKeyRelatedField(many=False,queryset=ContactCategory.objects.all())
+    member = DownlineSerializer(read_only=True)
     class Meta:
-        model = DistributionCenter
-        fields = ("id",'name')
+        model = Contact
+        fields = ("id","avatar","email","cellphone","birthday","cpf","rg","region",'member','contact_category','name','phone','gender','postal_code','city','state','address')
+
 
 class ProductSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
@@ -118,8 +121,19 @@ class SaleItemSerializer(serializers.HyperlinkedModelSerializer):
         fields = ("id","product","quantity","total","delivery_prevision","notificate_at")
 
 class SaleSerializer(serializers.HyperlinkedModelSerializer):
-    client = ContactSerializer(read_only=True)
+    client = ContactDownlineSerializer(read_only=True)
     sale_items = SaleItemSerializer(many=True,read_only=True)
+    class Meta:
+        model = Sale
+        fields = ("id","client","sale_items","active","total","points","create_time")
+
+class SaleRegisterSerializer(serializers.HyperlinkedModelSerializer):
+    client = serializers.PrimaryKeyRelatedField(many=False, queryset=Contact.objects.all())
+    sale_items = SaleItemSerializer(many=True,read_only=False)
+
+    # def get_client(self,sale):
+    #     return serializers.PrimaryKeyRelatedField(many=False, queryset=Client.objects.filter(owner__user=self.context['request'].user))
+
     class Meta:
         model = Sale
         fields = ("id","client","sale_items","active","total","points","create_time")
@@ -174,3 +188,26 @@ class EventSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Event
         fields = ("id","title","place","all_day","begin_time","end_time","invited","members","calendar","note")
+
+class StateSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = State
+        fields = ("id","acronym","name")
+
+class CitySerializer(serializers.HyperlinkedModelSerializer):
+    state = StateSerializer(many=False)
+    class Meta:
+        model = State
+        fields = ("id","state","name")
+
+class PostalCodeSerializer(serializers.HyperlinkedModelSerializer):
+    city = CitySerializer(many=False)
+    class Meta:
+        model = PostalCode
+        fields = ("city","street","neighborhood","postal_code","street_type")
+
+class GoalSerializer(serializers.HyperlinkedModelSerializer):
+    level = serializers.PrimaryKeyRelatedField(many=False, queryset=Level.objects.all())
+    class Meta:
+        model = Goal
+        fields = ("id","level","date")

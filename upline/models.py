@@ -62,7 +62,8 @@ class Member(models.Model):
     city = models.CharField(max_length=255, blank=True, null=True)
     state = models.CharField(max_length=255, blank=True, null=True)
     address = models.CharField(max_length=255, blank=True, null=True)
-    dream = models.TextField(blank=True, null=True)
+    dream1 = models.ImageField(upload_to="dreams",blank=True, null=True,default=None)
+    dream2 = models.ImageField(upload_to="dreams",blank=True, null=True,default=None)
     status = models.TextField(blank=True, null=True)
     birthday = models.DateField(null=True)
     level = models.ForeignKey(Level,null=True)
@@ -170,17 +171,6 @@ class LogMemberLogin(models.Model):
     def __unicode__(self):
         return self.member.name
 
-
-class DistributionCenter(models.Model):
-    name = models.CharField(max_length=255)
-    create_time = models.DateTimeField(auto_now_add=True)
-    update_time = models.DateTimeField(auto_now=True)
-    class Meta:
-        verbose_name = "DistributionCenter"
-        verbose_name_plural = "DistributionCenters"
-
-    def __unicode__(self):
-        return self.name
     
 class Product(models.Model):
     name = models.CharField(max_length=255)
@@ -256,6 +246,8 @@ class MODELNAME(models.Model):
         pass
     
 class Calendar(models.Model):
+    public = models.BooleanField(default=False)
+    user = models.ForeignKey(User,null=True)
     name = models.CharField(max_length=255)
     class Meta:
         verbose_name = "Calendar"
@@ -299,5 +291,72 @@ class Event(models.Model):
     def __unicode__(self):
         return self.title
     
+class State(models.Model):
+    acronym = models.CharField(max_length=2)
+    name = models.CharField(max_length=255)
+
+    class Meta:
+        verbose_name ='State'
+        verbose_name_plural ='States'
+
+    def __unicode__(self):
+        return self.acronym
+    
+class City(models.Model):
+    state = models.ForeignKey(State)
+    name = models.CharField(max_length=255)
+    class Meta:
+        verbose_name ='City'
+        verbose_name_plural ='Citys'
+
+    def __unicode__(self):
+        return self.state.acronym+' - '+self.name
+
+    def to_json(self):
+        return {'state':self.state.acronym,'name':self.name,'id':self.id}
+
+class PostalCode(models.Model):
+    city = models.ForeignKey(City)
+    street = models.CharField(max_length=255)
+    neighborhood = models.CharField(max_length=255)
+    postal_code = models.CharField(max_length=255)
+    street_type = models.CharField(max_length=255)
+    approved = models.BooleanField(default=False)
+    class Meta:
+        verbose_name ='Postal Code'
+        verbose_name_plural ='Postal Codes'
+
+    def __unicode__(self):
+        return self.postal_code
+
+    def to_json(self):
+        return { 'city':self.city.name,'state':self.city.state.acronym,'street':'%s %s'%(self.street_type,self.street),'zip_code':self.zip_code, 'neighborhood':self.neighborhood }
+
+class MultimidiaType(models.Model):
+
+    class Meta:
+        verbose_name = "MultimidiaType"
+        verbose_name_plural = "MultimidiaTypes"
+
+    def __str__(self):
+        pass
+    
+class MultimidiaCategory(models.Model):
+
+    class Meta:
+        verbose_name = "MultimidiaCategory"
+        verbose_name_plural = "MultimidiaCategorys"
+
+    def __str__(self):
+        pass
+
+class Multimidia(models.Model):
+
+    class Meta:
+        verbose_name = "Multimidia"
+        verbose_name_plural = "Multimidias"
+
+    def __str__(self):
+        pass
     
 
