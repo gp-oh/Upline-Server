@@ -93,10 +93,32 @@ class MemberLoginSerializer(serializers.HyperlinkedModelSerializer):
         model = Member
         fields = ("id",'quickblox_login','quickblox_password','parent','downlines','create_time','slug','external_id','name','points','avatar','phone','gender','postal_code','city','state','address','dream1','dream2','status','level','training_steps')
 
-
 class ContactSerializer(serializers.HyperlinkedModelSerializer):
     contact_category = serializers.PrimaryKeyRelatedField(many=False,queryset=ContactCategory.objects.all())
     member = MemberSerializer(read_only=True)
+
+    def create(self,validated_data):
+        contact = Contact()
+        member = Member.objects.get(user=self.context['request'].user)
+        contact.owner = member
+        contact.avatar = validated_data.pop('avatar')
+        contact.email = validated_data.pop('email')
+        contact.cellphone = validated_data.pop('cellphone')
+        contact.birthday = validated_data.pop('birthday')
+        contact.cpf = validated_data.pop('cpf')
+        contact.rg = validated_data.pop('rg')
+        contact.region = validated_data.pop('region')
+        contact.contact_category = validated_data.pop('contact_category')
+        contact.name = validated_data.pop('name')
+        contact.phone = validated_data.pop('phone')
+        contact.gender = validated_data.pop('gender')
+        contact.postal_code = validated_data.pop('postal_code')
+        contact.city = validated_data.pop('city')
+        contact.state = validated_data.pop('state')
+        contact.address = validated_data.pop('address')
+        contact.save()
+        return contact
+
     class Meta:
         model = Contact
         fields = ("id","avatar","email","cellphone","birthday","cpf","rg","region",'member','contact_category','name','phone','gender','postal_code','city','state','address')
@@ -208,6 +230,21 @@ class PostalCodeSerializer(serializers.HyperlinkedModelSerializer):
 
 class GoalSerializer(serializers.HyperlinkedModelSerializer):
     level = serializers.PrimaryKeyRelatedField(many=False, queryset=Level.objects.all())
+
+    def create(self,validated_data):
+        goal = Goal()
+        goal.level = validated_data.pop('level')
+        member = Member.objects.get(user=self.context['request'].user)
+        goal.member = member
+        goal.date = validated_data.pop('date')
+        goal.save()
+        return goal
+
     class Meta:
         model = Goal
         fields = ("id","level","date")
+
+     
+     
+     
+     

@@ -101,6 +101,10 @@ class PostViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
 
+class LevelViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Level.objects.all()
+    serializer_class = LevelSerializer
+
 class EventViewSet(viewsets.ModelViewSet):
     queryset = Event.objects.all()
     serializer_class = EventSerializer

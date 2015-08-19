@@ -235,15 +235,6 @@ class Post(models.Model):
 
     def __unicode__(self):
         return self.title
-
-class MODELNAME(models.Model):
-
-    class Meta:
-        verbose_name = "MODELNAME"
-        verbose_name_plural = "MODELNAMEs"
-
-    def __str__(self):
-        pass
     
 class Calendar(models.Model):
     public = models.BooleanField(default=False)
