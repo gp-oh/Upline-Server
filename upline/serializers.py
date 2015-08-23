@@ -34,7 +34,7 @@ class DownlineSerializer(serializers.HyperlinkedModelSerializer):
     parent = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
     class Meta:
         model = Member
-        fields = ("id",'parent','slug','create_time','external_id','name','points','avatar','phone','gender','postal_code','city','state','address','dream1','dream2','status','level','training_steps')
+        fields = ("id",'quickblox_id','parent','slug','create_time','external_id','name','points','avatar','phone','gender','postal_code','city','state','address','dream1','dream2','status','level','training_steps')
 
 class MemberRegisterSerializer(serializers.HyperlinkedModelSerializer):
     username = serializers.EmailField()
@@ -82,7 +82,7 @@ class MemberSerializer(serializers.HyperlinkedModelSerializer):
     downlines = DownlineSerializer(many=True, read_only=True)
     class Meta:
         model = Member
-        fields = ("id",'parent','downlines','create_time','slug','external_id','name','points','avatar','phone','gender','postal_code','city','state','address','dream1','dream2','status','level','training_steps')
+        fields = ("id",'quickblox_id','parent','downlines','create_time','slug','external_id','name','points','avatar','phone','gender','postal_code','city','state','address','dream1','dream2','status','level','training_steps')
 
 class MemberLoginSerializer(serializers.HyperlinkedModelSerializer):
     level = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
@@ -91,10 +91,9 @@ class MemberLoginSerializer(serializers.HyperlinkedModelSerializer):
     downlines = DownlineSerializer(many=True, read_only=True)
     class Meta:
         model = Member
-        fields = ("id",'quickblox_login','quickblox_password','parent','downlines','create_time','slug','external_id','name','points','avatar','phone','gender','postal_code','city','state','address','dream1','dream2','status','level','training_steps')
+        fields = ("id",'quickblox_id','quickblox_login','quickblox_password','parent','downlines','create_time','slug','external_id','name','points','avatar','phone','gender','postal_code','city','state','address','dream1','dream2','status','level','training_steps')
 
 class ContactSerializer(serializers.HyperlinkedModelSerializer):
-    contact_category = serializers.PrimaryKeyRelatedField(many=False,queryset=ContactCategory.objects.all())
     member = MemberSerializer(read_only=True)
 
     def create(self,validated_data):
@@ -124,41 +123,42 @@ class ContactSerializer(serializers.HyperlinkedModelSerializer):
         fields = ("id","avatar","email","cellphone","birthday","cpf","rg","region",'member','contact_category','name','phone','gender','postal_code','city','state','address')
 
 class ContactDownlineSerializer(serializers.HyperlinkedModelSerializer):
-    contact_category = serializers.PrimaryKeyRelatedField(many=False,queryset=ContactCategory.objects.all())
     member = DownlineSerializer(read_only=True)
     class Meta:
         model = Contact
         fields = ("id","avatar","email","cellphone","birthday","cpf","rg","region",'member','contact_category','name','phone','gender','postal_code','city','state','address')
 
-
 class ProductSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Product
-        fields = ("id","name","active","reference_value","table_value","create_time")
+        fields = ("id","name","active","points","table_value","create_time")
 
 class SaleItemSerializer(serializers.HyperlinkedModelSerializer):
     product = ProductSerializer()
     class Meta:
         model = SaleItem
-        fields = ("id","product","quantity","total","delivery_prevision","notificate_at")
+        fields = ("id","product","quantity","total","notificate_at")
+
+class SaleItemRegisterSerializer(serializers.HyperlinkedModelSerializer):
+    sale = serializers.PrimaryKeyRelatedField(many=False, queryset=Sale.objects.all(),write_only=True)
+    product = serializers.PrimaryKeyRelatedField(many=False, queryset=Product.objects.all())
+    class Meta:
+        model = SaleItem
+        fields = ("id","product","quantity","notificate_at","sale")
 
 class SaleSerializer(serializers.HyperlinkedModelSerializer):
     client = ContactDownlineSerializer(read_only=True)
     sale_items = SaleItemSerializer(many=True,read_only=True)
     class Meta:
         model = Sale
-        fields = ("id","client","sale_items","active","total","points","create_time")
+        fields = ("id","client","sale_items","active","total","points","create_time","paid","sent","send_time")
 
 class SaleRegisterSerializer(serializers.HyperlinkedModelSerializer):
     client = serializers.PrimaryKeyRelatedField(many=False, queryset=Contact.objects.all())
-    sale_items = SaleItemSerializer(many=True,read_only=False)
-
-    # def get_client(self,sale):
-    #     return serializers.PrimaryKeyRelatedField(many=False, queryset=Client.objects.filter(owner__user=self.context['request'].user))
-
+    sale_items = SaleItemRegisterSerializer(many=True)
     class Meta:
         model = Sale
-        fields = ("id","client","sale_items","active","total","points","create_time")
+        fields = ("id","client","sale_items")
 
 class TrainingStepSerializer(serializers.HyperlinkedModelSerializer):
     status = serializers.SerializerMethodField()
@@ -193,23 +193,44 @@ class PostSerializer(serializers.HyperlinkedModelSerializer):
         fields = ('id',"user","title","category","content","media","create_time","update_time")
 
 class CalendarSerializer(serializers.HyperlinkedModelSerializer):
+    def create(self,validated_data):
+        calendar = Calendar()
+        calendar.name = validated_data.pop('name')
+        calendar.user = self.context['request'].user
+        calendar.save()
+        return calendar
+
     class Meta:
         model = Calendar
         fields = ("id","name")
 
-class PlaceSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = Place
-        fields = ("id","title","postal_code","region","city","state","address","lat","lng")
-
 class EventSerializer(serializers.HyperlinkedModelSerializer):
-    place = PlaceSerializer(read_only=True)
     invited = ContactSerializer(many=True,read_only=True)
     members = DownlineSerializer(many=True,read_only=True)
     calendar = CalendarSerializer(read_only=True)
+
+    public = serializers.SerializerMethodField()
+
+    def get_public(self,event):
+        return event.calendar.public
+
     class Meta:
         model = Event
-        fields = ("id","title","place","all_day","begin_time","end_time","invited","members","calendar","note")
+        fields = ("id","public","title","all_day","begin_time","end_time","invited","members","calendar","note","postal_code","number","complement","lat","lng")
+
+class EventRegisterSerializer(serializers.HyperlinkedModelSerializer):
+    invited = serializers.PrimaryKeyRelatedField(many=True, queryset=Contact.objects.all())
+    members = serializers.PrimaryKeyRelatedField(many=True, queryset=Member.objects.all())
+    calendar = serializers.PrimaryKeyRelatedField(many=False, queryset=Calendar.objects.all())
+
+    def create(self,validated_data):
+        validated_data['owner'] = self.context['request'].user
+        return super(EventRegisterSerializer, self).create(validated_data)
+
+    class Meta:
+        model = Event
+        fields = ("id","title","all_day","begin_time","end_time","invited","members","calendar","note","postal_code","number","complement","lat","lng")
+
 
 class StateSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
@@ -244,7 +265,19 @@ class GoalSerializer(serializers.HyperlinkedModelSerializer):
         model = Goal
         fields = ("id","level","date")
 
+class MediaSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Media
+        fields = ("id","name","media_type","media_file")
+
+class MediaCategorySerializer(serializers.HyperlinkedModelSerializer):
+    medias = MediaSerializer(many=True,read_only=True)
+    class Meta:
+        model = MediaCategory
+        fields = ("id","name","medias")
      
-     
-     
-     
+class MediaTypeSerializer(serializers.HyperlinkedModelSerializer):
+    categories = MediaCategorySerializer(many=True,read_only=True)
+    class Meta:
+        model = MediaType
+        fields = ("id","name","categories")

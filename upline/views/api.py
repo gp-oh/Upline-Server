@@ -1,4 +1,4 @@
-import json
+import json, datetime
 from django.contrib.auth.models import User, Group
 from django.core.urlresolvers import reverse
 from django.shortcuts import redirect
@@ -14,6 +14,8 @@ from oauth2_provider.settings import oauth2_settings
 from oauth2_provider.views.mixins import OAuthLibMixin
 from oauth2_provider.models import AccessToken
 from django.shortcuts import get_object_or_404
+from rest_framework.decorators import detail_route, list_route
+from django.db.models import Q
 
 class Login(APIView,OAuthLibMixin):
     permission_classes = (permissions.AllowAny,)
@@ -77,15 +79,53 @@ class ContactViewSet(viewsets.ModelViewSet):
         serializer = ContactSerializer(queryset, many=True,context={'request': request})
         return Response(serializer.data)
 
-
 class SaleViewSet(viewsets.ModelViewSet):
     queryset = Sale.objects.all()
     serializer_class = SaleSerializer
+
+    @list_route(methods=['get'])
+    def send(self,request):
+        sales = Sale.objects.filter(active=True,sent=False,member__user=request.user)
+        print sales
+        for sale in sales:
+            sale.sent = True
+            sale.send_time = datetime.datetime.now()
+            sale.save()
+        serializer = SaleSerializer(sales,many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    @detail_route(methods=['get'])
+    def inactive(self,request, pk=None):
+        sale = self.get_object()
+        if sale.active and not sale.sent and sale.member.user == request.user:
+            sale.active = False
+            sale.save()
+            serializer = SaleSerializer(sale)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response({'errors':['Invalid sale']}, status=status.HTTP_400_BAD_REQUEST)
 
     def list(self, request):
         queryset = Sale.objects.filter(member__user=request.user)
         serializer = SaleSerializer(queryset, many=True,context={'request': request})
         return Response(serializer.data)
+
+    def create(self, request, *args, **kwargs):
+        sale = Sale()
+        sale.member = Member.objects.get(user=request.user)
+        sale.client = Contact.objects.get(id=request.data['client'])
+        sale.save()
+        sale_items = []
+        for sale_item in request.data['sale_items']:
+            sale_item['sale'] = sale.id
+            si = SaleItemRegisterSerializer(data=sale_item)
+            if si.is_valid():
+                si.save()
+            else:
+                print si.errors
+            serializer = SaleSerializer(sale)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def get_serializer_class(self):
         if self.action == "create" or self.action == "update":
@@ -104,10 +144,6 @@ class PostViewSet(viewsets.ReadOnlyModelViewSet):
 class LevelViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Level.objects.all()
     serializer_class = LevelSerializer
-
-class EventViewSet(viewsets.ModelViewSet):
-    queryset = Event.objects.all()
-    serializer_class = EventSerializer
 
 class PostalCodeViewSet(mixins.RetrieveModelMixin,viewsets.GenericViewSet):
     def retrieve(self, request, pk=None):
@@ -139,4 +175,27 @@ class GoalViewSet(viewsets.ModelViewSet):
 class ProductViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
+
+class CalendarViewSet(viewsets.ModelViewSet):
+    queryset = Calendar.objects.all()
+    serializer_class = CalendarSerializer
+
+    def list(self, request):
+        queryset = Calendar.objects.filter(Q(public=True) | Q(user=request.user))
+        serializer = CalendarSerializer(queryset, many=True,context={'request': request})
+        return Response(serializer.data)
+
+class EventViewSet(viewsets.ModelViewSet):
+    queryset = Event.objects.all()
+    serializer_class = EventSerializer
+
+    def get_serializer_class(self):
+        if self.action == "create" or self.action == "update":
+            return EventRegisterSerializer
+        else:
+            return EventSerializer
+            
+class MediaTypeViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = MediaType.objects.all()
+    serializer_class = MediaTypeSerializer
 

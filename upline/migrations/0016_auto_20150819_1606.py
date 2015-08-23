@@ -13,36 +13,6 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.CreateModel(
-            name='Multimidia',
-            fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-            ],
-            options={
-                'verbose_name': 'Multimidia',
-                'verbose_name_plural': 'Multimidias',
-            },
-        ),
-        migrations.CreateModel(
-            name='MultimidiaCategory',
-            fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-            ],
-            options={
-                'verbose_name': 'MultimidiaCategory',
-                'verbose_name_plural': 'MultimidiaCategorys',
-            },
-        ),
-        migrations.CreateModel(
-            name='MultimidiaType',
-            fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-            ],
-            options={
-                'verbose_name': 'MultimidiaType',
-                'verbose_name_plural': 'MultimidiaTypes',
-            },
-        ),
         migrations.RemoveField(
             model_name='member',
             name='dream',

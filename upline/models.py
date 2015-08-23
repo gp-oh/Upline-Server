@@ -2,6 +2,48 @@ from django.db import models
 from django.contrib.auth.models import User
 from autoslug import AutoSlugField
 
+class State(models.Model):
+    acronym = models.CharField(max_length=2)
+    name = models.CharField(max_length=255)
+
+    class Meta:
+        verbose_name ='State'
+        verbose_name_plural ='States'
+
+    def __unicode__(self):
+        return self.acronym
+    
+class City(models.Model):
+    state = models.ForeignKey(State)
+    name = models.CharField(max_length=255)
+    class Meta:
+        verbose_name ='City'
+        verbose_name_plural ='Citys'
+
+    def __unicode__(self):
+        return self.state.acronym+' - '+self.name
+
+    def to_json(self):
+        return {'state':self.state.acronym,'name':self.name,'id':self.id}
+
+class PostalCode(models.Model):
+    city = models.ForeignKey(City)
+    street = models.CharField(max_length=255)
+    neighborhood = models.CharField(max_length=255)
+    postal_code = models.CharField(max_length=255)
+    street_type = models.CharField(max_length=255)
+    approved = models.BooleanField(default=False)
+    class Meta:
+        verbose_name ='Postal Code'
+        verbose_name_plural ='Postal Codes'
+
+    def __unicode__(self):
+        return self.postal_code
+
+    def to_json(self):
+        return { 'city':self.city.name,'state':self.city.state.acronym,'street':'%s %s'%(self.street_type,self.street),'zip_code':self.zip_code, 'neighborhood':self.neighborhood }
+
+
 class Training(models.Model):
     name = models.CharField(max_length=255)
     create_time = models.DateTimeField(auto_now_add=True)
@@ -51,6 +93,7 @@ class Member(models.Model):
     parent = models.ForeignKey('self', blank=True, null=True, related_name='downlines')
     external_id = models.IntegerField(unique=True, blank=True, null=True)
     name = models.CharField(max_length=255)
+    quickblox_id = models.CharField(max_length=255,null=True)
     quickblox_login = models.CharField(max_length=255,null=True)
     quickblox_password = models.CharField(max_length=255,null=True)
     slug = AutoSlugField(populate_from='name',unique=True)
@@ -101,23 +144,11 @@ class Team(models.Model):
     def __unicode__(self):
         return self.owner.name +" - "+ self.member.name
 
-class ContactCategory(models.Model):
-    title = models.CharField(unique=True, max_length=255)
-    create_time = models.DateTimeField(auto_now_add=True)
-    update_time = models.DateTimeField(auto_now=True)
-
-    class Meta:
-        verbose_name = "Contact Category"
-        verbose_name_plural = "Contact Categorys"
-
-    def __unicode__(self):
-        return self.title
-
 class Contact(models.Model):
     owner = models.ForeignKey(Member,related_name="contact_owner")
     member = models.ForeignKey(Member,related_name="contact_member", blank=True, null=True)
     avatar = models.ImageField(upload_to='contacts', blank=True, null=True)
-    contact_category = models.ForeignKey(ContactCategory)
+    contact_category = models.IntegerField(choices=((0,'Contato'),(1,'Cliente')))
     gender = models.IntegerField()
     name = models.CharField(max_length=255)
     email = models.EmailField(max_length=255,null=True)
@@ -175,7 +206,7 @@ class LogMemberLogin(models.Model):
 class Product(models.Model):
     name = models.CharField(max_length=255)
     active = models.BooleanField(default=True)
-    reference_value = models.DecimalField(max_digits=11, decimal_places=2)
+    points = models.IntegerField(default=0)
     table_value = models.DecimalField(max_digits=11, decimal_places=2)
     create_time = models.DateTimeField(auto_now_add=True)
     update_time = models.DateTimeField(auto_now=True)
@@ -190,10 +221,13 @@ class Sale(models.Model):
     member = models.ForeignKey(Member)
     client = models.ForeignKey(Contact)
     active = models.BooleanField(default=True)
-    total = models.DecimalField(max_digits=11, decimal_places=2)
+    total = models.DecimalField(max_digits=11, decimal_places=2,default="0.00")
     points = models.IntegerField(default=0)
+    paid = models.BooleanField(default=False)
+    sent = models.BooleanField(default=False)
     create_time = models.DateTimeField(auto_now_add=True)
     update_time = models.DateTimeField(auto_now=True)
+    send_time = models.DateTimeField(null=True)
 
     class Meta:
         verbose_name = "Sale"
@@ -206,8 +240,7 @@ class SaleItem(models.Model):
     product = models.ForeignKey(Product)
     sale = models.ForeignKey(Sale,related_name='sale_items')
     quantity = models.IntegerField(default=0)
-    total = models.DecimalField(max_digits=11, decimal_places=2)
-    delivery_prevision = models.DateField()
+    total = models.DecimalField(max_digits=11, decimal_places=2,default="0.00")
     notificate_at = models.DateField()
     create_time = models.DateTimeField(auto_now_add=True)
     update_time = models.DateTimeField(auto_now=True)
@@ -244,36 +277,25 @@ class Calendar(models.Model):
         verbose_name = "Calendar"
         verbose_name_plural = "Calendars"
 
-    def __str__(self):
-        pass
-    
-class Place(models.Model):
-    title = models.CharField(max_length=255)
-    postal_code = models.CharField(max_length=255)
-    region = models.CharField(max_length=255, blank=True, null=True)
-    city = models.CharField(max_length=255, blank=True, null=True)
-    state = models.CharField(max_length=255, blank=True, null=True)
-    address = models.CharField(max_length=255, blank=True, null=True)
-    lat = models.FloatField()
-    lng = models.FloatField()
-    class Meta:
-        verbose_name = "Place"
-        verbose_name_plural = "Places"
-
     def __unicode__(self):
-        return self.title
+        return self.name
     
-
 class Event(models.Model):
+    owner = models.ForeignKey(User)
     title = models.CharField(max_length=255)
-    place = models.ForeignKey(Place)
     all_day = models.BooleanField(default=False)
     begin_time = models.DateTimeField(null=True)
     end_time = models.DateTimeField(null=True)
-    invited = models.ForeignKey(Contact)
-    members = models.ForeignKey(Member)
+    invited = models.ManyToManyField(Contact,null=True,blank=True)
+    members = models.ManyToManyField(Member,null=True,blank=True)
     calendar = models.ForeignKey(Calendar,related_name='events')
     note = models.TextField(null=True,blank=True)
+
+    postal_code = models.ForeignKey(PostalCode,null=True,blank=True,default=None)
+    number = models.CharField(max_length=255, blank=True, null=True)
+    complement = models.CharField(max_length=255, blank=True, null=True)
+    lat = models.FloatField(null=True,blank=True,default=None)
+    lng = models.FloatField(null=True,blank=True,default=None)
 
     class Meta:
         verbose_name = "Event"
@@ -281,73 +303,37 @@ class Event(models.Model):
 
     def __unicode__(self):
         return self.title
-    
-class State(models.Model):
-    acronym = models.CharField(max_length=2)
-    name = models.CharField(max_length=255)
 
-    class Meta:
-        verbose_name ='State'
-        verbose_name_plural ='States'
-
-    def __unicode__(self):
-        return self.acronym
-    
-class City(models.Model):
-    state = models.ForeignKey(State)
+class MediaType(models.Model):
     name = models.CharField(max_length=255)
     class Meta:
-        verbose_name ='City'
-        verbose_name_plural ='Citys'
+        verbose_name = "MediaType"
+        verbose_name_plural = "MediaTypes"
 
     def __unicode__(self):
-        return self.state.acronym+' - '+self.name
-
-    def to_json(self):
-        return {'state':self.state.acronym,'name':self.name,'id':self.id}
-
-class PostalCode(models.Model):
-    city = models.ForeignKey(City)
-    street = models.CharField(max_length=255)
-    neighborhood = models.CharField(max_length=255)
-    postal_code = models.CharField(max_length=255)
-    street_type = models.CharField(max_length=255)
-    approved = models.BooleanField(default=False)
-    class Meta:
-        verbose_name ='Postal Code'
-        verbose_name_plural ='Postal Codes'
-
-    def __unicode__(self):
-        return self.postal_code
-
-    def to_json(self):
-        return { 'city':self.city.name,'state':self.city.state.acronym,'street':'%s %s'%(self.street_type,self.street),'zip_code':self.zip_code, 'neighborhood':self.neighborhood }
-
-class MultimidiaType(models.Model):
-
-    class Meta:
-        verbose_name = "MultimidiaType"
-        verbose_name_plural = "MultimidiaTypes"
-
-    def __str__(self):
-        pass
+        return self.name
     
-class MultimidiaCategory(models.Model):
-
+class MediaCategory(models.Model):
+    media_type = models.ForeignKey(MediaType,related_name='categories')
+    name = models.CharField(max_length=255)
     class Meta:
-        verbose_name = "MultimidiaCategory"
-        verbose_name_plural = "MultimidiaCategorys"
+        verbose_name = "MediaCategory"
+        verbose_name_plural = "MediaCategorys"
 
-    def __str__(self):
-        pass
+    def __unicode__(self):
+        return self.name
 
-class Multimidia(models.Model):
-
+class Media(models.Model):
+    media_category = models.ForeignKey(MediaCategory,related_name='medias')
+    name = models.CharField(max_length=255)
+    media_type = models.IntegerField()
+    media_file = models.FileField(upload_to="multimidida")
+    
     class Meta:
-        verbose_name = "Multimidia"
-        verbose_name_plural = "Multimidias"
+        verbose_name = "Media"
+        verbose_name_plural = "Medias"
 
-    def __str__(self):
-        pass
+    def __unicode__(self):
+        return self.name
     
 
