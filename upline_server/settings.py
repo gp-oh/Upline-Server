@@ -157,11 +157,6 @@ TEMPLATE_CONTEXT_PROCESSORS = TCP + (
     'django.core.context_processors.request',
 )
 
-
-LOCALE_PATHS = (
-    os.path.join(BASE_DIR,'../upline/locale/'),
-)
-
 SUIT_CONFIG = {
     'ADMIN_NAME': '<img src="/static/admin/images/logo.png" />',
     'HEADER_DATE_FORMAT': 'd/m/Y', # Saturday, 16th March 2013
