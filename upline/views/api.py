@@ -145,6 +145,16 @@ class LevelViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Level.objects.all()
     serializer_class = LevelSerializer
 
+class UsernameViewSet(mixins.RetrieveModelMixin,viewsets.GenericViewSet):
+    def retrieve(self, request, pk=None):
+        queryset = User.objects.filter(username=pk)
+        if len(queryset) > 0:
+            return Response({'status':False}, status=status.HTTP_417_EXPECTATION_FAILED)
+        return Response({'status':True}, status=status.HTTP_202_ACCEPTED)
+        
+    queryset = User.objects.all()
+    serializer_class = UsernameSerializer
+
 class PostalCodeViewSet(mixins.RetrieveModelMixin,viewsets.GenericViewSet):
     def retrieve(self, request, pk=None):
         queryset = PostalCode.objects.all()

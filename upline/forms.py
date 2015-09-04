@@ -1,5 +1,5 @@
 from django import forms
-from upline.models import Member
+from upline.models import Member, Event
 
 class MemberRegisterForm(forms.ModelForm):
     email = forms.EmailField()
@@ -7,3 +7,10 @@ class MemberRegisterForm(forms.ModelForm):
     class Meta:
         model = Member
         fields = ('birthday','name','gender','phone')
+
+class EventForm(forms.ModelForm):
+    class Meta:
+        model = Event
+        fields = '__all__'
+        exclude = ('members','clients')
+    

@@ -1,7 +1,9 @@
  # -*- coding: utf-8 -*-
 from django.contrib import admin
 from upline.models import *
+from upline.forms import EventForm
 from django_mptt_admin.admin import DjangoMpttAdmin
+from django_extensions.admin import ForeignKeyAutocompleteAdmin
 
 class TrainingAdmin(admin.ModelAdmin):
     list_display = ['id','name']
@@ -11,10 +13,14 @@ class LevelAdmin(admin.ModelAdmin):
     list_display = ['id','title','points_range_from','points_range_to']
     search_fields = ['title']
 
-class MemberAdmin(DjangoMpttAdmin):
+class MemberAdmin(ForeignKeyAutocompleteAdmin,DjangoMpttAdmin):
     list_display = ['id',"user","parent","name","points","phone","gender","level","get_acoes"]
     list_display_links = None
     search_fields = ['name']
+    related_search_fields = {
+       'user': ('first_name', 'email'),
+       'parent': ('name'),
+    }
 
     def get_acoes(self,obj):
         return '<a href="/admin/upline/member/'+str(obj.id)+'/linear/">linear</a> <a href="/admin/upline/member/'+str(obj.id)+'/binary/">binário</a> <a href="/admin/upline/member/'+str(obj.id)+'/">editar</a>'
@@ -23,20 +29,25 @@ class MemberAdmin(DjangoMpttAdmin):
     get_acoes.allow_tags = True
 
 
-class TeamAdmin(admin.ModelAdmin):
-    pass
+class ContactAdmin(ForeignKeyAutocompleteAdmin):
+    related_search_fields = {
+       'owner': ('name'),
+       'member': ('name'),
+    }
 
-class ContactAdmin(admin.ModelAdmin):
-    pass
-
-class GoalAdmin(admin.ModelAdmin):
-    pass
+class GoalAdmin(ForeignKeyAutocompleteAdmin):
+    related_search_fields = {
+       'member': ('name'),
+    }
 
 class ProductAdmin(admin.ModelAdmin):
     pass
 
-class SaleAdmin(admin.ModelAdmin):
-    pass
+class SaleAdmin(ForeignKeyAutocompleteAdmin):
+    related_search_fields = {
+       'member': ('name'),
+       'client': ('name'),
+    }
 
 class CityAdmin(admin.ModelAdmin):
     list_display = ['id','state', 'name']
@@ -47,7 +58,10 @@ class StateAdmin(admin.ModelAdmin):
     list_display = ['id','acronym', 'name']
     search_fields = ['acronym', 'name']
 
-class PostalCodeAdmin(admin.ModelAdmin):
+class PostalCodeAdmin(ForeignKeyAutocompleteAdmin):
+    related_search_fields = {
+       'city': ('name'),
+    }
     list_display = ['id','get_state','city','postal_code']
     search_fields = ['postal_code','city']
     list_filter = ['city__state']
@@ -58,14 +72,24 @@ class PostalCodeAdmin(admin.ModelAdmin):
     get_state.short_description = 'State'
     get_state.admin_order_field = 'city__state'
 
-class EventAdmin(admin.ModelAdmin):
-    pass
+class EventAdmin(ForeignKeyAutocompleteAdmin):
+    form = EventForm
+    related_search_fields = {
+       'owner': ('name'),
+       'calendar': ('name'),
+       'invited': ('name'),
+       'members': ('name'),
+    }
 
-class PostAdmin(admin.ModelAdmin):
-    pass
+class PostAdmin(ForeignKeyAutocompleteAdmin):
+    related_search_fields = {
+       'user': ('first_name', 'email'),
+    }
 
-class CalendarAdmin(admin.ModelAdmin):
-    pass
+class CalendarAdmin(ForeignKeyAutocompleteAdmin):
+    related_search_fields = {
+       'user': ('first_name', 'email'),
+    }
 
 class MediaAdmin(admin.ModelAdmin):
     list_display = ['id','get_media_type','media_category','name']
@@ -87,7 +111,6 @@ admin.site.register(TrainingStep)
 admin.site.register(Training,TrainingAdmin)
 admin.site.register(Level,LevelAdmin)
 admin.site.register(Member,MemberAdmin)
-admin.site.register(Team,TeamAdmin)
 admin.site.register(Contact,ContactAdmin)
 admin.site.register(Goal,GoalAdmin)
 admin.site.register(Product,ProductAdmin)

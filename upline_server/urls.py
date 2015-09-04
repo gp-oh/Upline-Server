@@ -19,5 +19,6 @@ from django.contrib import admin
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^api/v1/oauth2/', include('oauth2_provider.urls', namespace='oauth2_provider')),
-    url(r'^',include('upline.urls',namespace='upline'))
+    url(r'^',include('upline.urls',namespace='upline')),
+    url(r'^autocomplete/', include('autocomplete_light.urls')),
 ]

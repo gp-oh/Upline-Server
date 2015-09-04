@@ -20,6 +20,8 @@ r.register(r'calendar', api.CalendarViewSet)
 r.register(r'media', api.MediaCategoryViewSet)
 r.register(r'apns', APNSDeviceAuthorizedViewSet)
 r.register(r'gcm', GCMDeviceAuthorizedViewSet)
+r.register(r'username', api.UsernameViewSet)
+
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.

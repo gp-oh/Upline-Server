@@ -1,6 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User
-from autoslug import AutoSlugField
+from django.contrib.auth.models import User, Group
 from django.utils.translation import ugettext as _
 from mptt.models import MPTTModel, TreeForeignKey
 from django.db.models import Q
@@ -96,6 +95,7 @@ class Level(models.Model):
     image = models.ImageField(null=True,upload_to="levels",verbose_name=_('image'))
     description = models.TextField(null=True,verbose_name=_('description'))
     gift = models.TextField(null=True,verbose_name=_('gift'))
+    group = models.ForeignKey(Group,verbose_name=_('group'),null=True)
     points_range_from = models.IntegerField(verbose_name=_('points_range_from'))
     points_range_to = models.IntegerField(verbose_name=_('points_range_to'))
     create_time = models.DateTimeField(auto_now_add=True,verbose_name=_('create_time'))
@@ -354,7 +354,7 @@ class SaleItem(models.Model):
 class Post(models.Model):
     user = models.ForeignKey(User,related_name='posts',verbose_name=_('user'))
     title = models.CharField(max_length=255,verbose_name=_('title'))
-    level = models.ForeignKey(Level,verbose_name=_('level'))
+    group = models.ForeignKey(Group,verbose_name=_('group'),null=True)
     content = models.TextField(null=True,blank=True,default=None,verbose_name=_('content'))
     media = models.FileField(upload_to="posts",null=True,blank=True,default=None,verbose_name=_('media'))
     create_time = models.DateTimeField(auto_now_add=True,verbose_name=_('create_time'))
