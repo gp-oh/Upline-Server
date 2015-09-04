@@ -165,35 +165,38 @@ SUIT_CONFIG = {
     'SHOW_REQUIRED_ASTERISK': True,
     'CONFIRM_UNSAVED_CHANGES': True,
     'MENU': (
-        {'label': 'Locais', 'icon':None, 'models': (
-            {'label': 'Estados', 'model':'upline.state', 'icon':None},
-            {'label': 'Cidades', 'model':'upline.city', 'icon':None},
-            {'label': 'CEPs', 'model':'upline.postalcode', 'icon':None},
+        {'label': 'Pessoas', 'icon':'icon-user', 'models': (
+            {'label': 'Usuários', 'model':'auth.user', 'icon':None},
+            {'label': 'Grupos', 'model':'auth.group', 'icon':None},
+            {'label': 'Membros', 'model':'upline.member', 'icon':None},
+            {'label': 'Contatos', 'model':'upline.contact', 'icon':None},
+            {'label': 'Aparelhos iOS', 'model':'push_notifications.apnsdevice', 'icon':None},
+            {'label': 'Alarelhos Android', 'model':'push_notifications.gcmdevice', 'icon':None},
         )},
-        {'label': 'Midias', 'icon':None, 'models': (
+        {'label': 'Vendas', 'icon':'icon-shopping-cart', 'models': (
+            {'label': 'Produtos', 'model':'upline.product', 'icon':None},
+            {'label': 'Vendas', 'model':'upline.sale', 'icon':None},
+        )},
+        {'label': u'Calendários', 'icon':'icon-calendar', 'models': (
+            {'label': 'Calendarios', 'model':'upline.calendar', 'icon':None},
+            {'label': 'Eventos', 'model':'upline.event', 'icon':None},
+        )},
+        {'label': 'Noticias', 'url':'upline.post', 'icon':'icon-pencil'},
+        {'label': 'Midias', 'icon':'icon-file', 'models': (
             {'label': 'Tipos de Midia', 'model':'upline.mediatype', 'icon':None},
             {'label': 'Categorias de Midia', 'model':'upline.mediacategory', 'icon':None},
             {'label': 'Midias', 'model':'upline.media', 'icon':None},
         )},
-        {'label': 'Treinamentos', 'icon':None, 'models': (
+        {'label': 'Treinamentos', 'icon':'icon-tasks', 'models': (
             {'label': 'Niveis', 'model':'upline.level', 'icon':None},
             {'label': 'Treinamentos', 'model':'upline.training', 'icon':None},
             # {'label': 'Metas', 'model':'upline.media', 'icon':None},
         )},
-        {'label': 'Pessoas', 'icon':None, 'models': (
-            {'label': 'Membros', 'model':'upline.member', 'icon':None},
-            {'label': 'Contatos', 'model':'upline.contact', 'icon':None},
+        {'label': 'Locais', 'icon':'icon-map-marker', 'models': (
+            {'label': 'Estados', 'model':'upline.state', 'icon':None},
+            {'label': 'Cidades', 'model':'upline.city', 'icon':None},
+            {'label': 'CEPs', 'model':'upline.postalcode', 'icon':None},
         )},
-        {'label': 'Vendas', 'icon':None, 'models': (
-            {'label': 'Produtos', 'model':'upline.product', 'icon':None},
-            {'label': 'Vendas', 'model':'upline.sale', 'icon':None},
-        )},
-        {'label': u'Calendários', 'icon':None, 'models': (
-            {'label': 'Calendarios', 'model':'upline.calendar', 'icon':None},
-            {'label': 'Eventos', 'model':'upline.event', 'icon':None},
-        )},
-        {'label': 'Noticias', 'url':'upline.post', 'icon':None},
-
         
     )
 }
