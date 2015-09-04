@@ -12,5 +12,5 @@ class EventForm(forms.ModelForm):
     class Meta:
         model = Event
         fields = '__all__'
-        exclude = ('members','clients')
+        exclude = ('members','invited')
     

@@ -390,7 +390,7 @@ class Event(models.Model):
     calendar = models.ForeignKey(Calendar,related_name='events',verbose_name=_('calendar'))
     note = models.TextField(null=True,blank=True,verbose_name=_('note'))
 
-    postal_code = models.ForeignKey(PostalCode,null=True,blank=True,default=None,verbose_name=_('postal_code'))
+    postal_code = models.CharField(max_length=255,verbose_name=_('postal_code'),null=True,blank=True)
     number = models.CharField(max_length=255, blank=True, null=True,verbose_name=_('number'))
     complement = models.CharField(max_length=255, blank=True, null=True,verbose_name=_('complement'))
     lat = models.FloatField(null=True,blank=True,default=None,verbose_name=_('lat'))
