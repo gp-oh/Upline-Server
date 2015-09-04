@@ -190,6 +190,7 @@ SUIT_CONFIG = {
         {'label': 'Treinamentos', 'icon':'icon-tasks', 'models': (
             {'label': 'Niveis', 'model':'upline.level', 'icon':None},
             {'label': 'Treinamentos', 'model':'upline.training', 'icon':None},
+            {'label': 'Etapas de Treinamento', 'model':'upline.trainingstep', 'icon':None},
             # {'label': 'Metas', 'model':'upline.media', 'icon':None},
         )},
         {'label': 'Locais', 'icon':'icon-map-marker', 'models': (

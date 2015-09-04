@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 
 from django.db import models, migrations
-import autoslug.fields
+# import autoslug.fields
 
 
 class Migration(migrations.Migration):
@@ -23,6 +23,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='member',
             name='slug',
-            field=autoslug.fields.AutoSlugField(populate_from=b'name', unique=True, null=True, editable=False),
+            field=models.CharField(max_length=45, null=True, blank=True),
         ),
     ]

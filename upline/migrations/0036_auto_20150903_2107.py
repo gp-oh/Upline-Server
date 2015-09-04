@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 
 from django.db import models, migrations
-import autoslug.fields
+# import autoslug.fields
 import mptt.fields
 from django.conf import settings
 
@@ -419,11 +419,11 @@ class Migration(migrations.Migration):
             name='quickblox_password',
             field=models.CharField(max_length=255, null=True, verbose_name='quickblox_password'),
         ),
-        migrations.AlterField(
-            model_name='member',
-            name='slug',
-            field=autoslug.fields.AutoSlugField(editable=False, populate_from=b'name', unique=True, verbose_name='slug'),
-        ),
+        # migrations.AlterField(
+        #     model_name='member',
+        #     name='slug',
+        #     field=autoslug.fields.AutoSlugField(editable=False, populate_from=b'name', unique=True, verbose_name='slug'),
+        # ),
         migrations.AlterField(
             model_name='member',
             name='state',

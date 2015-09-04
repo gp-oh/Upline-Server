@@ -1,7 +1,7 @@
  # -*- coding: utf-8 -*-
 from django.contrib import admin
 from upline.models import *
-from upline.forms import EventForm
+from upline.forms import *
 from django_mptt_admin.admin import DjangoMpttAdmin
 from django_extensions.admin import ForeignKeyAutocompleteAdmin
 
@@ -10,10 +10,12 @@ class TrainingAdmin(admin.ModelAdmin):
     search_fields = ['name']
 
 class LevelAdmin(admin.ModelAdmin):
+    form = LevelForm
     list_display = ['id','title','points_range_from','points_range_to']
     search_fields = ['title']
 
 class MemberAdmin(ForeignKeyAutocompleteAdmin,DjangoMpttAdmin):
+    form = MemberForm
     list_display = ['id',"user","parent","name","points","phone","gender","level","get_acoes"]
     list_display_links = None
     search_fields = ['name']
@@ -82,6 +84,7 @@ class EventAdmin(ForeignKeyAutocompleteAdmin):
     }
 
 class PostAdmin(ForeignKeyAutocompleteAdmin):
+    form = PostForm
     related_search_fields = {
        'user': ('first_name', 'email'),
     }
@@ -107,7 +110,10 @@ class MediaCategoryAdmin(admin.ModelAdmin):
     search_fields = ['name']
     list_filter = ['media_type']
 
-admin.site.register(TrainingStep)
+class TrainingStepAdmin(admin.ModelAdmin):
+    form = TrainingStepForm
+
+admin.site.register(TrainingStep,TrainingStepAdmin)
 admin.site.register(Training,TrainingAdmin)
 admin.site.register(Level,LevelAdmin)
 admin.site.register(Member,MemberAdmin)
