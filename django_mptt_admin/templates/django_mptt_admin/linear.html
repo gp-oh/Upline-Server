@@ -1,0 +1,183 @@
+{% extends 'admin/change_list.html' %}
+{% load staticfiles %}
+{% load i18n admin_static admin_modify suit_tags admin_urls %}
+{% load admin_list suit_list suit_tags %}
+
+{% block extrastyle %}
+    {{ block.super }}
+  <link href="{% static 'django_mptt_admin/fancytree/skin-bootstrap/ui.fancytree.css' %}" rel="stylesheet" type="text/css">
+<style type="text/css">
+
+
+span.fancytree-icon {
+  position: relative;
+}
+span.fancytree-childcounter {
+  color: #fff;
+  background: #428BCA;
+/*  border: 1px solid gray; */
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  min-width: 10px;
+  height: 10px;
+  line-height: 1;
+  vertical-align: baseline;
+  border-radius: 10px; /*50%;*/
+  padding: 2px;
+  text-align: center;
+  font-size: 9px;
+}
+</style>
+
+{% endblock %}
+
+{% block extrahead %}
+    {{ block.super }}
+    <script src="{% static 'django_mptt_admin/jquery-ui.custom.js' %}" type="text/javascript"></script>
+    <script src="{% static 'django_mptt_admin/fancytree/jquery.fancytree-all.min.js' %}" type="text/javascript"></script>
+
+    <script src="{% static 'django_mptt_admin/jquery-cookie/jquery.cookie.js' %}"></script>
+
+{% endblock %}
+
+{% block search %}{% endblock %}
+
+{% block result_list %}
+
+
+  <table id="tree" class="table table-condensed table-hover table-striped">
+    <colgroup>
+      <col width="80px"></col>
+      <col width="*"></col>
+      <col width="100px"></col>
+      <col width="100px"></col>
+      <col width="100px"></col>
+      <col width="100px"></col>
+      <col width="100px"></col>
+    </colgroup>
+    <thead>
+      <tr>
+        <th></th>
+        <th>Nome</th>
+        <th>Usuário</th>
+        <th>Email</th>
+        <th>Fone</th>
+        <th>Sexo</th>
+        <th>Nível</th>
+        <th></th>
+    </thead>
+    <tbody>
+      <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+    <script type="text/javascript">
+        $(document).ready(function () { 
+
+            glyph_opts = {
+                map: {
+                  doc: "icon-file",
+                  docOpen: "icon-file",
+                  checkbox: "icon-unchecked",
+                  checkboxSelected: "icon-check",
+                  checkboxUnknown: "icon-share",
+                  dragHelper: "icon-play",
+                  dropMarker: "icon-arrow-right",
+                  error: "icon-warning-sign",
+                  expanderClosed: "icon-plus-sign",
+                  expanderLazy: "icon-plus-sign",  // icon-expand
+                  expanderOpen: "icon-minus-sign",  // icon-collapse-down
+                  folder: "icon-folder-close",
+                  folderOpen: "icon-folder-open",
+                  loading: "icon-refresh"
+                }
+              };
+
+            $("#tree").fancytree({
+                extensions: ["edit", "glyph", "wide","table","childcounter"],
+
+      childcounter: {
+        deep: true,
+        hideZeros: true,
+        hideExpanded: true
+      },
+
+      checkbox: false,
+      glyph: glyph_opts,
+      selectMode: 2,
+      source: {url: "/admin/upline/member/tree_json/?key={{obj.id}}", debugDelay: 1000},
+      toggleEffect: { effect: "drop", options: {direction: "left"}, duration: 400 },
+      wide: {
+        iconWidth: "1em",     // Adjust this if @fancy-icon-width != "16px"
+        iconSpacing: "0.5em", // Adjust this if @fancy-icon-spacing != "3px"
+        levelOfs: "1.5em"     // Adjust this if ul padding != "16px"
+      },
+
+      iconClass: function(event, data){
+        // if( data.node.isFolder() ) {
+        //   return "glyphicon glyphicon-book";
+        // }
+      },
+
+      lazyLoad: function(event, data) {
+        data.result = {url: "/admin/upline/member/tree_json/",data:{key:data.node.key}, debugDelay: 1000};
+      },
+      table: {
+        checkboxColumnIdx: 0,
+        nodeColumnIdx: 1
+      },
+        renderColumns: function(event, data) {
+            var node = data.node,
+              $tdList = $(node.tr).find(">td");
+            $tdList.eq(0).text(node.getIndexHier());
+            $tdList.eq(3).text(node.data.email);
+            $tdList.eq(4).text(node.data.phone);
+            $tdList.eq(5).text(node.data.gender);
+            $tdList.eq(6).text(node.data.level);
+            $tdList.eq(2).html('<a href="/admin/upline/member/'+node.data.id+'/">'+node.data.user+'</a>');
+            $tdList.eq(7).html('<a href="/admin/upline/member/'+node.data.id+'/binary/">binário</a>');
+          }
+      });
+ });
+    </script>
+{% endblock %}
+
+{% block pagination %}{% endblock %}
+
+{% block object-tools-items %}
+
+{% endblock %}
+
+{% if not is_popup %}
+  {% block breadcrumbs %}
+    <ul class="breadcrumb">
+      <li>
+        <a href="{% url 'admin:index' %}">{% trans 'Home' %}</a>
+        <span class="divider">&raquo;</span>
+      </li>
+      <li>
+        <a href="{% url 'admin:app_list' app_label=cl.opts.app_label %}">{% firstof cl.opts.app_config.verbose_name app_label|capfirst|escape %}</a>
+        <span class="divider">&raquo;</span>
+      </li>
+      <li>
+          <a href="{% url cl.opts|admin_urlname:'changelist' %}">
+            {{ cl.opts.verbose_name_plural|capfirst }}</a>
+        <span class="divider">&raquo;</span>
+      </li>
+      <li class="active">
+        {{ verbose_name }}
+      </li>
+    </ul>
+  {% endblock %}
+{% endif %}

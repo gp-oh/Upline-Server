@@ -34,16 +34,16 @@ class DownlineSerializer(serializers.HyperlinkedModelSerializer):
     parent = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
     class Meta:
         model = Member
-        fields = ("id",'quickblox_id','parent','slug','create_time','external_id','name','points','avatar','phone','gender','postal_code','city','state','address','dream1','dream2','status','level','training_steps')
+        fields = ("id",'quickblox_id','parent','create_time','external_id','name','points','avatar','phone','gender','postal_code','city','state','address','dream1','dream2','status','level','training_steps')
 
 class MemberRegisterSerializer(serializers.HyperlinkedModelSerializer):
     username = serializers.EmailField()
     grant_type = serializers.CharField(initial="password")
     password = serializers.CharField(style={'input_type': 'password'})
-    parent_slug = serializers.SlugField()
+    parent_user = serializers.SlugField()
 
-    def validate_parent_slug(self,value):
-        members = Member.objects.filter(slug=value)
+    def validate_parent_user(self,value):
+        members = Member.objects.filter(user__username=value)
         if len(members) != 1:
             raise serializers.ValidationError("Invalid Parent ID")
         return value
@@ -58,11 +58,11 @@ class MemberRegisterSerializer(serializers.HyperlinkedModelSerializer):
     def save(self):
         user = User()
         user.username = self.validated_data['username']
-        user.email = self.validated_data['username']
+        user.email = self.validated_data['email']
         user.set_password(self.validated_data['password'])
         user.save()
         member = Member()
-        member.parent = Member.objects.get(slug=self.validated_data['parent_slug'])
+        member.parent = Member.objects.get(user__username=self.validated_data['parent_user'])
         member.name = self.validated_data['name']
         member.phone = self.validated_data['phone']
         member.gender = self.validated_data['gender']
@@ -73,7 +73,7 @@ class MemberRegisterSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Member
-        fields = ("id",'name','grant_type','parent_slug','username','password','phone','birthday','gender','postal_code')
+        fields = ("id",'name','grant_type','parent_user','username','password','phone','birthday','gender','postal_code')
 
 class MemberSerializer(serializers.HyperlinkedModelSerializer):
     level = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
@@ -82,7 +82,7 @@ class MemberSerializer(serializers.HyperlinkedModelSerializer):
     downlines = DownlineSerializer(many=True, read_only=True)
     class Meta:
         model = Member
-        fields = ("id",'quickblox_id','parent','downlines','create_time','slug','external_id','name','points','avatar','phone','gender','postal_code','city','state','address','dream1','dream2','status','level','training_steps')
+        fields = ("id",'quickblox_id','parent','downlines','create_time','external_id','name','points','avatar','phone','gender','postal_code','city','state','address','dream1','dream2','status','level','training_steps')
 
 class MemberLoginSerializer(serializers.HyperlinkedModelSerializer):
     level = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
@@ -91,7 +91,7 @@ class MemberLoginSerializer(serializers.HyperlinkedModelSerializer):
     downlines = DownlineSerializer(many=True, read_only=True)
     class Meta:
         model = Member
-        fields = ("id",'quickblox_id','quickblox_login','quickblox_password','parent','downlines','create_time','slug','external_id','name','points','avatar','phone','gender','postal_code','city','state','address','dream1','dream2','status','level','training_steps')
+        fields = ("id",'quickblox_id','quickblox_login','quickblox_password','parent','downlines','create_time','external_id','name','points','avatar','phone','gender','postal_code','city','state','address','dream1','dream2','status','level','training_steps')
 
 class ContactSerializer(serializers.HyperlinkedModelSerializer):
     member = MemberSerializer(read_only=True)
@@ -268,16 +268,10 @@ class GoalSerializer(serializers.HyperlinkedModelSerializer):
 class MediaSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Media
-        fields = ("id","name","media_type","media_file")
+        fields = ("id","name","media_file")
 
 class MediaCategorySerializer(serializers.HyperlinkedModelSerializer):
     medias = MediaSerializer(many=True,read_only=True)
     class Meta:
         model = MediaCategory
-        fields = ("id","name","medias")
-     
-class MediaTypeSerializer(serializers.HyperlinkedModelSerializer):
-    categories = MediaCategorySerializer(many=True,read_only=True)
-    class Meta:
-        model = MediaType
-        fields = ("id","name","categories")
+        fields = ("id","name",",media_type","medias")

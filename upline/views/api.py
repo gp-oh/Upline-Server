@@ -195,7 +195,7 @@ class EventViewSet(viewsets.ModelViewSet):
         else:
             return EventSerializer
             
-class MediaTypeViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = MediaType.objects.all()
-    serializer_class = MediaTypeSerializer
+class MediaCategoryViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = MediaCategory.objects.all()
+    serializer_class = MediaCategorySerializer
 

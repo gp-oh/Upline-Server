@@ -1,3 +1,4 @@
+ # -*- coding: utf-8 -*-
 """
 Django settings for upline_server project.
 
@@ -12,7 +13,6 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
-
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
@@ -30,6 +30,7 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = (
+    'upline',
     'suit',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -41,7 +42,8 @@ INSTALLED_APPS = (
     'oauth2_provider',
     'corsheaders',
     'rest_framework',
-    'upline',
+    'mptt',
+    'django_mptt_admin',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -53,6 +55,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'django.middleware.locale.LocaleMiddleware'
 )
 
 ROOT_URLCONF = 'upline_server.urls'
@@ -60,7 +63,7 @@ ROOT_URLCONF = 'upline_server.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR,'../upline/tempaltes/')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -91,27 +94,27 @@ STATIC_URL = '/static/'
 # DATABASES = {}
 # DATABASES['default'] =  dj_database_url.config()
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'upline',
-#         'USER': 'root',
-#         'PASSWORD': '',
-#         'HOST': '127.0.0.1',
-#         'PORT': '3306',
-#     }
-# }
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'ENGINE': 'django.db.backends.mysql',
         'NAME': 'upline',
-        'USER': 'upline',
-        'PASSWORD': 'batatinhafrita123',
-        'HOST': 'upline.c5rmgxifqspm.us-east-1.rds.amazonaws.com',
-        'PORT': '5432',
+        'USER': 'root',
+        'PASSWORD': '',
+        'HOST': '127.0.0.1',
+        'PORT': '3306',
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'upline',
+#         'USER': 'upline',
+#         'PASSWORD': 'batatinhafrita123',
+#         'HOST': 'upline.c5rmgxifqspm.us-east-1.rds.amazonaws.com',
+#         'PORT': '5432',
+#     }
+# }
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
@@ -153,3 +156,49 @@ from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS as TCP
 TEMPLATE_CONTEXT_PROCESSORS = TCP + (
     'django.core.context_processors.request',
 )
+
+
+LOCALE_PATHS = (
+    os.path.join(BASE_DIR,'../upline/locale/'),
+)
+
+SUIT_CONFIG = {
+    'ADMIN_NAME': '<img src="/static/admin/images/logo.png" />',
+    'HEADER_DATE_FORMAT': 'd/m/Y', # Saturday, 16th March 2013
+    'HEADER_TIME_FORMAT': 'H:i',
+    'SHOW_REQUIRED_ASTERISK': True,
+    'CONFIRM_UNSAVED_CHANGES': True,
+    'MENU': (
+        {'label': 'Locais', 'icon':None, 'models': (
+            {'label': 'Estados', 'model':'upline.state', 'icon':None},
+            {'label': 'Cidades', 'model':'upline.city', 'icon':None},
+            {'label': 'CEPs', 'model':'upline.postalcode', 'icon':None},
+        )},
+        {'label': 'Midias', 'icon':None, 'models': (
+            {'label': 'Tipos de Midia', 'model':'upline.mediatype', 'icon':None},
+            {'label': 'Categorias de Midia', 'model':'upline.mediacategory', 'icon':None},
+            {'label': 'Midias', 'model':'upline.media', 'icon':None},
+        )},
+        {'label': 'Treinamentos', 'icon':None, 'models': (
+            {'label': 'Niveis', 'model':'upline.level', 'icon':None},
+            {'label': 'Treinamentos', 'model':'upline.training', 'icon':None},
+            # {'label': 'Metas', 'model':'upline.media', 'icon':None},
+        )},
+        {'label': 'Pessoas', 'icon':None, 'models': (
+            {'label': 'Membros', 'model':'upline.member', 'icon':None},
+            {'label': 'Contatos', 'model':'upline.contact', 'icon':None},
+        )},
+        {'label': 'Vendas', 'icon':None, 'models': (
+            {'label': 'Produtos', 'model':'upline.product', 'icon':None},
+            {'label': 'Vendas', 'model':'upline.sale', 'icon':None},
+        )},
+        {'label': u'Calendários', 'icon':None, 'models': (
+            {'label': 'Calendarios', 'model':'upline.calendar', 'icon':None},
+            {'label': 'Eventos', 'model':'upline.event', 'icon':None},
+        )},
+        {'label': 'Noticias', 'url':'upline.post', 'icon':None},
+
+        
+    )
+}
+

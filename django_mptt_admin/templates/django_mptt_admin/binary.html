@@ -1,0 +1,122 @@
+{% extends 'admin/change_list.html' %}
+{% load staticfiles %}
+{% load i18n admin_urls %}
+
+{% block extrastyle %}
+    <link href="{% static 'django_mptt_admin/horizontal-tree/style.css' %}" rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block extrahead %}
+    <script src="{% static 'django_mptt_admin/horizontal-tree/jquery-migrate-1.2.1.min.js' %}"></script>
+    <script src="{% static 'django_mptt_admin/horizontal-tree/jquery-ui.js' %}"></script>
+    <script src="{% static 'django_mptt_admin/horizontal-tree/jquery.tree.js' %}"></script>
+{% endblock %}
+
+{% block search %}{% endblock %}
+
+{% block result_list %}
+
+<div class="overflow">
+  <div>
+    <ul class="tree">
+        <li><div>{{node.obj.name}}</div>
+          <ul>
+            <li><div><a href="/admin/upline/member/{{node.left.obj.id}}/binary/">{{node.left.obj.name}}</div>
+              <ul>
+                <li><div><a href="/admin/upline/member/{{node.left.left.obj.id}}/binary/">{{node.left.left.obj.name}}</div>
+                  <ul>
+                    <li>
+                      <div><a href="/admin/upline/member/{{node.left.left.left.obj.id}}/binary/">{{node.left.left.left.obj.name}}</div>
+                    </li>
+                    <li>
+                      <div><a href="/admin/upline/member/{{node.left.left.right.obj.id}}/binary/">{{node.left.left.right.obj.name}}</div>
+                    </li>
+                  </ul>
+                </li>
+                <li><div><a href="/admin/upline/member/{{node.left.right.obj.id}}/binary/">{{node.left.right.obj.name}}</div>
+                  <ul>
+                    <li>
+                      <div><a href="/admin/upline/member/{{node.left.right.left.obj.id}}/binary/">{{node.left.right.left.obj.name}}</div>
+                    </li>
+                    <li>
+                      <div><a href="/admin/upline/member/{{node.left.right.right.obj.id}}/binary/">{{node.left.right.right.obj.name}}</div>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+
+            <li><div><a href="/admin/upline/member/{{node.right.obj.id}}/binary/">{{node.right.obj.name}}</div>
+              <ul>
+                <li><div><a href="/admin/upline/member/{{node.right.left.obj.id}}/binary/">{{node.right.left.obj.name}}</div>
+                  <ul>
+                    <li>
+                      <div><a href="/admin/upline/member/{{node.right.left.left.obj.id}}/binary/">{{node.right.left.left.obj.name}}</div>
+                    </li>
+                    <li>
+                      <div><a href="/admin/upline/member/{{node.right.left.right.obj.id}}/binary/">{{node.right.left.right.obj.name}}</div>
+                    </li>
+                  </ul>
+                </li>
+                <li><div><a href="/admin/upline/member/{{node.right.right.obj.id}}/binary/">{{node.right.right.obj.name}}</div>
+                  <ul>
+                    <li>
+                      <div><a href="/admin/upline/member/{{node.right.right.left.obj.id}}/binary/">{{node.right.right.left.obj.name}}</div>
+                    </li>
+                    <li>
+                      <div><a href="/admin/upline/member/{{node.right.right.right.obj.id}}/binary/">{{node.right.right.right.obj.name}}</div>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+
+          </ul>
+        </li>
+      </ul>
+  </div>
+</div>
+    <script>
+            $(document).ready(function() {
+                $('.tree').tree_structure({
+                    'add_option': false,
+                    'edit_option': false,
+                    'delete_option': false,
+                    'confirm_before_delete': false,
+                    'animate_option': false,
+                    'fullwidth_option': false,
+                    'align_option': 'center',
+                    'draggable_option': false
+                });
+            });
+    </script>
+{% endblock %}
+
+{% block pagination %}{% endblock %}
+
+{% block object-tools-items %}
+
+{% endblock %}
+
+{% if not is_popup %}
+  {% block breadcrumbs %}
+    <ul class="breadcrumb">
+      <li>
+        <a href="{% url 'admin:index' %}">{% trans 'Home' %}</a>
+        <span class="divider">&raquo;</span>
+      </li>
+      <li>
+        <a href="{% url 'admin:app_list' app_label=cl.opts.app_label %}">{% firstof cl.opts.app_config.verbose_name app_label|capfirst|escape %}</a>
+        <span class="divider">&raquo;</span>
+      </li>
+      <li>
+          <a href="{% url cl.opts|admin_urlname:'changelist' %}">
+            {{ cl.opts.verbose_name_plural|capfirst }}</a>
+        <span class="divider">&raquo;</span>
+      </li>
+      <li class="active">
+        {{ verbose_name }}
+      </li>
+    </ul>
+  {% endblock %}
+{% endif %}

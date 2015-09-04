@@ -17,7 +17,7 @@ r.register(r'goal', api.GoalViewSet)
 r.register(r'product', api.ProductViewSet)
 r.register(r'level', api.LevelViewSet)
 r.register(r'calendar', api.CalendarViewSet)
-r.register(r'media', api.MediaTypeViewSet)
+r.register(r'media', api.MediaCategoryViewSet)
 r.register(r'apns', APNSDeviceAuthorizedViewSet)
 r.register(r'gcm', GCMDeviceAuthorizedViewSet)
 
