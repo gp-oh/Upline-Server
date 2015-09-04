@@ -214,11 +214,11 @@ msgstr "pontuação final"
 
 #: models.py:105 models.py:131 models.py:277
 msgid "level"
-msgstr "nível"
+msgstr "graduação"
 
 #: models.py:106
 msgid "levels"
-msgstr "niveis"
+msgstr "graduações"
 
 #: models.py:112 models.py:355 models.py:372
 msgid "user"

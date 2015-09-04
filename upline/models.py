@@ -245,7 +245,7 @@ class Team(models.Model):
         return self.owner.name +" - "+ self.member.name
 
 class Contact(models.Model):
-    owner = models.ForeignKey(Member,related_name="contact_owner",verbose_name=_('owner'))
+    owner = models.ForeignKey(Member,related_name="contact_owner",verbose_name=_('upline'))
     member = models.ForeignKey(Member,related_name="contact_member", blank=True, null=True,verbose_name=_('member'))
     avatar = models.ImageField(upload_to='contacts', blank=True, null=True,verbose_name=_('avatar'))
     contact_category = models.IntegerField(choices=((0,'Contato'),(1,'Cliente')),verbose_name=_('contact_category'))

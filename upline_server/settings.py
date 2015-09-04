@@ -171,7 +171,7 @@ SUIT_CONFIG = {
             {'label': 'Membros', 'model':'upline.member', 'icon':None},
             {'label': 'Contatos', 'model':'upline.contact', 'icon':None},
             {'label': 'Aparelhos iOS', 'model':'push_notifications.apnsdevice', 'icon':None},
-            {'label': 'Alarelhos Android', 'model':'push_notifications.gcmdevice', 'icon':None},
+            {'label': 'Aparelhos Android', 'model':'push_notifications.gcmdevice', 'icon':None},
         )},
         {'label': 'Vendas', 'icon':'icon-shopping-cart', 'models': (
             {'label': 'Produtos', 'model':'upline.product', 'icon':None},
