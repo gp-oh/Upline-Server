@@ -11,7 +11,7 @@ except IOError:
   
   
 sys.path.append('/opt/repo')
-sys.path.append('/opt/repo/upline_server')
+sys.path.append('/opt/repo/ROOT')
   
 from django.core.wsgi import get_wsgi_application
 
