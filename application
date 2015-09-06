@@ -13,7 +13,7 @@ except IOError:
 sys.path.append('/opt/repo')
 sys.path.append('/opt/repo/ROOT')
   
-os.environ['DJANGO_SETTINGS_MODULE'] = 'ROOT.settings'
+os.environ['DJANGO_SETTINGS_MODULE'] = 'upline_server.settings'
   
 from django.core.wsgi import get_wsgi_application
 

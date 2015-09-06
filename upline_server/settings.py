@@ -42,7 +42,7 @@ INSTALLED_APPS = (
     'oauth2_provider',
     'corsheaders',
     'rest_framework',
-    'storages',
+    # 'storages',
     'mptt',
     'django_mptt_admin',
     'django_extensions',
@@ -142,7 +142,7 @@ REST_FRAMEWORK = {
     )
 }
 
-DEFAULT_FILE_STORAGE = 'libs.storages.S3Storage.S3Storage'
+# DEFAULT_FILE_STORAGE = 'libs.storages.S3Storage.S3Storage'
 
 OAUTH2_PROVIDER = {
     # this is the list of available scopes
