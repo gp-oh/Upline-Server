@@ -104,8 +104,8 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'upline',
         'USER': 'root',
-        'PASSWORD': '5aLnE7sYgE',
-        'HOST': 'mysql65741-upline.jelasticlw.com.br',
+        'PASSWORD': 'LCLvyk45429',
+        'HOST': 'mysql65762-upline.jelasticlw.com.br',
         'PORT': '3306',
     }
 }
