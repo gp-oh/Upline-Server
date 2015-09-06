@@ -91,7 +91,7 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 # STATIC_ROOT = 'staticfiles'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 MEDIA_ROOT = os.path.join(BASE_DIR, 'images')
-MEDIA_URL = '/images/'
+MEDIA_URL = '/media/'
 STATIC_URL = '/static/'
 
 # Parse database configuration from $DATABASE_URL
@@ -99,27 +99,27 @@ STATIC_URL = '/static/'
 # DATABASES = {}
 # DATABASES['default'] =  dj_database_url.config()
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'upline',
-        'USER': 'root',
-        'PASSWORD': 'LCLvyk45429',
-        'HOST': 'mysql65762-upline.jelasticlw.com.br',
-        'PORT': '3306',
-    }
-}
-
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'ENGINE': 'django.db.backends.mysql',
 #         'NAME': 'upline',
-#         'USER': 'upline',
-#         'PASSWORD': 'batatinhafrita123',
-#         'HOST': 'upline.c5rmgxifqspm.us-east-1.rds.amazonaws.com',
-#         'PORT': '5432',
+#         'USER': 'root',
+#         'PASSWORD': 'LCLvyk45429',
+#         'HOST': 'mysql65762-upline.jelasticlw.com.br',
+#         'PORT': '3306',
 #     }
 # }
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'upline',
+        'USER': 'upline',
+        'PASSWORD': 'batatinhafrita123',
+        'HOST': 'upline.c5rmgxifqspm.us-east-1.rds.amazonaws.com',
+        'PORT': '5432',
+    }
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
