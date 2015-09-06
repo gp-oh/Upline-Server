@@ -42,6 +42,7 @@ INSTALLED_APPS = (
     'oauth2_provider',
     'corsheaders',
     'rest_framework',
+    'storages',
     'mptt',
     'django_mptt_admin',
     'django_extensions',
@@ -87,7 +88,8 @@ WSGI_APPLICATION = 'upline_server.wsgi.application'
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 # Static asset configuration
-STATIC_ROOT = 'staticfiles'
+# STATIC_ROOT = 'staticfiles'
+STATIC_ROOT = os.path.join(BASE_DIR, 'ROOT', 'static_local')
 STATIC_URL = '/static/'
 
 # Parse database configuration from $DATABASE_URL
@@ -140,7 +142,7 @@ REST_FRAMEWORK = {
     )
 }
 
-
+DEFAULT_FILE_STORAGE = 'libs.storages.S3Storage.S3Storage'
 
 OAUTH2_PROVIDER = {
     # this is the list of available scopes
