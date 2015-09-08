@@ -110,28 +110,28 @@ STATIC_URL = '/static/'
 #     }
 # }
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'upline',
-        'USER': 'root',
-        'PASSWORD': '',
-        'HOST': '127.0.0.1',
-        'PORT': '3306',
-    }
-}
-
-
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'ENGINE': 'django.db.backends.mysql',
 #         'NAME': 'upline',
-#         'USER': 'upline',
-#         'PASSWORD': 'batatinhafrita123',
-#         'HOST': 'upline.c5rmgxifqspm.us-east-1.rds.amazonaws.com',
-#         'PORT': '5432',
+#         'USER': 'root',
+#         'PASSWORD': '',
+#         'HOST': '127.0.0.1',
+#         'PORT': '3306',
 #     }
 # }
+
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'upline',
+        'USER': 'upline',
+        'PASSWORD': 'batatinhafrita123',
+        'HOST': 'upline.c5rmgxifqspm.us-east-1.rds.amazonaws.com',
+        'PORT': '5432',
+    }
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
