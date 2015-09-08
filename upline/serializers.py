@@ -1,6 +1,8 @@
 from django.contrib.auth.models import User, Group
 from upline.models import *
 from rest_framework import serializers
+from django.core.files.uploadedfile import SimpleUploadedFile
+import mimetypes, json, base64, uuid
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
@@ -85,9 +87,21 @@ class MemberSerializer(serializers.HyperlinkedModelSerializer):
     training_steps = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
     parent = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
     downlines = DownlineSerializer(many=True, read_only=True)
+    avatar_base64 = serializers.CharField(write_only=True)
+
+    def save(self):
+        super(MemberSerializer, self).save()
+        avatar = validated_data.pop('avatar_base64')
+        if len(avatar) > 0:
+            avatar_base64 = avatar.split(',')[1]
+            avatar_mime = avatar.split(';')[0].split(':')[1]
+            avatar_extension = avatar_mime.split('/')[1]
+            self.avatar = SimpleUploadedFile(name=str(uuid.uuid4())+'.'+avatar_extension, content=base64.b64decode(avatar_base64), content_type=avatar_mime)
+            self.save()
+
     class Meta:
         model = Member
-        fields = ("id",'quickblox_id','parent','downlines','create_time','external_id','name','points','avatar','phone','gender','postal_code','city','state','address','dream1','dream2','status','level','training_steps')
+        fields = ("id","avatar_base64",'quickblox_id','parent','downlines','create_time','external_id','name','points','avatar','phone','gender','postal_code','city','state','address','dream1','dream2','status','level','training_steps')
 
 class MemberLoginSerializer(serializers.HyperlinkedModelSerializer):
     user = UserSerializer(many=False,read_only=True)
@@ -101,12 +115,21 @@ class MemberLoginSerializer(serializers.HyperlinkedModelSerializer):
 
 class ContactSerializer(serializers.HyperlinkedModelSerializer):
     member = MemberSerializer(read_only=True)
+    avatar_base64 = serializers.CharField(write_only=True)
 
     def create(self,validated_data):
         contact = Contact()
         member = Member.objects.get(user=self.context['request'].user)
         contact.owner = member
-        contact.avatar = validated_data.pop('avatar')
+
+        avatar = validated_data.pop('avatar_base64')
+        if len(avatar) > 0:
+            avatar_base64 = avatar.split(',')[1]
+            avatar_mime = avatar.split(';')[0].split(':')[1]
+            avatar_extension = avatar_mime.split('/')[1]
+            contact.avatar = SimpleUploadedFile(name=str(uuid.uuid4())+'.'+avatar_extension, content=base64.b64decode(avatar_base64), content_type=avatar_mime)
+
+        # contact.avatar = validated_data.pop('avatar')
         contact.email = validated_data.pop('email')
         contact.cellphone = validated_data.pop('cellphone')
         contact.birthday = validated_data.pop('birthday')
@@ -126,7 +149,7 @@ class ContactSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Contact
-        fields = ("id","avatar","email","cellphone","birthday","cpf","rg","region",'member','contact_category','name','phone','gender','postal_code','city','state','address')
+        fields = ("id","avatar_base64","avatar","email","cellphone","birthday","cpf","rg","region",'member','contact_category','name','phone','gender','postal_code','city','state','address')
 
 class ContactDownlineSerializer(serializers.HyperlinkedModelSerializer):
     member = DownlineSerializer(read_only=True)
