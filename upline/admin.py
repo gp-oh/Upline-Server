@@ -26,7 +26,7 @@ class MemberAdmin(ForeignKeyAutocompleteAdmin,DjangoMpttAdmin):
     }
 
     def get_acoes(self,obj):
-        return '<a href="/admin/upline/member/'+str(obj.id)+'/linear/">linear</a> <a href="/admin/upline/member/'+str(obj.id)+'/binary/">binário</a> <a href="/admin/upline/member/'+str(obj.id)+'/">editar</a>'
+        return '<a href="/upline/member/'+str(obj.id)+'/linear/">linear</a> <a href="/upline/member/'+str(obj.id)+'/binary/">binário</a> <a href="/upline/member/'+str(obj.id)+'/">editar</a>'
 
     get_acoes.short_description = 'Ações'
     get_acoes.allow_tags = True

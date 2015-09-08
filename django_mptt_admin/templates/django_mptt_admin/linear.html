@@ -116,7 +116,7 @@ span.fancytree-childcounter {
       checkbox: false,
       glyph: glyph_opts,
       selectMode: 2,
-      source: {url: "/admin/upline/member/tree_json/?key={{obj.id}}", debugDelay: 1000},
+      source: {url: "/upline/member/tree_json/?key={{obj.id}}", debugDelay: 1000},
       toggleEffect: { effect: "drop", options: {direction: "left"}, duration: 400 },
       wide: {
         iconWidth: "1em",     // Adjust this if @fancy-icon-width != "16px"
@@ -131,7 +131,7 @@ span.fancytree-childcounter {
       },
 
       lazyLoad: function(event, data) {
-        data.result = {url: "/admin/upline/member/tree_json/",data:{key:data.node.key}, debugDelay: 1000};
+        data.result = {url: "/upline/member/tree_json/",data:{key:data.node.key}, debugDelay: 1000};
       },
       table: {
         checkboxColumnIdx: 0,
@@ -145,8 +145,8 @@ span.fancytree-childcounter {
             $tdList.eq(4).text(node.data.phone);
             $tdList.eq(5).text(node.data.gender);
             $tdList.eq(6).text(node.data.level);
-            $tdList.eq(2).html('<a href="/admin/upline/member/'+node.data.id+'/">'+node.data.user+'</a>');
-            $tdList.eq(7).html('<a href="/admin/upline/member/'+node.data.id+'/binary/">binário</a>');
+            $tdList.eq(2).html('<a href="/upline/member/'+node.data.id+'/">'+node.data.user+'</a>');
+            $tdList.eq(7).html('<a href="/upline/member/'+node.data.id+'/binary/">binário</a>');
           }
       });
  });
