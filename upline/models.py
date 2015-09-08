@@ -276,7 +276,8 @@ class Member(MPTTModel):
         return self.name
 
     def encrypt_quickblox_password(self):
-        enc_secret = AES.new("%s%s%s"%(self.user.username,str(self.quickblox_id),self.member_uid)[:32])
+        key = "%s%s%s"%(self.user.username,str(self.quickblox_id),self.member_uid)
+        enc_secret = AES.new(key[:32])
         tag_string = (str(self.quickblox_password) +
                       (AES.block_size -
                        len(str(self.quickblox_password)) % AES.block_size) * "\0")
@@ -284,7 +285,8 @@ class Member(MPTTModel):
         self.quickblox_password = cipher_text
 
     def decrypted_quickblox_password(self):
-        dec_secret = AES.new("%s%s%s"%(self.user.username,str(self.quickblox_id),self.member_uid)[:32])
+        key = "%s%s%s"%(self.user.username,str(self.quickblox_id),self.member_uid)
+        dec_secret = AES.new(key[:32])
         raw_decrypted = dec_secret.decrypt(base64.b64decode(self.quickblox_password))
         clear_val = raw_decrypted.rstrip("\0")
         return clear_val
