@@ -113,6 +113,14 @@ class MediaCategoryAdmin(admin.ModelAdmin):
 class TrainingStepAdmin(admin.ModelAdmin):
     form = TrainingStepForm
 
+class AudioAdmin(admin.ModelAdmin):
+    pass
+
+class VideoAdmin(admin.ModelAdmin):
+    pass
+    
+admin.site.register(Audio,AudioAdmin)
+admin.site.register(Video,VideoAdmin)
 admin.site.register(TrainingStep,TrainingStepAdmin)
 admin.site.register(Training,TrainingAdmin)
 admin.site.register(Level,LevelAdmin)

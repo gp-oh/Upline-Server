@@ -1,4 +1,4 @@
-import json, datetime
+import json, datetime, urllib
 from django.contrib.auth.models import User, Group
 from django.core.urlresolvers import reverse
 from django.shortcuts import redirect
@@ -16,6 +16,7 @@ from oauth2_provider.models import AccessToken
 from django.shortcuts import get_object_or_404
 from rest_framework.decorators import detail_route, list_route
 from django.db.models import Q
+from django.http import HttpRequest
 
 class Login(APIView,OAuthLibMixin):
     permission_classes = (permissions.AllowAny,)
@@ -24,10 +25,13 @@ class Login(APIView,OAuthLibMixin):
     oauthlib_backend_class = oauth2_settings.OAUTH2_BACKEND_CLASS
 
     def post(self,request, *args, **kwargs):
+        params = json.loads(request.body)
+        # request.body = params
+        request.POST = params
+        print request.POST
         url, headers, body, s = self.create_token_response(request)
         token = json.loads(body)
         if s == 200:
-            
             user = AccessToken.objects.get(token=token["access_token"]).user
             member = Member.objects.get(user=user)
             serializer = MemberLoginSerializer(member)

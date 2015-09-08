@@ -3,6 +3,9 @@ from django.contrib.auth.models import User, Group
 from django.utils.translation import ugettext as _
 from mptt.models import MPTTModel, TreeForeignKey
 from django.db.models import Q
+from rq import Queue
+from worker import conn
+from utils import convert_audio, convert_video
 
 class State(models.Model):
     acronym = models.CharField(max_length=2, verbose_name=_('acronym'))
@@ -60,10 +63,50 @@ class Training(models.Model):
     def __unicode__(self):
         return self.name
 
+class Audio(models.Model):
+    audio = models.FileField(upload_to='audios')
+    converted = models.BooleanField(default=False)
+
+    class Meta:
+        verbose_name = "Audio"
+        verbose_name_plural = "Audios"
+
+    def __unicode__(self):
+        return self.audio.url
+
+    def save(self, *args, **kwargs):
+        super(Audio, self).save(*args, **kwargs)
+        q = Queue(connection=conn)
+        result = q.enqueue(convert_audio, self.audio.path)
+
+        # print 'ffmpeg -i '+self.audio.path+' '+self.audio.path.rsplit( ".", 1 )[ 0 ]+'.mp3'
+        
+
+class Video(models.Model):
+    video = models.FileField(upload_to='videos')
+    thumbnail = models.ImageField(upload_to='videos',null=True,blank=True,default=None)
+    converted = models.BooleanField(default=False)
+
+    class Meta:
+        verbose_name = "Video"
+        verbose_name_plural = "Videos"
+
+    def __unicode__(self):
+        return self.video.url
+
+    def save(self, *args, **kwargs):
+        super(Video, self).save(*args, **kwargs)
+        q = Queue(connection=conn)
+        result = q.enqueue(convert_video, self.video.path)
+
+
+
 class TrainingStep(models.Model):
     training = models.ForeignKey(Training,related_name='training_steps',verbose_name=_('training'))
     title = models.CharField(max_length=255,verbose_name=_('title'))
-    media = models.FileField(upload_to="training_steps",blank=True, null=True,verbose_name=_('media'))
+    video = models.ForeignKey(Video,null=True,blank=True,default=None)
+    audio = models.ForeignKey(Audio,null=True,blank=True,default=None)
+    image = models.ImageField(upload_to="training_steps",blank=True, null=True,verbose_name=_('image'))
     step = models.IntegerField(verbose_name=_('step'))
     description = models.TextField(blank=True, null=True,verbose_name=_('description'))
     need_answer = models.BooleanField(default=False,verbose_name=_('need_answer'))
@@ -356,7 +399,9 @@ class Post(models.Model):
     title = models.CharField(max_length=255,verbose_name=_('title'))
     group = models.ForeignKey(Group,verbose_name=_('group'),null=True)
     content = models.TextField(null=True,blank=True,default=None,verbose_name=_('content'))
-    media = models.FileField(upload_to="posts",null=True,blank=True,default=None,verbose_name=_('media'))
+    video = models.ForeignKey(Video,null=True,blank=True,default=None)
+    audio = models.ForeignKey(Audio,null=True,blank=True,default=None)
+    image = models.ImageField(upload_to="posts",blank=True, null=True,verbose_name=_('image'))
     create_time = models.DateTimeField(auto_now_add=True,verbose_name=_('create_time'))
     update_time = models.DateTimeField(auto_now=True,verbose_name=_('update_time'))
 
@@ -416,8 +461,10 @@ class MediaCategory(models.Model):
 class Media(models.Model):
     media_category = models.ForeignKey(MediaCategory,related_name='medias',verbose_name=_('media_category'))
     name = models.CharField(max_length=255,verbose_name=_('name'))
-    media_file = models.FileField(upload_to="multimidida",verbose_name=_('media_file'))
-    
+    video = models.ForeignKey(Video,null=True,blank=True,default=None)
+    audio = models.ForeignKey(Audio,null=True,blank=True,default=None)
+    image = models.ImageField(upload_to="multimidida",blank=True, null=True,verbose_name=_('image'))
+
     class Meta:
         verbose_name = _("media")
         verbose_name_plural = _("medias")
