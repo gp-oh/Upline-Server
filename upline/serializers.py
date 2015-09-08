@@ -7,7 +7,7 @@ import mimetypes, json, base64, uuid
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = User
-        fields = ("id",'url', 'username', 'email')
+        fields = ("id", 'username', 'email')
 
 class UsernameSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
