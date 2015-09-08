@@ -8,7 +8,7 @@ from worker import conn
 from utils import convert_audio, convert_video
 from upline.quickblox import create_user
 from Crypto.Cipher import AES
-import base64
+import base64, uuid
 from django.conf import settings
 
 class State(models.Model):
@@ -156,11 +156,12 @@ class Level(models.Model):
         return self.title
 
 class Member(MPTTModel):
+    member_uid = models.UUIDField(unique=True, null=True, editable=False)
     user = models.OneToOneField(User,verbose_name=_('user'))
     parent = TreeForeignKey('self', null=True, blank=True, related_name='downlines', db_index=True,verbose_name=_('parent'))
     external_id = models.IntegerField(unique=True, blank=True, null=True,verbose_name=_('external_id'))
     name = models.CharField(max_length=255,verbose_name=_('name'))
-    quickblox_id = models.CharField(max_length=255,null=True,verbose_name=_('quickblox_id'))
+    quickblox_id = models.CharField(max_length=255,null=True,verbose_name=_('quickblox_id'),editable=False)
     quickblox_password = models.CharField(max_length=255,null=True,verbose_name=_('quickblox_password'),editable=False)
     points = models.IntegerField(default=0,verbose_name=_('points'))
     avatar = models.ImageField(upload_to='members', blank=True, null=True,verbose_name=_('avatar'))
@@ -257,9 +258,10 @@ class Member(MPTTModel):
 
     def save(self, *args, **kwargs):
         if not self.pk:
+            self.member_uid = str(uuid.uuid4())
             self.quickblox_password = User.objects.make_random_password()
-            self.encrypt_quickblox_password()
             self = create_user(self)
+            self.encrypt_quickblox_password()
         super(Member, self).save(*args, **kwargs)
 
     class Meta:
@@ -274,7 +276,7 @@ class Member(MPTTModel):
         return self.name
 
     def encrypt_quickblox_password(self):
-        enc_secret = AES.new(settings.SECRET_KEY[:32])
+        enc_secret = AES.new("%s%s%s"%(self.user.username,str(self.quickblox_id),self.member_uid)[:32])
         tag_string = (str(self.quickblox_password) +
                       (AES.block_size -
                        len(str(self.quickblox_password)) % AES.block_size) * "\0")
@@ -282,7 +284,7 @@ class Member(MPTTModel):
         self.quickblox_password = cipher_text
 
     def decrypted_quickblox_password(self):
-        dec_secret = AES.new(settings.SECRET_KEY[:32])
+        dec_secret = AES.new("%s%s%s"%(self.user.username,str(self.quickblox_id),self.member_uid)[:32])
         raw_decrypted = dec_secret.decrypt(base64.b64decode(self.quickblox_password))
         clear_val = raw_decrypted.rstrip("\0")
         return clear_val

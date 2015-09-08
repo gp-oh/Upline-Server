@@ -18,12 +18,16 @@ class MemberAdmin(ForeignKeyAutocompleteAdmin,DjangoMpttAdmin):
     form = MemberForm
     list_display = ['id',"user","parent","name","points","phone","gender","level","get_acoes"]
     list_display_links = None
-    readonly_fields=('quickblox_id')
     search_fields = ['name']
     related_search_fields = {
        'user': ('first_name', 'email'),
        'parent': ('name'),
     }
+
+    def get_readonly_fields(self, request, obj=None):
+        if obj:
+            return self.readonly_fields + ('quickblox_id',)
+        return self.readonly_fields
 
     def get_acoes(self,obj):
         return '<a href="/upline/member/'+str(obj.id)+'/linear/">linear</a> <a href="/upline/member/'+str(obj.id)+'/binary/">binário</a> <a href="/upline/member/'+str(obj.id)+'/">editar</a>'
