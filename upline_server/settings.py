@@ -168,6 +168,11 @@ OAUTH2_PROVIDER = {
 
 # STATIC_URL = '/static/'
 
+PUSH_NOTIFICATIONS_SETTINGS = {
+        "GCM_API_KEY": "AIzaSyCwaTwR0DeWhFmemKFYygaWnk0fXGK3hsI",
+        # "APNS_CERTIFICATE": "/path/to/your/certificate.pem",
+}
+
 from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS as TCP
 
 TEMPLATE_CONTEXT_PROCESSORS = TCP + (

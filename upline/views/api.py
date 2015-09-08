@@ -34,7 +34,7 @@ class Login(APIView,OAuthLibMixin):
         if s == 200:
             user = AccessToken.objects.get(token=token["access_token"]).user
             member = Member.objects.get(user=user)
-            serializer = MemberLoginSerializer(member)
+            serializer = MemberLoginSerializer(member,context={'request': request})
             return Response({"token":token,"member":serializer.data}, status=status.HTTP_201_CREATED)
         else:
             return Response(token, status=status.HTTP_400_BAD_REQUEST)
@@ -62,7 +62,7 @@ class MemberViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
     def create(self, request, *args, **kwargs):
-        serializer = MemberRegisterSerializer(data=request.data)
+        serializer = MemberRegisterSerializer(data=request.data,context={'request': request})
         if serializer.is_valid():
             serializer.save()
             return Login.as_view()(request, *args, **kwargs)
