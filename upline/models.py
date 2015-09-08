@@ -6,6 +6,10 @@ from django.db.models import Q
 from rq import Queue
 from worker import conn
 from utils import convert_audio, convert_video
+from upline.quickblox import create_user
+from Crypto.Cipher import AES
+import base64
+from django.conf import settings
 
 class State(models.Model):
     acronym = models.CharField(max_length=2, verbose_name=_('acronym'))
@@ -157,8 +161,7 @@ class Member(MPTTModel):
     external_id = models.IntegerField(unique=True, blank=True, null=True,verbose_name=_('external_id'))
     name = models.CharField(max_length=255,verbose_name=_('name'))
     quickblox_id = models.CharField(max_length=255,null=True,verbose_name=_('quickblox_id'))
-    quickblox_login = models.CharField(max_length=255,null=True,verbose_name=_('quickblox_login'))
-    quickblox_password = models.CharField(max_length=255,null=True,verbose_name=_('quickblox_password'))
+    quickblox_password = models.CharField(max_length=255,null=True,verbose_name=_('quickblox_password'),editable=False)
     points = models.IntegerField(default=0,verbose_name=_('points'))
     avatar = models.ImageField(upload_to='members', blank=True, null=True,verbose_name=_('avatar'))
     phone = models.CharField(max_length=45, blank=True, null=True,verbose_name=_('phone'))
@@ -252,6 +255,13 @@ class Member(MPTTModel):
 
         return ret
 
+    def save(self, *args, **kwargs):
+        if not self.pk:
+            self.quickblox_password = User.objects.make_random_password()
+            self.encrypt_quickblox_password()
+            self = create_user(self)
+        super(Member, self).save(*args, **kwargs)
+
     class Meta:
         verbose_name = _("member")
         verbose_name_plural = _("members")
@@ -262,6 +272,20 @@ class Member(MPTTModel):
 
     def __unicode__(self):
         return self.name
+
+    def encrypt_quickblox_password(self):
+        enc_secret = AES.new(settings.SECRET_KEY[:32])
+        tag_string = (str(self.quickblox_password) +
+                      (AES.block_size -
+                       len(str(self.quickblox_password)) % AES.block_size) * "\0")
+        cipher_text = base64.b64encode(enc_secret.encrypt(tag_string))
+        self.quickblox_password = cipher_text
+
+    def decrypted_quickblox_password(self):
+        dec_secret = AES.new(settings.SECRET_KEY[:32])
+        raw_decrypted = dec_secret.decrypt(base64.b64decode(self.quickblox_password))
+        clear_val = raw_decrypted.rstrip("\0")
+        return clear_val
 
 class MemberTraingStep(models.Model):
     member = models.ForeignKey(Member,related_name='training_steps',verbose_name=_('member'))
