@@ -100,13 +100,23 @@ class CalendarAdmin(ForeignKeyAutocompleteAdmin):
     }
 
 class MediaAdmin(admin.ModelAdmin):
-    list_display = ['id','get_media_type','media_category','name']
+    list_display = ['id','get_media_type','media_category','name','get_media_file']
     search_fields = ['name']
     list_filter = ['media_category__media_type']
 
     def get_media_type(self, obj):
         return obj.media_category.get_media_type_display()
 
+    def get_media_file(self, obj):
+        if obj.media_category.media_type == 0:
+            return '<img src="'+obj.media+'"/>'
+        elif obj.media_category.media_type == 1:
+            return '<audio src="'+obj.media+'" controls>Your browser does not support the <code>audio</code> element.</audio>'
+        elif obj.media_category.media_type == 2:
+            return '<video src="'+obj.media+'"/>'
+
+    get_media_file.short_description = 'Arquivo'
+    get_media_file.allow_tags = True
     get_media_type.short_description = 'Media Type'
     get_media_type.admin_order_field = 'media_category__media_type'
 
@@ -124,8 +134,8 @@ class AudioAdmin(admin.ModelAdmin):
 class VideoAdmin(admin.ModelAdmin):
     pass
     
-admin.site.register(Audio,AudioAdmin)
-admin.site.register(Video,VideoAdmin)
+# admin.site.register(Audio,AudioAdmin)
+# admin.site.register(Video,VideoAdmin)
 admin.site.register(TrainingStep,TrainingStepAdmin)
 admin.site.register(Training,TrainingAdmin)
 admin.site.register(Level,LevelAdmin)

@@ -44,6 +44,7 @@ INSTALLED_APPS = (
     'rest_framework',
     'storages',
     'mptt',
+    's3direct',
     'django_mptt_admin',
     'django_extensions',
 )
@@ -162,6 +163,7 @@ AWS_ACCESS_KEY_ID = 'AKIAJML75IMVN3ZTEVTQ'
 AWS_SECRET_ACCESS_KEY = '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'
 AWS_STORAGE_BUCKET_NAME = 'upline-virtual'
 AWS_QUERYSTRING_AUTH = False
+S3DIRECT_REGION = 'us-east-1'
 
 
 OAUTH2_PROVIDER = {
@@ -229,4 +231,15 @@ SUIT_CONFIG = {
     )
 }
 
+S3DIRECT_DESTINATIONS = {
+    # Allow anybody to upload any MIME type
+    'training_steps': ('uploads/training_steps', lambda u: u.is_staff,),
+
+    # Allow staff users to upload any MIME type
+    'posts': ('uploads/posts', lambda u: u.is_staff,),
+
+    # Allow anybody to upload jpeg's and png's.
+    'media': ('uploads/media', lambda u: u.is_staff,),
+
+}
 
