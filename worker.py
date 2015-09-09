@@ -1,4 +1,7 @@
-import os
+#!/usr/bin/env python
+import os, sys
+
+os.environ["DJANGO_SETTINGS_MODULE"] = "upline_server.settings"
 
 import redis
 from rq import Worker, Queue, Connection

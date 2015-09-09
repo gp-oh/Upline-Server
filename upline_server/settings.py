@@ -42,7 +42,7 @@ INSTALLED_APPS = (
     'oauth2_provider',
     'corsheaders',
     'rest_framework',
-    # 'storages',
+    'storages',
     'mptt',
     'django_mptt_admin',
     'django_extensions',
@@ -156,7 +156,13 @@ REST_FRAMEWORK = {
     )
 }
 
-# DEFAULT_FILE_STORAGE = 'libs.storages.S3Storage.S3Storage'
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+
+AWS_ACCESS_KEY_ID = 'AKIAJML75IMVN3ZTEVTQ'
+AWS_SECRET_ACCESS_KEY = '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'
+AWS_STORAGE_BUCKET_NAME = 'upline-virtual'
+AWS_QUERYSTRING_AUTH = False
+
 
 OAUTH2_PROVIDER = {
     # this is the list of available scopes

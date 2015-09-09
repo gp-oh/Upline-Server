@@ -9,7 +9,6 @@ from utils import convert_audio, convert_video
 from upline.quickblox import create_user
 from Crypto.Cipher import AES
 import base64, uuid
-from django.conf import settings
 
 class State(models.Model):
     acronym = models.CharField(max_length=2, verbose_name=_('acronym'))
@@ -80,9 +79,9 @@ class Audio(models.Model):
 
     def save(self, *args, **kwargs):
         super(Audio, self).save(*args, **kwargs)
-        q = Queue(connection=conn)
-        result = q.enqueue(convert_audio, self.audio.path)
-
+        if self.audio.url.rsplit( ".", 1 )[1] != "mp3":
+            q = Queue(connection=conn)
+            result = q.enqueue(convert_audio, self)
         # print 'ffmpeg -i '+self.audio.path+' '+self.audio.path.rsplit( ".", 1 )[ 0 ]+'.mp3'
         
 
@@ -101,7 +100,7 @@ class Video(models.Model):
     def save(self, *args, **kwargs):
         super(Video, self).save(*args, **kwargs)
         q = Queue(connection=conn)
-        result = q.enqueue(convert_video, self.video.path)
+        result = q.enqueue(convert_video, self)
 
 
 
