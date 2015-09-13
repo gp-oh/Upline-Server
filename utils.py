@@ -6,9 +6,9 @@ from boto.s3.connection import S3Connection, Bucket, Key
 from django.conf import settings
 
 @transaction.atomic
-def convert_audio(audio):
-    audio_name = audio.audio.url.split('/')[-1]
-    audiofile = urllib2.urlopen(audio.audio.url)
+def convert_audio(media):
+    audio_name = media.media.split('/')[-1]
+    audiofile = urllib2.urlopen(media.media)
     output = open(audio_name,'wb')
     output.write(audiofile.read())
     output.close()
@@ -28,11 +28,11 @@ def convert_audio(audio):
     conn = S3Connection(settings.AWS_ACCESS_KEY_ID, settings.AWS_SECRET_ACCESS_KEY)
     b = Bucket(conn, settings.AWS_STORAGE_BUCKET_NAME)
     k = Key(b)
-    k.key = str(audio.audio)
+    k.key = str(media.media)
     b.delete_key(k)
 
     mp3_file = open(audio_name.rsplit( ".", 1 )[ 0 ]+'.mp3','r')
-    audio.audio = SimpleUploadedFile(name=str(uuid.uuid4())+'.mp3', content=mp3_file.read(), content_type='audio/mpeg3')
+    media.media = SimpleUploadedFile(name=str(uuid.uuid4())+'.mp3', content=mp3_file.read(), content_type='audio/mpeg3')
     audio.conevrted = True
     audio.save()
     mp3_file.close()
@@ -40,7 +40,7 @@ def convert_audio(audio):
     os.unlink(audio_name)
 
 @transaction.atomic
-def convert_video(video):
+def convert_video(media):
 
     video_name = video.video.url.split('/')[-1]
     videofile = urllib2.urlopen(video.video.url)

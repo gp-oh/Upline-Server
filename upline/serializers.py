@@ -4,20 +4,21 @@ from rest_framework import serializers
 from django.core.files.uploadedfile import SimpleUploadedFile
 import mimetypes, json, base64, uuid
 
+class GroupSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Group
+        fields = ("id", 'name')
+
 class UserSerializer(serializers.HyperlinkedModelSerializer):
+    groups = GroupSerializer(read_only=True,many=True)
     class Meta:
         model = User
-        fields = ("id", 'username', 'email')
+        fields = ("id",'groups', 'username', 'email')
 
 class UsernameSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = User
         fields = ('username')
-
-class GroupSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = Group
-        fields = ("id",'url', 'name')
 
 class LevelSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
@@ -67,6 +68,7 @@ class MemberRegisterSerializer(serializers.HyperlinkedModelSerializer):
         user.username = self.validated_data['username']
         user.email = self.validated_data['email']
         user.set_password(self.validated_data['password'])
+        user.groups.add(Group.objects.get(id=3))
         user.save()
         member = Member()
         member.parent = Member.objects.get(user__username=self.validated_data['parent_user'])
@@ -83,6 +85,7 @@ class MemberRegisterSerializer(serializers.HyperlinkedModelSerializer):
         fields = ("id",'name','grant_type','parent_user','username','password','phone','birthday','gender','postal_code')
 
 class MemberSerializer(serializers.HyperlinkedModelSerializer):
+    user = UserSerializer(many=False,read_only=True)
     level = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
     training_steps = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
     parent = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
@@ -101,7 +104,7 @@ class MemberSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Member
-        fields = ("id","avatar_base64",'quickblox_id','parent','downlines','create_time','external_id','name','points','avatar','phone','gender','postal_code','city','state','address','dream1','dream2','status','level','training_steps')
+        fields = ("id","user","avatar_base64",'quickblox_id','parent','downlines','create_time','external_id','name','points','avatar','phone','gender','postal_code','city','state','address','dream1','dream2','status','level','training_steps')
 
 class MemberLoginSerializer(serializers.HyperlinkedModelSerializer):
     user = UserSerializer(many=False,read_only=True)

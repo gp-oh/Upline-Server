@@ -458,7 +458,6 @@ class Event(models.Model):
     members = models.ManyToManyField(Member,blank=True,verbose_name=_('members'))
     calendar = models.ForeignKey(Calendar,related_name='events',verbose_name=_('calendar'))
     note = models.TextField(null=True,blank=True,verbose_name=_('note'))
-
     postal_code = models.CharField(max_length=255,verbose_name=_('postal_code'),null=True,blank=True)
     number = models.CharField(max_length=255, blank=True, null=True,verbose_name=_('number'))
     complement = models.CharField(max_length=255, blank=True, null=True,verbose_name=_('complement'))
@@ -487,6 +486,7 @@ class Media(models.Model):
     name = models.CharField(max_length=255,verbose_name=_('name'))
     media = S3DirectField(dest='media', null=True)
     thumbnail = models.ImageField(upload_to="thumbnails",blank=True, null=True,verbose_name=_('thumbnail'))
+    converted = models.BooleanField(default=False)
 
     class Meta:
         verbose_name = _("media")
@@ -494,5 +494,17 @@ class Media(models.Model):
 
     def __unicode__(self):
         return self.name
+
+    def save(self, *args, **kwargs):
+        super(Media, self).save(*args, **kwargs)
+        if not converted:
+            if self.media_category.media_type == 1:
+                q = Queue(connection=conn)
+                result = q.enqueue(convert_audio, self)
+            elif self.media_category.media_type == 2:
+                q = Queue(connection=conn)
+                result = q.enqueue(convert_video, self)
+
+
     
 
