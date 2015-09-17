@@ -23,7 +23,7 @@ class UsernameSerializer(serializers.HyperlinkedModelSerializer):
 class LevelSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Level
-        fields = ("id",'title','points_range_from','points_range_to')
+        fields = ("id",'title','image','points_range_from','points_range_to')
 
 class TrainingSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
@@ -86,7 +86,7 @@ class MemberRegisterSerializer(serializers.HyperlinkedModelSerializer):
 
 class MemberSerializer(serializers.HyperlinkedModelSerializer):
     user = UserSerializer(many=False,read_only=True)
-    level = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
+    level = LevelSerializer(many=False, read_only=True)
     training_steps = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
     parent = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
     downlines = DownlineSerializer(many=True, read_only=True)
