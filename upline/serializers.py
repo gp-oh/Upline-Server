@@ -45,7 +45,7 @@ class DownlineSerializer(serializers.HyperlinkedModelSerializer):
         fields = ("id",'quickblox_id','parent','create_time','external_id','name','points','avatar','phone','gender','postal_code','city','state','address','dream1','dream2','status','level','training_steps')
 
 class MemberRegisterSerializer(serializers.HyperlinkedModelSerializer):
-    username = serializers.EmailField()
+    username = serializers.SlugField()
     grant_type = serializers.CharField(initial="password")
     password = serializers.CharField(style={'input_type': 'password'})
     parent_user = serializers.SlugField()
@@ -57,7 +57,7 @@ class MemberRegisterSerializer(serializers.HyperlinkedModelSerializer):
         return value
 
     def validate_email(self, value):
-        users = User.objects.filter(username=value)
+        users = User.objects.filter(email=value)
         if len(users) > 0:
             raise serializers.ValidationError("Email already registered")
         return value
