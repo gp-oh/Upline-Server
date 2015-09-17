@@ -46,6 +46,7 @@ class DownlineSerializer(serializers.HyperlinkedModelSerializer):
 
 class MemberRegisterSerializer(serializers.HyperlinkedModelSerializer):
     username = serializers.SlugField()
+    email = serializers.EmailField()
     grant_type = serializers.CharField(initial="password")
     password = serializers.CharField(style={'input_type': 'password'})
     parent_user = serializers.SlugField()
