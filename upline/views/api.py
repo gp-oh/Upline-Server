@@ -26,9 +26,7 @@ class Login(APIView,OAuthLibMixin):
 
     def post(self,request, *args, **kwargs):
         params = json.loads(request.body)
-        # request.body = params
         request.POST = params
-        print request.POST
         url, headers, body, s = self.create_token_response(request)
         token = json.loads(body)
         if s == 200:
@@ -65,7 +63,7 @@ class MemberViewSet(viewsets.ModelViewSet):
         serializer = MemberRegisterSerializer(data=request.data,context={'request': request})
         if serializer.is_valid():
             serializer.save()
-            return Login.as_view()(request, *args, **kwargs)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def get_serializer_class(self):
