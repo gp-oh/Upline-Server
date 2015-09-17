@@ -89,7 +89,7 @@ class MemberRegisterSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Member
-        fields = ("id",'name','grant_type','parent_user','username','password','phone','birthday','gender','postal_code')
+        fields = ("id",'name','email','grant_type','parent_user','username','password','phone','birthday','gender','postal_code')
 
 class MemberSerializer(serializers.HyperlinkedModelSerializer):
     user = UserSerializer(many=False,read_only=True)

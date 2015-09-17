@@ -168,6 +168,7 @@ class Member(MPTTModel):
     city = models.CharField(max_length=255, blank=True, null=True,verbose_name=_('city'))
     state = models.CharField(max_length=255, blank=True, null=True,verbose_name=_('state'))
     address = models.CharField(max_length=255, blank=True, null=True,verbose_name=_('address'))
+    address_number = models.CharField(max_length=255, blank=True, null=True,verbose_name=_('address_number'))
     dream1 = models.ImageField(upload_to="dreams",blank=True, null=True,default=None,verbose_name=_('dream1'))
     dream2 = models.ImageField(upload_to="dreams",blank=True, null=True,default=None,verbose_name=_('dream2'))
     status = models.CharField(blank=True, null=True,verbose_name=_('status'),max_length=255)
@@ -330,6 +331,7 @@ class Contact(models.Model):
     city = models.CharField(max_length=255, blank=True, null=True,verbose_name=_('city'))
     state = models.CharField(max_length=255, blank=True, null=True,verbose_name=_('state'))
     address = models.CharField(max_length=255, blank=True, null=True,verbose_name=_('address'))
+    address_number = models.CharField(max_length=255, blank=True, null=True,verbose_name=_('address_number'))
     create_time = models.DateTimeField(auto_now_add=True,verbose_name=_('create_time'))
     update_time = models.DateTimeField(auto_now=True,verbose_name=_('update_time'))
 
