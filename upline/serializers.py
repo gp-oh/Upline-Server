@@ -75,6 +75,7 @@ class MemberRegisterSerializer(serializers.HyperlinkedModelSerializer):
         user.username = self.validated_data['username']
         user.email = self.validated_data['email']
         user.set_password(self.validated_data['password'])
+        user.save()
         user.groups.add(Group.objects.get(id=3))
         user.save()
         member = Member()
