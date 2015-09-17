@@ -57,6 +57,12 @@ class MemberRegisterSerializer(serializers.HyperlinkedModelSerializer):
             raise serializers.ValidationError("Invalid Parent ID")
         return value
 
+    def validate_email(self, value):
+        users = User.objects.filter(email=value)
+        if len(users) > 0:
+            raise serializers.ValidationError("Email already registered")
+        return value
+
     def validate_username(self, value):
         users = User.objects.filter(username=value)
         if len(users) > 0:
