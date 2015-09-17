@@ -134,8 +134,21 @@ class AudioAdmin(admin.ModelAdmin):
 class VideoAdmin(admin.ModelAdmin):
     pass
     
+class NotificationAdmin(admin.ModelAdmin):
+    list_display = ['id','level','message','sent']
+    actions = ['send']
+
+    def send(modeladmin, request, queryset):
+        for notification in queryset:
+            devices = GCMDevice.objects.filter(user__in=notification.level.user_set.all())
+            devices.send_message(notification.message)
+        queryset.update(sent=True)
+
+    send.short_description = u"Enviar notificações"
+
 # admin.site.register(Audio,AudioAdmin)
 # admin.site.register(Video,VideoAdmin)
+admin.site.register(Notification,NotificationAdmin)
 admin.site.register(TrainingStep,TrainingStepAdmin)
 admin.site.register(Training,TrainingAdmin)
 admin.site.register(Level,LevelAdmin)

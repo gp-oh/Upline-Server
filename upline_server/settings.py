@@ -194,6 +194,8 @@ SUIT_CONFIG = {
     'SHOW_REQUIRED_ASTERISK': True,
     'CONFIRM_UNSAVED_CHANGES': True,
     'MENU': (
+
+        {'label': u'Notificações', 'icon':'icon-lock', 'models': ({'label': 'Notificações', 'model':'upline.notification', 'icon':None},)},
         {'label': 'Pessoas', 'icon':'icon-user', 'models': (
             {'label': 'Usuários', 'model':'auth.user', 'icon':None},
             {'label': 'Grupos', 'model':'auth.group', 'icon':None},
@@ -217,7 +219,7 @@ SUIT_CONFIG = {
             {'label': 'Midias', 'model':'upline.media', 'icon':None},
         )},
         {'label': 'Treinamentos', 'icon':'icon-tasks', 'models': (
-            {'label': 'Niveis', 'model':'upline.level', 'icon':None},
+            {'label': 'Graduações', 'model':'upline.level', 'icon':None},
             {'label': 'Treinamentos', 'model':'upline.training', 'icon':None},
             {'label': 'Etapas de Treinamento', 'model':'upline.trainingstep', 'icon':None},
             # {'label': 'Metas', 'model':'upline.media', 'icon':None},

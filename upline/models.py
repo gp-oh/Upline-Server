@@ -10,6 +10,7 @@ from upline.quickblox import create_user
 from Crypto.Cipher import AES
 import base64, uuid
 from s3direct.fields import S3DirectField
+from push_notifications.models import APNSDevice, GCMDevice
 
 class State(models.Model):
     acronym = models.CharField(max_length=2, verbose_name=_('acronym'))
@@ -507,6 +508,18 @@ class Media(models.Model):
                 q = Queue(connection=conn)
                 result = q.enqueue(convert_video, self)
 
+class Notification(models.Model):
+    level = models.ForeignKey(Group,verbose_name=_('level'))
+    message = models.CharField(max_length=255,verbose_name=_('message'))
+    sent = models.BooleanField(default=False,editable=False,verbose_name=_('sent'))
 
+    def save(self, *args, **kwargs):
+        super(Notification, self).save(*args, **kwargs)
+
+    class Meta:
+        verbose_name = "Notification"
+        verbose_name_plural = "Notifications"
+
+    def __unicode__(self):
+        return self.message
     
-
