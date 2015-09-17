@@ -172,7 +172,7 @@ class Member(MPTTModel):
     dream2 = models.ImageField(upload_to="dreams",blank=True, null=True,default=None,verbose_name=_('dream2'))
     status = models.CharField(blank=True, null=True,verbose_name=_('status'),max_length=255)
     birthday = models.DateField(null=True,verbose_name=_('birthday'))
-    level = models.ForeignKey(Level,null=True,verbose_name=_('level'))
+    level = models.ForeignKey(Level,null=True,verbose_name=_('level'),editable=False)
     outpooring = models.IntegerField(default=0,verbose_name=_('outpooring'))
     create_time = models.DateTimeField(auto_now_add=True,verbose_name=_('create_time'))
     update_time = models.DateTimeField(auto_now=True,verbose_name=_('update_time'))
