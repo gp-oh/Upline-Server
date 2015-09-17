@@ -116,13 +116,13 @@ class MemberSerializer(serializers.HyperlinkedModelSerializer):
 
 class MemberLoginSerializer(serializers.HyperlinkedModelSerializer):
     user = UserSerializer(many=False,read_only=True)
-    level = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
+    level = LevelSerializer(many=False, read_only=True)
     training_steps = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
     parent = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
     downlines = DownlineSerializer(many=True, read_only=True)
     class Meta:
         model = Member
-        fields = ("id",'user','member_uid','quickblox_id','quickblox_password','parent','downlines','create_time','external_id','name','points','avatar','phone','gender','postal_code','city','state','address','dream1','dream2','status','level','training_steps')
+        fields = ("id",'user','member_uid','quickblox_id','quickblox_password','parent','downlines','create_time','external_id','name','points','avatar','phone','gender','postal_code','city','state','address','dream1','dream2','status','level','birthday','training_steps')
 
 class ContactSerializer(serializers.HyperlinkedModelSerializer):
     member = MemberSerializer(read_only=True)
