@@ -136,8 +136,16 @@ class VideoAdmin(admin.ModelAdmin):
     pass
     
 class NotificationAdmin(admin.ModelAdmin):
-    list_display = ['id','level','message','sent']
+    list_display = ['id','level','message','sent','date_sent']
     actions = ['send']
+
+    def get_date_sent(self,request,obj):
+        if self.sent:
+            return self.update_time
+        else:
+            return None
+
+    get_date_sent.short_description = 'Data do Envio'
 
     def send(modeladmin, request, queryset):
         for notification in queryset:

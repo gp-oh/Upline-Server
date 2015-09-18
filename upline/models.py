@@ -526,8 +526,10 @@ class Media(models.Model):
 
 class Notification(models.Model):
     level = models.ForeignKey(Group,verbose_name=_('level'))
-    message = models.CharField(max_length=255,verbose_name=_('message'))
+    message = models.CharField(max_length=255,verbose_name=_('message'),help_text=_('255 characters'))
     sent = models.BooleanField(default=False,editable=False,verbose_name=_('sent'))
+    create_time = models.DateTimeField(auto_now_add=True,verbose_name=_('create_time'))
+    update_time = models.DateTimeField(auto_now=True,verbose_name=_('update_time'))
 
     def save(self, *args, **kwargs):
         super(Notification, self).save(*args, **kwargs)
