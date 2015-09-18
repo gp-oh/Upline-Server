@@ -1,1 +1,17 @@
 /* Empty CSS from Django Suit app to override original file */
+.form-horizontal .control-group.field-count_messages_after_finish ,
+.form-horizontal .control-group.field-day_1_notification_description ,
+.form-horizontal .control-group.field-day_2_notification_description ,
+.form-horizontal .control-group.field-day_3_notification_description ,
+.form-horizontal .control-group.field-day_4_notification_description ,
+.form-horizontal .control-group.field-day_5_notification_description ,
+.form-horizontal .control-group.field-day_6_notification_description ,
+.form-horizontal .control-group.field-day_7_notification_description ,
+.form-horizontal .control-group.field-day_14_notification_description ,
+.form-horizontal .control-group.field-day_28_notification_description ,
+.form-horizontal .control-group.field-answer_type ,
+.form-horizontal .control-group.field-meetings_per_week ,
+.form-horizontal .control-group.field-weeks ,
+.form-horizontal .control-group.field-nr_contacts {
+    display: none;
+} 
