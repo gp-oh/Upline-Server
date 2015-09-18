@@ -4,11 +4,12 @@ from upline.models import *
 from upline.forms import *
 from django_mptt_admin.admin import DjangoMpttAdmin
 from django_extensions.admin import ForeignKeyAutocompleteAdmin
+from django.conf import settings
 
 class TrainingAdmin(admin.ModelAdmin):
     list_display = ['id','name']
     search_fields = ['name']
-
+    
 class LevelAdmin(admin.ModelAdmin):
     form = LevelForm
     list_display = ['id','title','points_range_from','points_range_to']

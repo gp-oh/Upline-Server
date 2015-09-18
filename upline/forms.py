@@ -34,6 +34,7 @@ class TrainingStepForm(forms.ModelForm):
         }
         model = TrainingStep
         fields = '__all__'
+        
 
 class LevelForm(forms.ModelForm):
     class Meta:
