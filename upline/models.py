@@ -61,6 +61,19 @@ class Training(models.Model):
     create_time = models.DateTimeField(auto_now_add=True,verbose_name=_('create_time'))
     update_time = models.DateTimeField(auto_now=True,verbose_name=_('update_time'))
 
+    have_notifications = models.BooleanField(default=False)
+    count_messages_after_finish = models.ForeignKey('Training',verbose_name=_('previous training'),null=True)
+    day_1_notification_description = models.TextField(blank=True, null=True,verbose_name=_('day_1_notification_description'))
+    day_2_notification_description = models.TextField(blank=True, null=True,verbose_name=_('day_2_notification_description'))
+    day_3_notification_description = models.TextField(blank=True, null=True,verbose_name=_('day_3_notification_description'))
+    day_4_notification_description = models.TextField(blank=True, null=True,verbose_name=_('day_4_notification_description'))
+    day_5_notification_description = models.TextField(blank=True, null=True,verbose_name=_('day_5_notification_description'))
+    day_6_notification_description = models.TextField(blank=True, null=True,verbose_name=_('day_6_notification_description'))
+    day_7_notification_description = models.TextField(blank=True, null=True,verbose_name=_('day_7_notification_description'))
+    day_14_notification_description = models.TextField(blank=True, null=True,verbose_name=_('day_14_notification_description'))
+    day_28_notification_description = models.TextField(blank=True, null=True,verbose_name=_('day_28_notification_description'))
+    
+
     class Meta:
         verbose_name = _("training")
         verbose_name_plural = _("trainings")
