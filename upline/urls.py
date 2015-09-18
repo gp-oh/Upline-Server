@@ -1,6 +1,6 @@
 from django.conf.urls import url, include
 from rest_framework import routers
-from upline.views import api
+from upline.views import admin, api
 from push_notifications.api.rest_framework import APNSDeviceAuthorizedViewSet, GCMDeviceAuthorizedViewSet
 
 r = routers.DefaultRouter()
@@ -26,6 +26,7 @@ r.register(r'username', api.UsernameViewSet)
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [
+    url(r'^$', admin.HomeView.as_view()),
     url(r'^api/v1/', include(r.urls)),
     url(r'^api/v1/login/$',api.Login.as_view())
 ]

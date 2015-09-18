@@ -18,7 +18,7 @@ class LevelAdmin(admin.ModelAdmin):
 class MemberAdmin(ForeignKeyAutocompleteAdmin,DjangoMpttAdmin):
     form = MemberForm
     list_display = ['id',"user","parent","name","points","phone","gender","level","get_acoes"]
-    list_display_links = None
+    list_display_links = ['id']
     search_fields = ['name']
     related_search_fields = {
        'user': ('first_name', 'email'),

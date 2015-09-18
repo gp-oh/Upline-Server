@@ -11,6 +11,7 @@ from Crypto.Cipher import AES
 import base64, uuid
 from s3direct.fields import S3DirectField
 from push_notifications.models import APNSDevice, GCMDevice
+from colorful.fields import RGBColorField
 
 class State(models.Model):
     acronym = models.CharField(max_length=2, verbose_name=_('acronym'))
@@ -151,7 +152,8 @@ class TrainingStep(models.Model):
 
 class Level(models.Model):
     title = models.CharField(unique=True, max_length=255,verbose_name=_('title'))
-    image = models.ImageField(null=True,upload_to="levels",verbose_name=_('image'))
+    image = models.ImageField(null=True,blank=True,upload_to="levels",verbose_name=_('image'))
+    color = RGBColorField(default="#ffffff")
     description = models.TextField(null=True,verbose_name=_('description'))
     gift = models.TextField(null=True,verbose_name=_('gift'))
     group = models.ForeignKey(Group,verbose_name=_('group'),null=True)
@@ -188,7 +190,7 @@ class Member(MPTTModel):
     dream2 = models.ImageField(upload_to="dreams",blank=True, null=True,default=None,verbose_name=_('dream2'))
     status = models.CharField(blank=True, null=True,verbose_name=_('status'),max_length=255)
     birthday = models.DateField(null=True,verbose_name=_('birthday'))
-    level = models.ForeignKey(Level,null=True,verbose_name=_('level'),editable=False)
+    level = models.ForeignKey(Level,verbose_name=_('level'),editable=False,default=1)
     outpooring = models.IntegerField(default=0,verbose_name=_('outpooring'))
     create_time = models.DateTimeField(auto_now_add=True,verbose_name=_('create_time'))
     update_time = models.DateTimeField(auto_now=True,verbose_name=_('update_time'))

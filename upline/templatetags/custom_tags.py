@@ -6,26 +6,19 @@ from django.template.loader import render_to_string
 from upline.models import *
 from django.db.models import Count, Avg, Sum
 
-@register.filter
-def get_sales(f = False,t = False):
-    if f:
-        from_date = datetime.datetime.strptime(f, '%d/%m/%Y')
-    else:
-        from_date = datetime.datetime.today()-datetime.timedelta(days=30)
+def get_sales(list):
+    from_date = datetime.datetime.today()-datetime.timedelta(days=30)
+    to_date = datetime.datetime.today()
 
-    if t:
-        to_date = datetime.datetime.strptime(t, '%d/%m/%Y')
-    else:
-        to_date = datetime.datetime.today()
-
-    sales = Sale.objects.filter(create_time__gte=from_date,create_time__lte=to_date)
-    totals = {}
-    for sale in sales:
-        if not sale.created.strftime("%Y-%M-%d") in totals:
-            totals[sale.created.strftime("%Y-%M-%d")] = sale.total
-        else:
-            totals[sale.created.strftime("%Y-%M-%d")] += sale.total
-    return totals
+    sales_per_day = Sale.objects.filter(create_time__gte=from_date,create_time__lte=to_date).extra({'published':"date(create_time)"}).values('published').annotate(total=Sum('total')).order_by('published')
+    sales_list = []
+    i = -1
+    for sale in sales_per_day:
+        if len(sales_list) > 0 and sale['published']-datetime.timedelta(days=1) > sales_list[-1]['published'] :
+            while sales_list[-1]['published'] < sale['published']-datetime.timedelta(days=1):
+                sales_list.append({'published':sales_list[-1]['published']+datetime.timedelta(days=1),'total':0.00})
+        sales_list.append({'published':sale['published'],'total':sale['total']})
+    return sales_list
 
 def get_member_levels():
     return Member.objects.all().values('level').annotate(total=Count('id')).order_by('total')

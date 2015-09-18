@@ -1,5 +1,6 @@
 {% extends "admin/base_site.html" %}
 {% load i18n admin_static %}
+{% load custom_tags %}
 
 {% block extrastyle %}
   {{ block.super }}
@@ -15,44 +16,15 @@
   {{ block.super }}
   {{ media.js }}
   <script type="text/javascript" src="{% static "admin/js/Chart.min.js" %}"></script>
-  <script type="text/javascript" src="{% static "admin/js/chartjs.init.js" %}"></script>
 {% endblock %}
 {% block content %}
-  <div id="content-main">
-
       <section id="main-content">
         <section class="wrapper">
-        <!-- page start-->
-
             <div class="row">
-            <div class="col-sm-12">
-                <section class="panel">
-                    <header class="panel-heading">
-                        Bar Chart
-                        <span class="tools pull-right">
-                            <a href="javascript:;" class="fa fa-chevron-down"></a>
-                            <a href="javascript:;" class="fa fa-cog"></a>
-                            <a href="javascript:;" class="fa fa-times"></a>
-                         </span>
-                    </header>
-                    <div class="panel-body">
-                        <div class="chartJS">
-                            <canvas id="bar-chart-js" height="250" width="800" ></canvas>
-
-
-                        </div>
-
-
-
-                    </div>
-                </section>
-            </div>
-        </div>
-            <div class="row">
-                <div class="col-sm-12">
+                <div class="span12">
                     <section class="panel">
                         <header class="panel-heading">
-                            Area Chart
+                            Vendas
                         <span class="tools pull-right">
                             <a href="javascript:;" class="fa fa-chevron-down"></a>
                             <a href="javascript:;" class="fa fa-cog"></a>
@@ -60,26 +32,18 @@
                          </span>
                         </header>
                         <div class="panel-body">
-
-
                             <div class="chartJS">
-
-                                <canvas id="line-chart-js" height="250" width="800" ></canvas>
-
-
+                                <canvas id="line-chart-js" style="width:100%;height:300px" ></canvas>
                             </div>
-
-
-
                         </div>
                     </section>
                 </div>
             </div>
             <div class="row">
-                <div class="col-sm-6">
+                <div class="span6">
                     <section class="panel">
                         <header class="panel-heading">
-                            Pie Chart
+                            Contatos
                         <span class="tools pull-right">
                             <a href="javascript:;" class="fa fa-chevron-down"></a>
                             <a href="javascript:;" class="fa fa-cog"></a>
@@ -87,22 +51,16 @@
                          </span>
                         </header>
                         <div class="panel-body">
-
-
                             <div class="chartJS">
-
-
-                                <canvas id="pie-chart-js" height="250" width="800" ></canvas>
-
+                                <canvas id="line-chart2-js" style="width:100%;height:300px" ></canvas>
                             </div>
-
                         </div>
                     </section>
                 </div>
-                <div class="col-sm-6">
+                <div class="span6">
                     <section class="panel">
                         <header class="panel-heading">
-                            Donut Chart
+                            Clientes
                         <span class="tools pull-right">
                             <a href="javascript:;" class="fa fa-chevron-down"></a>
                             <a href="javascript:;" class="fa fa-cog"></a>
@@ -110,19 +68,49 @@
                          </span>
                         </header>
                         <div class="panel-body">
-
-
                             <div class="chartJS">
-
-
-                                <canvas id="donut-chart-js" height="250" width="800" ></canvas>
-
+                                <canvas id="line-chart3-js" style="width:100%;height:300px" ></canvas>
                             </div>
-
                         </div>
                     </section>
                 </div>
             </div>
+            <div class="row">
+                <div class="span6">
+                    <section class="panel">
+                        <header class="panel-heading">
+                            Membros
+                        <span class="tools pull-right">
+                            <a href="javascript:;" class="fa fa-chevron-down"></a>
+                            <a href="javascript:;" class="fa fa-cog"></a>
+                            <a href="javascript:;" class="fa fa-times"></a>
+                         </span>
+                        </header>
+                        <div class="panel-body">
+                            <div class="chartJS">
+                                <canvas id="line-chart4-js" style="width:100%;height:300px" ></canvas>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+                <div class="span6">
+                    <section class="panel">
+                        <header class="panel-heading">
+                            Graduações
+                        <span class="tools pull-right">
+                            <a href="javascript:;" class="fa fa-chevron-down"></a>
+                            <a href="javascript:;" class="fa fa-cog"></a>
+                            <a href="javascript:;" class="fa fa-times"></a>
+                         </span>
+                        </header>
+                        <div class="panel-body">
+                            <div class="chartJS">
+                                <canvas id="pie-chart-js" height="250" width="250" ></canvas>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+                </div>
         <!-- page end-->
         </section>
     </section>
@@ -157,7 +145,110 @@
     {% else %}
       <p>{% trans "You don't have permission to edit anything." %}</p>
     {% endif %}-->
-  </div>
+    <script type="text/javascript">
+(function(){
+    var t;
+    function size(animate){
+        if (animate == undefined){
+            animate = false;
+        }
+        clearTimeout(t);
+        t = setTimeout(function(){
+            $("canvas").each(function(i,el){
+                $(el).attr({
+                    "width":$(el).parent().width(),
+                    "height":$(el).parent().outerHeight()
+                });
+            });
+            redraw(animate);
+            var m = 0;
+            $(".chartJS").height("");
+            $(".chartJS").each(function(i,el){ m = Math.max(m,$(el).height()); });
+            $(".chartJS").height(m);
+        }, 30);
+    }
+    $(window).on('resize', function(){ size(false); });
+
+
+    function redraw(animation){
+        var options = {};
+        if (!animation){
+            options.animation = false;
+        } else {
+            options.animation = true;
+        }
+
+        var Sales = {
+            labels : [{% for sale in sales %}"{{sale.published}}",{% endfor %}],
+            datasets : [
+                {
+                    fillColor : "#E67A77",
+                    strokeColor : "#E67A77",
+                    pointColor : "#E67A77",
+                    pointStrokeColor : "#fff",
+                    data : [{% for sale in sales %}{{sale.total}} ,{% endfor %}]
+                 }
+            ]
+        };
+
+        var Members = {
+            labels : [{% for member in members %}"{{member.published}}",{% endfor %}],
+            datasets : [
+                {
+                    fillColor : "#79D1CF",
+                    strokeColor : "#79D1CF",
+                    pointColor : "#79D1CF",
+                    pointStrokeColor : "#fff",
+                    data : [{% for member in members %}{{member.total}} ,{% endfor %}]
+                 }
+            ]
+        };
+
+        var Clients = {
+            labels : [{% for client in clients %}"{{client.published}}",{% endfor %}],
+            datasets : [
+                {
+                    fillColor : "#D9DD81",
+                    strokeColor : "#D9DD81",
+                    pointColor : "#D9DD81",
+                    pointStrokeColor : "#fff",
+                    data : [{% for client in clients %}{{client.total}} ,{% endfor %}]
+                 }
+            ]
+        };
+
+        var Contacts = {
+            labels : [{% for contact in contacts %}"{{contact.published}}",{% endfor %}],
+            datasets : [
+                {
+                    fillColor : "#E67A77",
+                    strokeColor : "#E67A77",
+                    pointColor : "#E67A77",
+                    pointStrokeColor : "#fff",
+                    data : [{% for contact in contacts %}{{contact.total}} ,{% endfor %}]
+                 }
+            ]
+        };
+        var myLineChart = new Chart(document.getElementById("line-chart-js").getContext("2d")).Line(Sales);
+        var myLineChart2 = new Chart(document.getElementById("line-chart2-js").getContext("2d")).Line(Contacts);
+        var myLineChart3 = new Chart(document.getElementById("line-chart3-js").getContext("2d")).Line(Clients);
+        var myLineChart4 = new Chart(document.getElementById("line-chart4-js").getContext("2d")).Line(Members);
+        var pieData = [
+          {% for level in member_levels%}
+            {
+                value: {{level.total}},
+                color:"{{level.level__color}}"
+            },
+          {% endfor %}
+        ];
+        var myPie = new Chart(document.getElementById("pie-chart-js").getContext("2d")).Pie(pieData);
+    }
+    size(true);
+
+}());
+
+
+    </script>
 {% endblock %}
 
 
