@@ -1,7 +1,6 @@
 // Written for jQuery
 $(function(){
-    // on page load...
-    $('#id_have_notifications').change(function(){
+    function toggle_notifications(){
         if ( $('#id_have_notifications').prop('checked')) {
             $(".field-count_messages_after_finish").show();
             $(".field-day_1_notification_description").show();
@@ -25,8 +24,8 @@ $(function(){
             $(".field-day_14_notification_description").hide();
             $(".field-day_28_notification_description").hide();
         }
-    });
-    $('#id_need_answer').change(function(){
+    }
+    function toggle_answers(){
         if ( $('#id_need_answer').prop('checked')) {
             $('.field-answer_type').show();
         } else {
@@ -35,8 +34,9 @@ $(function(){
             $('.field-weeks').hide();
             $('.field-nr_contacts').hide();
         }
-    });
-    $('#id_answer_type').change(function(event) {
+    }
+
+    function toggle_aswer_type() {
         $('.field-meetings_per_week').hide();
         $('.field-weeks').hide();
         $('.field-nr_contacts').hide();
@@ -46,5 +46,18 @@ $(function(){
             $('.field-meetings_per_week').show();
             $('.field-weeks').show();
         };
+    }
+    toggle_notifications();
+    toggle_answers();
+    toggle_aswer_type();
+    // on page load...
+    $('#id_have_notifications').change(function(){
+        toggle_notifications();
+    });
+    $('#id_need_answer').change(function(){
+        toggle_answers();
+    });
+    $('#id_answer_type').change(function(event) {
+        toggle_aswer_type();
     });
 });
