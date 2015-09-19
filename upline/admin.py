@@ -53,6 +53,7 @@ class ProductAdmin(admin.ModelAdmin):
 
 class SaleAdmin(ForeignKeyAutocompleteAdmin):
     list_display = ['id','member', 'client','create_time','total']
+    list_display_links = (None,)
     related_search_fields = {
        'member': ('name'),
        'client': ('name'),
