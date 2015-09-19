@@ -53,11 +53,14 @@ class ProductAdmin(admin.ModelAdmin):
 
 class SaleAdmin(ForeignKeyAutocompleteAdmin):
     list_display = ['id','member', 'client','create_time','total']
-    list_display_links = (None,)
+    list_display_links = None
     related_search_fields = {
        'member': ('name'),
        'client': ('name'),
     }
+
+    def has_add_permission(self, request):
+        return False
 
 class CityAdmin(admin.ModelAdmin):
     list_display = ['id','state', 'name']
