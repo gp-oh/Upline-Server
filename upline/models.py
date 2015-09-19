@@ -82,42 +82,6 @@ class Training(models.Model):
     def __unicode__(self):
         return self.name
 
-# class Audio(models.Model):
-#     audio = models.FileField(upload_to='audios')
-#     converted = models.BooleanField(default=False)
-
-#     class Meta:
-#         verbose_name = "Audio"
-#         verbose_name_plural = "Audios"
-
-#     def __unicode__(self):
-#         return self.audio.url
-
-#     def save(self, *args, **kwargs):
-#         super(Audio, self).save(*args, **kwargs)
-#         if self.audio.url.rsplit( ".", 1 )[1] != "mp3":
-#             q = Queue(connection=conn)
-#             result = q.enqueue(convert_audio, self)
-#         # print 'ffmpeg -i '+self.audio.path+' '+self.audio.path.rsplit( ".", 1 )[ 0 ]+'.mp3'
-        
-
-# class Video(models.Model):
-#     video = models.FileField(upload_to='videos')
-#     thumbnail = models.ImageField(upload_to='videos',null=True,blank=True,default=None)
-#     converted = models.BooleanField(default=False)
-
-#     class Meta:
-#         verbose_name = "Video"
-#         verbose_name_plural = "Videos"
-
-#     def __unicode__(self):
-#         return self.video.url
-
-#     def save(self, *args, **kwargs):
-#         super(Video, self).save(*args, **kwargs)
-#         q = Queue(connection=conn)
-#         result = q.enqueue(convert_video, self)
-
 class TrainingStep(models.Model):
     training = models.ForeignKey(Training,related_name='training_steps',verbose_name=_('training'))
     title = models.CharField(max_length=255,verbose_name=_('title'))
@@ -126,7 +90,7 @@ class TrainingStep(models.Model):
     step = models.IntegerField(verbose_name=_('step'))
     description = models.TextField(blank=True, null=True,verbose_name=_('description'))
     need_answer = models.BooleanField(default=False,verbose_name=_('need_answer'))
-    answer_type = models.IntegerField(verbose_name=_('answer_type'),choices=((0,_('text')),(1,_('audio')),(2,_('video')),(3,_('list')),(4,_('meeting'))))
+    answer_type = models.IntegerField(verbose_name=_('answer_type'),choices=((0,_('text')),(1,_('audio')),(2,_('video')),(5,_('image')),(3,_('list')),(4,_('meeting'))))
     meetings_per_week = models.IntegerField(blank=True, null=True,verbose_name=_('meetings_per_week'))
     weeks = models.IntegerField(blank=True, null=True,verbose_name=_('weeks'))
     nr_contacts = models.IntegerField(blank=True, null=True,verbose_name=_('nr_contacts'))
@@ -444,7 +408,7 @@ class Post(models.Model):
     group = models.ForeignKey(Group,verbose_name=_('group'),null=True)
     content = models.TextField(null=True,blank=True,default=None,verbose_name=_('content'))
     media = S3DirectField(dest='posts', null=True)
-    thumbnail = models.ImageField(upload_to="thumbnails",blank=True, null=True,verbose_name=_('thumbnail'))
+    thumbnail = models.ImageField(upload_to="thumbnails",blank=True, null=True,verbose_name=_('thumbnail'),editable=False)
     create_time = models.DateTimeField(auto_now_add=True,verbose_name=_('create_time'))
     update_time = models.DateTimeField(auto_now=True,verbose_name=_('update_time'))
 
@@ -456,9 +420,8 @@ class Post(models.Model):
         return self.title
     
 class Calendar(models.Model):
-    public = models.BooleanField(default=False,verbose_name=_('public'))
-    user = models.ForeignKey(User,null=True,verbose_name=_('user'))
     name = models.CharField(max_length=255,verbose_name=_('name'))
+    color = RGBColorField(default="#ffffff")
 
     class Meta:
         verbose_name = _("calendar")
@@ -466,7 +429,7 @@ class Calendar(models.Model):
 
     def __unicode__(self):
         return self.name
-    
+
 class Event(models.Model):
     owner = models.ForeignKey(User,verbose_name=_('owner'))
     title = models.CharField(max_length=255,verbose_name=_('title'))
@@ -489,6 +452,14 @@ class Event(models.Model):
 
     def __unicode__(self):
         return self.title
+
+class EventAlert(models.Model):
+    event = models.ForeignKey(Event)
+    alert_date = models.DateTimeField(null=True,blank=True,default=None)
+
+    class Meta:
+        verbose_name = "EventAlert"
+        verbose_name_plural = "EventAlerts"
 
 class MediaCategory(models.Model):
     media_type = models.IntegerField(choices=((0,'Imagem'),(1,'Audio'),(2,'Video')),verbose_name=_('media_type'))

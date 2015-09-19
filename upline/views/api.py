@@ -166,6 +166,7 @@ class PostalCodeViewSet(mixins.RetrieveModelMixin,viewsets.GenericViewSet):
 
     queryset = PostalCode.objects.all()
     serializer_class = PostalCodeSerializer
+    permission_classes = (permissions.AllowAny,)
 
 class StateViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = State.objects.all()

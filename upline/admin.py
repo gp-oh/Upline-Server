@@ -52,6 +52,7 @@ class ProductAdmin(admin.ModelAdmin):
     pass
 
 class SaleAdmin(ForeignKeyAutocompleteAdmin):
+    list_display = ['id','member', 'client','create_time','total']
     related_search_fields = {
        'member': ('name'),
        'client': ('name'),
@@ -136,7 +137,7 @@ class VideoAdmin(admin.ModelAdmin):
     pass
     
 class NotificationAdmin(admin.ModelAdmin):
-    list_display = ['id','level','message','sent','date_sent']
+    list_display = ['id','level','message','sent','get_date_sent']
     actions = ['send']
 
     def get_date_sent(self,request,obj):
