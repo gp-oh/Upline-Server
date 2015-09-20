@@ -124,11 +124,22 @@ class Level(models.Model):
     color = RGBColorField(default="#ffffff")
     description = models.TextField(null=True,verbose_name=_('description'))
     gift = models.TextField(null=True,verbose_name=_('gift'))
-    group = models.ForeignKey(Group,verbose_name=_('group'),null=True)
+    group = models.ForeignKey(Group,verbose_name=_('group'),null=True,editable=False)
     points_range_from = models.IntegerField(verbose_name=_('points_range_from'))
     points_range_to = models.IntegerField(verbose_name=_('points_range_to'))
     create_time = models.DateTimeField(auto_now_add=True,verbose_name=_('create_time'))
     update_time = models.DateTimeField(auto_now=True,verbose_name=_('update_time'))
+
+    def save(self, *args, **kwargs):
+        if not self.pk:
+            group = Group()
+            group.name = self.title
+            grou.save()
+            self.group = group
+        else:
+            self.group.name = self.title
+            self.group.save()
+        super(Level, self).save(*args, **kwargs)
 
     class Meta:
         verbose_name = _("level")
