@@ -135,7 +135,7 @@ class EventAdmin(ForeignKeyAutocompleteAdmin):
     inlines = [
         EventAlertInline,
     ]
-    
+
 
 class PostAdmin(ForeignKeyAutocompleteAdmin):
     list_display = ['user','title','group','content','create_time','media_type','get_media_file']
@@ -164,6 +164,11 @@ class MediaAdmin(admin.ModelAdmin):
     list_display = ['id','get_media_type','media_category','name','get_media_file']
     search_fields = ['name']
     list_filter = ['media_category__media_type']
+
+    def get_readonly_fields(self, request, obj=None):
+        if obj:
+            return self.readonly_fields + ('converted',)
+        return self.readonly_fields
 
     def get_media_type(self, obj):
         return obj.media_category.get_media_type_display()

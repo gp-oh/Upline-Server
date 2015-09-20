@@ -457,7 +457,7 @@ class Calendar(models.Model):
 
 class Event(models.Model):
     owner = models.ForeignKey(User,verbose_name=_('owner'))
-    group = models.ForeignKey(Group,null=True,blank=True,default=None)
+    group = models.ForeignKey(Group,null=True,blank=True,default=None,verbose_name=_('group'))
     title = models.CharField(max_length=255,verbose_name=_('title'))
     all_day = models.BooleanField(default=False,verbose_name=_('all_day'))
     begin_time = models.DateTimeField(null=True,verbose_name=_('begin_time'))
@@ -481,11 +481,11 @@ class Event(models.Model):
 
 class EventAlert(models.Model):
     event = models.ForeignKey(Event)
-    alert_date = models.DateTimeField(null=True,blank=True,default=None)
+    alert_date = models.DateTimeField(null=True,blank=True,default=None,verbose_name=_('alert_date'))
 
     class Meta:
-        verbose_name = "EventAlert"
-        verbose_name_plural = "EventAlerts"
+        verbose_name = _("Event Alert")
+        verbose_name_plural = _("Event Alerts")
 
 class MediaCategory(models.Model):
     media_type = models.IntegerField(choices=((0,'Imagem'),(1,'Audio'),(2,'Video')),verbose_name=_('media_type'))
@@ -502,7 +502,7 @@ class Media(models.Model):
     name = models.CharField(max_length=255,verbose_name=_('name'))
     media = S3DirectField(dest='media', null=True)
     thumbnail = models.ImageField(upload_to="thumbnails",blank=True, null=True,verbose_name=_('thumbnail'))
-    converted = models.BooleanField(default=False)
+    converted = models.BooleanField(default=False, editable=False)
 
     class Meta:
         verbose_name = _("media")
