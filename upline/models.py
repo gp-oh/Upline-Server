@@ -12,6 +12,10 @@ import base64, uuid
 from s3direct.fields import S3DirectField
 from push_notifications.models import APNSDevice, GCMDevice
 from colorful.fields import RGBColorField
+from boto.s3.connection import S3Connection, Bucket, Key
+from django.conf import settings
+from mimetypes import MimeTypes
+import urllib 
 
 class State(models.Model):
     acronym = models.CharField(max_length=2, verbose_name=_('acronym'))
@@ -408,6 +412,7 @@ class Post(models.Model):
     group = models.ForeignKey(Group,verbose_name=_('group'),null=True)
     content = models.TextField(null=True,blank=True,default=None,verbose_name=_('content'))
     media = S3DirectField(dest='posts', null=True)
+    media_type = models.IntegerField(choices=((0,'Imagem'),(1,'Audio'),(2,'Video')),verbose_name=_('media_type'),default=0,editable=False)
     thumbnail = models.ImageField(upload_to="thumbnails",blank=True, null=True,verbose_name=_('thumbnail'),editable=False)
     create_time = models.DateTimeField(auto_now_add=True,verbose_name=_('create_time'))
     update_time = models.DateTimeField(auto_now=True,verbose_name=_('update_time'))
@@ -418,6 +423,26 @@ class Post(models.Model):
 
     def __unicode__(self):
         return self.title
+
+    def save(self, *args, **kwargs):
+        if self.media:
+            mime = MimeTypes()
+            mime_type = mime.guess_type(self.media)
+            t = mime_type[0].split('/')[0]
+
+            # conn = S3Connection(settings.AWS_ACCESS_KEY_ID, settings.AWS_SECRET_ACCESS_KEY)
+            # b = Bucket(conn, settings.AWS_STORAGE_BUCKET_NAME)
+            # k = b.get_key(self.media.replace('https://s3.amazonaws.com/upline-virtual/',''))
+            # t = k.content_type.split('/')[0]
+            if t == 'image':
+                self.media_type = 0
+            elif t == 'audio':
+                self.media_type = 1
+            elif t == 'video':
+                self.media_type = 2
+        super(Post, self).save(*args, **kwargs)
+            
+
     
 class Calendar(models.Model):
     name = models.CharField(max_length=255,verbose_name=_('name'))

@@ -87,8 +87,8 @@
           id="{% firstof opts.model_name opts.module_name %}_form" class="form-horizontal">
 
       <div class="inner-right-column">
-
-        <div class="box save-box">
+        {% if not readonly %}
+         <div class="box save-box">
 
           {% block submit_buttons_bottom %}{% submit_row %}{% endblock %}
 
@@ -121,7 +121,7 @@
         {% endblock %}
 
       {% block sidebar %}{% endblock %}
-
+      {% endif %}
       </div>
       <div class="inner-center-column">
         {% csrf_token %}{% block form_top %}{% endblock %}

@@ -5,6 +5,7 @@ from upline.forms import *
 from django_mptt_admin.admin import DjangoMpttAdmin
 from django_extensions.admin import ForeignKeyAutocompleteAdmin
 from django.conf import settings
+from django.contrib.admin.util import flatten_fieldsets
 
 class TrainingAdmin(admin.ModelAdmin):
     list_display = ['id','name']
@@ -49,18 +50,52 @@ class GoalAdmin(ForeignKeyAutocompleteAdmin):
     }
 
 class ProductAdmin(admin.ModelAdmin):
-    pass
+    list_display = ['id','name','active','points','table_value']
+
+class SaleItemInline(admin.TabularInline):
+    model = SaleItem
+
+    def has_add_permission(self, request, obj=None):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+    def get_readonly_fields(self, request, obj=None):
+        return list(set(
+            [field.name for field in self.opts.local_fields] +
+            [field.name for field in self.opts.local_many_to_many]
+        ))
+    # formset = # Yours
 
 class SaleAdmin(ForeignKeyAutocompleteAdmin):
     list_display = ['id','member', 'client','create_time','total']
-    list_display_links = None
+    
+    inlines = [
+        SaleItemInline,
+    ]
+
     related_search_fields = {
        'member': ('name'),
        'client': ('name'),
     }
 
+    def change_view(self, request, object_id, extra_context=None):
+        extra_context = extra_context or {}
+        extra_context['readonly'] = True
+        return super(SaleAdmin, self).change_view(request, object_id, extra_context=extra_context)
+
+    def has_delete_permission(self, request, x = None):
+        return False
+
     def has_add_permission(self, request):
         return False
+
+    def get_readonly_fields(self, request, obj=None):
+        return list(set(
+            [field.name for field in self.opts.local_fields] +
+            [field.name for field in self.opts.local_many_to_many]
+        ))
 
 class CityAdmin(admin.ModelAdmin):
     list_display = ['id','state', 'name']
@@ -95,10 +130,22 @@ class EventAdmin(ForeignKeyAutocompleteAdmin):
     }
 
 class PostAdmin(ForeignKeyAutocompleteAdmin):
+    list_display = ['user','title','group','content','create_time','media_type','get_media_file']
     form = PostForm
     related_search_fields = {
        'user': ('first_name', 'email'),
     }
+
+    def get_media_file(self, obj):
+        if obj.media_type == 0:
+            return '<img src="'+obj.media+'" style="height:150px"/>'
+        elif obj.media_type == 1:
+            return '<audio src="'+obj.media+'" controls>Your browser does not support the <code>audio</code> element.</audio>'
+        elif obj.media_type == 2:
+            return '<video src="'+obj.media+'"/>'
+
+    get_media_file.short_description = 'Arquivo'
+    get_media_file.allow_tags = True
 
 class CalendarAdmin(ForeignKeyAutocompleteAdmin):
     related_search_fields = {
