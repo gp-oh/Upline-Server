@@ -457,6 +457,7 @@ class Calendar(models.Model):
 
 class Event(models.Model):
     owner = models.ForeignKey(User,verbose_name=_('owner'))
+    group = models.ForeignKey(Group,null=True,blank=True,default=None)
     title = models.CharField(max_length=255,verbose_name=_('title'))
     all_day = models.BooleanField(default=False,verbose_name=_('all_day'))
     begin_time = models.DateTimeField(null=True,verbose_name=_('begin_time'))

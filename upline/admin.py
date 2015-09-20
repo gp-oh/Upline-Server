@@ -120,6 +120,9 @@ class PostalCodeAdmin(ForeignKeyAutocompleteAdmin):
     get_state.short_description = 'State'
     get_state.admin_order_field = 'city__state'
 
+class EventAlertInline(admin.TabularInline):
+    model = EventAlert
+
 class EventAdmin(ForeignKeyAutocompleteAdmin):
     form = EventForm
     related_search_fields = {
@@ -128,6 +131,11 @@ class EventAdmin(ForeignKeyAutocompleteAdmin):
        'invited': ('name'),
        'members': ('name'),
     }
+
+    inlines = [
+        EventAlertInline,
+    ]
+    
 
 class PostAdmin(ForeignKeyAutocompleteAdmin):
     list_display = ['user','title','group','content','create_time','media_type','get_media_file']
