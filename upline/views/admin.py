@@ -7,7 +7,6 @@ from django.db.models import Count, Avg, Sum
 
 class HomeView(View):
     def get(self,request):
-        print 'batata'
         return render(request,'admin/index.html',{'sales':self.get_sales(),
             'member_levels':self.get_member_levels(),
             'contacts':self.get_contacts(),
