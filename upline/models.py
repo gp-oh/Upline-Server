@@ -159,7 +159,7 @@ class Member(MPTTModel):
     user = models.OneToOneField(User,verbose_name=_('user'))
     parent = TreeForeignKey('self', null=True, blank=True, related_name='downlines', db_index=True,verbose_name=_('parent'))
     external_id = models.IntegerField(unique=True, blank=True, null=True,verbose_name=_('external_id'))
-    name = models.CharField(max_length=255,verbose_name=_('name'))
+    name = models.CharField(max_length=50,verbose_name=_('name'))
     quickblox_id = models.CharField(max_length=255,null=True,verbose_name=_('quickblox_id'),editable=False)
     quickblox_password = models.CharField(max_length=255,null=True,verbose_name=_('quickblox_password'),editable=False)
     points = models.IntegerField(default=0,verbose_name=_('points'))
