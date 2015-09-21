@@ -47,7 +47,7 @@ class UplineSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class DownlineSerializer(serializers.HyperlinkedModelSerializer):
-    level = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
+    level = LevelSerializer(many=False, read_only=True)
     training_steps = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
     class Meta:
         model = Member
