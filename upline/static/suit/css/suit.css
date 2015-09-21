@@ -115,10 +115,10 @@ body {
 /* Lastly, apply responsive CSS fixes as necessary */
 @media (max-width: 767px) {
   #footer {
-    margin-left: -20px;
-    margin-right: -20px;
-    padding-left: 20px;
-    padding-right: 20px;
+	margin-left: -20px;
+	margin-right: -20px;
+	padding-left: 20px;
+	padding-right: 20px;
   }
 }
 .header {
@@ -227,6 +227,49 @@ body {
   float: right;
   text-align: right;
 }
+
+/*HOME*/
+
+section.panel {
+	clear: both;
+	margin-bottom: 2em;
+	overflow: hidden;
+	position: relative;
+	width: auto;
+}
+
+section.panel .panel-heading {
+	background: rgba(0, 0, 0, 0) -moz-linear-gradient(center top , #f9f6f1 0%, #f2efea 100%) repeat scroll 0 0;
+	border: 1px solid #d6d6d6;
+	height: 40px;
+	line-height: 40px;
+	padding: 0 15px
+	position: relative;
+}
+
+section.panel .panel-heading i { float: left; margin: 12px 6px 0 10px; }
+section.panel .panel-heading h3 {
+    color: #525252;
+    display: inline-block;
+    font-size: 14px;
+    font-weight: 800;
+    line-height: 18px;
+    position: relative;
+    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5);
+    padding: 0;
+}
+
+section.panel .panel-body	{
+	background: #fff none repeat scroll 0 0;
+    border: 1px solid #d5d5d5;
+    border-radius: 5px;
+    padding: 20px 15px 15px;
+    border-top: medium none;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+
 .nav-quick-search {
   margin: 20px 0 2px 15px;
   position: relative;
@@ -1907,16 +1950,16 @@ h2 .description {
 }
 .left-nav > ul > li.active > a {
   color: #fff;
-  text-shadow: 0 1px #4f7f92;
-  background-color: #5295b0;
+  text-shadow: 0 1px #23a792;
+  background-color: #3abcab;
   background-repeat: no-repeat;
-  background-image: -webkit-gradient(linear, left top, left bottom, from(#83b3c3), to(#5295b0));
-  background-image: -webkit-linear-gradient(#83b3c3, #5295b0);
-  background-image: -moz-linear-gradient(#83b3c3, #5295b0);
-  background-image: -o-linear-gradient(top, #83b3c3, #5295b0);
-  background-image: -khtml-gradient(linear, left top, left bottom, from(#83b3c3), to(#5295b0));
-  filter: progid:DXImageTransform.Microsoft.Gradient(StartColorStr='#83b3c3', EndColorStr='#5295b0', GradientType=0);
-  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorStr='#83b3c3', EndColorStr='#5295b0', GradientType=0))";
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#8be2d9), to(#3abcab));
+  background-image: -webkit-linear-gradient(#8be2d9, #3abcab);
+  background-image: -moz-linear-gradient(#8be2d9, #3abcab);
+  background-image: -o-linear-gradient(top, #8be2d9, #5295b0);
+  background-image: -khtml-gradient(linear, left top, left bottom, from(#8be2d9), to(#3abcab));
+  filter: progid:DXImageTransform.Microsoft.Gradient(StartColorStr='#8be2d9', EndColorStr='#3abcab', GradientType=0);
+  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorStr='#8be2d9', EndColorStr='#3abcab', GradientType=0))";
   border-bottom-color: #ccc;
 }
 .left-nav > ul > li.active > a i {
@@ -2534,13 +2577,13 @@ a.append-icon i {
 @media print {
   html,
   body {
-    -webkit-print-color-adjust: exact;
+	-webkit-print-color-adjust: exact;
   }
   a[href]:after {
-    content: "" !important;
+	content: "" !important;
   }
   select {
-    -webkit-appearance: none;
+	-webkit-appearance: none;
   }
   #header,
   .left-column,
@@ -2550,19 +2593,19 @@ a.append-icon i {
   .actions,
   .inner-right-column,
   .add-row {
-    display: none;
+	display: none;
   }
   #wrap,
   body {
-    background: transparent;
+	background: transparent;
   }
   .suit-columns {
-    padding-left: 0;
+	padding-left: 0;
   }
   .two-columns .center-column {
-    margin: 0;
+	margin: 0;
   }
   .inner-two-columns .inner-center-column {
-    margin-right: 0;
+	margin-right: 0;
   }
 }
