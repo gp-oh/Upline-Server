@@ -43,7 +43,7 @@ class UplineSerializer(serializers.HyperlinkedModelSerializer):
     
     class Meta:
         model = Member
-        fields = ("id","user","avatar_base64",'quickblox_id','create_time','external_id','name','points','avatar','phone','gender','postal_code','city','state','address','address_number','dream1','dream2','status','level','training_steps','birthday')
+        fields = ("id","user",'quickblox_id','create_time','external_id','name','points','avatar','phone','gender','postal_code','city','state','address','address_number','dream1','dream2','status','level','training_steps','birthday')
 
 
 class DownlineSerializer(serializers.HyperlinkedModelSerializer):
