@@ -20,6 +20,8 @@ import urllib
 class State(models.Model):
     acronym = models.CharField(max_length=2, verbose_name=_('acronym'))
     name = models.CharField(max_length=255, verbose_name=_('name'))
+    create_time = models.DateTimeField(auto_now_add=True,verbose_name=_('create_time'))
+    update_time = models.DateTimeField(auto_now=True,verbose_name=_('update_time'))
 
     class Meta:
         verbose_name = _('state')
@@ -31,6 +33,8 @@ class State(models.Model):
 class City(models.Model):
     state = models.ForeignKey(State, verbose_name=_('state'))
     name = models.CharField(max_length=255, verbose_name=_('name'))
+    create_time = models.DateTimeField(auto_now_add=True,verbose_name=_('create_time'))
+    update_time = models.DateTimeField(auto_now=True,verbose_name=_('update_time'))
 
     class Meta:
         verbose_name = _('city')
@@ -49,6 +53,8 @@ class PostalCode(models.Model):
     postal_code = models.CharField(max_length=255,verbose_name=_('postal_code'))
     street_type = models.CharField(max_length=255,verbose_name=_('street_type'))
     approved = models.BooleanField(default=False,verbose_name=_('approved'))
+    create_time = models.DateTimeField(auto_now_add=True,verbose_name=_('create_time'))
+    update_time = models.DateTimeField(auto_now=True,verbose_name=_('update_time'))
 
     class Meta:
         verbose_name = _('postal code')
@@ -296,18 +302,6 @@ class MemberTraingStep(models.Model):
 
     def __unicode__(self):
         return self.member.name+' - '+self.training_step.title
-
-class Team(models.Model):
-    owner = models.ForeignKey(Member,related_name="team_owner",verbose_name=_('owner'))
-    member = models.ForeignKey(Member,related_name="team_member",verbose_name=_('member'))
-    position = models.IntegerField(verbose_name=_('position'))
-
-    class Meta:
-        verbose_name = _("member team")
-        verbose_name_plural = _("member teams")
-
-    def __unicode__(self):
-        return self.owner.name +" - "+ self.member.name
 
 class Contact(models.Model):
     owner = models.ForeignKey(Member,related_name="contact_owner",verbose_name=_('upline'))
