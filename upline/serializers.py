@@ -49,10 +49,9 @@ class UplineSerializer(serializers.HyperlinkedModelSerializer):
 class DownlineSerializer(serializers.HyperlinkedModelSerializer):
     level = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
     training_steps = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
-    parent = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
     class Meta:
         model = Member
-        fields = ("id",'quickblox_id','parent','create_time','external_id','name','points','avatar','phone','gender','postal_code','city','state','address','address_number','dream1','dream2','status','level','training_steps')
+        fields = ("id",'quickblox_id','create_time','external_id','name','points','avatar','phone','gender','postal_code','city','state','address','address_number','dream1','dream2','status','level','training_steps')
 
 
 class MemberSerializer(serializers.HyperlinkedModelSerializer):
