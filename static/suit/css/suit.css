@@ -115,31 +115,34 @@ body {
 /* Lastly, apply responsive CSS fixes as necessary */
 @media (max-width: 767px) {
   #footer {
-    margin-left: -20px;
-    margin-right: -20px;
-    padding-left: 20px;
-    padding-right: 20px;
+	margin-left: -20px;
+	margin-right: -20px;
+	padding-left: 20px;
+	padding-right: 20px;
   }
+}
+a {
+	color: #46b0a3;
 }
 .header {
   color: #d4d4d4;
-  height: 45px;
+  height: 60px;
   overflow: hidden;
   text-shadow: 0 -1px #121414;
-  background-color: #373b3d;
+  background-color: #222222;
   background-repeat: no-repeat;
-  background-image: -webkit-gradient(linear, left top, right top, from(#3f4345), to(#373b3d));
+  /*background-image: -webkit-gradient(linear, left top, right top, from(#3f4345), to(#373b3d));
   background-image: -webkit-linear-gradient(right center, #3f4345, #373b3d);
   background-image: -moz-linear-gradient(right center, #3f4345, #373b3d);
   background-image: -o-linear-gradient(left, #3f4345, #373b3d);
   background-image: -khtml-gradient(linear, left top, right top, from(#3f4345), to(#373b3d));
   filter: progid:DXImageTransform.Microsoft.Gradient(StartColorStr='#3f4345', EndColorStr='#373b3d', GradientType=1);
-  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorStr='#3f4345', EndColorStr='#373b3d', GradientType=1))";
+  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorStr='#3f4345', EndColorStr='#373b3d', GradientType=1))";*/
 }
 .header .header-content {
   float: left;
   height: 45px;
-  padding: 7px 0 0 30px;
+  padding: 15px 0 0 30px;
   line-height: normal;
   overflow: hidden;
 }
@@ -166,7 +169,7 @@ body {
 .header #branding h1 {
   color: white;
   font-size: 18px;
-  margin: 4px 15px 0 13px;
+  margin: 8px 15px 0 13px;
   padding: 0;
   text-shadow: 0 -1px #121414;
 }
@@ -177,7 +180,7 @@ body {
   text-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
 }
 .header a {
-  color: #92D1EE;
+  color: #46b0a3;
   text-decoration: none;
 }
 .header a:hover {
@@ -187,7 +190,7 @@ body {
   color: #d4d4d4;
 }
 .header #user-tools {
-  padding: 12px 20px 0 0;
+  padding: 20px 20px 0 0;
   float: right;
 }
 .header #user-tools .user-links {
@@ -203,30 +206,73 @@ body {
   background-image: url(../img/glyphicons-halflings-white-nav.png);
 }
 .footer {
-  color: #666;
-  background-color: #d5d7d8;
+  color: #e5e5e5;
+  background-color: #222222;
   font-size: 11px;
   line-height: 1.5em;
-  text-shadow: 0 1px rgba(255, 255, 255, 0.5);
 }
-.footer .content {
-  border-top: 5px solid #E1E3E5;
-}
-.footer .content .tools {
+.footer .content .left {
   float: left;
-  padding: 15px 0 0 20px;
+  padding: 22px 0 0 20px;
 }
 .footer .content .branding {
-  padding: 15px 0 0 0;
+  padding: 8px 0 0 0;
   margin: 0px auto;
   width: 200px;
   text-align: center;
 }
-.footer .content .copyright {
-  padding: 9px 20px 0 0;
+.footer .content .right {
+  padding: 22px 20px 0 0;
   float: right;
   text-align: right;
 }
+.footer .content a { color: #46b0a3; text-decoration: none; }
+.footer .content a:hover { color: #46b0a3; text-decoration: underline; }
+
+
+
+/*HOME*/
+
+section.panel {
+	clear: both;
+	margin-bottom: 2em;
+	overflow: hidden;
+	position: relative;
+	width: auto;
+}
+
+section.panel .panel-heading {
+	background: rgba(0, 0, 0, 0) -moz-linear-gradient(center top , #f9f6f1 0%, #f2efea 100%) repeat scroll 0 0;
+	border: 1px solid #d6d6d6;
+	height: 40px;
+	line-height: 40px;
+	padding: 0 15px
+	position: relative;
+}
+
+section.panel .panel-heading i { float: left; margin: 12px 6px 0 10px; }
+section.panel .panel-heading h3 {
+    color: #525252;
+    display: inline-block;
+    font-size: 14px;
+    font-weight: 800;
+    line-height: 18px;
+    position: relative;
+    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5);
+    padding: 0;
+}
+
+section.panel .panel-body	{
+	background: #fff none repeat scroll 0 0;
+    border: 1px solid #d5d5d5;
+    border-radius: 5px;
+    padding: 20px 15px 15px;
+    border-top: medium none;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+
 .nav-quick-search {
   margin: 20px 0 2px 15px;
   position: relative;
@@ -1907,16 +1953,16 @@ h2 .description {
 }
 .left-nav > ul > li.active > a {
   color: #fff;
-  text-shadow: 0 1px #4f7f92;
-  background-color: #5295b0;
+  text-shadow: 0 1px #23a792;
+  background-color: #3abcab;
   background-repeat: no-repeat;
-  background-image: -webkit-gradient(linear, left top, left bottom, from(#83b3c3), to(#5295b0));
-  background-image: -webkit-linear-gradient(#83b3c3, #5295b0);
-  background-image: -moz-linear-gradient(#83b3c3, #5295b0);
-  background-image: -o-linear-gradient(top, #83b3c3, #5295b0);
-  background-image: -khtml-gradient(linear, left top, left bottom, from(#83b3c3), to(#5295b0));
-  filter: progid:DXImageTransform.Microsoft.Gradient(StartColorStr='#83b3c3', EndColorStr='#5295b0', GradientType=0);
-  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorStr='#83b3c3', EndColorStr='#5295b0', GradientType=0))";
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#8be2d9), to(#3abcab));
+  background-image: -webkit-linear-gradient(#8be2d9, #3abcab);
+  background-image: -moz-linear-gradient(#8be2d9, #3abcab);
+  background-image: -o-linear-gradient(top, #8be2d9, #5295b0);
+  background-image: -khtml-gradient(linear, left top, left bottom, from(#8be2d9), to(#3abcab));
+  filter: progid:DXImageTransform.Microsoft.Gradient(StartColorStr='#8be2d9', EndColorStr='#3abcab', GradientType=0);
+  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorStr='#8be2d9', EndColorStr='#3abcab', GradientType=0))";
   border-bottom-color: #ccc;
 }
 .left-nav > ul > li.active > a i {
@@ -2534,13 +2580,13 @@ a.append-icon i {
 @media print {
   html,
   body {
-    -webkit-print-color-adjust: exact;
+	-webkit-print-color-adjust: exact;
   }
   a[href]:after {
-    content: "" !important;
+	content: "" !important;
   }
   select {
-    -webkit-appearance: none;
+	-webkit-appearance: none;
   }
   #header,
   .left-column,
@@ -2550,19 +2596,19 @@ a.append-icon i {
   .actions,
   .inner-right-column,
   .add-row {
-    display: none;
+	display: none;
   }
   #wrap,
   body {
-    background: transparent;
+	background: transparent;
   }
   .suit-columns {
-    padding-left: 0;
+	padding-left: 0;
   }
   .two-columns .center-column {
-    margin: 0;
+	margin: 0;
   }
   .inner-two-columns .inner-center-column {
-    margin-right: 0;
+	margin-right: 0;
   }
 }
