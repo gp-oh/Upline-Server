@@ -1,11 +1,14 @@
  # -*- coding: utf-8 -*-
+import datetime
 from django.contrib import admin
+from django.utils.translation import ugettext as _
 from upline.models import *
 from upline.forms import *
 from django_mptt_admin.admin import DjangoMpttAdmin
 from django_extensions.admin import ForeignKeyAutocompleteAdmin
 from django.conf import settings
 from django.contrib.admin.util import flatten_fieldsets
+from django.contrib.admin import SimpleListFilter
 
 class TrainingAdmin(admin.ModelAdmin):
     list_display = ['id','name']
@@ -26,6 +29,13 @@ class MemberAdmin(ForeignKeyAutocompleteAdmin,DjangoMpttAdmin):
        'parent': ('name'),
     }
 
+    def get_related_filter(self, model, request):
+        if not issubclass(model, Member):
+            return super(MemberAdmin, self).get_related_filter(
+                model, request
+            )
+        return Q(member_type=0)
+
     def get_readonly_fields(self, request, obj=None):
         if obj:
             return self.readonly_fields + ('quickblox_id',)
@@ -39,15 +49,33 @@ class MemberAdmin(ForeignKeyAutocompleteAdmin,DjangoMpttAdmin):
 
 
 class ContactAdmin(ForeignKeyAutocompleteAdmin):
+    list_display = ['id',"owner","name","state","city","phone","member"]
+    list_display_links = ['id']
+    search_fields = ['name']
+
     related_search_fields = {
        'owner': ('name'),
        'member': ('name'),
     }
 
+    def get_related_filter(self, model, request):
+        if not issubclass(model, Member):
+            return super(ContactAdmin, self).get_related_filter(
+                model, request
+            )
+        return Q(member_type=0)
+
 class GoalAdmin(ForeignKeyAutocompleteAdmin):
     related_search_fields = {
        'member': ('name'),
     }
+
+    def get_related_filter(self, model, request):
+        if not issubclass(model, Member):
+            return super(GoalAdmin, self).get_related_filter(
+                model, request
+            )
+        return Q(member_type=0)
 
 class ProductAdmin(admin.ModelAdmin):
     list_display = ['id','name','active','points','table_value']
@@ -79,6 +107,13 @@ class SaleAdmin(ForeignKeyAutocompleteAdmin):
        'member': ('name'),
        'client': ('name'),
     }
+
+    def get_related_filter(self, model, request):
+        if not issubclass(model, Member):
+            return super(SaleAdmin, self).get_related_filter(
+                model, request
+            )
+        return Q(member_type=0)
 
     def change_view(self, request, object_id, extra_context=None):
         extra_context = extra_context or {}
@@ -123,14 +158,42 @@ class PostalCodeAdmin(ForeignKeyAutocompleteAdmin):
 class EventAlertInline(admin.TabularInline):
     model = EventAlert
 
+
+# Create the filter
+class EventDateFilter(SimpleListFilter):
+    title = _('Data')
+    parameter_name = 'begin_time'
+    # Set the displaying options
+    def lookups(self, request, model_admin):
+        return (
+            ('PREVIOUS', _('Previous')),
+            ('AFTER', _('After')),
+        )
+    # Assign a query for each option
+    def queryset(self, request, queryset):
+        if self.value() == 'PREVIOUS':
+            return queryset.filter(begin_time__lte=datetime.datetime.now())
+        elif self.value() == 'AFTER':
+            return queryset.filter(begin_time__gte=datetime.datetime.now())
+
 class EventAdmin(ForeignKeyAutocompleteAdmin):
     form = EventForm
+    list_display = ["id","calendar","title","group","begin_time"]
+    search_fields = ['name']
+    list_filter = [EventDateFilter]
     related_search_fields = {
        'owner': ('name'),
        'calendar': ('name'),
        'invited': ('name'),
        'members': ('name'),
     }
+
+    def get_related_filter(self, model, request):
+        if not issubclass(model, Member):
+            return super(EventAdmin, self).get_related_filter(
+                model, request
+            )
+        return Q(member_type=0)
 
     inlines = [
         EventAlertInline,
@@ -163,7 +226,7 @@ class CalendarAdmin(ForeignKeyAutocompleteAdmin):
 class MediaAdmin(admin.ModelAdmin):
     list_display = ['id','get_media_type','media_category','name','get_media_file']
     search_fields = ['name']
-    list_filter = ['media_category__media_type']
+    list_filter = ['media_type']
 
     def get_readonly_fields(self, request, obj=None):
         if obj:
@@ -174,11 +237,11 @@ class MediaAdmin(admin.ModelAdmin):
         return obj.media_category.get_media_type_display()
 
     def get_media_file(self, obj):
-        if obj.media_category.media_type == 0:
+        if obj.media_type == 0:
             return '<img src="'+obj.media+'"/>'
-        elif obj.media_category.media_type == 1:
+        elif obj.media_type == 1:
             return '<audio src="'+obj.media+'" controls>Your browser does not support the <code>audio</code> element.</audio>'
-        elif obj.media_category.media_type == 2:
+        elif obj.media_type == 2:
             return '<video src="'+obj.media+'"/>'
 
     get_media_file.short_description = 'Arquivo'
@@ -187,11 +250,13 @@ class MediaAdmin(admin.ModelAdmin):
     get_media_type.admin_order_field = 'media_category__media_type'
 
 class MediaCategoryAdmin(admin.ModelAdmin):
-    list_display = ['id','media_type','name']
+    list_display = ['id','name']
     search_fields = ['name']
-    list_filter = ['media_type']
 
 class TrainingStepAdmin(admin.ModelAdmin):
+    list_display = ["step","training","title","description"]
+    search_fields = ['name']
+    list_filter = ['training']
     form = TrainingStepForm
 
 class AudioAdmin(admin.ModelAdmin):

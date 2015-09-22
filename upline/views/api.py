@@ -1,3 +1,4 @@
+ # -*- coding: utf-8 -*-
 import json, datetime, urllib
 from django.contrib.auth.models import User, Group
 from django.core.urlresolvers import reverse

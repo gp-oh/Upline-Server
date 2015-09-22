@@ -100,7 +100,7 @@ class TrainingStep(models.Model):
     step = models.IntegerField(verbose_name=_('step'))
     description = models.TextField(blank=True, null=True,verbose_name=_('description'))
     need_answer = models.BooleanField(default=False,verbose_name=_('need_answer'))
-    answer_type = models.IntegerField(verbose_name=_('answer_type'),choices=((0,_('text')),(1,_('audio')),(2,_('video')),(5,_('image')),(3,_('list')),(4,_('meeting'))))
+    answer_type = models.IntegerField(verbose_name=_('answer_type'),choices=((0,_('text')),(1,_('audio')),(2,_('video')),(5,_('image')),(3,_('list')),(4,_('meeting'))),null=True,default=None)
     meetings_per_week = models.IntegerField(blank=True, null=True,verbose_name=_('meetings_per_week'))
     weeks = models.IntegerField(blank=True, null=True,verbose_name=_('weeks'))
     nr_contacts = models.IntegerField(blank=True, null=True,verbose_name=_('nr_contacts'))
@@ -156,6 +156,7 @@ class Level(models.Model):
 
 class Member(MPTTModel):
     member_uid = models.UUIDField(unique=True, null=True, editable=False)
+    member_type = models.IntegerField(default=0,choices=((0,'Membro'),(1,'Convidado')),editable=False)
     user = models.OneToOneField(User,verbose_name=_('user'))
     parent = TreeForeignKey('self', null=True, blank=True, related_name='downlines', db_index=True,verbose_name=_('parent'))
     external_id = models.IntegerField(unique=True, blank=True, null=True,verbose_name=_('external_id'))
@@ -493,7 +494,6 @@ class EventAlert(models.Model):
         verbose_name_plural = _("Event Alerts")
 
 class MediaCategory(models.Model):
-    media_type = models.IntegerField(choices=((0,'Imagem'),(1,'Audio'),(2,'Video')),verbose_name=_('media_type'))
     name = models.CharField(max_length=255,verbose_name=_('name'))
     class Meta:
         verbose_name = _("media category")
@@ -503,6 +503,7 @@ class MediaCategory(models.Model):
         return self.name
 
 class Media(models.Model):
+    media_type = models.IntegerField(choices=((0,'Imagem'),(1,'Audio'),(2,'Video'),(3,'PDF')),default=0,verbose_name=_('media_type'),editable=False)
     media_category = models.ForeignKey(MediaCategory,related_name='medias',verbose_name=_('media_category'))
     name = models.CharField(max_length=255,verbose_name=_('name'))
     media = S3DirectField(dest='media', null=True)
@@ -518,11 +519,24 @@ class Media(models.Model):
 
     def save(self, *args, **kwargs):
         super(Media, self).save(*args, **kwargs)
-        if not converted:
-            if self.media_category.media_type == 1:
+        if not self.converted and self.media:
+            mime = MimeTypes()
+            mime_type = mime.guess_type(self.media)
+            t = mime_type[0].split('/')[0]
+
+            if t == 'image':
+                self.media_type = 0
+            elif t == 'audio':
+                self.media_type = 1
+            elif t == 'video':
+                self.media_type = 2
+            elif t == 'application':
+                self.media_type = 3
+
+            if self.media_type == 1:
                 q = Queue(connection=conn)
                 result = q.enqueue(convert_audio, self)
-            elif self.media_category.media_type == 2:
+            elif self.media_type == 2:
                 q = Queue(connection=conn)
                 result = q.enqueue(convert_video, self)
 

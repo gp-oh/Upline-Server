@@ -10,7 +10,7 @@ from django.contrib.admin.views.main import ChangeList
 from django.conf.urls import url
 from django.contrib.admin.utils import unquote, quote
 from django.contrib.admin.options import IS_POPUP_VAR
-from django.db import transaction
+from django.db import transaction 
 
 from . import util
 
@@ -29,7 +29,7 @@ class DjangoMpttAdminMixin(object):
     change_list_template = 'django_mptt_admin/grid_view.html'
 
     @csrf_protect_m
-    def grid_view(self, request, extra_context=None):
+    def changelist_view(self, request, extra_context=None):
         request.current_app = self.admin_site.name
         is_popup = IS_POPUP_VAR in request.GET
         if is_popup:
@@ -258,11 +258,11 @@ class DjangoMpttAdminMixin(object):
         # Set safe to False because the data is a list instead of a dict
         return JsonResponse(tree_data, safe=False)
 
-    def changelist_view(self, request, extra_context=None):
+    def grid_view(self, request, extra_context=None):
         request.current_app = self.admin_site.name
         return super(DjangoMpttAdminMixin, self).changelist_view(
             request,
-            dict(grid_url=self.get_admin_url('grid'))
+            dict(tree_url=self.get_admin_url('changelist'))
         )
 
     def filter_tree_queryset(self, queryset):

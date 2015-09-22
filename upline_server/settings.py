@@ -139,6 +139,17 @@ DATABASES = {
 
 LANGUAGE_CODE = 'pt-br'
 
+from django.conf.locale.en import formats as en_formats
+
+en_formats.DATETIME_FORMAT = "d/M/Y H:i:s"
+en_formats.DATE_FORMAT = "d/M/Y"
+en_formats.DATETIME_INPUT_FORMATS = "d/M/Y H:i:s"
+en_formats.SHORT_DATETIME_FORMAT = "d/M/Y H:i:s"
+en_formats.DATE_FORMAT = "d/M/Y"            
+en_formats.SHORT_DATE_FORMAT = "d/M/Y"
+en_formats.DATE_INPUT_FORMATS = "d/M/Y"   
+
+
 TIME_ZONE = 'America/Sao_Paulo'
 
 USE_I18N = True

@@ -1,3 +1,4 @@
+ # -*- coding: utf-8 -*-
 from django.contrib.auth.models import User, Group
 from upline.models import *
 from rest_framework import serializers
@@ -112,6 +113,7 @@ class MemberRegisterSerializer(serializers.HyperlinkedModelSerializer):
         user.save()
         member = Member()
         member.parent = Member.objects.get(user__username=self.validated_data['parent_user'])
+        member.member_type = 1
         member.name = self.validated_data['name']
         member.phone = self.validated_data['phone']
         member.gender = self.validated_data['gender']
