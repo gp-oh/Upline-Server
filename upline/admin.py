@@ -204,9 +204,9 @@ class NotificationAdmin(admin.ModelAdmin):
     list_display = ['id','level','message','sent','get_date_sent']
     actions = ['send']
 
-    def get_date_sent(self,request,obj):
-        if self.sent:
-            return self.update_time
+    def get_date_sent(self,obj):
+        if obj.sent:
+            return obj.update_time
         else:
             return None
 
