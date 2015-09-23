@@ -9,10 +9,13 @@ ul.tree { display:block; font:12px Arial, Helvetica, sans-serif; color:#000; mar
 ul.tree li { display:inline-block; text-align:center; margin:20px; vertical-align:top; }
 ul.tree li.tnone { display:none; }
 ul.tree ul.tshow { display:block!important; }
-ul.tree li > div { display:inline-block; padding:7px 10px; text-decoration:none; position:relative; /*border-radius: 100%;line-height: 150px; min-width:150px; min-height: 150px;*/ z-index:2; background:#27a9e3; color:#fff; font-weight:bold; }
+
+
+ul.tree li > div { background: url(images/user-icon.png) top center no-repeat #eee; display: inline-block; height: 10px; padding: 100px 5px 0; text-decoration:none; position:relative; z-index:2; color:#222; font-weight:bold; width: 88px; position: relative; }
+ul.tree li > div:first-child { padding: 100px 0 0 !important }
 ul.tree li > div span { display: inline-block; margin: 0 2px;  }
 ul.tree li > div.zindex { z-index:inherit; }
-ul.tree li > div a { color: #fff; text-decoration:none; }
+ul.tree li > div a { color: #46b0a3; display: block; height: auto; text-align: center; text-decoration:none; width: 100%; padding: 105px 0 0; position: absolute; top: 0; left: 0; }
 ul.tree li form { display:block; text-align:left; padding:10px; margin-top:15px; position:absolute; z-index:4; background:#da9628; color:#fff; }
 ul.tree li form input[type=checkbox] { }
 ul.tree li form img.close { float:right; cursor:pointer; background-color:#e02222; padding:2px; border-radius:10px; -moz-border-radius:10px; -webkit-border-radius:10px; }
@@ -24,13 +27,16 @@ ul.tree li textarea.error { background:#d84a38; }
 ul.tree li textarea:focus { background:#ffc; }
 ul.tree li .submit, ul.tree li .edit { border:none; text-align:center; display:block; font:11px Arial, Helvetica, sans-serif; font-weight:bold; color:#fff; padding:5px 15px; cursor:pointer; margin-top:3px; background:#4d90fe; }
 ul.tree li .submit:hover, ul.tree li .edit:hover { background:#8a9ef5; }
-ul.tree li div.current { background:#28b779; }
-ul.tree li div.children { background:#ffb848; }
-ul.tree li div.parent { background:#852b99; }
+ul.tree li div.current { background-position: center -110px; color: #137968 }
+ul.tree li div.current a { color: #137968 }
+ul.tree li div.children { background-position: center -220px; color: #46b0a3 }
+ul.tree li div.children a { color: #46b0a3 }
+ul.tree li div.parent { background-position: center -330px; color: #ff3366; }
+ul.tree li div.parent a { color: #ff3366; }
 ul.tree li span.vertical, ul.tree li span.horizontal { display:inline-block; position:absolute; z-index:1; background:#bbb; }
 ul.tree li span.vertical { width:1px; }
 ul.tree li span.horizontal { height:1px; }
-ul.tree li b.thide { position:absolute; width:11px; height:12px; bottom:0; left:-17px; background:url(images/hide.png) no-repeat; cursor:pointer; }
+ul.tree li b.thide { position:absolute; width:11px; height:12px; bottom:0; left:-17px; background:url(images/hide.png) no-repeat; cursor:pointer; top: 50px; }
 ul.tree li b.thide.tshow { background:url(images/show.png) no-repeat; }
 ul.tree li b.thide.tnone { display:none; }
 ul.tree li span.add_action, ul.tree li span.edit_action, ul.tree li span.highlight, ul.tree li span.delete_action { position:absolute; width:10px; height:10px; cursor:pointer; display:none; padding:2px; background-color:#e02222; background-position:center; background-repeat:no-repeat; border-radius:10px; -moz-border-radius:10px; -webkit-border-radius:10px; }
