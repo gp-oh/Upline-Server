@@ -140,7 +140,7 @@ class Level(models.Model):
         if not self.pk:
             group = Group()
             group.name = self.title
-            grou.save()
+            group.save()
             self.group = group
         else:
             self.group.name = self.title

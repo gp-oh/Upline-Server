@@ -178,7 +178,7 @@ class EventDateFilter(SimpleListFilter):
 
 class EventAdmin(ForeignKeyAutocompleteAdmin):
     form = EventForm
-    list_display = ["id","calendar","title","group","begin_time"]
+    list_display = ["id","title","calendar","begin_time","group"]
     search_fields = ['name']
     list_filter = [EventDateFilter]
     related_search_fields = {
