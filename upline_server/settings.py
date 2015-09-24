@@ -244,15 +244,34 @@ SUIT_CONFIG = {
     )
 }
 
+def create_media_filename(filename):
+    import uuid
+    ext = filename.split('.')[-1]
+    filename = '%s.%s' % (uuid.uuid4().hex, ext)
+    return os.path.join('uploads/media', filename)
+
+def create_posts_filename(filename):
+    import uuid
+    ext = filename.split('.')[-1]
+    filename = '%s.%s' % (uuid.uuid4().hex, ext)
+    return os.path.join('uploads/posts', filename)
+
+def create_training_filename(filename):
+    import uuid
+    ext = filename.split('.')[-1]
+    filename = '%s.%s' % (uuid.uuid4().hex, ext)
+    return os.path.join('uploads/training_steps', filename)
+
+
 S3DIRECT_DESTINATIONS = {
     # Allow anybody to upload any MIME type
-    'training_steps': ('uploads/training_steps', lambda u: u.is_staff,),
+    'training_steps': (create_training_filename, lambda u: u.is_staff,),
 
     # Allow staff users to upload any MIME type
-    'posts': ('uploads/posts', lambda u: u.is_staff,),
+    'posts': (create_posts_filename, lambda u: u.is_staff,),
 
     # Allow anybody to upload jpeg's and png's.
-    'media': ('uploads/media', lambda u: u.is_staff,),
+    'media': (create_filename,lambda u: u.is_staff,),
 
 }
 
