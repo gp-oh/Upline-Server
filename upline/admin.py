@@ -234,7 +234,7 @@ class MediaAdmin(admin.ModelAdmin):
         return self.readonly_fields
 
     def get_media_type(self, obj):
-        return obj.media_category.get_media_type_display()
+        return obj.get_media_type_display()
 
     def get_media_file(self, obj):
         if obj.media_type == 0:
