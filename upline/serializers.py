@@ -180,12 +180,13 @@ class ContactSerializer(serializers.HyperlinkedModelSerializer):
         member = Member.objects.get(user=self.context['request'].user)
         contact.owner = member
 
-        avatar = validated_data.pop('avatar_base64')
-        if len(avatar) > 0:
-            avatar_base64 = avatar.split(',')[1]
-            avatar_mime = avatar.split(';')[0].split(':')[1]
-            avatar_extension = avatar_mime.split('/')[1]
-            contact.avatar = SimpleUploadedFile(name=str(uuid.uuid4())+'.'+avatar_extension, content=base64.b64decode(avatar_base64), content_type=avatar_mime)
+        if 'avatar_base64' in self.validated_data:
+            avatar = validated_data.pop('avatar_base64')
+            if len(avatar) > 0:
+                avatar_base64 = avatar.split(',')[1]
+                avatar_mime = avatar.split(';')[0].split(':')[1]
+                avatar_extension = avatar_mime.split('/')[1]
+                contact.avatar = SimpleUploadedFile(name=str(uuid.uuid4())+'.'+avatar_extension, content=base64.b64decode(avatar_base64), content_type=avatar_mime)
 
         # contact.avatar = validated_data.pop('avatar')
         contact.email = validated_data.pop('email')
