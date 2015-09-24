@@ -211,6 +211,7 @@ SUIT_CONFIG = {
             {'label': 'Usuários', 'model':'auth.user', 'icon':None},
             {'label': 'Grupos', 'model':'auth.group', 'icon':None},
             {'label': 'Membros', 'model':'upline.member', 'icon':None},
+            {'label': 'Convidados', 'model':'upline.invited', 'icon':None},
             {'label': 'Contatos', 'model':'upline.contact', 'icon':None},
             {'label': 'Aparelhos iOS', 'model':'push_notifications.apnsdevice', 'icon':None},
             {'label': 'Aparelhos Android', 'model':'push_notifications.gcmdevice', 'icon':None},

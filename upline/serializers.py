@@ -123,15 +123,25 @@ class MemberRegisterSerializer(serializers.HyperlinkedModelSerializer):
        
         member.parent = Member.objects.get(user__username=self.validated_data['parent_user'])
         member.member_type = 1
-        member.name = self.validated_data['name']
-        member.phone = self.validated_data['phone']
-        member.gender = self.validated_data['gender']
-        member.postal_code = self.validated_data['postal_code']
-        member.birthday = self.validated_data['birthday']
-        member.state = self.validated_data['state']
-        member.city = self.validated_data['city']
-        member.address = self.validated_data['address']
-        member.address_number = self.validated_data['address_number']
+        
+        if 'name' in self.validated_data:
+            member.name = self.validated_data['name']
+        if 'phone' in self.validated_data:
+            member.phone = self.validated_data['phone']
+        if 'gender' in self.validated_data:
+            member.gender = self.validated_data['gender']
+        if 'postal_code' in self.validated_data:
+            member.postal_code = self.validated_data['postal_code']
+        if 'birthday' in self.validated_data:
+            member.birthday = self.validated_data['birthday']
+        if 'state' in self.validated_data:
+            member.state = self.validated_data['state']
+        if 'city' in self.validated_data:
+            member.city = self.validated_data['city']
+        if 'address' in self.validated_data:
+            member.address = self.validated_data['address']
+        if 'address_number' in self.validated_data:
+            member.address_number = self.validated_data['address_number']
         member.user = user
         member.save()
 

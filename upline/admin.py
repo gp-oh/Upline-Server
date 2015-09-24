@@ -54,6 +54,38 @@ class MemberAdmin(ForeignKeyAutocompleteAdmin,DjangoMpttAdmin):
     get_acoes.short_description = 'Ações'
     get_acoes.allow_tags = True
 
+class Invited(Member):
+    class Meta:
+        proxy = True
+
+class InvitedAdmin(admin.ModelAdmin):
+    form = MemberForm
+    list_display = ['id',"user","parent","name","points","phone","gender"]
+    list_display_links = ['id']
+    search_fields = ['name']
+    related_search_fields = {
+       'user': ('first_name', 'email'),
+       'parent': ('name'),
+    }
+
+    def get_queryset(self, request):
+        qs = super(InvitedAdmin, self).get_queryset(request)
+        ordering = self.get_ordering(request)
+        if ordering:
+            qs = qs.order_by(*ordering)
+        return qs.filter(member_type=1)
+
+    def get_related_filter(self, model, request):
+        if not issubclass(model, Member):
+            return super(MemberAdmin, self).get_related_filter(
+                model, request
+            )
+        return Q(member_type=0)
+
+    def get_readonly_fields(self, request, obj=None):
+        if obj:
+            return self.readonly_fields + ('quickblox_id',)
+        return self.readonly_fields
 
 class ContactAdmin(ForeignKeyAutocompleteAdmin):
     list_display = ['id',"owner","name","state","city","phone","member"]
@@ -301,6 +333,7 @@ class NotificationAdmin(admin.ModelAdmin):
 
 # admin.site.register(Audio,AudioAdmin)
 # admin.site.register(Video,VideoAdmin)
+admin.site.register(Invited,InvitedAdmin)
 admin.site.register(Notification,NotificationAdmin)
 admin.site.register(TrainingStep,TrainingStepAdmin)
 admin.site.register(Training,TrainingAdmin)
