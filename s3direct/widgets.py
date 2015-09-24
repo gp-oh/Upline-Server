@@ -43,7 +43,7 @@ class S3DirectWidget(widgets.TextInput):
             element_id=self.build_attrs(attrs).get('id'),
             file_name=os.path.basename(value or ''),
             dest=self.dest,
-            file_url=value or '',
-            name=name)
+            file_url=unicode(value) or '',
+            name=unicode(name))
 
         return mark_safe(output)
