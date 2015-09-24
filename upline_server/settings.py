@@ -271,7 +271,7 @@ S3DIRECT_DESTINATIONS = {
     'posts': (create_posts_filename, lambda u: u.is_staff,),
 
     # Allow anybody to upload jpeg's and png's.
-    'media': (create_filename,lambda u: u.is_staff,),
+    'media': (create_media_filename,lambda u: u.is_staff,),
 
 }
 
