@@ -508,7 +508,7 @@ class Media(models.Model):
     media_category = models.ForeignKey(MediaCategory,related_name='medias',verbose_name=_('media_category'))
     name = models.CharField(max_length=255,verbose_name=_('name'))
     media = S3DirectField(dest='media', null=True)
-    thumbnail = models.ImageField(upload_to="thumbnails",blank=True, null=True,verbose_name=_('thumbnail'))
+    thumbnail = models.ImageField(upload_to="thumbnails",blank=True,editable=False, null=True,verbose_name=_('thumbnail'))
     converted = models.BooleanField(default=False, editable=False)
     create_time = models.DateTimeField(auto_now_add=True,verbose_name=_('create_time'))
     update_time = models.DateTimeField(auto_now=True,verbose_name=_('update_time'))
@@ -521,8 +521,7 @@ class Media(models.Model):
         return self.name
 
     def save(self, *args, **kwargs):
-        super(Media, self).save(*args, **kwargs)
-        if not self.converted and self.media:
+        if self.media:
             mime = MimeTypes()
             mime_type = mime.guess_type(self.media)
             t = mime_type[0].split('/')[0]
@@ -536,6 +535,7 @@ class Media(models.Model):
             elif t == 'application':
                 self.media_type = 3
 
+        super(Media, self).save(*args, **kwargs)
             # if self.media_type == 1:
             #     q = Queue(connection=conn)
             #     result = q.enqueue(convert_audio, self)
