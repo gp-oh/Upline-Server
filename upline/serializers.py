@@ -85,7 +85,7 @@ class MemberRegisterSerializer(serializers.HyperlinkedModelSerializer):
     avatar_base64 = serializers.CharField(write_only=True,required=False,allow_blank=True)
 
     def validate_parent_user(self,value):
-        members = Member.objects.filter(user__username=value)
+        members = Member.objects.filter(user__username=value,member_type=0)
         if len(members) != 1:
             raise serializers.ValidationError("Invalid Parent ID")
         return value
