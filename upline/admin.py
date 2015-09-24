@@ -29,6 +29,13 @@ class MemberAdmin(ForeignKeyAutocompleteAdmin,DjangoMpttAdmin):
        'parent': ('name'),
     }
 
+    def get_queryset(self, request):
+        qs = super(MemberAdmin, self).get_queryset(request)
+        ordering = self.get_ordering(request)
+        if ordering:
+            qs = qs.order_by(*ordering)
+        return qs.filter(member_type=0)
+
     def get_related_filter(self, model, request):
         if not issubclass(model, Member):
             return super(MemberAdmin, self).get_related_filter(
