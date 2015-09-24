@@ -188,21 +188,35 @@ class ContactSerializer(serializers.HyperlinkedModelSerializer):
                 avatar_extension = avatar_mime.split('/')[1]
                 contact.avatar = SimpleUploadedFile(name=str(uuid.uuid4())+'.'+avatar_extension, content=base64.b64decode(avatar_base64), content_type=avatar_mime)
 
-        # contact.avatar = validated_data.pop('avatar')
-        contact.email = validated_data.pop('email')
-        contact.cellphone = validated_data.pop('cellphone')
-        contact.birthday = validated_data.pop('birthday')
-        contact.cpf = validated_data.pop('cpf')
-        contact.rg = validated_data.pop('rg')
-        contact.region = validated_data.pop('region')
-        contact.contact_category = validated_data.pop('contact_category')
-        contact.name = validated_data.pop('name')
-        contact.phone = validated_data.pop('phone')
-        contact.gender = validated_data.pop('gender')
-        contact.postal_code = validated_data.pop('postal_code')
-        contact.city = validated_data.pop('city')
-        contact.state = validated_data.pop('state')
-        contact.address = validated_data.pop('address')
+        
+        if 'email' in self.validated_data:
+            contact.email = validated_data.pop('email')
+        if 'cellphone' in self.validated_data:
+            contact.cellphone = validated_data.pop('cellphone')
+        if 'birthday' in self.validated_data:
+            contact.birthday = validated_data.pop('birthday')
+        if 'cpf' in self.validated_data:
+            contact.cpf = validated_data.pop('cpf')
+        if 'rg' in self.validated_data:
+            contact.rg = validated_data.pop('rg')
+        if 'region' in self.validated_data:
+            contact.region = validated_data.pop('region')
+        if 'contact_category' in self.validated_data:
+            contact.contact_category = validated_data.pop('contact_category')
+        if 'name' in self.validated_data:
+            contact.name = validated_data.pop('name')
+        if 'phone' in self.validated_data:
+            contact.phone = validated_data.pop('phone')
+        if 'gender' in self.validated_data:
+            contact.gender = validated_data.pop('gender')
+        if 'postal_code' in self.validated_data:
+            contact.postal_code = validated_data.pop('postal_code')
+        if 'city' in self.validated_data:
+            contact.city = validated_data.pop('city')
+        if 'state' in self.validated_data:
+            contact.state = validated_data.pop('state')
+        if 'address' in self.validated_data:
+            contact.address = validated_data.pop('address')
         contact.save()
         return contact
 
