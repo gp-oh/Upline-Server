@@ -264,6 +264,9 @@ class Member(MPTTModel):
             self.quickblox_password = User.objects.make_random_password()
             self = create_user(self)
             self.encrypt_quickblox_password()
+        level = Level.objects.filter(points_range_from__lte=self.points,points_range_to__gte=self.points)
+        if len(level) > 0:
+            self.level = level[0]
         super(Member, self).save(*args, **kwargs)
 
     class Meta:
