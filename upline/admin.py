@@ -188,6 +188,13 @@ class EventAdmin(ForeignKeyAutocompleteAdmin):
        'members': ('name'),
     }
 
+    def get_queryset(self, request):
+        qs = super(EventAdmin, self).get_queryset(request)
+        ordering = self.get_ordering(request)
+        if ordering:
+            qs = qs.order_by(*ordering)
+        return qs.filter(begin_time__gte=datetime.datetime.now())
+
     def get_related_filter(self, model, request):
         if not issubclass(model, Member):
             return super(EventAdmin, self).get_related_filter(
