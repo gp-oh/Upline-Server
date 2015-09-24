@@ -61,18 +61,17 @@ class MemberSerializer(serializers.HyperlinkedModelSerializer):
     training_steps = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
     parent = UplineSerializer(many=False, read_only=True)
     downlines = DownlineSerializer(many=True, read_only=True)
-    avatar_base64 = serializers.CharField(write_only=True)
+    avatar_base64 = serializers.CharField(write_only=True,required=False)
 
     def save(self):
+        if 'avatar_base64' in self.validated_data:
+            avatar = self.validated_data.pop('avatar_base64')
+            if len(avatar) > 0:
+                avatar_base64 = avatar.split(',')[1]
+                avatar_mime = avatar.split(';')[0].split(':')[1]
+                avatar_extension = avatar_mime.split('/')[1]
+                self.avatar = SimpleUploadedFile(name=str(uuid.uuid4())+'.'+avatar_extension, content=base64.b64decode(avatar_base64), content_type=avatar_mime)
         super(MemberSerializer, self).save()
-        avatar = validated_data.pop('avatar_base64')
-        if len(avatar) > 0:
-            avatar_base64 = avatar.split(',')[1]
-            avatar_mime = avatar.split(';')[0].split(':')[1]
-            avatar_extension = avatar_mime.split('/')[1]
-            self.avatar = SimpleUploadedFile(name=str(uuid.uuid4())+'.'+avatar_extension, content=base64.b64decode(avatar_base64), content_type=avatar_mime)
-            self.save()
-
     class Meta:
         model = Member
         fields = ("id","user","avatar_base64",'quickblox_id','parent','downlines','create_time','external_id','name','points','avatar','phone','gender','postal_code','city','state','address','address_number','dream1','dream2','status','level','training_steps','birthday')
@@ -83,6 +82,7 @@ class MemberRegisterSerializer(serializers.HyperlinkedModelSerializer):
     grant_type = serializers.CharField(initial="password")
     password = serializers.CharField(style={'input_type': 'password'})
     parent_user = serializers.SlugField()
+    avatar_base64 = serializers.CharField(write_only=True,required=False)
 
     def validate_parent_user(self,value):
         members = Member.objects.filter(user__username=value)
@@ -111,7 +111,16 @@ class MemberRegisterSerializer(serializers.HyperlinkedModelSerializer):
         user.save()
         user.groups.add(Group.objects.get(id=3))
         user.save()
+
         member = Member()
+        if 'avatar_base64' in self.validated_data:
+            avatar = self.validated_data.pop('avatar_base64')
+            if len(avatar) > 0:
+                avatar_base64 = avatar.split(',')[1]
+                avatar_mime = avatar.split(';')[0].split(':')[1]
+                avatar_extension = avatar_mime.split('/')[1]
+                member.avatar = SimpleUploadedFile(name=str(uuid.uuid4())+'.'+avatar_extension, content=base64.b64decode(avatar_base64), content_type=avatar_mime)
+       
         member.parent = Member.objects.get(user__username=self.validated_data['parent_user'])
         member.member_type = 1
         member.name = self.validated_data['name']
@@ -128,7 +137,7 @@ class MemberRegisterSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Member
-        fields = ("id",'name','email','grant_type','parent_user','username','password','phone','birthday','gender','postal_code','state','city','address','address_number')
+        fields = ("id",'avatar_base64','name','email','grant_type','parent_user','username','password','phone','birthday','gender','postal_code','state','city','address','address_number')
 
 class MemberSerializer(serializers.HyperlinkedModelSerializer):
     user = UserSerializer(many=False,read_only=True)
@@ -136,17 +145,17 @@ class MemberSerializer(serializers.HyperlinkedModelSerializer):
     training_steps = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
     parent = UplineSerializer(many=False, read_only=True)
     downlines = DownlineSerializer(many=True, read_only=True)
-    avatar_base64 = serializers.CharField(write_only=True)
+    avatar_base64 = serializers.CharField(write_only=True,required=False)
 
     def save(self):
+        if 'avatar_base64' in self.validated_data:
+            avatar = self.validated_data.pop('avatar_base64')
+            if len(avatar) > 0:
+                avatar_base64 = avatar.split(',')[1]
+                avatar_mime = avatar.split(';')[0].split(':')[1]
+                avatar_extension = avatar_mime.split('/')[1]
+                self.avatar = SimpleUploadedFile(name=str(uuid.uuid4())+'.'+avatar_extension, content=base64.b64decode(avatar_base64), content_type=avatar_mime)
         super(MemberSerializer, self).save()
-        avatar = validated_data.pop('avatar_base64')
-        if len(avatar) > 0:
-            avatar_base64 = avatar.split(',')[1]
-            avatar_mime = avatar.split(';')[0].split(':')[1]
-            avatar_extension = avatar_mime.split('/')[1]
-            self.avatar = SimpleUploadedFile(name=str(uuid.uuid4())+'.'+avatar_extension, content=base64.b64decode(avatar_base64), content_type=avatar_mime)
-            self.save()
 
     class Meta:
         model = Member
@@ -164,7 +173,7 @@ class MemberLoginSerializer(serializers.HyperlinkedModelSerializer):
 
 class ContactSerializer(serializers.HyperlinkedModelSerializer):
     member = MemberSerializer(read_only=True)
-    avatar_base64 = serializers.CharField(write_only=True)
+    avatar_base64 = serializers.CharField(write_only=True,required=False)
 
     def create(self,validated_data):
         contact = Contact()
