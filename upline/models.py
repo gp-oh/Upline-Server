@@ -510,6 +510,8 @@ class Media(models.Model):
     media = S3DirectField(dest='media', null=True)
     thumbnail = models.ImageField(upload_to="thumbnails",blank=True, null=True,verbose_name=_('thumbnail'))
     converted = models.BooleanField(default=False, editable=False)
+    create_time = models.DateTimeField(auto_now_add=True,verbose_name=_('create_time'))
+    update_time = models.DateTimeField(auto_now=True,verbose_name=_('update_time'))
 
     class Meta:
         verbose_name = _("media")
@@ -534,12 +536,12 @@ class Media(models.Model):
             elif t == 'application':
                 self.media_type = 3
 
-            if self.media_type == 1:
-                q = Queue(connection=conn)
-                result = q.enqueue(convert_audio, self)
-            elif self.media_type == 2:
-                q = Queue(connection=conn)
-                result = q.enqueue(convert_video, self)
+            # if self.media_type == 1:
+            #     q = Queue(connection=conn)
+            #     result = q.enqueue(convert_audio, self)
+            # elif self.media_type == 2:
+            #     q = Queue(connection=conn)
+            #     result = q.enqueue(convert_video, self)
 
 class Notification(models.Model):
     level = models.ForeignKey(Group,verbose_name=_('level'))
