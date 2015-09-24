@@ -186,11 +186,11 @@ class Member(MPTTModel):
 
     def get_binary_outpouring_right(self,level,initial_parent):
         ret = {'obj':self,'left':None,'right':None}
-        parent_child = Member.objects.filter(parent=initial_parent,mptt_level__lte=level,outpooring=1).exclude(id__in=initial_parent.all_items).order_by('id').first()
+        parent_child = Member.objects.filter(member_type=0,parent=initial_parent,mptt_level__lte=level,outpooring=1).exclude(id__in=initial_parent.all_items).order_by('id').first()
         if parent_child:
-            children = Member.objects.filter(parent=self,mptt_level__lte=level,id__lte=parent_child.id).order_by('id')[:2]
+            children = Member.objects.filter(member_type=0,parent=self,mptt_level__lte=level,id__lte=parent_child.id).order_by('id')[:2]
         else:
-            children = Member.objects.filter(parent=self,mptt_level__lte=level).order_by('id')[:2]
+            children = Member.objects.filter(member_type=0,parent=self,mptt_level__lte=level).order_by('id')[:2]
 
         for child in children:
             initial_parent.all_items.append(child.id)
@@ -210,12 +210,12 @@ class Member(MPTTModel):
 
     def get_binary_outpouring_left(self,level,initial_parent):
         ret = {'obj':self,'left':None,'right':None}
-        parent_child = Member.objects.filter(parent=initial_parent,mptt_level__lte=level,outpooring=0).exclude(id__in=initial_parent.all_items).order_by('id').first()
+        parent_child = Member.objects.filter(member_type=0,parent=initial_parent,mptt_level__lte=level,outpooring=0).exclude(id__in=initial_parent.all_items).order_by('id').first()
         print str(self) +' - '+str(parent_child)+' - '+str(initial_parent.all_items)
         if parent_child:
-            children = Member.objects.filter(parent=self,mptt_level__lte=level,id__lte=parent_child.id).order_by('id')[:2]
+            children = Member.objects.filter(member_type=0,parent=self,mptt_level__lte=level,id__lte=parent_child.id).order_by('id')[:2]
         else:
-            children = Member.objects.filter(parent=self,mptt_level__lte=level).order_by('id')[:2]
+            children = Member.objects.filter(member_type=0,parent=self,mptt_level__lte=level).order_by('id')[:2]
 
         for child in children:
             initial_parent.all_items.append(child.id)
@@ -239,7 +239,7 @@ class Member(MPTTModel):
         
         ret = {'obj':self,'left':None,'right':None}
 
-        children = Member.objects.filter(parent=self,mptt_level__lte=level).order_by('id')[:2]
+        children = Member.objects.filter(member_type=0,parent=self,mptt_level__lte=level).order_by('id')[:2]
         
         for child in children:
             initial_parent.all_items.append(child.id)
