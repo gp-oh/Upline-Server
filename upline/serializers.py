@@ -61,7 +61,7 @@ class MemberSerializer(serializers.HyperlinkedModelSerializer):
     training_steps = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
     parent = UplineSerializer(many=False, read_only=True)
     downlines = DownlineSerializer(many=True, read_only=True)
-    avatar_base64 = serializers.CharField(write_only=True,required=False)
+    avatar_base64 = serializers.CharField(write_only=True,required=False,allow_blank=True)
 
     def save(self):
         if 'avatar_base64' in self.validated_data:
@@ -82,7 +82,7 @@ class MemberRegisterSerializer(serializers.HyperlinkedModelSerializer):
     grant_type = serializers.CharField(initial="password")
     password = serializers.CharField(style={'input_type': 'password'})
     parent_user = serializers.SlugField()
-    avatar_base64 = serializers.CharField(write_only=True,required=False)
+    avatar_base64 = serializers.CharField(write_only=True,required=False,allow_blank=True)
 
     def validate_parent_user(self,value):
         members = Member.objects.filter(user__username=value)
@@ -145,7 +145,7 @@ class MemberSerializer(serializers.HyperlinkedModelSerializer):
     training_steps = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
     parent = UplineSerializer(many=False, read_only=True)
     downlines = DownlineSerializer(many=True, read_only=True)
-    avatar_base64 = serializers.CharField(write_only=True,required=False)
+    avatar_base64 = serializers.CharField(write_only=True,required=False,allow_blank=True)
 
     def save(self):
         if 'avatar_base64' in self.validated_data:
@@ -173,7 +173,7 @@ class MemberLoginSerializer(serializers.HyperlinkedModelSerializer):
 
 class ContactSerializer(serializers.HyperlinkedModelSerializer):
     member = MemberSerializer(read_only=True)
-    avatar_base64 = serializers.CharField(write_only=True,required=False)
+    avatar_base64 = serializers.CharField(write_only=True,required=False,allow_blank=True)
 
     def create(self,validated_data):
         contact = Contact()
