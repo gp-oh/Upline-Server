@@ -245,7 +245,7 @@ class MediaAdmin(admin.ModelAdmin):
 
     def get_media_file(self, obj):
         if obj.media_type == 0:
-            return '<img src="'+obj.media+'"/>'
+            return '<img src="'+obj.media+'" style="height:150px"/>'
         elif obj.media_type == 1:
             return '<audio src="'+obj.media+'" controls>Your browser does not support the <code>audio</code> element.</audio>'
         elif obj.media_type == 2:
