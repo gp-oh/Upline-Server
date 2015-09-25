@@ -305,13 +305,6 @@ class PostSerializer(serializers.HyperlinkedModelSerializer):
         fields = ('id',"user","title","category","content","media","create_time","update_time")
 
 class CalendarSerializer(serializers.HyperlinkedModelSerializer):
-    def create(self,validated_data):
-        calendar = Calendar()
-        calendar.name = validated_data.pop('name')
-        calendar.user = self.context['request'].user
-        calendar.save()
-        return calendar
-
     class Meta:
         model = Calendar
         fields = ("id","name")

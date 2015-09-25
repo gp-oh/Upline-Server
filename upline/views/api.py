@@ -194,14 +194,9 @@ class ProductViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
 
-class CalendarViewSet(viewsets.ModelViewSet):
+class CalendarViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Calendar.objects.all()
     serializer_class = CalendarSerializer
-
-    def list(self, request):
-        queryset = Calendar.objects.filter(Q(public=True) | Q(user=request.user))
-        serializer = CalendarSerializer(queryset, many=True,context={'request': request})
-        return Response(serializer.data)
 
 class EventViewSet(viewsets.ModelViewSet):
     queryset = Event.objects.all()
