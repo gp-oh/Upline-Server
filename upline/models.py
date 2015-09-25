@@ -7,7 +7,7 @@ from django.db.models import Q
 from rq import Queue
 from worker import conn
 from utils import convert_audio, convert_video
-from upline.quickblox import create_user
+from upline.quickblox import create_user, delete_user
 from Crypto.Cipher import AES
 import base64, uuid
 from s3direct.fields import S3DirectField
@@ -17,6 +17,8 @@ from boto.s3.connection import S3Connection, Bucket, Key
 from django.conf import settings
 from mimetypes import MimeTypes
 import urllib 
+from django.db.models.signals import pre_delete
+from django.dispatch.dispatcher import receiver
 
 class State(models.Model):
     acronym = models.CharField(max_length=2, verbose_name=_('acronym'))

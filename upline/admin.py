@@ -9,7 +9,7 @@ from django_extensions.admin import ForeignKeyAutocompleteAdmin
 from django.conf import settings
 from django.contrib.admin.util import flatten_fieldsets
 from django.contrib.admin import SimpleListFilter
-
+from upline.quickblox import create_user, delete_user
 class TrainingAdmin(admin.ModelAdmin):
     list_display = ['id','name']
     search_fields = ['name']
@@ -24,10 +24,22 @@ class MemberAdmin(ForeignKeyAutocompleteAdmin,DjangoMpttAdmin):
     list_display = ['id',"user","parent","name","points","phone","gender","level","get_acoes"]
     list_display_links = ['id']
     search_fields = ['name']
+    actions = ['delete_model']
     related_search_fields = {
        'user': ('first_name', 'email'),
        'parent': ('name'),
     }
+
+    def get_actions(self, request):
+        actions = super(MemberAdmin, self).get_actions(request)
+        del actions['delete_selected']
+        return actions
+
+    def delete_model(modeladmin, request, queryset):
+        for obj in queryset:
+            delete_user(obj)
+            obj.user.delete()
+            obj.delete()
 
     def get_queryset(self, request):
         qs = super(MemberAdmin, self).get_queryset(request)
@@ -63,10 +75,22 @@ class InvitedAdmin(admin.ModelAdmin):
     list_display = ['id',"user","parent","name","points","phone","gender"]
     list_display_links = ['id']
     search_fields = ['name']
+    actions = ['delete_model']
     related_search_fields = {
        'user': ('first_name', 'email'),
        'parent': ('name'),
     }
+
+    def get_actions(self, request):
+        actions = super(InvitedAdmin, self).get_actions(request)
+        del actions['delete_selected']
+        return actions
+
+    def delete_model(modeladmin, request, queryset):
+        for obj in queryset:
+            delete_user(obj)
+            obj.user.delete()
+            obj.delete()
 
     def get_queryset(self, request):
         qs = super(InvitedAdmin, self).get_queryset(request)

@@ -39,6 +39,23 @@ def get_session_token():
     r = requests.post(request_path, data=json_data, headers = http_headers)
     return json.loads(r.text)
 
+def delete_user(member):
+    token = get_session_token();
+    
+    try:
+        r = requests.delete(
+            url="http://api.quickblox.com/users/external/"+str(member.id)+".json",
+            headers = {
+                "Content-Type":"application/json",
+                "QuickBlox-REST-API-Version ":"0.1.0",
+                "QB-Token":token['session']['token'],
+            })
+        print 'deleted'
+        print r.text
+        return True
+    except requests.exceptions.RequestException as e:
+        return False
+
 def create_user(member):
     token = get_session_token();
     print json.dumps({
