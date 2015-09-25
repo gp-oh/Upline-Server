@@ -302,7 +302,7 @@ class PostSerializer(serializers.HyperlinkedModelSerializer):
     user = UserSerializer(read_only=True)
     class Meta:
         model = Post
-        fields = ('id',"user","title","category","content","media","create_time","update_time")
+        fields = ('id',"user","title","content","media","media_type","create_time","update_time")
 
 class CalendarSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
