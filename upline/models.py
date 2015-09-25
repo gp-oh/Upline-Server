@@ -335,6 +335,7 @@ class Contact(models.Model):
     class Meta:
         verbose_name = _("contact")
         verbose_name_plural = _("contacts")
+        ordering = ['name']
 
     def __unicode__(self):
         return self.name
