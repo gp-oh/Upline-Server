@@ -99,7 +99,7 @@ class TrainingStep(models.Model):
     training = models.ForeignKey(Training,related_name='training_steps',verbose_name=_('training'))
     title = models.CharField(max_length=255,verbose_name=_('title'))
     media = S3DirectField(dest='training_steps', null=True,blank=True)
-    thumbnail = models.ImageField(upload_to="thumbnails",blank=True, null=True,verbose_name=_('thumbnail'),editable=False)
+    thumbnail = models.ImageField(upload_to="thumbnails",blank=True, null=True,verbose_name=_('thumbnail'),editable=True)
     step = models.IntegerField(verbose_name=_('step'))
     description = models.TextField(blank=True, null=True,verbose_name=_('description'))
     need_answer = models.BooleanField(default=False,verbose_name=_('need_answer'))
@@ -268,7 +268,10 @@ class Member(MPTTModel):
             self.encrypt_quickblox_password()
         level = Level.objects.filter(points_range_from__lte=self.points,points_range_to__gte=self.points)
         if len(level) > 0:
+            self.user.groups.remove(self.level.group)
             self.level = level[0]
+            self.user.groups.dd(self.level.group)
+            self.user.save()
         super(Member, self).save(*args, **kwargs)
 
     class Meta:
@@ -426,7 +429,7 @@ class Post(models.Model):
     content = models.TextField(null=True,blank=True,default=None,verbose_name=_('content'))
     media = S3DirectField(dest='posts', null=True)
     media_type = models.IntegerField(choices=((0,'Imagem'),(1,'Audio'),(2,'Video')),verbose_name=_('media_type'),default=0,editable=False)
-    thumbnail = models.ImageField(upload_to="thumbnails",blank=True, null=True,verbose_name=_('thumbnail'),editable=False)
+    thumbnail = models.ImageField(upload_to="thumbnails",blank=True, null=True,verbose_name=_('thumbnail'),editable=True)
     create_time = models.DateTimeField(auto_now_add=True,verbose_name=_('create_time'))
     update_time = models.DateTimeField(auto_now=True,verbose_name=_('update_time'))
 
@@ -514,7 +517,7 @@ class Media(models.Model):
     media_category = models.ForeignKey(MediaCategory,related_name='medias',verbose_name=_('media_category'))
     name = models.CharField(max_length=255,verbose_name=_('name'))
     media = S3DirectField(dest='media', null=True)
-    thumbnail = models.ImageField(upload_to="thumbnails",blank=True,editable=False, null=True,verbose_name=_('thumbnail'))
+    thumbnail = models.ImageField(upload_to="thumbnails",blank=True,editable=True, null=True,verbose_name=_('thumbnail'))
     converted = models.BooleanField(default=False, editable=False)
     create_time = models.DateTimeField(auto_now_add=True,verbose_name=_('create_time'))
     update_time = models.DateTimeField(auto_now=True,verbose_name=_('update_time'))
