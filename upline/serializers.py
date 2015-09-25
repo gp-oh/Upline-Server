@@ -307,7 +307,7 @@ class PostSerializer(serializers.HyperlinkedModelSerializer):
 class CalendarSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Calendar
-        fields = ("id","name")
+        fields = ("id","name","color")
 
 class EventSerializer(serializers.HyperlinkedModelSerializer):
     invited = ContactSerializer(many=True,read_only=True)
