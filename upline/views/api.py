@@ -57,6 +57,8 @@ class MemberViewSet(viewsets.ModelViewSet):
 
     def list(self, request):
         queryset = Member.objects.filter(parent__user=request.user)
+        if "member_type" in request.GET and len(request.GET['member_type']) == 1:
+            queryset = queryset.filter(member_type=request.GET['member_type'])
         serializer = MemberSerializer(queryset, many=True,context={'request': request})
         return Response(serializer.data)
 
@@ -79,6 +81,8 @@ class ContactViewSet(viewsets.ModelViewSet):
 
     def list(self, request):
         queryset = Contact.objects.filter(owner__user=request.user)
+        if "contact_category" in request.GET and len(request.GET['contact_category']) == 1:
+            queryset = queryset.filter(contact_category=request.GET['contact_category'])
         serializer = ContactSerializer(queryset, many=True,context={'request': request})
         return Response(serializer.data)
 

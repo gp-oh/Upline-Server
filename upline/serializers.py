@@ -44,7 +44,7 @@ class UplineSerializer(serializers.HyperlinkedModelSerializer):
     
     class Meta:
         model = Member
-        fields = ("id","user",'quickblox_id','create_time','external_id','name','points','avatar','phone','gender','postal_code','city','state','address','address_number','dream1','dream2','status','level','training_steps','birthday')
+        fields = ("id","member_type","user",'quickblox_id','create_time','external_id','name','points','avatar','phone','gender','postal_code','city','state','address','address_number','dream1','dream2','status','level','training_steps','birthday')
 
 
 class DownlineSerializer(serializers.HyperlinkedModelSerializer):
@@ -52,7 +52,7 @@ class DownlineSerializer(serializers.HyperlinkedModelSerializer):
     training_steps = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
     class Meta:
         model = Member
-        fields = ("id",'quickblox_id','create_time','external_id','name','points','avatar','phone','gender','postal_code','city','state','address','address_number','dream1','dream2','status','level','training_steps')
+        fields = ("id","member_type",'quickblox_id','create_time','external_id','name','points','avatar','phone','gender','postal_code','city','state','address','address_number','dream1','dream2','status','level','training_steps')
 
 
 class MemberSerializer(serializers.HyperlinkedModelSerializer):
@@ -74,7 +74,7 @@ class MemberSerializer(serializers.HyperlinkedModelSerializer):
         super(MemberSerializer, self).save()
     class Meta:
         model = Member
-        fields = ("id","user","avatar_base64",'quickblox_id','parent','downlines','create_time','external_id','name','points','avatar','phone','gender','postal_code','city','state','address','address_number','dream1','dream2','status','level','training_steps','birthday')
+        fields = ("id","member_type","user","avatar_base64",'quickblox_id','parent','downlines','create_time','external_id','name','points','avatar','phone','gender','postal_code','city','state','address','address_number','dream1','dream2','status','level','training_steps','birthday')
 
 class MemberRegisterSerializer(serializers.HyperlinkedModelSerializer):
     username = serializers.SlugField()
@@ -123,7 +123,7 @@ class MemberRegisterSerializer(serializers.HyperlinkedModelSerializer):
        
         member.parent = Member.objects.get(user__username=self.validated_data['parent_user'])
         member.member_type = 1
-        
+
         if 'name' in self.validated_data:
             member.name = self.validated_data['name']
         if 'phone' in self.validated_data:
@@ -147,7 +147,7 @@ class MemberRegisterSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Member
-        fields = ("id",'avatar_base64','name','email','grant_type','parent_user','username','password','phone','birthday','gender','postal_code','state','city','address','address_number')
+        fields = ("id","member_type",'avatar_base64','name','email','grant_type','parent_user','username','password','phone','birthday','gender','postal_code','state','city','address','address_number')
 
 class MemberSerializer(serializers.HyperlinkedModelSerializer):
     user = UserSerializer(many=False,read_only=True)
@@ -169,7 +169,7 @@ class MemberSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Member
-        fields = ("id","user","avatar_base64",'quickblox_id','parent','downlines','create_time','external_id','name','points','avatar','phone','gender','postal_code','city','state','address','address_number','dream1','dream2','status','level','training_steps','birthday')
+        fields = ("id","member_type","user","avatar_base64",'quickblox_id','parent','downlines','create_time','external_id','name','points','avatar','phone','gender','postal_code','city','state','address','address_number','dream1','dream2','status','level','training_steps','birthday')
 
 class MemberLoginSerializer(serializers.HyperlinkedModelSerializer):
     user = UserSerializer(many=False,read_only=True)
@@ -179,7 +179,7 @@ class MemberLoginSerializer(serializers.HyperlinkedModelSerializer):
     downlines = DownlineSerializer(many=True, read_only=True)
     class Meta:
         model = Member
-        fields = ("id",'user','member_uid','quickblox_id','quickblox_password','parent','downlines','create_time','external_id','name','points','avatar','phone','gender','postal_code','city','state','address','address_number','dream1','dream2','status','level','birthday','training_steps')
+        fields = ("id","member_type",'user','member_uid','quickblox_id','quickblox_password','parent','downlines','create_time','external_id','name','points','avatar','phone','gender','postal_code','city','state','address','address_number','dream1','dream2','status','level','birthday','training_steps')
 
 class ContactSerializer(serializers.HyperlinkedModelSerializer):
     member = MemberSerializer(read_only=True)
