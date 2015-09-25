@@ -290,7 +290,7 @@ class TrainingStepSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = TrainingStep
-        fields = ('id','status','answer','title','media','step','description','need_answer')
+        fields = ('id','status','answer','title','media',"thumbnail","media_type",'step','description','need_answer')
 
 class TrainingSerializer(serializers.HyperlinkedModelSerializer):
     training_steps = TrainingStepSerializer(many=True,read_only=True)
@@ -302,7 +302,7 @@ class PostSerializer(serializers.HyperlinkedModelSerializer):
     user = UserSerializer(read_only=True)
     class Meta:
         model = Post
-        fields = ('id',"user","title","content","media","media_type","create_time","update_time")
+        fields = ('id',"user","title","content","media","thumbnail","media_type","create_time","update_time")
 
 class CalendarSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
@@ -373,10 +373,10 @@ class GoalSerializer(serializers.HyperlinkedModelSerializer):
 class MediaSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Media
-        fields = ("id","name","media_file")
+        fields = ("id","name","media","thumbnail","media_type")
 
 class MediaCategorySerializer(serializers.HyperlinkedModelSerializer):
     medias = MediaSerializer(many=True,read_only=True)
     class Meta:
         model = MediaCategory
-        fields = ("id","name",",media_type","medias")
+        fields = ("id","name","medias")
