@@ -40,25 +40,25 @@ class TrainingSetpSerializer(serializers.HyperlinkedModelSerializer):
 class UplineSerializer(serializers.HyperlinkedModelSerializer):
     user = UserSerializer(many=False,read_only=True)
     level = LevelSerializer(many=False, read_only=True)
-    training_steps = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
+    answers = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
     
     class Meta:
         model = Member
-        fields = ("id","member_type","user",'quickblox_id','create_time','external_id','name','points','avatar','phone','gender','postal_code','city','state','address','address_number','dream1','dream2','status','level','training_steps','birthday')
+        fields = ("id","member_type","user",'quickblox_id','create_time','external_id','name','points','avatar','phone','gender','postal_code','city','state','address','address_number','dream1','dream2','status','level','answers','birthday')
 
 
 class DownlineSerializer(serializers.HyperlinkedModelSerializer):
     level = LevelSerializer(many=False, read_only=True)
-    training_steps = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
+    answers = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
     class Meta:
         model = Member
-        fields = ("id","member_type",'quickblox_id','create_time','external_id','name','points','avatar','phone','gender','postal_code','city','state','address','address_number','dream1','dream2','status','level','training_steps')
+        fields = ("id","member_type",'quickblox_id','create_time','external_id','name','points','avatar','phone','gender','postal_code','city','state','address','address_number','dream1','dream2','status','level','answers')
 
 
 class MemberSerializer(serializers.HyperlinkedModelSerializer):
     user = UserSerializer(many=False,read_only=True)
     level = LevelSerializer(many=False, read_only=True)
-    training_steps = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
+    answers = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
     parent = UplineSerializer(many=False, read_only=True)
     downlines = DownlineSerializer(many=True, read_only=True)
     avatar_base64 = serializers.CharField(write_only=True,required=False,allow_blank=True)
@@ -74,7 +74,7 @@ class MemberSerializer(serializers.HyperlinkedModelSerializer):
         super(MemberSerializer, self).save()
     class Meta:
         model = Member
-        fields = ("id","member_type","user","avatar_base64",'quickblox_id','parent','downlines','create_time','external_id','name','points','avatar','phone','gender','postal_code','city','state','address','address_number','dream1','dream2','status','level','training_steps','birthday')
+        fields = ("id","member_type","user","avatar_base64",'quickblox_id','parent','downlines','create_time','external_id','name','points','avatar','phone','gender','postal_code','city','state','address','address_number','dream1','dream2','status','level','answers','birthday')
 
 class MemberRegisterSerializer(serializers.HyperlinkedModelSerializer):
     username = serializers.SlugField()
@@ -152,7 +152,7 @@ class MemberRegisterSerializer(serializers.HyperlinkedModelSerializer):
 class MemberSerializer(serializers.HyperlinkedModelSerializer):
     user = UserSerializer(many=False,read_only=True)
     level = LevelSerializer(many=False, read_only=True)
-    training_steps = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
+    answers = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
     parent = UplineSerializer(many=False, read_only=True)
     downlines = DownlineSerializer(many=True, read_only=True)
     avatar_base64 = serializers.CharField(write_only=True,required=False,allow_blank=True)
@@ -169,17 +169,17 @@ class MemberSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Member
-        fields = ("id","member_type","user","avatar_base64",'quickblox_id','parent','downlines','create_time','external_id','name','points','avatar','phone','gender','postal_code','city','state','address','address_number','dream1','dream2','status','level','training_steps','birthday')
+        fields = ("id","member_type","user","avatar_base64",'quickblox_id','parent','downlines','create_time','external_id','name','points','avatar','phone','gender','postal_code','city','state','address','address_number','dream1','dream2','status','level','answers','birthday')
 
 class MemberLoginSerializer(serializers.HyperlinkedModelSerializer):
     user = UserSerializer(many=False,read_only=True)
     level = LevelSerializer(many=False, read_only=True)
-    training_steps = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
+    answers = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
     parent = UplineSerializer(many=False, read_only=True)
     downlines = DownlineSerializer(many=True, read_only=True)
     class Meta:
         model = Member
-        fields = ("id","member_type",'user','member_uid','quickblox_id','quickblox_password','parent','downlines','create_time','external_id','name','points','avatar','phone','gender','postal_code','city','state','address','address_number','dream1','dream2','status','level','birthday','training_steps')
+        fields = ("id","member_type",'user','member_uid','quickblox_id','quickblox_password','parent','downlines','create_time','external_id','name','points','avatar','phone','gender','postal_code','city','state','address','address_number','dream1','dream2','status','level','birthday','answers')
 
 class ContactSerializer(serializers.HyperlinkedModelSerializer):
     member = MemberSerializer(read_only=True)
@@ -285,12 +285,37 @@ class TrainingStepSerializer(serializers.HyperlinkedModelSerializer):
     def get_answer(self,training_step):
         members = training_step.members.filter(member__user=self.context['request'].user)
         if len(members) > 0:
-            return members[0].answer
+            return MemberTrainingStepSerializer(members[0]).data
         return None
 
     class Meta:
         model = TrainingStep
         fields = ('id','status','answer','title','media',"thumbnail","media_type",'step','description','need_answer',"answer_type","meetings_per_week","weeks","nr_contacts")
+
+
+class MemberTrainingStepSerializer(serializers.HyperlinkedModelSerializer):
+    training_step = serializers.PrimaryKeyRelatedField(many=False,queryset=TrainingStep.objects.all())
+    media_base64 = serializers.CharField(write_only=True,required=False,allow_blank=True)
+
+    def create(self,validated_data):
+        validated_data['member'] = Member.objects.get(user=self.context['request'].user)
+        return super(MemberTrainingStepSerializer, self).create(validated_data)
+
+    def save(self):
+        print self.validated_data
+        if 'media_base64' in self.validated_data:
+            media = self.validated_data.pop('media_base64')
+            print 'batata'
+            if len(media) > 0:
+                media_base64 = media.split(',')[1]
+                media_mime = media.split(';')[0].split(':')[1]
+                media_extension = media_mime.split('/')[1]
+                self.media = SimpleUploadedFile(name=str(uuid.uuid4())+'.'+media_extension, content=base64.b64decode(media_base64), content_type=media_mime)
+        super(MemberTrainingStepSerializer, self).save()
+
+    class Meta:
+        model = MemberTrainingStep
+        fields = ('id','answer','training_step','media','media_base64')
 
 class TrainingSerializer(serializers.HyperlinkedModelSerializer):
     training_steps = TrainingStepSerializer(many=True,read_only=True)

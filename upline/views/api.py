@@ -94,7 +94,6 @@ class SaleViewSet(viewsets.ModelViewSet):
     @list_route(methods=['get'])
     def send(self,request):
         sales = Sale.objects.filter(active=True,sent=False,member__user=request.user)
-        print sales
         for sale in sales:
             sale.sent = True
             sale.send_time = datetime.datetime.now()
@@ -203,6 +202,15 @@ class GoalViewSet(viewsets.ModelViewSet):
 class ProductViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
+
+class MemberTrainingStepViewSet(viewsets.ModelViewSet):
+    queryset = MemberTrainingStep.objects.all()
+    serializer_class = MemberTrainingStepSerializer
+
+    def list(self, request):
+        queryset = MemberTrainingStep.objects.filter(member__user=request.user)
+        serializer = MemberTrainingStepSerializer(queryset, many=True,context={'request': request})
+        return Response(serializer.data)
 
 class CalendarViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Calendar.objects.all()

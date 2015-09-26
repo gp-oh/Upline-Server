@@ -50,12 +50,12 @@ class MemberForm(forms.ModelForm):
         model = Member
         fields = '__all__'
 
-class MemberTraingStepForm(forms.ModelForm):
+class MemberTrainingStepForm(forms.ModelForm):
     class Meta:
         widgets = {
             'answer': AutosizedTextarea(attrs={'rows': 3, 'class': 'input-xlarge'}),
         }
-        model = MemberTraingStep
+        model = MemberTrainingStep
         fields = '__all__'
 
 class PostForm(forms.ModelForm):

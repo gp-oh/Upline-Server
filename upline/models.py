@@ -99,6 +99,7 @@ class TrainingStep(models.Model):
     training = models.ForeignKey(Training,related_name='training_steps',verbose_name=_('training'))
     title = models.CharField(max_length=255,verbose_name=_('title'))
     media = S3DirectField(dest='training_steps', null=True,blank=True)
+    media_type = models.IntegerField(choices=((0,'Imagem'),(1,'Audio'),(2,'Video')),verbose_name=_('media_type'),default=0,editable=False)
     thumbnail = models.ImageField(upload_to="thumbnails",blank=True, null=True,verbose_name=_('thumbnail'),editable=True)
     step = models.IntegerField(verbose_name=_('step'))
     description = models.TextField(blank=True, null=True,verbose_name=_('description'))
@@ -301,10 +302,11 @@ class Member(MPTTModel):
         clear_val = raw_decrypted.rstrip("\0")
         return clear_val
 
-class MemberTraingStep(models.Model):
-    member = models.ForeignKey(Member,related_name='training_steps',verbose_name=_('member'))
+class MemberTrainingStep(models.Model):
+    member = models.ForeignKey(Member,related_name='answers',verbose_name=_('member'))
     training_step = models.ForeignKey(TrainingStep,related_name='members',verbose_name=_('training_step'))
     answer = models.TextField(verbose_name=_('answer'))
+    media = models.FileField(upload_to="answer",null=True,blank=True,default=None)
 
     class Meta:
         verbose_name = _("member traing step")
