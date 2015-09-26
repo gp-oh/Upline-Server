@@ -290,7 +290,7 @@ class TrainingStepSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = TrainingStep
-        fields = ('id','status','answer','title','media',"thumbnail","media_type",'step','description','need_answer')
+        fields = ('id','status','answer','title','media',"thumbnail","media_type",'step','description','need_answer',"answer_type","meetings_per_week","weeks","nr_contacts")
 
 class TrainingSerializer(serializers.HyperlinkedModelSerializer):
     training_steps = TrainingStepSerializer(many=True,read_only=True)
