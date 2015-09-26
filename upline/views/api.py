@@ -120,7 +120,7 @@ class SaleViewSet(viewsets.ModelViewSet):
     def create(self, request, *args, **kwargs):
         sale = Sale()
         sale.member = Member.objects.get(user=request.user)
-        sale.client = Contact.objects.get(id=request.data['client'])
+        sale.client = Contact.objects.get(id=request.data['client_id'])
         sale.save()
         sale_items = []
         total = Decimal('0.00')

@@ -266,11 +266,11 @@ class SaleSerializer(serializers.HyperlinkedModelSerializer):
         fields = ("id","client","sale_items","active","total","points","create_time","paid","sent","send_time")
 
 class SaleRegisterSerializer(serializers.HyperlinkedModelSerializer):
-    client = serializers.PrimaryKeyRelatedField(many=False, queryset=Contact.objects.all())
+    client_id = serializers.PrimaryKeyRelatedField(many=False, queryset=Contact.objects.all(),source="client")
     sale_items = SaleItemRegisterSerializer(many=True)
     class Meta:
         model = Sale
-        fields = ("id","client","sale_items")
+        fields = ("id","client_id","sale_items")
 
 class TrainingStepSerializer(serializers.HyperlinkedModelSerializer):
     status = serializers.SerializerMethodField()
