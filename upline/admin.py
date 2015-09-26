@@ -218,8 +218,8 @@ class PostalCodeAdmin(ForeignKeyAutocompleteAdmin):
     get_state.short_description = 'State'
     get_state.admin_order_field = 'city__state'
 
-class EventAlertInline(admin.TabularInline):
-    model = EventAlert
+# class EventAlertInline(admin.TabularInline):
+#     model = EventAlert
 
 
 # Create the filter
@@ -265,9 +265,9 @@ class EventAdmin(ForeignKeyAutocompleteAdmin):
             )
         return Q(member_type=0)
 
-    inlines = [
-        EventAlertInline,
-    ]
+    # inlines = [
+    #     EventAlertInline,
+    # ]
 
 
 class PostAdmin(ForeignKeyAutocompleteAdmin):
