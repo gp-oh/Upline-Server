@@ -213,6 +213,7 @@ SUIT_CONFIG = {
             {'label': 'Membros', 'model':'upline.member', 'icon':None},
             {'label': 'Convidados', 'model':'upline.invited', 'icon':None},
             {'label': 'Contatos', 'model':'upline.contact', 'icon':None},
+            {'label': 'Clientes', 'model':'upline.client', 'icon':None},
             {'label': 'Aparelhos iOS', 'model':'push_notifications.apnsdevice', 'icon':None},
             {'label': 'Aparelhos Android', 'model':'push_notifications.gcmdevice', 'icon':None},
         )},

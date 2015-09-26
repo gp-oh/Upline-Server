@@ -502,6 +502,7 @@ class Event(models.Model):
     class Meta:
         verbose_name = _("event")
         verbose_name_plural = _("events")
+        ordering = ['-begin_time']
 
     def __unicode__(self):
         return self.title

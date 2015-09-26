@@ -128,6 +128,41 @@ class ContactAdmin(ForeignKeyAutocompleteAdmin):
             )
         return Q(member_type=0)
 
+    def get_queryset(self, request):
+        qs = super(InvitedAdmin, self).get_queryset(request)
+        ordering = self.get_ordering(request)
+        if ordering:
+            qs = qs.order_by(*ordering)
+        return qs.filter(contact_category=0)
+
+class Client(Contact):
+    class Meta:
+        proxy = True
+
+class ClientAdmin(ForeignKeyAutocompleteAdmin):
+    list_display = ['id',"owner","name","state","city","phone","member"]
+    list_display_links = ['id']
+    search_fields = ['name']
+
+    related_search_fields = {
+       'owner': ('name'),
+       'member': ('name'),
+    }
+
+    def get_related_filter(self, model, request):
+        if not issubclass(model, Member):
+            return super(ClientAdmin, self).get_related_filter(
+                model, request
+            )
+        return Q(member_type=0)
+
+    def get_queryset(self, request):
+        qs = super(InvitedAdmin, self).get_queryset(request)
+        ordering = self.get_ordering(request)
+        if ordering:
+            qs = qs.order_by(*ordering)
+        return qs.filter(contact_category=1)
+
 class GoalAdmin(ForeignKeyAutocompleteAdmin):
     related_search_fields = {
        'member': ('name'),
@@ -256,7 +291,10 @@ class EventAdmin(ForeignKeyAutocompleteAdmin):
         ordering = self.get_ordering(request)
         if ordering:
             qs = qs.order_by(*ordering)
-        return qs.filter(begin_time__gte=datetime.datetime.now())
+        if 'begin_time' not in request.GET:
+            return qs.filter(begin_time__gte=datetime.datetime.now())
+        else:
+            return qs
 
     def get_related_filter(self, model, request):
         if not issubclass(model, Member):
@@ -364,6 +402,7 @@ admin.site.register(Training,TrainingAdmin)
 admin.site.register(Level,LevelAdmin)
 admin.site.register(Member,MemberAdmin)
 admin.site.register(Contact,ContactAdmin)
+admin.site.register(Client,ClientAdmin)
 admin.site.register(Goal,GoalAdmin)
 admin.site.register(Product,ProductAdmin)
 admin.site.register(Sale,SaleAdmin)
