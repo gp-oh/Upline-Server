@@ -18,6 +18,7 @@ from django.shortcuts import get_object_or_404
 from rest_framework.decorators import detail_route, list_route
 from django.db.models import Q
 from django.http import HttpRequest
+from decimal import Decimal
 
 class Login(APIView,OAuthLibMixin):
     permission_classes = (permissions.AllowAny,)
@@ -123,16 +124,25 @@ class SaleViewSet(viewsets.ModelViewSet):
         sale.client = Contact.objects.get(id=request.data['client'])
         sale.save()
         sale_items = []
+        total = Decimal('0.00')
+        total_points = Decimal('0.00')
         for sale_item in request.data['sale_items']:
             sale_item['sale'] = sale.id
             si = SaleItemRegisterSerializer(data=sale_item)
             if si.is_valid():
-                si.save()
+                s = si.save()
+                total_points += s.product.points * s.quantity
+                s.total = s.product.table_value * s.quantity
+                total += s.total
+                s.save()
             else:
                 print si.errors
-            serializer = SaleSerializer(sale)
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        sale.points = total_points
+        sale.total = total
+        sale.save()
+        serializer = SaleSerializer(sale)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        # return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def get_serializer_class(self):
         if self.action == "create" or self.action == "update":

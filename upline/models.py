@@ -394,10 +394,17 @@ class Sale(models.Model):
     total = models.DecimalField(max_digits=11, decimal_places=2,default="0.00",verbose_name=_('total'))
     points = models.IntegerField(default=0,verbose_name=_('points'))
     paid = models.BooleanField(default=False,verbose_name=_('paid'))
+    pontuated = models.BooleanField(default=False,verbose_name=_('pontuated'),editable=False)
     sent = models.BooleanField(default=False,verbose_name=_('sent'))
     create_time = models.DateTimeField(auto_now_add=True,verbose_name=_('create_time'))
     update_time = models.DateTimeField(auto_now=True,verbose_name=_('update_time'))
     send_time = models.DateTimeField(null=True,verbose_name=_('send_time'))
+
+    def save(self, *args, **kwargs):
+        if self.paid and not self.pontuated:
+            self.member.points += self.points
+            self.member.save()
+        super(Sale, self).save(*args, **kwargs)
 
     class Meta:
         verbose_name = _("sale")
@@ -411,7 +418,7 @@ class SaleItem(models.Model):
     sale = models.ForeignKey(Sale,related_name='sale_items',verbose_name=_('sale'))
     quantity = models.IntegerField(default=0,verbose_name=_('quantity'))
     total = models.DecimalField(max_digits=11, decimal_places=2,default="0.00",verbose_name=_('total'))
-    notificate_at = models.DateField(verbose_name=_('notificate_at'))
+    notificate_at = models.DateField(verbose_name=_('notificate_at'),null=True,blank=True,default=None)
     notified = models.BooleanField(default=False,verbose_name=_('notified'))
     create_time = models.DateTimeField(auto_now_add=True,verbose_name=_('create_time'))
     update_time = models.DateTimeField(auto_now=True,verbose_name=_('update_time'))
