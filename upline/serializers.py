@@ -339,14 +339,9 @@ class EventSerializer(serializers.HyperlinkedModelSerializer):
     members = DownlineSerializer(many=True,read_only=True)
     calendar = CalendarSerializer(read_only=True)
 
-    public = serializers.SerializerMethodField()
-
-    def get_public(self,event):
-        return event.calendar.public
-
     class Meta:
         model = Event
-        fields = ("id","alert_at_hour","alert_5_mins","alert_15_mins","alert_30_mins","alert_1_hour","alert_2_hours","alert_1_day","public","title","all_day","begin_time","end_time","invited","members","calendar","note","postal_code","complement","lat","lng",'state','city','address','address_number')
+        fields = ("id","alert_at_hour","alert_5_mins","alert_15_mins","alert_30_mins","alert_1_hour","alert_2_hours","alert_1_day","title","all_day","begin_time","end_time","invited","members","calendar","note","postal_code","complement","lat","lng",'state','city','address','address_number')
 
 class EventRegisterSerializer(serializers.HyperlinkedModelSerializer):
     invited = serializers.PrimaryKeyRelatedField(many=True, queryset=Contact.objects.all())
