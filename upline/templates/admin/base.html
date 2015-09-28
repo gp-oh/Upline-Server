@@ -36,7 +36,7 @@
 		  <!-- Header -->
 		  <div id="header" class="header">
 			<div id="branding">
-			  <a href="{% url 'admin:index' %}"><h1 id="site-name">{% block branding %}{{ 'ADMIN_NAME'|suit_conf|safe }}{% endblock %}</h1></a>
+			  <a href="{% url 'admin:index' %}">{% block branding %}{{ 'ADMIN_NAME'|suit_conf|safe }}{% endblock %}</a>
 			</div>
 
 			{% block header_time %}
@@ -95,6 +95,8 @@
 
 		{% block content-center %}
 		  <div id="suit-center" class="suit-column">
+
+			<h1 class="page-title">{{ title }}</h1>
 
 			{% if not is_popup %}
 			  {% block breadcrumbs %}
