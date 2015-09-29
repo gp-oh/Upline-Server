@@ -129,7 +129,7 @@ class ContactAdmin(ForeignKeyAutocompleteAdmin):
         return Q(member_type=0)
 
     def get_queryset(self, request):
-        qs = super(InvitedAdmin, self).get_queryset(request)
+        qs = super(ContactAdmin, self).get_queryset(request)
         ordering = self.get_ordering(request)
         if ordering:
             qs = qs.order_by(*ordering)
@@ -157,7 +157,7 @@ class ClientAdmin(ForeignKeyAutocompleteAdmin):
         return Q(member_type=0)
 
     def get_queryset(self, request):
-        qs = super(InvitedAdmin, self).get_queryset(request)
+        qs = super(ClientAdmin, self).get_queryset(request)
         ordering = self.get_ordering(request)
         if ordering:
             qs = qs.order_by(*ordering)
