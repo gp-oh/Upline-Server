@@ -271,7 +271,7 @@ class Member(MPTTModel):
         if len(level) > 0:
             self.user.groups.remove(self.level.group)
             self.level = level[0]
-            self.user.groups.dd(self.level.group)
+            self.user.groups.add(self.level.group)
             self.user.save()
         super(Member, self).save(*args, **kwargs)
 
@@ -562,7 +562,7 @@ class Media(models.Model):
                 self.media_type = 1
             elif t == 'video':
                 self.media_type = 2
-            elif t == 'application':
+            else:
                 self.media_type = 3
 
         super(Media, self).save(*args, **kwargs)
