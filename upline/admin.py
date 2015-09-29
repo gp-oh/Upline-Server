@@ -322,6 +322,8 @@ class PostAdmin(ForeignKeyAutocompleteAdmin):
             return '<audio src="'+obj.media+'" controls>Your browser does not support the <code>audio</code> element.</audio>'
         elif obj.media_type == 2:
             return '<video src="'+obj.media+'"/>'
+        else:
+            return '<a target="_blank" href="'+obj.media+'">'+obj.name'</a>'
 
     get_media_file.short_description = 'Arquivo'
     get_media_file.allow_tags = True
