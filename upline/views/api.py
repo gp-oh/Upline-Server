@@ -71,7 +71,7 @@ class MemberViewSet(viewsets.ModelViewSet):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def get_serializer_class(self):
-        if self.action == "create" or self.action == "update":
+        if self.action == "create":
             return MemberRegisterSerializer
         else:
             return MemberSerializer
