@@ -138,7 +138,7 @@ class MemberRegisterSerializer(serializers.HyperlinkedModelSerializer):
                 avatar_mime = avatar.split(';')[0].split(':')[1]
                 avatar_extension = avatar_mime.split('/')[1]
                 member.avatar = SimpleUploadedFile(name=str(uuid.uuid4())+'.'+avatar_extension, content=base64.b64decode(avatar_base64), content_type=avatar_mime)
-       if 'dream1_base64' in self.validated_data:
+        if 'dream1_base64' in self.validated_data:
             dream1 = self.validated_data.pop('dream1_base64')
             if len(dream1) > 0:
                 dream1_base64 = dream1.split(',')[1]
@@ -152,7 +152,7 @@ class MemberRegisterSerializer(serializers.HyperlinkedModelSerializer):
                 dream2_mime = dream2.split(';')[0].split(':')[1]
                 dream2_extension = dream2_mime.split('/')[1]
                 self.dream2 = SimpleUploadedFile(name=str(uuid.uuid4())+'.'+dream2_extension, content=base64.b64decode(dream2_base64), content_type=dream2_mime)
-                
+
         member.parent = Member.objects.get(user__username=self.validated_data['parent_user'])
         member.member_type = 1
 
