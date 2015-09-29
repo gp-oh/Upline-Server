@@ -70,8 +70,44 @@ class MemberViewSet(viewsets.ModelViewSet):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+    def partial_update(self, request, *args, **kwargs):
+
+
+        instance = self.get_object()
+        serializer = MemberSerializer(instance, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            
+            if 'avatar_base64' in request.data:
+                avatar = request.data['avatar_base64']
+                if len(avatar) > 0:
+                    avatar_base64 = avatar.split(',')[1]
+                    avatar_mime = avatar.split(';')[0].split(':')[1]
+                    avatar_extension = avatar_mime.split('/')[1]
+                    instance.avatar = SimpleUploadedFile(name=str(uuid.uuid4())+'.'+avatar_extension, content=base64.b64decode(avatar_base64), content_type=avatar_mime)
+            
+            if 'dream1_base64' in request.data:
+                dream1 = request.data['dream1_base64']
+                if len(dream1) > 0:
+                    dream1_base64 = dream1.split(',')[1]
+                    dream1_mime = dream1.split(';')[0].split(':')[1]
+                    dream1_extension = dream1_mime.split('/')[1]
+                    instance.dream1 = SimpleUploadedFile(name=str(uuid.uuid4())+'.'+dream1_extension, content=base64.b64decode(dream1_base64), content_type=dream1_mime)
+            
+            if 'dream2_base64' in request.data:
+                dream2 = request.data['dream2_base64']
+                if len(dream2) > 0:
+                    dream2_base64 = dream2.split(',')[1]
+                    dream2_mime = dream2.split(';')[0].split(':')[1]
+                    dream2_extension = dream2_mime.split('/')[1]
+                    instance.dream2 = SimpleUploadedFile(name=str(uuid.uuid4())+'.'+dream2_extension, content=base64.b64decode(dream2_base64), content_type=dream2_mime)
+                instance.save()
+                serializer = self.get_serializer(instance)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
     def get_serializer_class(self):
-        if self.action == "create" or self.action == "update":
+        if self.action == "create":
             return MemberRegisterSerializer
         else:
             return MemberSerializer

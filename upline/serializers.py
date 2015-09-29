@@ -61,33 +61,10 @@ class MemberSerializer(serializers.HyperlinkedModelSerializer):
     answers = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
     parent = UplineSerializer(many=False, read_only=True)
     downlines = DownlineSerializer(many=True, read_only=True)
-    avatar_base64 = serializers.CharField(write_only=True,required=False,allow_blank=True)
-    dream1_base64 = serializers.CharField(write_only=True,required=False,allow_blank=True)
-    dream2_base64 = serializers.CharField(write_only=True,required=False,allow_blank=True)
-
-    def save(self):
-        if 'avatar_base64' in self.validated_data:
-            avatar = self.validated_data.pop('avatar_base64')
-            if len(avatar) > 0:
-                avatar_base64 = avatar.split(',')[1]
-                avatar_mime = avatar.split(';')[0].split(':')[1]
-                avatar_extension = avatar_mime.split('/')[1]
-                self.avatar = SimpleUploadedFile(name=str(uuid.uuid4())+'.'+avatar_extension, content=base64.b64decode(avatar_base64), content_type=avatar_mime)
-        if 'dream1_base64' in self.validated_data:
-            dream1 = self.validated_data.pop('dream1_base64')
-            if len(dream1) > 0:
-                dream1_base64 = dream1.split(',')[1]
-                dream1_mime = dream1.split(';')[0].split(':')[1]
-                dream1_extension = dream1_mime.split('/')[1]
-                self.dream1 = SimpleUploadedFile(name=str(uuid.uuid4())+'.'+dream1_extension, content=base64.b64decode(dream1_base64), content_type=dream1_mime)
-        if 'dream2_base64' in self.validated_data:
-            dream2 = self.validated_data.pop('dream2_base64')
-            if len(dream2) > 0:
-                dream2_base64 = dream2.split(',')[1]
-                dream2_mime = dream2.split(';')[0].split(':')[1]
-                dream2_extension = dream2_mime.split('/')[1]
-                self.dream2 = SimpleUploadedFile(name=str(uuid.uuid4())+'.'+dream2_extension, content=base64.b64decode(dream2_base64), content_type=dream2_mime)
-        super(MemberSerializer, self).save()
+    avatar_base64 = serializers.CharField(required=False,allow_blank=True)
+    dream1_base64 = serializers.CharField(required=False,allow_blank=True)
+    dream2_base64 = serializers.CharField(required=False,allow_blank=True)
+    
     class Meta:
         model = Member
         fields = ("id","member_type","user","avatar_base64","dream1_base64","avatar_base64",'quickblox_id','parent','downlines','create_time','external_id','name','points','avatar','phone','gender','postal_code','city','state','address','address_number','dream1','dream2','status','level','answers','birthday')
@@ -98,9 +75,9 @@ class MemberRegisterSerializer(serializers.HyperlinkedModelSerializer):
     grant_type = serializers.CharField(initial="password")
     password = serializers.CharField(style={'input_type': 'password'})
     parent_user = serializers.SlugField()
-    avatar_base64 = serializers.CharField(write_only=True,required=False,allow_blank=True)
-    dream1_base64 = serializers.CharField(write_only=True,required=False,allow_blank=True)
-    dream2_base64 = serializers.CharField(write_only=True,required=False,allow_blank=True)
+    avatar_base64 = serializers.CharField(required=False,allow_blank=True)
+    dream1_base64 = serializers.CharField(required=False,allow_blank=True)
+    dream2_base64 = serializers.CharField(required=False,allow_blank=True)
 
     def validate_parent_user(self,value):
         members = Member.objects.filter(user__username=value,member_type=0)
@@ -179,7 +156,7 @@ class MemberRegisterSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Member
-        fields = ("id","member_type",'avatar_base64','name','email','grant_type','parent_user','username','password','phone','birthday','gender','postal_code','state','city','address','address_number')
+        fields = ("id","member_type",'avatar_base64',"dream1_base64","dream2_base64",'name','email','grant_type','parent_user','username','password','phone','birthday','gender','postal_code','state','city','address','address_number')
 
 class MemberSerializer(serializers.HyperlinkedModelSerializer):
     user = UserSerializer(many=False,read_only=True)
