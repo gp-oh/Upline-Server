@@ -67,7 +67,7 @@ class HomeView(View):
         return sales_list
 
     def get_member_levels(self):
-        print Member.objects.all().values('level','level__color').annotate(total=Count('id')).order_by('total')
-        return Member.objects.all().values('level','level__color').annotate(total=Count('id')).order_by('total')
+        print Member.objects.all().values('level','level__color','level__title').annotate(total=Count('id')).order_by('total')
+        return Member.objects.all().values('level','level__color','level__title').annotate(total=Count('id')).order_by('total')
 
 

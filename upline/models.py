@@ -412,6 +412,7 @@ class Sale(models.Model):
     class Meta:
         verbose_name = _("sale")
         verbose_name_plural = _("sales")
+        ordering = ['-create_time']
 
     def __unicode__(self):
         return str(self.id)
