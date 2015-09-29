@@ -124,6 +124,7 @@ class TrainingStep(models.Model):
     class Meta:
         verbose_name = _("training step")
         verbose_name_plural = _("training steps")
+        ordering = ['step']
 
     def __unicode__(self):
         return self.title
