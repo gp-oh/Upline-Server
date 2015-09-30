@@ -317,13 +317,13 @@ class PostAdmin(ForeignKeyAutocompleteAdmin):
 
     def get_media_file(self, obj):
         if obj.media_type == 0:
-            return '<img src="'+obj.media+'" style="height:150px"/>'
+            return '<img src="'+obj.media+'" style="width:300px"/>'
         elif obj.media_type == 1:
             return '<audio src="'+obj.media+'" controls>Your browser does not support the <code>audio</code> element.</audio>'
         elif obj.media_type == 2:
-            return '<video src="'+obj.media+'"/>'
+            return '<video src="'+obj.media+'" style="width:300px"/>'
         else:
-            return '<a target="_blank" href="'+obj.media+'">'+obj.name+'</a>'
+            return '<a target="_blank" class="pdf" href="'+obj.media+'">'+obj.name+'</a>'
 
     get_media_file.short_description = 'Arquivo'
     get_media_file.allow_tags = True
@@ -348,13 +348,13 @@ class MediaAdmin(admin.ModelAdmin):
 
     def get_media_file(self, obj):
         if obj.media_type == 0:
-            return '<img src="'+obj.media+'" style="height:150px"/>'
+            return '<img src="'+obj.media+'" style="width:300px"/>'
         elif obj.media_type == 1:
             return '<audio src="'+obj.media+'" controls>Your browser does not support the <code>audio</code> element.</audio>'
         elif obj.media_type == 2:
-            return '<video src="'+obj.media+'"/>'
+            return '<video src="'+obj.media+'" style="width:300px"/>'
         else:
-            return '<a target="_blank" href="'+obj.media+'">'+obj.name+'</a>'
+            return '<a target="_blank" class="pdf" href="'+obj.media+'">'+obj.name+'</a>'
 
     get_media_file.short_description = 'Arquivo'
     get_media_file.allow_tags = True
