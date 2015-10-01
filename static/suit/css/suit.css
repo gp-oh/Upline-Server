@@ -124,6 +124,8 @@ body {
 a {
 	color: #46b0a3;
 }
+a.pdf { background: url("../img/pdf.png") 0 0 no-repeat; display: inline-block; padding: 5px  0 5px 32px; }
+
 .header {
   color: #d4d4d4;
   height: 60px;
