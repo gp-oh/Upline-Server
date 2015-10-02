@@ -15,7 +15,7 @@ ul.tree li > div { background: url(images/user-icon.png) top center no-repeat; d
 ul.tree li > div:first-child { padding: 56px 0 0 !important }
 ul.tree li > div span { display: inline-block; margin: 0 2px;  }
 ul.tree li > div.zindex { z-index:inherit; }
-ul.tree li > div a { color: #46b0a3; display: block; height: auto; text-align: center; text-decoration:none; width: 100%; padding: 105px 0 0; position: absolute; top: 0; left: 0; }
+ul.tree li > div a { color: #000000; display: block; height: auto; text-align: center; text-decoration:none; width: 100%; padding: 50px 0 0; position: absolute; top: 0; left: 0; }
 ul.tree li form { display:block; text-align:left; padding:10px; margin-top:15px; position:absolute; z-index:4; background:#da9628; color:#fff; }
 ul.tree li form input[type=checkbox] { }
 ul.tree li form img.close { float:right; cursor:pointer; background-color:#e02222; padding:2px; border-radius:10px; -moz-border-radius:10px; -webkit-border-radius:10px; }
@@ -30,9 +30,9 @@ ul.tree li .submit:hover, ul.tree li .edit:hover { background:#8a9ef5; }
 ul.tree li div.current { background-position: center -68px; color: #137968 }
 ul.tree li div.current a { color: #137968 }
 ul.tree li div.children { background-position: center -136px; color: #ff3366 }
-ul.tree li div.children a { color: #46b0a3 }
+ul.tree li div.children a { color: #ff3366;  }
 ul.tree li div.parent { background-position: center -204px; color: #46b0a3 ; }
-ul.tree li div.parent a { color: #ff3366; }
+ul.tree li div.parent a { color: #46b0a3 }
 ul.tree li span.vertical, ul.tree li span.horizontal { display:inline-block; position:absolute; z-index:1; background:#bbb; }
 ul.tree li span.vertical { width:1px; }
 ul.tree li span.horizontal { height:1px; }
