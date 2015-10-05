@@ -391,6 +391,7 @@ class TrainingStepAdmin(admin.ModelAdmin):
 class InviteAdmin(admin.ModelAdmin):
     search_fields = ['member','name','email']
     list_display = ['id','member','name','email','create_time']
+    change_list_template = 'admin/invite_list.html'
 
     def has_edit_permission(self, request, obj=None):
         return False
