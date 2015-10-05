@@ -140,11 +140,30 @@ class Client(Contact):
     class Meta:
         proxy = True
 
+class SaleInline(admin.TabularInline):
+    model = Sale
+
+    def has_add_permission(self, request, obj=None):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+    def get_readonly_fields(self, request, obj=None):
+        return list(set(
+            [field.name for field in self.opts.local_fields] +
+            [field.name for field in self.opts.local_many_to_many]
+        ))
+
 class ClientAdmin(ForeignKeyAutocompleteAdmin):
     list_display = ['id',"owner","name","state","city","phone","member"]
     list_display_links = ['id']
     search_fields = ['name']
 
+    inlines = [
+        SaleInline,
+    ]
+    
     related_search_fields = {
        'owner': ('name'),
        'member': ('name'),
@@ -193,7 +212,6 @@ class SaleItemInline(admin.TabularInline):
             [field.name for field in self.opts.local_fields] +
             [field.name for field in self.opts.local_many_to_many]
         ))
-    # formset = # Yours
 
 class SaleAdmin(ForeignKeyAutocompleteAdmin):
     list_display = ['id','member', 'client','create_time','total']
