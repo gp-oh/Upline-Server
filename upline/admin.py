@@ -272,7 +272,7 @@ class EventDateFilter(SimpleListFilter):
     def queryset(self, request, queryset):
         if self.value() == 'PREVIOUS':
             return queryset.filter(begin_time__lte=datetime.datetime.now())
-        elif self.value() == 'AFTER':
+        else:
             return queryset.filter(begin_time__gte=datetime.datetime.now())
 
 class EventAdmin(ForeignKeyAutocompleteAdmin):
@@ -292,8 +292,6 @@ class EventAdmin(ForeignKeyAutocompleteAdmin):
         ordering = self.get_ordering(request)
         if ordering:
             qs = qs.order_by(*ordering)
-        if 'begin_time' not in request.GET:
-            return qs.filter(begin_time__gte=datetime.datetime.now())
         else:
             return qs
 
