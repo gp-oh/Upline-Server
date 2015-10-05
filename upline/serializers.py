@@ -135,6 +135,8 @@ class MemberRegisterSerializer(serializers.HyperlinkedModelSerializer):
 
         if 'name' in self.validated_data:
             member.name = self.validated_data['name']
+        if 'email' in self.validated_data:
+            member.email = self.validated_data['email']
         if 'phone' in self.validated_data:
             member.phone = self.validated_data['phone']
         if 'gender' in self.validated_data:
@@ -409,3 +411,14 @@ class MediaCategorySerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = MediaCategory
         fields = ("id","name","medias")
+
+class InviteSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Invite
+        fields = ("id","name","email")
+
+    def create(self,validated_data):
+        validated_data['member'] = Member.objects.get(user=self.context['request'].user)
+        return super(InviteSerializer, self).create(validated_data)
+    
+

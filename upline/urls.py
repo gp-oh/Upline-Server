@@ -23,6 +23,7 @@ r.register(r'apns', APNSDeviceAuthorizedViewSet)
 r.register(r'gcm', GCMDeviceAuthorizedViewSet)
 r.register(r'username', api.UsernameViewSet)
 r.register(r'answer', api.MemberTrainingStepViewSet)
+r.register(r'invite', api.InviteViewSet)
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.

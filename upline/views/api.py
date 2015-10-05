@@ -261,6 +261,15 @@ class EventViewSet(viewsets.ModelViewSet):
             return EventRegisterSerializer
         else:
             return EventSerializer
+
+class InviteViewSet(viewsets.ModelViewSet):
+    queryset = Invite.objects.all()
+    serializer_class = InviteSerializer
+
+    def list(self, request):
+        queryset = Invite.objects.filter(member__user=request.user)
+        serializer = InviteSerializer(queryset, many=True,context={'request': request})
+        return Response(serializer.data)
             
 class MediaCategoryViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = MediaCategory.objects.all()
