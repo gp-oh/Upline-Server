@@ -1,0 +1,17 @@
+Olá {{name}}!
+Seu amigo {{member.name}} está convidado você 
+para baixar o aplicativo {{app}} e conferir 
+mais informações sobre essa grande oportunidade de negócio.
+
+No {{app}} você encontra todas as informações 
+pra você tirar todas as suas dúvidas. Mas caso queira também, 
+temos um chat exclusivo para você perguntar o que for necessário.
+
+Aguardo você lá.
+
+Link do app.
+{{link}}
+
+Atenciosamente.
+
+{{member.name}}
