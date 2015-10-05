@@ -185,7 +185,7 @@ class Member(MPTTModel):
     status = models.CharField(blank=True, null=True,verbose_name=_('status'),max_length=255)
     birthday = models.DateField(null=True,verbose_name=_('birthday'))
     level = models.ForeignKey(Level,verbose_name=_('level'),editable=False,default=1)
-    outpooring = models.IntegerField(default=0,verbose_name=_('outpooring'))
+    outpooring = models.IntegerField(default=0,verbose_name=_('outpooring'),choices=((0,'Esquerda'),(1,'Direita')))
     create_time = models.DateTimeField(auto_now_add=True,verbose_name=_('create_time'))
     update_time = models.DateTimeField(auto_now=True,verbose_name=_('update_time'))
 

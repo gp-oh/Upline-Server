@@ -140,15 +140,23 @@ DATABASES = {
 LANGUAGE_CODE = 'pt-br'
 
 from django.conf.locale.en import formats as en_formats
+from django.conf.locale.pt_BR import formats as pt_formats
 
-en_formats.DATETIME_FORMAT = "d/M/Y H:i:s"
-en_formats.DATE_FORMAT = "d/M/Y"
-en_formats.DATETIME_INPUT_FORMATS = "d/M/Y H:i:s"
-en_formats.SHORT_DATETIME_FORMAT = "d/M/Y H:i:s"
-en_formats.DATE_FORMAT = "d/M/Y"            
-en_formats.SHORT_DATE_FORMAT = "d/M/Y"
-en_formats.DATE_INPUT_FORMATS = "d/M/Y"   
+en_formats.DATETIME_FORMAT = "d/m/Y H:i:s"
+en_formats.DATE_FORMAT = "d/m/Y"
+en_formats.DATETIME_INPUT_FORMATS = "d/m/Y H:i:s"
+en_formats.SHORT_DATETIME_FORMAT = "d/m/Y H:i:s"
+en_formats.DATE_FORMAT = "d/m/Y"            
+en_formats.SHORT_DATE_FORMAT = "d/m/Y"
+en_formats.DATE_INPUT_FORMATS = "d/m/Y"   
 
+pt_formats.DATETIME_FORMAT = "d/m/Y H:i:s"
+pt_formats.DATE_FORMAT = "d/m/Y"
+pt_formats.DATETIME_INPUT_FORMATS = "d/m/Y H:i:s"
+pt_formats.SHORT_DATETIME_FORMAT = "d/m/Y H:i:s"
+pt_formats.DATE_FORMAT = "d/m/Y"            
+pt_formats.SHORT_DATE_FORMAT = "d/m/Y"
+pt_formats.DATE_INPUT_FORMATS = "d/m/Y"   
 
 TIME_ZONE = 'America/Sao_Paulo'
 
@@ -207,11 +215,13 @@ SUIT_CONFIG = {
     'MENU': (
 
         {'label': u'Notificações', 'icon':'icon-lock', 'models': ({'label': 'Notificações', 'model':'upline.notification', 'icon':None},)},
+         {'label': 'Convites', 'icon':'icon-user', 'models': (
+            {'label': 'Convites', 'model':'upline.invite', 'icon':None},
+            {'label': 'Convidados', 'model':'upline.invited', 'icon':None},)},
         {'label': 'Pessoas', 'icon':'icon-user', 'models': (
             {'label': 'Usuários', 'model':'auth.user', 'icon':None},
             {'label': 'Grupos', 'model':'auth.group', 'icon':None},
             {'label': 'Membros', 'model':'upline.member', 'icon':None},
-            {'label': 'Convidados', 'model':'upline.invited', 'icon':None},
             {'label': 'Contatos', 'model':'upline.contact', 'icon':None},
             {'label': 'Clientes', 'model':'upline.client', 'icon':None},
             {'label': 'Aparelhos iOS', 'model':'push_notifications.apnsdevice', 'icon':None},
@@ -246,6 +256,17 @@ SUIT_CONFIG = {
     )
 }
 
+EMAIL_HOST = 'smtp.mailgun.org'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'no-reply@uplinevirtual.com'
+EMAIL_HOST_PASSWORD = '0f734e622675a9b3112854a520a91015'
+EMAIL_USE_TLS = True
+
+APPLICATION_NAME = "Upline Virtual"
+APPLICATION_URL = "http://www.google.com.br"
+
+
+# S3DIRECT CONFIGURATIONS
 def create_media_filename(filename):
     import uuid
     ext = filename.split('.')[-1]
