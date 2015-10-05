@@ -447,6 +447,7 @@ class Post(models.Model):
     class Meta:
         verbose_name = _("post")
         verbose_name_plural = _("posts")
+        ordering = ['-create_time']
 
     def __unicode__(self):
         return self.title
@@ -556,6 +557,7 @@ class Media(models.Model):
         if self.media:
             mime = MimeTypes()
             mime_type = mime.guess_type(self.media)
+            
             t = mime_type[0].split('/')[0]
 
             if t == 'image':
@@ -592,3 +594,23 @@ class Notification(models.Model):
     def __unicode__(self):
         return self.message
     
+class Invite(models.Model):
+    member = models.ForeignKey(Member)
+    email = models.EmailField(max_length=255)
+    name = models.CharField(max_length=255)
+    create_time = models.DateTimeField(auto_now_add=True,verbose_name=_('create_time'))
+    update_time = models.DateTimeField(auto_now=True,verbose_name=_('update_time'))
+
+    def send_invite(self):
+        pass
+
+    def save(self, *args, **kwargs):
+        self.send_invite()
+        super(Invite, self).save(*args, **kwargs)
+
+    class Meta:
+        verbose_name = "Invite"
+        verbose_name_plural = "Invites"
+
+    def __unicode__(self):
+        return self.email
