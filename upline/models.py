@@ -166,6 +166,7 @@ class Member(MPTTModel):
     member_uid = models.UUIDField(unique=True, null=True, editable=False)
     member_type = models.IntegerField(default=0,choices=((0,'Membro'),(1,'Convidado')),editable=False)
     user = models.OneToOneField(User,verbose_name=_('user'))
+    email = models.EmailField(max_length=255,null=True, blank=True)
     parent = TreeForeignKey('self', null=True, blank=True, related_name='downlines', db_index=True,verbose_name=_('parent'))
     external_id = models.IntegerField(unique=True, blank=True, null=True,verbose_name=_('external_id'))
     name = models.CharField(max_length=50,verbose_name=_('name'))
@@ -276,6 +277,9 @@ class Member(MPTTModel):
             self.user.groups.remove(self.level.group)
             self.level = level[0]
             self.user.groups.add(self.level.group)
+            self.user.save()
+        if self.email:
+            self.user.email = self.email
             self.user.save()
         super(Member, self).save(*args, **kwargs)
 
