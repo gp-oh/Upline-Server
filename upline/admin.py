@@ -163,7 +163,7 @@ class ClientAdmin(ForeignKeyAutocompleteAdmin):
     inlines = [
         SaleInline,
     ]
-    
+
     related_search_fields = {
        'owner': ('name'),
        'member': ('name'),
@@ -388,12 +388,31 @@ class TrainingStepAdmin(admin.ModelAdmin):
     list_filter = ['training']
     form = TrainingStepForm
 
-class AudioAdmin(admin.ModelAdmin):
-    pass
+class InviteAdmin(admin.ModelAdmin):
+    search_fields = ['member','name','email']
+    list_display = ['id','member','name','email','create_time']
 
-class VideoAdmin(admin.ModelAdmin):
-    pass
-    
+    def has_edit_permission(self, request, obj=None):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+    def get_readonly_fields(self, request, obj=None):
+        if obj:
+            return list(set(
+                [field.name for field in self.opts.local_fields] +
+                [field.name for field in self.opts.local_many_to_many]
+            ))
+        return self.readonly_fields
+
+    def get_actions(self, request):
+        actions = super(InviteAdmin, self).get_actions(request)
+        if 'delete_selected' in actions:
+            del actions['delete_selected']
+        return actions
+
+
 class NotificationAdmin(admin.ModelAdmin):
     list_display = ['id','level','message','sent','get_date_sent']
     actions = ['send']
@@ -416,6 +435,7 @@ class NotificationAdmin(admin.ModelAdmin):
 
 # admin.site.register(Audio,AudioAdmin)
 # admin.site.register(Video,VideoAdmin)
+admin.site.register(Invite,InviteAdmin)
 admin.site.register(Invited,InvitedAdmin)
 admin.site.register(Notification,NotificationAdmin)
 admin.site.register(TrainingStep,TrainingStepAdmin)

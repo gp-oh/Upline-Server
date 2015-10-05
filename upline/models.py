@@ -19,6 +19,9 @@ from mimetypes import MimeTypes
 import urllib 
 from django.db.models.signals import pre_delete
 from django.dispatch.dispatcher import receiver
+from django.template.loader import render_to_string
+from django.core.mail import EmailMultiAlternatives
+
 
 class State(models.Model):
     acronym = models.CharField(max_length=2, verbose_name=_('acronym'))
@@ -602,7 +605,12 @@ class Invite(models.Model):
     update_time = models.DateTimeField(auto_now=True,verbose_name=_('update_time'))
 
     def send_invite(self):
-        pass
+        subject, from_email, to = 'Convite '+settings.APPLICATION_NAME, settings.EMAIL_HOST_USER, self.email
+        text_content = render_to_string('email.txt', {'app': settings.APPLICATION_NAME,'member':self.member,'name':self.name,'link':settings.APPLICATION_URL})
+        html_content = render_to_string('email.html', {'app': settings.APPLICATION_NAME,'member':self.member,'name':self.name,'link':settings.APPLICATION_URL})
+        msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+        msg.attach_alternative(html_content, "text/html")
+        msg.send()
 
     def save(self, *args, **kwargs):
         self.send_invite()
