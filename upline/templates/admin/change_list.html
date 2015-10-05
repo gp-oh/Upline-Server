@@ -34,6 +34,8 @@
   {% endif %}{% endif %}
 {% endblock %}
 
+{% block h1-title %} {{ cl.opts.verbose_name_plural|capfirst }} {% endblock %}
+
 {% block bodyclass %}change-list{% endblock %}
 
 {% if not is_popup %}

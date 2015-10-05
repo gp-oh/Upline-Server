@@ -95,8 +95,8 @@
 
 		{% block content-center %}
 		  <div id="suit-center" class="suit-column">
-
-			<h1 class="page-title">{{ title }}</h1>
+			
+			<h1 class="page-title">{% block h1-title %} {{ title }} {% endblock %}</h1>
 
 			{% if not is_popup %}
 			  {% block breadcrumbs %}
