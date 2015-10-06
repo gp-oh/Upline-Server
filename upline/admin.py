@@ -27,7 +27,7 @@ class MemberAdmin(ForeignKeyAutocompleteAdmin,DjangoMpttAdmin):
     list_display = ['id',"user","parent","name","points","phone","gender","level","get_acoes"]
     list_display_links = ['id']
     search_fields = ['name']
-    actions = ['delete_model']
+    # actions = ['delete_model']
     related_search_fields = {
        'user': ('first_name', 'email'),
        'parent': ('name'),
@@ -435,7 +435,12 @@ class NotificationAdmin(admin.ModelAdmin):
     send.short_description = u"Enviar notificações"
 
 class MyUserAdmin(UserAdmin):
-
+    def get_actions(self, request):
+        actions = super(MyUserAdmin, self).get_actions(request)
+        if 'delete_selected' in actions:
+            del actions['delete_selected']
+        return actions
+        
     def has_delete_permission(self, request, obj=None):
        if obj is None:
            return True
