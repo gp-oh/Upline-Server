@@ -59,14 +59,6 @@ def delete_user(member):
 
 def create_user(member):
     token = get_session_token();
-                "user": {
-                    "password": member.quickblox_password,
-                    "login": member.user.username,
-                    "email": member.email,
-                    "external_user_id": member.id,
-                    "full_name": member.name
-                }
-            })
     try:
         r = requests.post(
             url="http://api.quickblox.com/users.json",
