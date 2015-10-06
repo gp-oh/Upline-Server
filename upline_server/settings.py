@@ -196,7 +196,7 @@ OAUTH2_PROVIDER = {
 # STATIC_URL = '/static/'
 
 PUSH_NOTIFICATIONS_SETTINGS = {
-        "GCM_API_KEY": "AIzaSyCwaTwR0DeWhFmemKFYygaWnk0fXGK3hsI",
+        "GCM_API_KEY": "AIzaSyA3DfmoFEOFhNz1cbtpa3V1Fv9TVy0PQos",
         # "APNS_CERTIFICATE": "/path/to/your/certificate.pem",
 }
 
@@ -208,7 +208,7 @@ TEMPLATE_CONTEXT_PROCESSORS = TCP + (
 
 SUIT_CONFIG = {
     'ADMIN_NAME': '<img src="/static/admin/images/logo.png" />',
-    'HEADER_DATE_FORMAT': 'd/m/Y', # Saturday, 16th March 2013
+    'HEADER_DATE_FORMAT': 'd/m/Y',
     'HEADER_TIME_FORMAT': 'H:i',
     'SHOW_REQUIRED_ASTERISK': True,
     'CONFIRM_UNSAVED_CHANGES': True,
@@ -287,13 +287,8 @@ def create_training_filename(filename):
 
 
 S3DIRECT_DESTINATIONS = {
-    # Allow anybody to upload any MIME type
     'training_steps': (create_training_filename, lambda u: u.is_staff,),
-
-    # Allow staff users to upload any MIME type
     'posts': (create_posts_filename, lambda u: u.is_staff,),
-
-    # Allow anybody to upload jpeg's and png's.
     'media': (create_media_filename,lambda u: u.is_staff,),
 
 }
