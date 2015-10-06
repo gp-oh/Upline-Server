@@ -6,6 +6,15 @@ from django.template.loader import render_to_string
 from upline.models import *
 from django.db.models import Count, Avg, Sum
 
+@register.filter
+def is_disabled(obj = None):
+    print obj
+    print len(str(obj))
+    if obj == None or len(str(obj)) == 0:
+        return 'disabled'
+    else:
+        return 'enabled'
+
 def get_sales(list):
     from_date = datetime.datetime.today()-datetime.timedelta(days=30)
     to_date = datetime.datetime.today()

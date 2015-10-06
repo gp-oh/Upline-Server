@@ -1,5 +1,6 @@
 {% extends 'admin/change_list.html' %}
 {% load staticfiles %}
+{% load custom_tags %}
 {% load i18n admin_urls %}
 
 {% block extrastyle %}
@@ -21,50 +22,50 @@
     <ul class="tree">
         <li><div>{{node.obj.name}}</div>
           <ul>
-            <li><div><a href="/upline/member/{{node.left.obj.id}}/binary/">{{node.left.obj.name}}</div>
+            <li><div class="{{node.left.obj.id|is_disabled}}"><a href="/upline/member/{{node.left.obj.id}}/binary/">{{node.left.obj.name}}</div>
               <ul>
-                <li><div><a href="/upline/member/{{node.left.left.obj.id}}/binary/">{{node.left.left.obj.name}}</div>
+                <li><div class="{{node.left.left.obj.id|is_disabled}}"><a href="/upline/member/{{node.left.left.obj.id}}/binary/">{{node.left.left.obj.name}}</div>
                   <ul>
                     <li>
-                      <div><a href="/upline/member/{{node.left.left.left.obj.id}}/binary/">{{node.left.left.left.obj.name}}</div>
+                      <div class="{{node.left.left.left.obj.id|is_disabled}}"><a href="/upline/member/{{node.left.left.left.obj.id}}/binary/">{{node.left.left.left.obj.name}}</div>
                     </li>
                     <li>
-                      <div><a href="/upline/member/{{node.left.left.right.obj.id}}/binary/">{{node.left.left.right.obj.name}}</div>
+                      <div class="{{node.left.left.right.obj.id|is_disabled}}"><a href="/upline/member/{{node.left.left.right.obj.id}}/binary/">{{node.left.left.right.obj.name}}</div>
                     </li>
                   </ul>
                 </li>
-                <li><div><a href="/upline/member/{{node.left.right.obj.id}}/binary/">{{node.left.right.obj.name}}</div>
+                <li><div class="{{node.left.right.obj.id|is_disabled}}"><a href="/upline/member/{{node.left.right.obj.id}}/binary/">{{node.left.right.obj.name}}</div>
                   <ul>
                     <li>
-                      <div><a href="/upline/member/{{node.left.right.left.obj.id}}/binary/">{{node.left.right.left.obj.name}}</div>
+                      <div class="{{node.left.right.left.obj.id|is_disabled}}"><a href="/upline/member/{{node.left.right.left.obj.id}}/binary/">{{node.left.right.left.obj.name}}</div>
                     </li>
                     <li>
-                      <div><a href="/upline/member/{{node.left.right.right.obj.id}}/binary/">{{node.left.right.right.obj.name}}</div>
+                      <div class="{{node.left.right.right.obj.id|is_disabled}}"><a href="/upline/member/{{node.left.right.right.obj.id}}/binary/">{{node.left.right.right.obj.name}}</div>
                     </li>
                   </ul>
                 </li>
               </ul>
             </li>
 
-            <li><div><a href="/upline/member/{{node.right.obj.id}}/binary/">{{node.right.obj.name}}</div>
+            <li><div class="{{node.right.obj.id|is_disabled}}"><a href="/upline/member/{{node.right.obj.id}}/binary/">{{node.right.obj.name}}</div>
               <ul>
-                <li><div><a href="/upline/member/{{node.right.left.obj.id}}/binary/">{{node.right.left.obj.name}}</div>
+                <li><div class="{{node.right.left.obj.id|is_disabled}}"><a href="/upline/member/{{node.right.left.obj.id}}/binary/">{{node.right.left.obj.name}}</div>
                   <ul>
                     <li>
-                      <div><a href="/upline/member/{{node.right.left.left.obj.id}}/binary/">{{node.right.left.left.obj.name}}</div>
+                      <div class="{{node.right.left.left.obj.id|is_disabled}}"><a href="/upline/member/{{node.right.left.left.obj.id}}/binary/">{{node.right.left.left.obj.name}}</div>
                     </li>
                     <li>
-                      <div><a href="/upline/member/{{node.right.left.right.obj.id}}/binary/">{{node.right.left.right.obj.name}}</div>
+                      <div class="{{node.right.left.right.obj.id|is_disabled}}"><a href="/upline/member/{{node.right.left.right.obj.id}}/binary/">{{node.right.left.right.obj.name}}</div>
                     </li>
                   </ul>
                 </li>
-                <li><div><a href="/upline/member/{{node.right.right.obj.id}}/binary/">{{node.right.right.obj.name}}</div>
+                <li><div class="{{node.right.right.obj.id|is_disabled}}"><a href="/upline/member/{{node.right.right.obj.id}}/binary/">{{node.right.right.obj.name}}</div>
                   <ul>
                     <li>
-                      <div><a href="/upline/member/{{node.right.right.left.obj.id}}/binary/">{{node.right.right.left.obj.name}}</div>
+                      <div class="{{node.right.right.left.obj.id|is_disabled}}"><a href="/upline/member/{{node.right.right.left.obj.id}}/binary/">{{node.right.right.left.obj.name}}</div>
                     </li>
                     <li>
-                      <div><a href="/upline/member/{{node.right.right.right.obj.id}}/binary/">{{node.right.right.right.obj.name}}</div>
+                      <div class="{{node.right.right.right.obj.id|is_disabled}}"><a href="/upline/member/{{node.right.right.right.obj.id}}/binary/">{{node.right.right.right.obj.name}}</div>
                     </li>
                   </ul>
                 </li>
