@@ -44,7 +44,7 @@ def delete_user(member):
     
     try:
         r = requests.delete(
-            url="http://api.quickblox.com/users/external/"+str(member.id)+".json",
+            url="http://api.quickblox.com/users/"+str(member.quickblox_id)+".json",
             headers = {
                 "Content-Type":"application/json",
                 "QuickBlox-REST-API-Version ":"0.1.0",
@@ -62,7 +62,7 @@ def create_user(member):
                 "user": {
                     "password": member.quickblox_password,
                     "login": member.user.username,
-                    "email": member.user.email,
+                    "email": member.email,
                     "external_user_id": member.id,
                     "full_name": member.name+' batata'
                 }
@@ -79,7 +79,7 @@ def create_user(member):
                 "user": {
                     "password": member.quickblox_password,
                     "login": member.user.username,
-                    "email": member.user.email,
+                    "email": member.email,
                     "external_user_id": member.id,
                     "full_name": member.name
                 }
