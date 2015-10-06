@@ -3,6 +3,7 @@ from rest_framework import routers
 from upline.views import admin, api
 from push_notifications.api.rest_framework import APNSDeviceAuthorizedViewSet, GCMDeviceAuthorizedViewSet
 from django.contrib.admin.views.decorators import staff_member_required
+from rest_framework_bulk.routes import BulkRouter
 
 r = routers.DefaultRouter()
 r.register(r'sale', api.SaleViewSet)

@@ -19,6 +19,7 @@ from rest_framework.decorators import detail_route, list_route
 from django.db.models import Q
 from django.http import HttpRequest
 from decimal import Decimal
+from rest_framework_bulk import BulkCreateModelMixin
 
 class Login(APIView,OAuthLibMixin):
     permission_classes = (permissions.AllowAny,)
@@ -112,7 +113,7 @@ class MemberViewSet(viewsets.ModelViewSet):
         else:
             return MemberSerializer
 
-class ContactViewSet(viewsets.ModelViewSet):
+class ContactViewSet(viewsets.ModelViewSet,BulkCreateModelMixin):
     queryset = Contact.objects.all()
     serializer_class = ContactSerializer
 
