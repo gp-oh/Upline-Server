@@ -440,7 +440,12 @@ class MyUserAdmin(UserAdmin):
         if 'delete_selected' in actions:
             del actions['delete_selected']
         return actions
-        
+
+    def get_readonly_fields(self, request, obj = None):
+        if obj: #In edit mode
+            return ('username',) + self.readonly_fields
+        return self.readonly_fields
+
     def has_delete_permission(self, request, obj=None):
        if obj is None:
            return True
