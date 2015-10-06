@@ -9,6 +9,8 @@ import hmac
 application_id = '25117'
 authorization_key = '7eO2Mj-q9tDegSU'
 authorization_secret = '3V3Ds8tcxfZTZp4'
+username = 'guilhermecamilli'
+password = '5351jmrt'
 # ===========================================
 
 def get_timestamp_nonce():
@@ -18,8 +20,8 @@ def get_timestamp_nonce():
     return str(time.time()), str(random.randint(1, 10000))
 
 def create_signature_simple(timestamp, nonce):
-    string_for_signature = 'application_id={id}&auth_key={auth_key}&nonce={nonce}&timestamp={timestamp}'.format(id=application_id,
-                           auth_key=authorization_key, nonce=nonce, timestamp=timestamp)
+    string_for_signature = 'application_id={id}&auth_key={auth_key}&nonce={nonce}&timestamp={timestamp}&user[login]={username}&user[password]={password}'.format(id=application_id,
+                           auth_key=authorization_key, nonce=nonce, timestamp=timestamp,username=username,password=password)
 
     return hmac.new(authorization_secret, string_for_signature, sha).hexdigest()
 
@@ -29,6 +31,7 @@ def get_params_simple():
             'auth_key': authorization_key,
             'timestamp': timestamp,
             'nonce': nonce,
+            "user": {"login": username, "password": password},
             'signature': create_signature_simple(timestamp, nonce)}
 
 def get_session_token():
@@ -44,27 +47,24 @@ def delete_user(member):
     
     try:
         r = requests.delete(
-            url="http://api.quickblox.com/users/"+str(member.quickblox_id)+".json",
+            url="http://api.quickblox.com/users/external/"+str(member.id)+".json",
             headers = {
                 "Content-Type":"application/json",
                 "QuickBlox-REST-API-Version ":"0.1.0",
                 "QB-Token":token['session']['token'],
             })
-        print 'deleted'
-        print r.text
         return True
     except requests.exceptions.RequestException as e:
         return False
 
 def create_user(member):
     token = get_session_token();
-    print json.dumps({
                 "user": {
                     "password": member.quickblox_password,
                     "login": member.user.username,
                     "email": member.email,
                     "external_user_id": member.id,
-                    "full_name": member.name+' batata'
+                    "full_name": member.name
                 }
             })
     try:
@@ -87,6 +87,28 @@ def create_user(member):
         )
         data = json.loads(r.text)
         member.quickblox_id = data['user']['id']
+        return member
+    except requests.exceptions.RequestException as e:
+        return False
+
+def update_user(member):
+    token = get_session_token();
+    try:
+        r = requests.put(
+            url="http://api.quickblox.com/users/"+str(member.quickblox_id)+".json",
+            headers = {
+                "Content-Type":"application/json",
+                "QuickBlox-REST-API-Version ":"0.1.0",
+                "QB-Token":token['session']['token'],
+            },
+            data = json.dumps({
+                "user": {
+                    "login": member.user.username,
+                    "email": member.email,
+                    "full_name": member.name
+                }
+            })
+        )
         return member
     except requests.exceptions.RequestException as e:
         return False

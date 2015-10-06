@@ -30,17 +30,14 @@ class MemberAdmin(ForeignKeyAutocompleteAdmin,DjangoMpttAdmin):
        'parent': ('name'),
     }
 
+    def has_delete_permission(self, request, obj=None):
+        return False
+
     def get_actions(self, request):
         actions = super(MemberAdmin, self).get_actions(request)
         if 'delete_selected' in actions:
             del actions['delete_selected']
         return actions
-
-    def delete_model(modeladmin, request, queryset):
-        for obj in queryset:
-            delete_user(obj)
-            obj.user.delete()
-            obj.delete()
 
     def get_queryset(self, request):
         qs = super(MemberAdmin, self).get_queryset(request)

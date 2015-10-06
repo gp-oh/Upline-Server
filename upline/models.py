@@ -7,7 +7,7 @@ from django.db.models import Q
 from rq import Queue
 from worker import conn
 from utils import convert_audio, convert_video
-from upline.quickblox import create_user, delete_user
+from upline.quickblox import create_user, update_user
 from Crypto.Cipher import AES
 import base64, uuid
 from s3direct.fields import S3DirectField
@@ -272,6 +272,8 @@ class Member(MPTTModel):
             self.quickblox_password = User.objects.make_random_password()
             self = create_user(self)
             self.encrypt_quickblox_password()
+        else:
+            self = update_user(self)
         level = Level.objects.filter(points_range_from__lte=self.points,points_range_to__gte=self.points)
         if len(level) > 0:
             self.user.groups.remove(self.level.group)
