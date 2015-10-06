@@ -10,6 +10,9 @@ from django.conf import settings
 from django.contrib.admin.util import flatten_fieldsets
 from django.contrib.admin import SimpleListFilter
 from upline.quickblox import create_user, delete_user
+from django.contrib.auth.admin import UserAdmin
+from django.contrib.auth.models import User
+
 class TrainingAdmin(admin.ModelAdmin):
     list_display = ['id','name']
     search_fields = ['name']
@@ -430,6 +433,18 @@ class NotificationAdmin(admin.ModelAdmin):
         queryset.update(sent=True)
 
     send.short_description = u"Enviar notificações"
+
+class MyUserAdmin(UserAdmin):
+
+    def has_delete_permission(self, request, obj=None):
+       if obj is None:
+           return True
+       else:
+           return False
+
+
+admin.site.unregister(User)
+admin.site.register(User, MyUserAdmin)
 
 # admin.site.register(Audio,AudioAdmin)
 # admin.site.register(Video,VideoAdmin)
