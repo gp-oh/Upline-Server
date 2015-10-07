@@ -1,0 +1,14 @@
+{% load custom_tags %}
+<div class="{{obj.id|is_disabled}}"><a href="/upline/member/{{obj.id}}/binary/">{{obj.name}}</a>
+      <div class="binary-tooltip">
+          <div>Nome:{{obj.name}}</div>
+          <div>Login:{{obj.user.username}}</div>
+          <div>Patrocinador:{{obj.parent.user.username}}</div>
+          <div>Graduação:{{obj.level.title}}</div>
+          <div>Email:{{obj.email}}</div>
+          <div>Telefone:{{obj.phone}}</div>
+          <div>Número de convidados:{{obj.nr_invided}}</div>
+          <div>Número de contatos:{{obj.nr_contacts}}</div>
+          <div>Número de clientes:{{obj.nr_clients}}</div>
+      </div>
+</div>

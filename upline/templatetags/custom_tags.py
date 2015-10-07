@@ -7,6 +7,13 @@ from upline.models import *
 from django.db.models import Count, Avg, Sum
 
 @register.filter
+def binary(obj = None):
+    if obj != None and obj != '':
+        return render_to_string("django_mptt_admin/binary_item.html",{"obj":Member.objects.get(id=obj.id)})
+    else:
+        return render_to_string("django_mptt_admin/binary_item.html",{"obj":obj})
+
+@register.filter
 def is_disabled(obj = None):
     print obj
     print len(str(obj))

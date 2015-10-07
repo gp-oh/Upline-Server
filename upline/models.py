@@ -191,6 +191,14 @@ class Member(MPTTModel):
     update_time = models.DateTimeField(auto_now=True,verbose_name=_('update_time'))
 
     all_items = []
+    def nr_invided(self):
+        return Invite.objects.filter(member=self).count()
+
+    def nr_contacts(self):
+        return Contact.objects.filter(owner=self,contact_category=0).count()
+
+    def nr_clients(self):
+        return Contact.objects.filter(owner=self,contact_category=1).count()
 
     def get_binary_outpouring_right(self,level,initial_parent):
         ret = {'obj':self,'left':None,'right':None}
