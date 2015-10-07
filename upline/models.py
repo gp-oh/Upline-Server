@@ -448,7 +448,7 @@ class SaleItem(models.Model):
         verbose_name_plural = _("sale items")
 
     def __unicode__(self):
-        return str(self.id)
+        return str(self.id) 
     
 class Post(models.Model):
     user = models.ForeignKey(User,related_name='posts',verbose_name=_('user'))
