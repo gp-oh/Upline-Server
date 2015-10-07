@@ -15,3 +15,18 @@
 .form-horizontal .control-group.field-nr_contacts {
     display: none;
 } 
+ul.pie-legend, div#pie-chart-legend {
+    float: right;
+}
+
+ul.pie-legend li {
+    list-style: none;
+}
+
+ul.pie-legend li span {
+    height: 15px;
+    width: 15px;
+    display: block;
+    float: left;
+    border: 1px solid #333;
+}

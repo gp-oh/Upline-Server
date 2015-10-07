@@ -113,7 +113,7 @@
                 $(this).closest('li').toggleClass('thide').children('ul').toggle();
                 call_structure();
             });
-            $(document).on("hover", '.' + class_name + ' li > div', function(event) {
+            $(document).on("hover", '.' + class_name + ' li > div.enabled', function(event) {
                 if (event.type == 'mouseenter' || event.type == 'mouseover') {
                     $('.' + class_name + ' li > div.current').removeClass('current');
                     $('.' + class_name + ' li > div.children').removeClass('children');
@@ -124,6 +124,20 @@
                     $(this).children('span.highlight, span.add_action, span.delete_action, span.edit_action').show();
                 } else {
                     $(this).children('span.highlight, span.add_action, span.delete_action, span.edit_action').hide();
+                }
+            });
+            //Disabled
+            $(document).on("hover", '.' + class_name + ' li > div.disabled', function(event) {
+                if (event.type == 'mouseenter' || event.type == 'mouseover') {
+                    $('.' + class_name + ' li > div.current').removeClass('current');
+                    $('.' + class_name + ' li > div.children').removeClass('children');
+                    $('.' + class_name + ' li > div.parent').removeClass('parent');
+                    //$(this).addClass('current');
+                    //$(this).closest('li').children('ul').children('li').children('div').addClass('children');
+                    //$(this).closest('li').closest('ul').closest('li').children('div').addClass('parent');
+                    //$(this).children('span.highlight, span.add_action, span.delete_action, span.edit_action').show();
+                //} else {
+                //    $(this).children('span.highlight, span.add_action, span.delete_action, span.edit_action').hide();
                 }
             });
             $(document).on("click", '.' + class_name + ' span.highlight', function() {

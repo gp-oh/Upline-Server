@@ -33,6 +33,7 @@ ul.tree li div.children { background-position: center -136px; color: #ff3366 }
 ul.tree li div.children a { color: #ff3366;  }
 ul.tree li div.parent { background-position: center -204px; color: #46b0a3 ; }
 ul.tree li div.parent a { color: #46b0a3 }
+ul.tree li div.disabled { background-position: center -272px;}
 ul.tree li span.vertical, ul.tree li span.horizontal { display:inline-block; position:absolute; z-index:1; background:#bbb; }
 ul.tree li span.vertical { width:1px; }
 ul.tree li span.horizontal { height:1px; }
