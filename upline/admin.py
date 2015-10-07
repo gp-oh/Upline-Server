@@ -272,21 +272,14 @@ class PostalCodeAdmin(ForeignKeyAutocompleteAdmin):
     get_state.short_description = 'State'
     get_state.admin_order_field = 'city__state'
 
-# class EventAlertInline(admin.TabularInline):
-#     model = EventAlert
-
-
-# Create the filter
 class EventDateFilter(SimpleListFilter):
     title = _('Data')
     parameter_name = 'begin_time'
-    # Set the displaying options
     def lookups(self, request, model_admin):
         return (
             ('PREVIOUS', _('Previous')),
             ('AFTER', _('After')),
         )
-    # Assign a query for each option
     def queryset(self, request, queryset):
         if self.value() == 'PREVIOUS':
             return queryset.filter(begin_time__lte=datetime.datetime.now())
@@ -319,11 +312,6 @@ class EventAdmin(ForeignKeyAutocompleteAdmin):
                 model, request
             )
         return Q(member_type=0)
-
-    # inlines = [
-    #     EventAlertInline,
-    # ]
-
 
 class PostAdmin(ForeignKeyAutocompleteAdmin):
     list_display = ['user','title','group','content','create_time','media_type','get_media_file']
@@ -455,9 +443,6 @@ class MyUserAdmin(UserAdmin):
 
 admin.site.unregister(User)
 admin.site.register(User, MyUserAdmin)
-
-# admin.site.register(Audio,AudioAdmin)
-# admin.site.register(Video,VideoAdmin)
 admin.site.register(Invite,InviteAdmin)
 admin.site.register(Invited,InvitedAdmin)
 admin.site.register(Notification,NotificationAdmin)
