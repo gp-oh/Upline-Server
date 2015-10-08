@@ -23,6 +23,15 @@ from django.template.loader import render_to_string
 from django.core.mail import EmailMultiAlternatives
 
 
+class Avatar(models.Model):
+    user = models.OneToOneField(User,verbose_name=_('user'))
+    image = models.ImageField(upload_to="avatar")
+
+    class Meta:
+        verbose_name = "Avatar"
+        verbose_name_plural = "Avatar"
+    
+
 class State(models.Model):
     acronym = models.CharField(max_length=2, verbose_name=_('acronym'))
     name = models.CharField(max_length=255, verbose_name=_('name'))

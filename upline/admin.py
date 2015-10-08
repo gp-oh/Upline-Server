@@ -12,6 +12,7 @@ from django.contrib.admin import SimpleListFilter
 from upline.quickblox import create_user, delete_user
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
+from django.contrib import admin
 
 class TrainingAdmin(admin.ModelAdmin):
     list_display = ['id','name']
@@ -422,7 +423,16 @@ class NotificationAdmin(admin.ModelAdmin):
 
     send.short_description = u"Enviar notificações"
 
+
+class AvatarInline(admin.StackedInline):
+    model = Avatar
+
 class MyUserAdmin(UserAdmin):
+
+    inlines = [
+        AvatarInline,
+    ]
+    
     def get_actions(self, request):
         actions = super(MyUserAdmin, self).get_actions(request)
         if 'delete_selected' in actions:
