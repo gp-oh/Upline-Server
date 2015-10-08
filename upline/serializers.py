@@ -419,7 +419,7 @@ class GoalSerializer(serializers.HyperlinkedModelSerializer):
 class MediaSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Media
-        fields = ("id","name","media","thumbnail","media_type","user")
+        fields = ("id","name","media","thumbnail","media_type")
 
 class MediaCategorySerializer(serializers.HyperlinkedModelSerializer):
     medias = MediaSerializer(many=True,read_only=True)
