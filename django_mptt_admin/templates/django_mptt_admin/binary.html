@@ -19,6 +19,10 @@
 
 <div class="overflow">
   <div>
+  {% if node.obj.parent %}
+  <a href="/upline/member/{{node.obj.parent.id}}/binary/">Subir um Nível</a>
+  <a href="/upline/member/{{node.obj.get_root.id}}/binary/">Ir ao Topo</a>
+  {% endif %}
 	<ul class="tree">
 		<li>{{node.obj|binary}}
 		  <ul>
