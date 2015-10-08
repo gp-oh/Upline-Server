@@ -162,6 +162,59 @@ class Level(models.Model):
     def __unicode__(self):
         return self.title
 
+class Binary(MPTTModel):
+    member = models.ForeignKey('Member')
+    parent = TreeForeignKey('self', null=True, blank=True, related_name='downlines', db_index=True,verbose_name=_('parent'))
+    node_position = models.IntegerField(default=0)
+    can_left = models.BooleanField(default=False)
+    can_right = models.BooleanField(default=False)
+
+    @staticmethod
+    def create_member(member):
+        if member.is_root_node():
+            b = Binary()
+            b.member = member
+            b.can_left = True
+            b.can_right = True
+            b.save()
+        elif (len(Binary.objects.filter(member=member.parent)) > 0 and len(Binary.objects.get(member=member.parent).get_children()) < 2):
+            b = Binary()
+            b.member = member
+            b.parent = Binary.objects.get(member=member.parent)
+            b.node_position = len(b.parent.get_children())
+            if b.parent.can_left and not b.parent.get_previous_sibling():
+                b.can_left = True
+            elif b.parent.can_right and b.parent.get_previous_sibling():
+                b.can_right = True
+                b.node_position = 1
+            b.save()
+        elif member.parent.is_root_node():
+            b = Binary()
+            if member.outpooring == 0:
+                b.can_left = True
+                descendants = Binary.objects.get(member=member.parent).get_leafnodes().filter(can_left=True)
+            elif member.outpooring == 1:
+                b.can_right = True
+                descendants = Binary.objects.get(member=member.parent).get_leafnodes().filter(can_right=True)
+            b.member = member
+            b.parent = descendants[0]
+            b.node_position = len(b.parent.get_children())
+            b.save()
+
+    def get_binary(self,level = None):
+        if level == None:
+            level = self.get_level()
+
+        ret = {'obj':self,'left':None,'right':None}
+        if self.get_level() < level+3:
+            left = self.get_children().filter(node_position=0)
+            if len(left) > 0:
+                ret['left'] = left[0].get_binary(level)
+            right = self.get_children().filter(node_position=1)
+            if len(right) > 0:
+                ret['right'] = right[0].get_binary(level)
+        return ret
+
 class Member(MPTTModel):
     member_uid = models.UUIDField(unique=True, null=True, editable=False)
     member_type = models.IntegerField(default=0,choices=((0,'Membro'),(1,'Convidado')),editable=False)
@@ -200,86 +253,17 @@ class Member(MPTTModel):
     def nr_clients(self):
         return Contact.objects.filter(owner=self,contact_category=1).count()
 
-    def get_binary_outpouring_right(self,level,initial_parent):
-        ret = {'obj':self,'left':None,'right':None}
-        parent_child = Member.objects.filter(member_type=0,parent=initial_parent,mptt_level__lte=level,outpooring=1).exclude(id__in=initial_parent.all_items).order_by('id').first()
-        if parent_child:
-            children = Member.objects.filter(member_type=0,parent=self,mptt_level__lte=level,id__lte=parent_child.id).order_by('id')[:2]
-        else:
-            children = Member.objects.filter(member_type=0,parent=self,mptt_level__lte=level).order_by('id')[:2]
-
-        for child in children:
-            initial_parent.all_items.append(child.id)
-
-        if len(children) < 2 and parent_child:
-            initial_parent.all_items.append(parent_child.id)
-        
-        if ret['left'] == None and len(children) > 0:
-            ret['left'] = children[0].get_binary(level,initial_parent)
-
-        if len(children) == 2:
-            ret['right'] = children[1].get_binary_outpouring_right(level,initial_parent)
-        elif parent_child:
-            ret['right'] = parent_child.get_binary_outpouring_right(level,initial_parent)
-
-        return ret
-
-    def get_binary_outpouring_left(self,level,initial_parent):
-        ret = {'obj':self,'left':None,'right':None}
-        parent_child = Member.objects.filter(member_type=0,parent=initial_parent,mptt_level__lte=level,outpooring=0).exclude(id__in=initial_parent.all_items).order_by('id').first()
-        print str(self) +' - '+str(parent_child)+' - '+str(initial_parent.all_items)
-        if parent_child:
-            children = Member.objects.filter(member_type=0,parent=self,mptt_level__lte=level,id__lte=parent_child.id).order_by('id')[:2]
-        else:
-            children = Member.objects.filter(member_type=0,parent=self,mptt_level__lte=level).order_by('id')[:2]
-
-        for child in children:
-            initial_parent.all_items.append(child.id)
-
-        if len(children) < 2 and parent_child:
-            initial_parent.all_items.append(parent_child.id)
-        
-        if ret['left'] == None and len(children) > 0:
-            ret['left'] = children[0].get_binary_outpouring_left(level,initial_parent)
-        elif parent_child:
-            ret['left'] = parent_child.get_binary_outpouring_left(level,initial_parent)
-
-        if len(children) == 2:
-            ret['right'] = children[1].get_binary(level,initial_parent)
-
-        return ret
-
-    def get_binary(self,level,initial_parent):
-        if self == initial_parent:
-            self.all_items = []
-        
-        ret = {'obj':self,'left':None,'right':None}
-
-        children = Member.objects.filter(member_type=0,parent=self,mptt_level__lte=level).order_by('id')[:2]
-        
-        for child in children:
-            initial_parent.all_items.append(child.id)
-        
-        if ret['left'] == None and len(children) > 0:
-            if self == initial_parent:
-                ret['left'] = children[0].get_binary_outpouring_left(level,initial_parent)
-            else:
-                ret['left'] = children[0].get_binary(level,initial_parent)
-
-        if len(children) == 2:
-            if self == initial_parent:
-                ret['right'] = children[1].get_binary_outpouring_right(level,initial_parent)
-            else:
-                ret['right'] = children[1].get_binary(level,initial_parent)
-
-        return ret
+    def get_binary(self):
+        binary = Binary.objects.filter(member=self)
+        if len(binary) > 0:
+            return binary[0].get_binary()
 
     def save(self, *args, **kwargs):
         if not self.pk:
             self.member_uid = str(uuid.uuid4())
             self.quickblox_password = User.objects.make_random_password()
             self = create_user(self)
-            self.encrypt_quickblox_password()
+            self.encrypt_quickblox_password()    
         else:
             self = update_user(self)
         level = Level.objects.filter(points_range_from__lte=self.points,points_range_to__gte=self.points)
@@ -292,6 +276,7 @@ class Member(MPTTModel):
             self.user.email = self.email
             self.user.save()
         super(Member, self).save(*args, **kwargs)
+        Binary.create_member(self)
 
     class Meta:
         verbose_name = _("member")

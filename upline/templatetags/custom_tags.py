@@ -9,7 +9,7 @@ from django.db.models import Count, Avg, Sum
 @register.filter
 def binary(obj = None):
     if obj != None and obj != '':
-        return render_to_string("django_mptt_admin/binary_item.html",{"obj":Member.objects.get(id=obj.id)})
+        return render_to_string("django_mptt_admin/binary_item.html",{"obj":obj.member})
     else:
         return render_to_string("django_mptt_admin/binary_item.html",{"obj":obj})
 

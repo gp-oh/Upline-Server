@@ -119,7 +119,7 @@ class DjangoMpttAdminMixin(object):
             app_label=self.model._meta.app_label,
             model_name=util.get_model_name(self.model),
             obj=instance,
-            node=instance.get_binary(instance.mptt_level+3,instance),
+            node=instance.get_binary(),
             cl=change_list,
             media=self.media,
             verbose_name=str(instance),
