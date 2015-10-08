@@ -4,13 +4,13 @@
 {% load i18n admin_urls %}
 
 {% block extrastyle %}
-    <link href="{% static 'django_mptt_admin/horizontal-tree/style.css' %}" rel="stylesheet" type="text/css">
+	<link href="{% static 'django_mptt_admin/horizontal-tree/style.css' %}" rel="stylesheet" type="text/css">
 {% endblock %}
 
 {% block extrahead %}
-    <script src="{% static 'django_mptt_admin/horizontal-tree/jquery-migrate-1.2.1.min.js' %}"></script>
-    <script src="{% static 'django_mptt_admin/horizontal-tree/jquery-ui.js' %}"></script>
-    <script src="{% static 'django_mptt_admin/horizontal-tree/jquery.tree.js' %}"></script>
+	<script src="{% static 'django_mptt_admin/horizontal-tree/jquery-migrate-1.2.1.min.js' %}"></script>
+	<script src="{% static 'django_mptt_admin/horizontal-tree/jquery-ui.js' %}"></script>
+	<script src="{% static 'django_mptt_admin/horizontal-tree/jquery.tree.js' %}"></script>
 {% endblock %}
 
 {% block search %}{% endblock %}
@@ -19,89 +19,89 @@
 
 <div class="overflow">
   <div>
-    <ul class="tree">
-        <li>{{node.obj|binary}}
-          <ul>
-            <li>{{node.left.obj|binary}}
-              <ul>
-                <li>{{node.left.left.obj|binary}}
-                  <ul>
-                    <li>
-                      {{node.left.left.left.obj|binary}}
-                    </li>
-                    <li>
-                      {{node.left.left.right.obj|binary}}
-                    </li>
-                  </ul>
-                </li>
-                <li>{{node.left.right.obj|binary}}
-                  <ul>
-                    <li>
-                      {{node.left.right.left.obj|binary}}
-                    </li>
-                    <li>
-                      {{node.left.right.right.obj|binary}}
-                    </li>
-                  </ul>
-                </li>
-              </ul>
-            </li>
+	<ul class="tree">
+		<li>{{node.obj|binary}}
+		  <ul>
+			<li>{{node.left.obj|binary}}
+			  <ul>
+				<li>{{node.left.left.obj|binary}}
+				  <ul>
+					<li>
+					  {{node.left.left.left.obj|binary}}
+					</li>
+					<li>
+					  {{node.left.left.right.obj|binary}}
+					</li>
+				  </ul>
+				</li>
+				<li>{{node.left.right.obj|binary}}
+				  <ul>
+					<li>
+					  {{node.left.right.left.obj|binary}}
+					</li>
+					<li>
+					  {{node.left.right.right.obj|binary}}
+					</li>
+				  </ul>
+				</li>
+			  </ul>
+			</li>
 
-            <li>{{node.right.obj|binary}}
-              <ul>
-                <li>{{node.right.left.obj|binary}}
-                  <ul>
-                    <li>
-                      {{node.right.left.left.obj|binary}}
-                    </li>
-                    <li>
-                      {{node.right.left.right.obj|binary}}
-                    </li>
-                  </ul>
-                </li>
-                <li>{{node.right.right.obj|binary}}
-                  <ul>
-                    <li>
-                      {{node.right.right.left.obj|binary}}
-                    </li>
-                    <li>
-                      {{node.right.right.right.obj|binary}}
-                    </li>
-                  </ul>
-                </li>
-              </ul>
-            </li>
+			<li>{{node.right.obj|binary}}
+			  <ul>
+				<li>{{node.right.left.obj|binary}}
+				  <ul>
+					<li>
+					  {{node.right.left.left.obj|binary}}
+					</li>
+					<li>
+					  {{node.right.left.right.obj|binary}}
+					</li>
+				  </ul>
+				</li>
+				<li>{{node.right.right.obj|binary}}
+				  <ul>
+					<li>
+					  {{node.right.right.left.obj|binary}}
+					</li>
+					<li>
+					  {{node.right.right.right.obj|binary}}
+					</li>
+				  </ul>
+				</li>
+			  </ul>
+			</li>
 
-          </ul>
-        </li>
-      </ul>
+		  </ul>
+		</li>
+	  </ul>
   </div>
 </div>
-<style type="text/css">
-  .binary-tooltip { position: fixed;top:0;left: 0;display: none;background: white;text-align: left;z-index: 3}
-</style>
-    <script>
-            $(document).ready(function() {
-                $('.tree').tree_structure({
-                    'add_option': false,
-                    'edit_option': false,
-                    'delete_option': false,
-                    'confirm_before_delete': false,
-                    'animate_option': false,
-                    'fullwidth_option': false,
-                    'align_option': 'center',
-                    'draggable_option': false
-                });
-                $(".enabled").mouseover(function(e){
-                  $(this).find(".binary-tooltip").css('left',e.pageX+"px");
-                  $(this).find(".binary-tooltip").css('top',(e.pageY - window.pageYOffset)+"px");
-                  $(this).find(".binary-tooltip").css('display','block');
-                });
-                $(".enabled").mouseout(function() {
-                  $(this).find(".binary-tooltip").css('display','none');
-                });
-            });
-    </script>
+	<script>
+			$(document).ready(function() {
+				$('.tree').tree_structure({
+					'add_option': false,
+					'edit_option': false,
+					'delete_option': false,
+					'confirm_before_delete': false,
+					'animate_option': false,
+					'fullwidth_option': false,
+					'align_option': 'center',
+					'draggable_option': false
+				});
+				$(".enabled").mouseover(function(e){
+					$(this).find(".binary-tooltip").css('left',e.pageX+"px");
+					$(this).find(".binary-tooltip").css('top',(e.pageY - window.pageYOffset)+"px");
+					$(this).find(".binary-tooltip").css('display','block');
+					$(this).parents("ul.tree").find("li div").css('z-index','2');
+					$(this).parents("ul.tree").find("li span").css('z-index','1');
+					$(this).css('z-index','999');
+				});
+				$(".enabled").mouseout(function() {
+				  $(this).find(".binary-tooltip").css('display','none');
+				});
+			});
+	</script>
 {% endblock %}
 
 {% block pagination %}{% endblock %}
@@ -112,23 +112,23 @@
 
 {% if not is_popup %}
   {% block breadcrumbs %}
-    <ul class="breadcrumb">
-      <li>
-        <a href="{% url 'admin:index' %}">{% trans 'Home' %}</a>
-        <span class="divider">&raquo;</span>
-      </li>
-      <li>
-        <a href="{% url 'admin:app_list' app_label=cl.opts.app_label %}">{% firstof cl.opts.app_config.verbose_name app_label|capfirst|escape %}</a>
-        <span class="divider">&raquo;</span>
-      </li>
-      <li>
-          <a href="{% url cl.opts|admin_urlname:'changelist' %}">
-            {{ cl.opts.verbose_name_plural|capfirst }}</a>
-        <span class="divider">&raquo;</span>
-      </li>
-      <li class="active">
-        {{ verbose_name }}
-      </li>
-    </ul>
+	<ul class="breadcrumb">
+	  <li>
+		<a href="{% url 'admin:index' %}">{% trans 'Home' %}</a>
+		<span class="divider">&raquo;</span>
+	  </li>
+	  <li>
+		<a href="{% url 'admin:app_list' app_label=cl.opts.app_label %}">{% firstof cl.opts.app_config.verbose_name app_label|capfirst|escape %}</a>
+		<span class="divider">&raquo;</span>
+	  </li>
+	  <li>
+		  <a href="{% url cl.opts|admin_urlname:'changelist' %}">
+			{{ cl.opts.verbose_name_plural|capfirst }}</a>
+		<span class="divider">&raquo;</span>
+	  </li>
+	  <li class="active">
+		{{ verbose_name }}
+	  </li>
+	</ul>
   {% endblock %}
 {% endif %}
