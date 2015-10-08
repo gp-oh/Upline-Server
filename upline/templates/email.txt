@@ -1,17 +1,12 @@
-Olá {{name}}!
-Seu amigo {{member.name}} está convidado você 
-para baixar o aplicativo {{app}} e conferir 
-mais informações sobre essa grande oportunidade de negócio.
+Olá {{name}}.
 
-No {{app}} você encontra todas as informações 
-pra você tirar todas as suas dúvidas. Mas caso queira também, 
-temos um chat exclusivo para você perguntar o que for necessário.
+Estou convidando você para baixar o aplicativo {{app}}.
+Você terá mais informações sobre o desenvolvimento do negócio, novas tendências, além de conhecer todas as linhas de produtos e lançamentos.
 
-Aguardo você lá.
+Após baixar o aplicativo, você deverá entrar como convidado e utilizar meu ID: {{member.user.username}}.
 
-Link do app.
+Link para baixar o aplicativo na Google Play
 {{link}}
 
 Atenciosamente.
-
 {{member.name}}
