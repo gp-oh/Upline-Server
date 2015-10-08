@@ -21,7 +21,7 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
     def get_avatar(self,user):
         avatar = Avatar.objects.filter(user=user)
         if len(avatar) > 0:
-            return avatar.image
+            return avatar[0].image
         else:
             return None
 
