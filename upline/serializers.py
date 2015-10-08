@@ -16,9 +16,18 @@ class GroupSerializer(serializers.HyperlinkedModelSerializer):
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     groups = GroupSerializer(read_only=True,many=True)
+    avatar = serializers.SerializerMethodField()
+    
+    def get_avatar(self,user):
+        avatar = Avatar.objects.filter(user=user)
+        if len(avatar) > 0:
+            return avatar.image
+        else:
+            return None
+
     class Meta:
         model = User
-        fields = ("id",'groups', 'username', 'email')
+        fields = ("id",'groups', 'username', 'email',"avatar")
 
 class UsernameSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
@@ -410,7 +419,7 @@ class GoalSerializer(serializers.HyperlinkedModelSerializer):
 class MediaSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Media
-        fields = ("id","name","media","thumbnail","media_type")
+        fields = ("id","name","media","thumbnail","media_type","user")
 
 class MediaCategorySerializer(serializers.HyperlinkedModelSerializer):
     medias = MediaSerializer(many=True,read_only=True)
