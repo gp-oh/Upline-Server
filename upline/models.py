@@ -16,7 +16,7 @@ from colorful.fields import RGBColorField
 from boto.s3.connection import S3Connection, Bucket, Key
 from django.conf import settings
 from mimetypes import MimeTypes
-import urllib
+import urllib, os
 from django.db.models.signals import pre_delete
 from django.dispatch.dispatcher import receiver
 from django.template.loader import render_to_string
