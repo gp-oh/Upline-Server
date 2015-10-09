@@ -44,6 +44,7 @@ INSTALLED_APPS = (
     'rest_framework',
     'storages',
     'mptt',
+    'easy_thumbnails',
     's3direct',
     'django_mptt_admin',
     'django_extensions',
@@ -271,19 +272,19 @@ def create_media_filename(filename):
     import uuid
     ext = filename.split('.')[-1]
     filename = '%s.%s' % (uuid.uuid4().hex, ext)
-    return os.path.join('uploads/media', filename)
+    return os.path.join('media', filename)
 
 def create_posts_filename(filename):
     import uuid
     ext = filename.split('.')[-1]
     filename = '%s.%s' % (uuid.uuid4().hex, ext)
-    return os.path.join('uploads/posts', filename)
+    return os.path.join('posts', filename)
 
 def create_training_filename(filename):
     import uuid
     ext = filename.split('.')[-1]
     filename = '%s.%s' % (uuid.uuid4().hex, ext)
-    return os.path.join('uploads/training_steps', filename)
+    return os.path.join('training_steps', filename)
 
 
 S3DIRECT_DESTINATIONS = {

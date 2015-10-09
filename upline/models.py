@@ -6,7 +6,7 @@ from mptt.models import MPTTModel, TreeForeignKey
 from django.db.models import Q
 from rq import Queue
 from worker import conn
-from utils import convert_audio, convert_video
+from utils import convert_audio, convert_video, convert_media
 from upline.quickblox import create_user, update_user
 from Crypto.Cipher import AES
 import base64, uuid
@@ -26,13 +26,7 @@ from django.core.mail import EmailMultiAlternatives
 def path_and_rename(path):
     def wrapper(instance, filename):
         ext = filename.split('.')[-1]
-        # get filename
-        if instance.pk:
-            filename = '{}.{}'.format(instance.pk, ext)
-        else:
-            # set filename as random string
-            filename = '{}.{}'.format(uuid4().hex, ext)
-        # return the whole path to the file
+        filename = '{}.{}'.format(uuid.uuid4().hex, ext)
         return os.path.join(path, filename)
     return wrapper
 
@@ -153,6 +147,8 @@ class TrainingStep(models.Model):
 
     def __unicode__(self):
         return self.title
+
+
 
 class Level(models.Model):
     title = models.CharField(unique=True, max_length=255,verbose_name=_('title'))
@@ -594,6 +590,11 @@ class Media(models.Model):
                 self.media_type = 3
 
         super(Media, self).save(*args, **kwargs)
+
+        if not self.converted:
+            q = Queue(connection=conn)
+            result = q.enqueue(convert_media, self)
+
             # if self.media_type == 1:
             #     q = Queue(connection=conn)
             #     result = q.enqueue(convert_audio, self)
