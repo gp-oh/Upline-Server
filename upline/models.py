@@ -23,16 +23,47 @@ from django.template.loader import render_to_string
 from django.core.mail import EmailMultiAlternatives
 
 
-def path_and_rename(path):
-    def wrapper(instance, filename):
-        ext = filename.split('.')[-1]
-        filename = '{}.{}'.format(uuid.uuid4().hex, ext)
-        return os.path.join(path, filename)
-    return wrapper
+def avatar_path(instance, filename):
+    ext = filename.split('.')[-1]
+    filename = '{}.{}'.format(uuid.uuid4().hex, ext)
+    return os.path.join('image', filename)
+
+
+def thumbnails_path(instance, filename):
+    ext = filename.split('.')[-1]
+    filename = '{}.{}'.format(uuid.uuid4().hex, ext)
+    return os.path.join('image', filename)
+
+def levels_path(instance, filename):
+    ext = filename.split('.')[-1]
+    filename = '{}.{}'.format(uuid.uuid4().hex, ext)
+    return os.path.join('image', filename)
+
+def members_path(instance, filename):
+    ext = filename.split('.')[-1]
+    filename = '{}.{}'.format(uuid.uuid4().hex, ext)
+    return os.path.join('image', filename)
+
+def dreams_path(instance, filename):
+    ext = filename.split('.')[-1]
+    filename = '{}.{}'.format(uuid.uuid4().hex, ext)
+    return os.path.join('image', filename)
+
+def answer_path(instance, filename):
+    ext = filename.split('.')[-1]
+    filename = '{}.{}'.format(uuid.uuid4().hex, ext)
+    return os.path.join('image', filename)
+
+def contacts_path(instance, filename):
+    ext = filename.split('.')[-1]
+    filename = '{}.{}'.format(uuid.uuid4().hex, ext)
+    return os.path.join('image', filename)
+
+
 
 class Avatar(models.Model):
     user = models.OneToOneField(User,verbose_name=_('user'))
-    image = models.ImageField(upload_to=path_and_rename("avatar"))
+    image = models.ImageField(upload_to=avatar_path)
 
     class Meta:
         verbose_name = "Avatar"
@@ -119,7 +150,8 @@ class TrainingStep(models.Model):
     title = models.CharField(max_length=255,verbose_name=_('title'))
     media = S3DirectField(dest='training_steps', null=True,blank=True)
     media_type = models.IntegerField(choices=((0,'Imagem'),(1,'Audio'),(2,'Video')),verbose_name=_('media_type'),default=0,editable=False)
-    thumbnail = models.ImageField(upload_to=path_and_rename("thumbnails"),blank=True, null=True,verbose_name=_('thumbnail'),editable=True)
+    thumbnail = models.ImageField(upload_to=thumbnails_path,blank=True, null=True,verbose_name=_('thumbnail'),editable=True)
+    converted = models.BooleanField(default=False)
     step = models.IntegerField(verbose_name=_('step'))
     description = models.TextField(blank=True, null=True,verbose_name=_('description'))
     need_answer = models.BooleanField(default=False,verbose_name=_('need_answer'))
@@ -148,11 +180,32 @@ class TrainingStep(models.Model):
     def __unicode__(self):
         return self.title
 
+    def save(self, *args, **kwargs):
+        if self.media:
+            mime = MimeTypes()
+            mime_type = mime.guess_type(self.media)
+            
+            t = mime_type[0].split('/')[0]
+
+            if t == 'image':
+                self.media_type = 0
+            elif t == 'audio':
+                self.media_type = 1
+            elif t == 'video':
+                self.media_type = 2
+            else:
+                self.media_type = 3
+
+        super(TrainingStep, self).save(*args, **kwargs)
+
+        if not self.converted:
+            q = Queue(connection=conn)
+            result = q.enqueue(convert_media, self)
 
 
 class Level(models.Model):
     title = models.CharField(unique=True, max_length=255,verbose_name=_('title'))
-    image = models.ImageField(null=True,blank=True,upload_to=path_and_rename("levels"),verbose_name=_('image'))
+    image = models.ImageField(null=True,blank=True,upload_to=levels_path,verbose_name=_('image'))
     color = RGBColorField(default="#ffffff")
     description = models.TextField(null=True,verbose_name=_('description'))
     gift = models.TextField(null=True,verbose_name=_('gift'))
@@ -244,7 +297,7 @@ class Member(MPTTModel):
     quickblox_id = models.CharField(max_length=255,null=True,verbose_name=_('quickblox_id'),editable=False)
     quickblox_password = models.CharField(max_length=255,null=True,verbose_name=_('quickblox_password'),editable=False)
     points = models.IntegerField(default=0,verbose_name=_('points'))
-    avatar = models.ImageField(upload_to=path_and_rename('members'), blank=True, null=True,verbose_name=_('avatar'))
+    avatar = models.ImageField(upload_to=members_path, blank=True, null=True,verbose_name=_('avatar'))
     phone = models.CharField(max_length=45, blank=True, null=True,verbose_name=_('phone'))
     gender = models.IntegerField(choices=((0,"Masculino"),(1,'Feminino')),verbose_name=_('gender'))
     postal_code = models.CharField(max_length=255,verbose_name=_('postal_code'))
@@ -252,8 +305,8 @@ class Member(MPTTModel):
     state = models.CharField(max_length=255, blank=True, null=True,verbose_name=_('state'))
     address = models.CharField(max_length=255, blank=True, null=True,verbose_name=_('address'))
     address_number = models.CharField(max_length=255, blank=True, null=True,verbose_name=_('address_number'))
-    dream1 = models.ImageField(upload_to=path_and_rename("dreams"),blank=True, null=True,default=None,verbose_name=_('dream1'))
-    dream2 = models.ImageField(upload_to=path_and_rename("dreams"),blank=True, null=True,default=None,verbose_name=_('dream2'))
+    dream1 = models.ImageField(upload_to=dreams_path,blank=True, null=True,default=None,verbose_name=_('dream1'))
+    dream2 = models.ImageField(upload_to=dreams_path,blank=True, null=True,default=None,verbose_name=_('dream2'))
     status = models.CharField(blank=True, null=True,verbose_name=_('status'),max_length=255)
     birthday = models.DateField(null=True,verbose_name=_('birthday'))
     level = models.ForeignKey(Level,verbose_name=_('level'),editable=False,default=1)
@@ -327,7 +380,7 @@ class MemberTrainingStep(models.Model):
     member = models.ForeignKey(Member,related_name='answers',verbose_name=_('member'))
     training_step = models.ForeignKey(TrainingStep,related_name='members',verbose_name=_('training_step'))
     answer = models.TextField(verbose_name=_('answer'))
-    media = models.FileField(upload_to=path_and_rename("answer"),null=True,blank=True,default=None)
+    media = models.FileField(upload_to=answer_path,null=True,blank=True,default=None)
 
     class Meta:
         verbose_name = _("member traing step")
@@ -339,7 +392,7 @@ class MemberTrainingStep(models.Model):
 class Contact(models.Model):
     owner = models.ForeignKey(Member,related_name="contact_owner",verbose_name=_('upline'))
     member = models.ForeignKey(Member,related_name="contact_member", blank=True, null=True,verbose_name=_('member'))
-    avatar = models.ImageField(upload_to=path_and_rename('contacts'), blank=True, null=True,verbose_name=_('avatar'))
+    avatar = models.ImageField(upload_to=contacts_path, blank=True, null=True,verbose_name=_('avatar'))
     contact_category = models.IntegerField(choices=((0,'Contato'),(1,'Cliente')),verbose_name=_('contact_category'))
     gender = models.IntegerField(choices=((-1,"-"),(0,"Masculino"),(1,'Feminino')),verbose_name=_('gender'),null=True,blank=True,default=-1)
     name = models.CharField(max_length=255,verbose_name=_('name'))
@@ -460,7 +513,8 @@ class Post(models.Model):
     content = models.TextField(null=True,blank=True,default=None,verbose_name=_('content'))
     media = S3DirectField(dest='posts', null=True)
     media_type = models.IntegerField(choices=((0,'Imagem'),(1,'Audio'),(2,'Video')),verbose_name=_('media_type'),default=0,editable=False)
-    thumbnail = models.ImageField(upload_to=path_and_rename("thumbnails"),blank=True, null=True,verbose_name=_('thumbnail'),editable=True)
+    thumbnail = models.ImageField(upload_to=thumbnails_path,blank=True, null=True,verbose_name=_('thumbnail'),editable=True)
+    converted = models.BooleanField(default=False)
     create_time = models.DateTimeField(auto_now_add=True,verbose_name=_('create_time'))
     update_time = models.DateTimeField(auto_now=True,verbose_name=_('update_time'))
 
@@ -490,6 +544,9 @@ class Post(models.Model):
                 self.media_type = 2
         super(Post, self).save(*args, **kwargs)
             
+        if not self.converted:
+            q = Queue(connection=conn)
+            result = q.enqueue(convert_media, self)
 
     
 class Calendar(models.Model):
@@ -561,7 +618,7 @@ class Media(models.Model):
     media_category = models.ForeignKey(MediaCategory,related_name='medias',verbose_name=_('media_category'))
     name = models.CharField(max_length=255,verbose_name=_('name'))
     media = S3DirectField(dest='media', null=True)
-    thumbnail = models.ImageField(upload_to=path_and_rename("thumbnails"),blank=True,editable=True, null=True,verbose_name=_('thumbnail'))
+    thumbnail = models.ImageField(upload_to=thumbnails_path,blank=True,editable=True, null=True,verbose_name=_('thumbnail'))
     converted = models.BooleanField(default=False, editable=False)
     create_time = models.DateTimeField(auto_now_add=True,verbose_name=_('create_time'))
     update_time = models.DateTimeField(auto_now=True,verbose_name=_('update_time'))
@@ -594,13 +651,6 @@ class Media(models.Model):
         if not self.converted:
             q = Queue(connection=conn)
             result = q.enqueue(convert_media, self)
-
-            # if self.media_type == 1:
-            #     q = Queue(connection=conn)
-            #     result = q.enqueue(convert_audio, self)
-            # elif self.media_type == 2:
-            #     q = Queue(connection=conn)
-            #     result = q.enqueue(convert_video, self)
 
 class Notification(models.Model):
     level = models.ForeignKey(Group,verbose_name=_('level'))

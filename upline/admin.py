@@ -321,6 +321,11 @@ class PostAdmin(ForeignKeyAutocompleteAdmin):
        'user': ('first_name', 'email'),
     }
 
+    def get_readonly_fields(self, request, obj=None):
+        if obj:
+            return self.readonly_fields + ('converted',)
+        return self.readonly_fields
+
     def get_media_file(self, obj):
         if obj.media_type == 0:
             return '<img src="'+obj.media+'" style="width:300px"/>'
@@ -376,6 +381,11 @@ class TrainingStepAdmin(admin.ModelAdmin):
     search_fields = ['name']
     list_filter = ['training']
     form = TrainingStepForm
+
+    def get_readonly_fields(self, request, obj=None):
+        if obj:
+            return self.readonly_fields + ('converted',)
+        return self.readonly_fields
 
 class InviteAdmin(admin.ModelAdmin):
     search_fields = ['member','name','email']
