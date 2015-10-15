@@ -289,7 +289,7 @@ class SaleSerializer(serializers.HyperlinkedModelSerializer):
     sale_items = SaleItemSerializer(many=True,read_only=True)
     class Meta:
         model = Sale
-        fields = ("id","client","sale_items","active","total","points","create_time","paid","sent","send_time")
+        fields = ("id","client","sale_items","active","total","points","create_time","status","send_time")
 
 class SaleRegisterSerializer(serializers.HyperlinkedModelSerializer):
     client_id = serializers.PrimaryKeyRelatedField(many=False, queryset=Contact.objects.all(),source="client")

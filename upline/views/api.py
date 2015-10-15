@@ -130,7 +130,7 @@ class SaleViewSet(viewsets.ModelViewSet):
     def send(self,request):
         sales = Sale.objects.filter(active=True,sent=False,member__user=request.user)
         for sale in sales:
-            sale.sent = True
+            sale.status = 1
             sale.send_time = datetime.datetime.now()
             sale.save()
         serializer = SaleSerializer(sales,many=True)
@@ -149,6 +149,8 @@ class SaleViewSet(viewsets.ModelViewSet):
 
     def list(self, request):
         queryset = Sale.objects.filter(member__user=request.user)
+        if 'status' in request.GET:
+            queryset = queryset.filter(status=int(request.GET['status']))
         serializer = SaleSerializer(queryset, many=True,context={'request': request})
         return Response(serializer.data)
 

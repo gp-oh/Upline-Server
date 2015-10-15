@@ -469,15 +469,14 @@ class Sale(models.Model):
     active = models.BooleanField(default=True,verbose_name=_('active'))
     total = models.DecimalField(max_digits=11, decimal_places=2,default="0.00",verbose_name=_('total'))
     points = models.IntegerField(default=0,verbose_name=_('points'))
-    paid = models.BooleanField(default=False,verbose_name=_('paid'))
+    status = models.IntegerField(default=0,choices=((0,'Novo'),(1,'Enviado'),(2,'Aprovado'),(3,'Cancelado')))
     pontuated = models.BooleanField(default=False,verbose_name=_('pontuated'),editable=False)
-    sent = models.BooleanField(default=False,verbose_name=_('sent'))
     create_time = models.DateTimeField(auto_now_add=True,verbose_name=_('create_time'))
     update_time = models.DateTimeField(auto_now=True,verbose_name=_('update_time'))
     send_time = models.DateTimeField(null=True,verbose_name=_('send_time'))
 
     def save(self, *args, **kwargs):
-        if self.paid and not self.pontuated:
+        if self.status == 2 and not self.pontuated:
             self.member.points += self.points
             self.member.save()
         super(Sale, self).save(*args, **kwargs)
