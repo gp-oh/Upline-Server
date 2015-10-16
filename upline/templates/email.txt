@@ -1,12 +1,12 @@
-Olá {{name}}.
+Olá, {{name}}. Tudo bem?
 
 Estou convidando você para baixar o aplicativo {{app}}.
+
 Você terá mais informações sobre o desenvolvimento do negócio, novas tendências, além de conhecer todas as linhas de produtos e lançamentos.
 
 Após baixar o aplicativo, você deverá entrar como convidado e utilizar meu ID: {{member.user.username}}.
 
-Link para baixar o aplicativo na Google Play
-{{link}}
+Baixar o aplicativo na Apple Store: {{link_ios}} ou na Google Play: {{link_android}}
 
 Atenciosamente.
 {{member.name}}
