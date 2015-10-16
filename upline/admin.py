@@ -328,13 +328,13 @@ class PostAdmin(ForeignKeyAutocompleteAdmin):
 
     def get_media_file(self, obj):
         if obj.media_type == 0:
-            return '<img src="'+obj.media+'" style="width:300px"/>'
+            return u'<img src="'+unicode(obj.media)+'" style="width:300px"/>'
         elif obj.media_type == 1:
-            return '<audio src="'+obj.media+'" controls>Your browser does not support the <code>audio</code> element.</audio>'
+            return u'<audio src="'+unicode(obj.media)+'" controls>Your browser does not support the <code>audio</code> element.</audio>'
         elif obj.media_type == 2:
-            return '<video style="width:300px" controls><source src="'+obj.media+'" type="video/mp4">Seu navegador não suporta o elemento <code>video</code>.</video>'
+            return u'<video style="width:300px" controls><source src="'+unicode(obj.media)+'" type="video/mp4">Seu navegador nao suporta o elemento <code>video</code>.</video>'
         else:
-            return '<a target="_blank" class="pdf" href="'+obj.media+'">'+obj.name+'</a>'
+            return u'<a target="_blank" class="pdf" href="'+unicode(obj.media)+'">'+unicode(obj.name)+'</a>'
 
     get_media_file.short_description = 'Arquivo'
     get_media_file.allow_tags = True

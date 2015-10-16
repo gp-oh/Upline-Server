@@ -28,7 +28,6 @@ def avatar_path(instance, filename):
     filename = '{}.{}'.format(uuid.uuid4().hex, ext)
     return os.path.join('image', filename)
 
-
 def thumbnails_path(instance, filename):
     ext = filename.split('.')[-1]
     filename = '{}.{}'.format(uuid.uuid4().hex, ext)
