@@ -1,4 +1,4 @@
- # -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 from django.db import models
 from django.contrib.auth.models import User, Group
 from django.utils.translation import ugettext as _
@@ -180,7 +180,7 @@ class TrainingStep(models.Model):
         return self.title
 
     def save(self, *args, **kwargs):
-        if self.media:
+        if self.media and len(self.media) > 3:
             mime = MimeTypes()
             mime_type = mime.guess_type(self.media)
             
