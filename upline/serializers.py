@@ -479,7 +479,7 @@ class EventSerializer(serializers.HyperlinkedModelSerializer):
 class EventRegisterSerializer(serializers.HyperlinkedModelSerializer):
     invited = serializers.PrimaryKeyRelatedField(many=True, queryset=Contact.objects.all())
     members = serializers.PrimaryKeyRelatedField(many=True, queryset=Member.objects.all())
-    calendar = serializers.PrimaryKeyRelatedField(many=False, queryset=Calendar.objects.all())
+    calendar_id = serializers.PrimaryKeyRelatedField(many=False, queryset=Calendar.objects.all(),source='calendar')
 
     def create(self,validated_data):
         validated_data['owner'] = self.context['request'].user
@@ -487,7 +487,7 @@ class EventRegisterSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Event
-        fields = ("id","alert_at_hour","alert_5_mins","alert_15_mins","alert_30_mins","alert_1_hour","alert_2_hours","alert_1_day","title","all_day","begin_time","end_time","invited","members","calendar","note","postal_code","complement","lat","lng",'state','city','address','address_number')
+        fields = ("id","alert_at_hour","alert_5_mins","alert_15_mins","alert_30_mins","alert_1_hour","alert_2_hours","alert_1_day","title","all_day","begin_time","end_time","invited","members","calendar_id","note","postal_code","complement","lat","lng",'state','city','address','address_number')
 
 
 class StateSerializer(serializers.HyperlinkedModelSerializer):
