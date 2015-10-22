@@ -37,7 +37,7 @@ class UsernameSerializer(serializers.HyperlinkedModelSerializer):
 class LevelSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Level
-        fields = ("id","title","image","color","description","gift","group","points_range_from","points_range_to")
+        fields = ("id","title","image","color","description","gift","points_range_from","points_range_to")
 
 class TrainingSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
