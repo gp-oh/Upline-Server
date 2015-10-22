@@ -65,7 +65,7 @@ class UplineSerializer(serializers.HyperlinkedModelSerializer):
         return len(member.get_descendants().filter(create_time__range=(today_min, today_max),member_type=0))
 
     def get_descendant_count(self,member):
-        return member.get_descendant_count()
+        return len(member.get_descendants())
     
     def get_downline_count(self,member):
         return len(member.get_children())
