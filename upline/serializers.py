@@ -37,7 +37,7 @@ class UsernameSerializer(serializers.HyperlinkedModelSerializer):
 class LevelSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Level
-        fields = ("id",'title','image','points_range_from','points_range_to')
+        fields = ("id","title","image","color","description","gift","group","points_range_from","points_range_to")
 
 class TrainingSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
@@ -508,11 +508,12 @@ class PostalCodeSerializer(serializers.HyperlinkedModelSerializer):
         fields = ("city","street","neighborhood","postal_code","street_type")
 
 class GoalSerializer(serializers.HyperlinkedModelSerializer):
-    level = serializers.PrimaryKeyRelatedField(many=False, queryset=Level.objects.all())
+    level = LevelSerializer(many=False, read_only=True)
+    level_id = serializers.PrimaryKeyRelatedField(many=False, queryset=Level.objects.all(),write_only=True)
 
     def create(self,validated_data):
         goal = Goal()
-        goal.level = validated_data.pop('level')
+        goal.level = validated_data.pop('level_id')
         member = Member.objects.get(user=self.context['request'].user)
         goal.member = member
         goal.date = validated_data.pop('date')
@@ -521,7 +522,7 @@ class GoalSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Goal
-        fields = ("id","level","date")
+        fields = ("id","level","level_id","date")
 
 class MediaSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
