@@ -128,7 +128,7 @@ class SaleViewSet(viewsets.ModelViewSet):
 
     @list_route(methods=['get'])
     def send(self,request):
-        sales = Sale.objects.filter(active=True,sent=False,member__user=request.user)
+        sales = Sale.objects.filter(status=0,member__user=request.user)
         for sale in sales:
             sale.status = 1
             sale.send_time = datetime.datetime.now()
@@ -136,17 +136,16 @@ class SaleViewSet(viewsets.ModelViewSet):
         serializer = SaleSerializer(sales,many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-    @detail_route(methods=['get'])
-    def inactive(self,request, pk=None):
-        sale = self.get_object()
-        if sale.active and not sale.sent and sale.member.user == request.user:
-            sale.active = False
-            sale.save()
-            serializer = SaleSerializer(sale)
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        else:
-            return Response({'errors':['Invalid sale']}, status=status.HTTP_400_BAD_REQUEST)
-
+    @list_route(methods=['post'])
+    def inactive(self,request):
+        sales = request.POST.get('sale_ids');
+        for sale in sales:
+            if sale.status == 0 and sale.member.user == request.user:
+                sale.remove()
+            else:
+                return Response({'errors':{'message':'Invalid sale','sale_id':sale.id}], status=status.HTTP_400_BAD_REQUEST)
+        return Response({'success':True}, status=status.HTTP_201_CREATED)
+        
     def list(self, request):
         queryset = Sale.objects.filter(member__user=request.user)
         if 'status' in request.GET:
