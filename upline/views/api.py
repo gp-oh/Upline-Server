@@ -143,7 +143,7 @@ class SaleViewSet(viewsets.ModelViewSet):
             if sale.status == 0 and sale.member.user == request.user:
                 sale.remove()
             else:
-                return Response({'errors':{'message':'Invalid sale','sale_id':sale.id}], status=status.HTTP_400_BAD_REQUEST)
+                return Response({'error':{'message':'Invalid sale','sale_id':sale.id}}, status=status.HTTP_400_BAD_REQUEST)
         return Response({'success':True}, status=status.HTTP_201_CREATED)
         
     def list(self, request):
