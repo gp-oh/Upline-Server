@@ -65,7 +65,7 @@ class UplineSerializer(serializers.HyperlinkedModelSerializer):
         return len(member.get_descendants().filter(create_time__range=(today_min, today_max),member_type=0))
 
     def get_descendant_count(self,member):
-        return len(member.get_descendants())
+        return len(member.get_descendants().filter(member_type=0))
     
     def get_downline_count(self,member):
         return len(member.get_children())
@@ -98,7 +98,7 @@ class DownlineSerializer(serializers.HyperlinkedModelSerializer):
         return len(member.get_children())
 
     def get_descendant_count(self,member):
-        return len(member.get_descendants())
+        return len(member.get_descendants().filter(member_type=0))
 
     def get_binary(self,member):
         if len(member.get_siblings().filter(id__lt=member.id,member_type=0)) < 2 :
@@ -131,7 +131,7 @@ class MemberSerializer(serializers.HyperlinkedModelSerializer):
         return len(member.get_descendants().filter(create_time__range=(today_min, today_max),member_type=0))
 
     def get_descendant_count(self,member):
-        return len(member.get_descendants())
+        return len(member.get_descendants().filter(member_type=0))
     
     def get_downline_count(self,member):
         return len(member.get_children())
@@ -255,7 +255,7 @@ class MemberSerializer(serializers.HyperlinkedModelSerializer):
         return len(member.get_descendants().filter(create_time__range=(today_min, today_max),member_type=0))
 
     def get_descendant_count(self,member):
-        return len(member.get_descendants())
+        return len(member.get_descendants().filter(member_type=0))
     
     def get_downline_count(self,member):
         return len(member.get_children())
@@ -292,7 +292,7 @@ class MemberLoginSerializer(serializers.HyperlinkedModelSerializer):
     today_descendant_count = serializers.SerializerMethodField()
 
     def get_descendant_count(self,member):
-        return len(member.get_descendants())
+        return len(member.get_descendants().filter(member_type=0))
 
     def get_today_descendant_count(self,member):
         today_min = datetime.datetime.combine(datetime.date.today(), datetime.time.min)
