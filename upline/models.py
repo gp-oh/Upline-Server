@@ -586,6 +586,9 @@ class Event(models.Model):
     alert_1_hour = models.BooleanField(default=False)
     alert_2_hours = models.BooleanField(default=False)
     alert_1_day = models.BooleanField(default=False)
+    parent_event = models.ForeignKey("Event",null=True,blank=True,default=None)
+    is_invited = models.BooleanField(default=False)
+    inviter = models.ForeignKey(Member,verbose_name=_('inviter'),null=True,blank=True,related_name='Invited')
     
     class Meta:
         verbose_name = _("event")

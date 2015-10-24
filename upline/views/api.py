@@ -20,6 +20,8 @@ from django.db.models import Q
 from django.http import HttpRequest
 from decimal import Decimal
 from rest_framework_bulk import BulkCreateModelMixin
+from django.db.models.signals import post_save, m2m_changed, pre_delete
+from django.dispatch import receiver
 
 class Login(APIView,OAuthLibMixin):
     permission_classes = (permissions.AllowAny,)
@@ -275,4 +277,83 @@ class InviteViewSet(viewsets.ModelViewSet):
 class MediaCategoryViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = MediaCategory.objects.all()
     serializer_class = MediaCategorySerializer
+
+
+def push_event(sender, instance, **kwargs):
+    devices = GCMDevice.objects.filter(user=instance.owner)
+    if len(devices) > 0:
+        devices.send_message(None, extra=EventSerializer(instance, many=False).data)
+
+post_save.connect(push_event, sender=Event, dispatch_uid="push_event")
+
+def push_delete_event(sender, instance, **kwargs):
+    devices = GCMDevice.objects.filter(user=instance.owner)
+    if len(devices) > 0:
+        devices.send_message(None, extra=EventDeleteSerializer(instance, many=False).data)
+
+pre_delete.connect(push_delete_event, sender=Event, dispatch_uid="push_event")
+
+
+@receiver(m2m_changed, sender=Event.members.through)
+def recalculate_total(sender, instance, action, **kwargs):
+    """
+    Automatically recalculate total price of an order when a related product is added or removed
+    """
+
+    if action == "post_add" and not instance.is_invited:
+        members = instance.members.all()
+        users = []
+        for member in members:
+            users.append(member.user)
+        related_events = Event.objects.filter(parent_event=instance)
+        exclude_events = related_events.exclude(owner__in=users)
+        related_event_users = []
+        create_event_users = []
+        for event in related_events:
+            related_event_users.append(event.owner)
+        for user in users:
+            if user not in related_event_users:
+                create_event_users.append(user)
+        instance_id = instance.id
+        for user in create_event_users:
+            e = instance
+            e.id = None
+            e.owner = user
+            e.is_invited = True
+            e.parent_event_id = instance_id
+            e.inviter = Member.objects.get(user=instance.owner)
+            e.save()
+
+        for event in exclude_events:
+            event.delete()
+
+        for event in related_events:
+            if event not in exclude_events:
+                event.group = instance.event
+                event.title = instance.event
+                event.all_day = instance.event
+                event.begin_time = instance.event
+                event.end_time = instance.event
+                event.calendar = instance.event
+                # event.note = instance.event
+                event.postal_code = instance.event
+                event.region = instance.event
+                event.city = instance.event
+                event.state = instance.event
+                event.address = instance.event
+                event.address_number = instance.event
+                event.complement = instance.event
+                event.lat = instance.event
+                event.lng = instance.event
+                # event.alert_at_hour = instance.event
+                # event.alert_5_mins = instance.event
+                # event.alert_15_mins = instance.event
+                # event.alert_30_mins = instance.event
+                # event.alert_1_hour = instance.event
+                # event.alert_2_hours = instance.event
+                # event.alert_1_day = instance.event
+                event.save()
+
+
+
 

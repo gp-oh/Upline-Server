@@ -27,11 +27,11 @@ class MemberAdmin(ForeignKeyAutocompleteAdmin,DjangoMpttAdmin):
     form = MemberForm
     list_display = ['id',"user","parent","name","points","phone","gender","level","get_acoes"]
     list_display_links = ['id']
-    search_fields = ['name']
+    search_fields = ["name"]
     # actions = ['delete_model']
     related_search_fields = {
-       'user': ('first_name', 'email'),
-       'parent': ('name'),
+       'user': ['first_name', 'email'],
+       'parent': ['name'],
     }
 
     def has_delete_permission(self, request, obj=None):
@@ -293,10 +293,10 @@ class EventAdmin(ForeignKeyAutocompleteAdmin):
     search_fields = ['name']
     list_filter = [EventDateFilter]
     related_search_fields = {
-       'owner': ('name'),
-       'calendar': ('name'),
-       'invited': ('name'),
-       'members': ('name'),
+       'owner': ['username'],
+       'calendar': ['name'],
+       'invited': ['name'],
+       'members': ['name'],
     }
 
     def get_queryset(self, request):
