@@ -321,6 +321,13 @@ def recalculate_total(sender, instance, action, **kwargs):
             e.owner = user
             e.is_invited = True
             e.parent_event_id = instance_id
+            e.alert_at_hour = False
+            e.alert_5_mins = False
+            e.alert_15_mins = False
+            e.alert_30_mins = False
+            e.alert_1_hour = False
+            e.alert_2_hours = False
+            e.alert_1_day = False
             e.inviter = Member.objects.get(user=instance.owner)
             e.save()
 
@@ -329,22 +336,22 @@ def recalculate_total(sender, instance, action, **kwargs):
 
         for event in related_events:
             if event not in exclude_events:
-                event.group = instance.event
-                event.title = instance.event
-                event.all_day = instance.event
-                event.begin_time = instance.event
-                event.end_time = instance.event
-                event.calendar = instance.event
-                # event.note = instance.event
-                event.postal_code = instance.event
-                event.region = instance.event
-                event.city = instance.event
-                event.state = instance.event
-                event.address = instance.event
-                event.address_number = instance.event
-                event.complement = instance.event
-                event.lat = instance.event
-                event.lng = instance.event
+                event.group = instance.group
+                event.title = instance.title
+                event.all_day = instance.all_day
+                event.begin_time = instance.begin_time
+                event.end_time = instance.end_time
+                event.calendar = instance.calendar
+                event.note = instance.note
+                event.postal_code = instance.postal_code
+                event.region = instance.region
+                event.city = instance.city
+                event.state = instance.state
+                event.address = instance.address
+                event.address_number = instance.address_number
+                event.complement = instance.complement
+                event.lat = instance.lat
+                event.lng = instance.lng
                 # event.alert_at_hour = instance.event
                 # event.alert_5_mins = instance.event
                 # event.alert_15_mins = instance.event
