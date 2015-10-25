@@ -51,8 +51,8 @@ class TrainingSetpSerializer(serializers.HyperlinkedModelSerializer):
         fields = ("id",'training','title','media','step','description',)
 
 class MemberTrainingStepSerializer(serializers.HyperlinkedModelSerializer):
-    training_step_id = serializers.PrimaryKeyRelatedField(write_only=True,many=False,source="training_step",queryset=TrainingStep.objects.all())
-    training_step = TrainingSetpSerializer(many=False,read_only=True)
+    training_step = serializers.PrimaryKeyRelatedField(write_only=True,many=False,source="training_step",queryset=TrainingStep.objects.all())
+    # training_step = TrainingSetpSerializer(many=False,read_only=True)
     media_base64 = serializers.CharField(write_only=True,required=False,allow_blank=True)
 
     def create(self,validated_data):
@@ -72,16 +72,23 @@ class MemberTrainingStepSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = MemberTrainingStep
-        fields = ('id','answer','training_step_id','training_step','media','media_base64')
+        fields = ('id','answer','training_step','media','media_base64')
 
 class UplineSerializer(serializers.HyperlinkedModelSerializer):
     user = UserSerializer(many=False,read_only=True)
     level = LevelSerializer(many=False, read_only=True)
-    answers = MemberTrainingStepSerializer(many=True, read_only=True)
+    answers = serializers.SerializerMethodField()
     descendant_count = serializers.SerializerMethodField()
     downline_count = serializers.SerializerMethodField()
     binary = serializers.SerializerMethodField()
     today_descendant_count = serializers.SerializerMethodField()
+
+    def get_answers(self,member):
+        answers = MemberTrainingStep.objects.select_related('training_step').filter(member=member)
+        ret = []
+        for answer in answers:
+            ret.append(answer.training_step.id)
+        return ret
 
     def get_today_descendant_count(self,member):
         today_min = datetime.datetime.combine(datetime.date.today(), datetime.time.min)
@@ -107,11 +114,18 @@ class UplineSerializer(serializers.HyperlinkedModelSerializer):
 
 class DownlineSerializer(serializers.HyperlinkedModelSerializer):
     level = LevelSerializer(many=False, read_only=True)
-    answers = MemberTrainingStepSerializer(many=True, read_only=True)
+    answers = serializers.SerializerMethodField()
     downline_count = serializers.SerializerMethodField()
     binary = serializers.SerializerMethodField()
     descendant_count = serializers.SerializerMethodField()
     today_descendant_count = serializers.SerializerMethodField()
+
+    def get_answers(self,member):
+        answers = MemberTrainingStep.objects.select_related('training_step').filter(member=member)
+        ret = []
+        for answer in answers:
+            ret.append(answer.training_step.id)
+        return ret
 
     def get_today_descendant_count(self,member):
         today_min = datetime.datetime.combine(datetime.date.today(), datetime.time.min)
@@ -138,7 +152,7 @@ class DownlineSerializer(serializers.HyperlinkedModelSerializer):
 class MemberSerializer(serializers.HyperlinkedModelSerializer):
     user = UserSerializer(many=False,read_only=True)
     level = LevelSerializer(many=False, read_only=True)
-    answers = MemberTrainingStepSerializer(many=True, read_only=True)
+    answers = serializers.SerializerMethodField()
     parent = UplineSerializer(many=False, read_only=True)
     downlines = DownlineSerializer(many=True, read_only=True)
     avatar_base64 = serializers.CharField(required=False,allow_blank=True)
@@ -148,6 +162,13 @@ class MemberSerializer(serializers.HyperlinkedModelSerializer):
     downline_count = serializers.SerializerMethodField()
     binary = serializers.SerializerMethodField()
     today_descendant_count = serializers.SerializerMethodField()
+
+    def get_answers(self,member):
+        answers = MemberTrainingStep.objects.select_related('training_step').filter(member=member)
+        ret = []
+        for answer in answers:
+            ret.append(answer.training_step.id)
+        return ret
 
     def get_today_descendant_count(self,member):
         today_min = datetime.datetime.combine(datetime.date.today(), datetime.time.min)
@@ -264,7 +285,7 @@ class MemberRegisterSerializer(serializers.HyperlinkedModelSerializer):
 class MemberSerializer(serializers.HyperlinkedModelSerializer):
     user = UserSerializer(many=False,read_only=True)
     level = LevelSerializer(many=False, read_only=True)
-    answers = MemberTrainingStepSerializer(many=True, read_only=True)
+    answers = serializers.SerializerMethodField()
     parent = UplineSerializer(many=False, read_only=True)
     downlines = DownlineSerializer(many=True, read_only=True)
     avatar_base64 = serializers.CharField(write_only=True,required=False,allow_blank=True)
@@ -272,6 +293,13 @@ class MemberSerializer(serializers.HyperlinkedModelSerializer):
     downline_count = serializers.SerializerMethodField()
     binary = serializers.SerializerMethodField()
     today_descendant_count = serializers.SerializerMethodField()
+
+    def get_answers(self,member):
+        answers = MemberTrainingStep.objects.select_related('training_step').filter(member=member)
+        ret = []
+        for answer in answers:
+            ret.append(answer.training_step.id)
+        return ret
 
     def get_today_descendant_count(self,member):
         today_min = datetime.datetime.combine(datetime.date.today(), datetime.time.min)
@@ -307,13 +335,20 @@ class MemberSerializer(serializers.HyperlinkedModelSerializer):
 class MemberLoginSerializer(serializers.HyperlinkedModelSerializer):
     user = UserSerializer(many=False,read_only=True)
     level = LevelSerializer(many=False, read_only=True)
-    answers = MemberTrainingStepSerializer(many=True, read_only=True)
+    answers = serializers.SerializerMethodField()
     parent = UplineSerializer(many=False, read_only=True)
     downlines = DownlineSerializer(many=True, read_only=True)
     descendant_count = serializers.SerializerMethodField()
     downline_count = serializers.SerializerMethodField()
     binary = serializers.SerializerMethodField()
     today_descendant_count = serializers.SerializerMethodField()
+
+    def get_answers(self,member):
+        answers = MemberTrainingStep.objects.select_related('training_step').filter(member=member)
+        ret = []
+        for answer in answers:
+            ret.append(answer.training_step.id)
+        return ret
 
     def get_descendant_count(self,member):
         return len(member.get_descendants().filter(member_type=0))
