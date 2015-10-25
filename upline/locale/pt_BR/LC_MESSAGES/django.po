@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pACKAGe VeRsIOn\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-25 13:58-0200\n"
+"POT-Creation-Date: 2015-10-25 14:10-0200\n"
 "PO-Revision-Date: YeAR-mO-DA HO:mI+ZOne\n"
 "Last-Translator: FUll nAme <emAIl@ADDRess>\n"
 "Language-Team: lAnGUAGe <ll@li.org>\n"
@@ -22,7 +22,6 @@ msgid "Data"
 msgstr ""
 
 #: admin.py:282
-#| msgid "Preview"
 msgid "Previous"
 msgstr "Anteriores"
 
@@ -35,17 +34,10 @@ msgid "new event message"
 msgstr "Mensagem de novo evento"
 
 #: models.py:65
-#| msgid "training step"
 msgid "new training message"
 msgstr "Mensagem de novo treinamento"
 
-#: models.py:66
-#| msgid "training steps"
-msgid "new training step message"
-msgstr "Mensagem de nova etapa de treinamento"
-
 #: models.py:67
-#| msgid "message"
 msgid "new post message"
 msgstr "Mensagem de nova notícia"
 
@@ -58,23 +50,20 @@ msgid "update event message"
 msgstr "Mensagem de evento alterado"
 
 #: models.py:70
-#| msgid "training step"
 msgid "update training message"
 msgstr "Mensagem de alteração de treinamento"
 
-#: models.py:71
-#| msgid "training steps"
-msgid "update training step message"
-msgstr "Mensagem de alteração em etapa de treinamento"
-
 #: models.py:72
-#| msgid "update_time"
 msgid "update post message"
 msgstr "Mensagem de alteração notícia"
 
 #: models.py:73
 msgid "update media message"
 msgstr "Mensagem de alteração de mídia"
+
+#: models.py:76 models.py:79
+msgid "Notification messages"
+msgstr "Mensagens de notificação"
 
 #: models.py:83 models.py:310 models.py:528
 msgid "user"
@@ -1635,6 +1624,14 @@ msgstr "Voltar"
 #: templates/suit/error_base.html:93
 msgid "Go to admin home"
 msgstr "Ir para a home"
+
+#~| msgid "training steps"
+#~ msgid "new training step message"
+#~ msgstr "Mensagem de nova etapa de treinamento"
+
+#~| msgid "training steps"
+#~ msgid "update training step message"
+#~ msgstr "Mensagem de alteração em etapa de treinamento"
 
 #~ msgid "position"
 #~ msgstr "posição"

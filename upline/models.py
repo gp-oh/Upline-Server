@@ -73,10 +73,10 @@ class SiteConfiguration(SingletonModel):
     update_media_message = models.CharField(max_length=255,null=True,blank=True,default=None, verbose_name=_('update media message'))
 
     def __unicode__(self):
-        return u"Site Configuration"
+        return _("Notification messages")
 
     class Meta:
-        verbose_name = "Site Configuration"
+        verbose_name = _("Notification messages")
 
 
 class Avatar(models.Model):
