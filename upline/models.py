@@ -63,15 +63,10 @@ def contacts_path(instance, filename):
 class SiteConfiguration(SingletonModel):
     new_event_message = models.CharField(max_length=255,null=True,blank=True,default=None, verbose_name=_('new event message'))
     new_training_message = models.CharField(max_length=255,null=True,blank=True,default=None, verbose_name=_('new training message'))
-    # new_training_step_message = models.CharField(max_length=255,null=True,blank=True,default=None, verbose_name=_('new training step message'))
     new_post_message = models.CharField(max_length=255,null=True,blank=True,default=None, verbose_name=_('new post message'))
     new_media_message = models.CharField(max_length=255,null=True,blank=True,default=None, verbose_name=_('new media message'))
     update_event_message = models.CharField(max_length=255,null=True,blank=True,default=None, verbose_name=_('update event message'))
-    update_training_message = models.CharField(max_length=255,null=True,blank=True,default=None, verbose_name=_('update training message'))
-    # update_training_step_message = models.CharField(max_length=255,null=True,blank=True,default=None, verbose_name=_('update training step message'))
-    update_post_message = models.CharField(max_length=255,null=True,blank=True,default=None, verbose_name=_('update post message'))
-    update_media_message = models.CharField(max_length=255,null=True,blank=True,default=None, verbose_name=_('update media message'))
-
+    
     def __unicode__(self):
         return _("Notification messages")
 
@@ -142,7 +137,7 @@ class Training(models.Model):
     name = models.CharField(max_length=255,verbose_name=_('name'))
     create_time = models.DateTimeField(auto_now_add=True,verbose_name=_('create_time'))
     update_time = models.DateTimeField(auto_now=True,verbose_name=_('update_time'))
-
+    notified = models.BooleanField(default=False,editable=False)
     have_notifications = models.BooleanField(default=False)
     count_messages_after_finish = models.ForeignKey('Training',verbose_name=_('previous training'),null=True)
     day_1_notification_description = models.TextField(blank=True, null=True,verbose_name=_('day_1_notification_description'))
@@ -535,6 +530,7 @@ class Post(models.Model):
     converted = models.BooleanField(default=False)
     create_time = models.DateTimeField(auto_now_add=True,verbose_name=_('create_time'))
     update_time = models.DateTimeField(auto_now=True,verbose_name=_('update_time'))
+    notified = models.BooleanField(default=False,editable=False)
 
     class Meta:
         verbose_name = _("post")
@@ -643,6 +639,7 @@ class Media(models.Model):
     converted = models.BooleanField(default=False, editable=False)
     create_time = models.DateTimeField(auto_now_add=True,verbose_name=_('create_time'))
     update_time = models.DateTimeField(auto_now=True,verbose_name=_('update_time'))
+    notified = models.BooleanField(default=False,editable=False)
 
     class Meta:
         verbose_name = _("media")

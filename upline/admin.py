@@ -16,8 +16,18 @@ from django.contrib import admin
 from solo.admin import SingletonModelAdmin
 
 class TrainingAdmin(admin.ModelAdmin):
-    list_display = ['id','name']
+    list_display = ['id','name','notified']
     search_fields = ['name']
+    actions = ['send']
+
+    def send(modeladmin, request, queryset):
+        for instance in queryset:
+            devices = GCMDevice.objects.filter()
+            if len(devices) > 0:
+                devices.send_message(SiteConfiguration.get_solo().new_training_message , extra={"training":TrainingSerializer(instance, many=False).data})
+        queryset.update(notified=True)
+
+    send.short_description = u"Enviar notificações"
     
 class LevelAdmin(admin.ModelAdmin):
     form = LevelForm
@@ -316,11 +326,19 @@ class EventAdmin(ForeignKeyAutocompleteAdmin):
         return Q(member_type=0)
 
 class PostAdmin(ForeignKeyAutocompleteAdmin):
-    list_display = ['user','title','group','content','create_time','media_type','get_media_file']
+    list_display = ['user','title','group','content','create_time','media_type','get_media_file','notified']
     form = PostForm
     related_search_fields = {
        'user': ('first_name', 'email'),
     }
+    actions = ['send']
+
+    def send(modeladmin, request, queryset):
+        for instance in queryset:
+            devices = GCMDevice.objects.filter()
+            if len(devices) > 0:
+                devices.send_message(SiteConfiguration.get_solo().new_post_message , extra={"post":PostSerializer(instance, many=False).data})
+        queryset.update(notified=True)
 
     def get_readonly_fields(self, request, obj=None):
         if obj:
@@ -339,6 +357,7 @@ class PostAdmin(ForeignKeyAutocompleteAdmin):
 
     get_media_file.short_description = 'Arquivo'
     get_media_file.allow_tags = True
+    send.short_description = u"Enviar notificações"
 
 class CalendarAdmin(ForeignKeyAutocompleteAdmin):
     related_search_fields = {
@@ -346,9 +365,17 @@ class CalendarAdmin(ForeignKeyAutocompleteAdmin):
     }
 
 class MediaAdmin(admin.ModelAdmin):
-    list_display = ['id','get_media_type','media_category','name','get_media_file']
+    list_display = ['id','get_media_type','media_category','name','get_media_file','notified']
     search_fields = ['name']
     list_filter = ['media_type']
+    actions = ['send']
+
+    def send(modeladmin, request, queryset):
+        for instance in queryset:
+            devices = GCMDevice.objects.filter()
+            if len(devices) > 0:
+                devices.send_message(SiteConfiguration.get_solo().new_media_message , extra={"media":MediaSerializer(instance, many=False).data})
+        queryset.update(notified=True)
 
     def get_readonly_fields(self, request, obj=None):
         if obj:
@@ -372,6 +399,7 @@ class MediaAdmin(admin.ModelAdmin):
     get_media_file.allow_tags = True
     get_media_type.short_description = 'Media Type'
     get_media_type.admin_order_field = 'media_category__media_type'
+    send.short_description = u"Enviar notificações"
 
 class MediaCategoryAdmin(admin.ModelAdmin):
     list_display = ['id','name']
