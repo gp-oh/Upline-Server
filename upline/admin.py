@@ -13,6 +13,7 @@ from upline.quickblox import create_user, delete_user
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
 from django.contrib import admin
+from solo.admin import SingletonModelAdmin
 
 class TrainingAdmin(admin.ModelAdmin):
     list_display = ['id','name']
@@ -460,7 +461,7 @@ class MyUserAdmin(UserAdmin):
        else:
            return False
 
-
+admin.site.register(SiteConfiguration, SingletonModelAdmin)
 admin.site.unregister(User)
 admin.site.register(User, MyUserAdmin)
 admin.site.register(Invite,InviteAdmin)

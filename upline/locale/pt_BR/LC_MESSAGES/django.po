@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pACKAGe VeRsIOn\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-09-19 23:39-0300\n"
+"POT-Creation-Date: 2015-10-25 13:58-0200\n"
 "PO-Revision-Date: YeAR-mO-DA HO:mI+ZOne\n"
 "Last-Translator: FUll nAme <emAIl@ADDRess>\n"
 "Language-Team: lAnGUAGe <ll@li.org>\n"
@@ -17,559 +17,606 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: models.py:21
-msgid "acronym"
-msgstr "sigla"
-
-#: models.py:22 models.py:33 models.py:65 models.py:145 models.py:307
-#: models.py:361 models.py:448 models.py:492 models.py:502
-msgid "name"
-msgstr "nome"
-
-#: models.py:25 models.py:32 models.py:154 models.py:317
-msgid "state"
-msgstr "estado"
-
-#: models.py:26
-msgid "states"
-msgstr "estados"
-
-#: models.py:36 models.py:46 models.py:153 models.py:316
-msgid "city"
-msgstr "cidade"
-
-#: models.py:37
-msgid "citys"
-msgstr "cidades"
-
-#: models.py:47
-msgid "street"
-msgstr "rua"
-
-#: models.py:48
-msgid "neighborhood"
-msgstr "bairro"
-
-#: models.py:49 models.py:152 models.py:314 models.py:469
-#| msgid "postal code"
-msgid "postal_code"
-msgstr "CEP"
-
-#: models.py:50
-msgid "street_type"
-msgstr "tipo de rua"
-
-#: models.py:51
-msgid "approved"
-msgstr "aprovado"
-
-#: models.py:54
-msgid "postal code"
-msgstr "CEP"
-
-#: models.py:55
-msgid "postal codes"
-msgstr "CEPs"
-
-#: models.py:66 models.py:111 models.py:130 models.py:163 models.py:320
-#: models.py:334 models.py:349 models.py:365 models.py:382 models.py:400
-#: models.py:417 models.py:528
-msgid "create_time"
-msgstr "data de criação"
-
-#: models.py:67 models.py:112 models.py:131 models.py:164 models.py:321
-#: models.py:335 models.py:350 models.py:366 models.py:383 models.py:401
-#: models.py:418 models.py:529
-msgid "update_time"
-msgstr "data de alteração"
-
-#: models.py:70
-#| msgid "training"
-msgid "previous training"
-msgstr "treinamentos anteriores"
-
-#: models.py:71 models.py:102
-msgid "day_1_notification_description"
-msgstr "descrição da notificação do dia 1"
-
-#: models.py:72 models.py:103
-msgid "day_2_notification_description"
-msgstr "descrição da notificação do dia 2"
-
-#: models.py:73 models.py:104
-msgid "day_3_notification_description"
-msgstr "descrição da notificação do dia 3"
-
-#: models.py:74 models.py:105
-msgid "day_4_notification_description"
-msgstr "descrição da notificação do dia 4"
-
-#: models.py:75 models.py:106
-msgid "day_5_notification_description"
-msgstr "descrição da notificação do dia 5"
-
-#: models.py:76 models.py:107
-msgid "day_6_notification_description"
-msgstr "descrição da notificação do dia 6"
-
-#: models.py:77 models.py:108
-msgid "day_7_notification_description"
-msgstr "descrição da notificação do dia 7"
-
-#: models.py:78 models.py:109
-msgid "day_14_notification_description"
-msgstr "descrição da notificação do dia 14"
-
-#: models.py:79 models.py:110
-msgid "day_28_notification_description"
-msgstr "descrição da notificação do dia 28"
-
-#: models.py:83 models.py:90
-msgid "training"
-msgstr "treinamento"
-
-#: models.py:84
-msgid "trainings"
-msgstr "treinamentos"
-
-#: models.py:91 models.py:122 models.py:411 models.py:461
-msgid "title"
-msgstr "título"
-
-#: models.py:93 models.py:416 models.py:504
-msgid "thumbnail"
+#: admin.py:278
+msgid "Data"
 msgstr ""
 
-#: models.py:94
-msgid "step"
-msgstr "etapa"
+#: admin.py:282
+#| msgid "Preview"
+msgid "Previous"
+msgstr "Anteriores"
 
-#: models.py:95 models.py:125
-msgid "description"
-msgstr "descrição"
+#: admin.py:283
+msgid "After"
+msgstr "Próximos"
 
-#: models.py:96
-msgid "need_answer"
-msgstr "necessita resposta"
+#: models.py:64
+msgid "new event message"
+msgstr "Mensagem de novo evento"
 
-#: models.py:97
-msgid "answer_type"
-msgstr "tipo de resposta"
+#: models.py:65
+#| msgid "training step"
+msgid "new training message"
+msgstr "Mensagem de novo treinamento"
 
-#: models.py:97
-msgid "text"
-msgstr "texto"
+#: models.py:66
+#| msgid "training steps"
+msgid "new training step message"
+msgstr "Mensagem de nova etapa de treinamento"
 
-#: models.py:97
-msgid "audio"
-msgstr "áudio"
+#: models.py:67
+#| msgid "message"
+msgid "new post message"
+msgstr "Mensagem de nova notícia"
 
-#: models.py:97
-msgid "video"
-msgstr "video"
+#: models.py:68
+msgid "new media message"
+msgstr "Mensagem de nova mídia"
 
-#: models.py:97 models.py:123
-msgid "image"
-msgstr "imagem"
+#: models.py:69
+msgid "update event message"
+msgstr "Mensagem de evento alterado"
 
-#: models.py:97
-msgid "list"
-msgstr "lista"
+#: models.py:70
+#| msgid "training step"
+msgid "update training message"
+msgstr "Mensagem de alteração de treinamento"
 
-#: models.py:97
-msgid "meeting"
-msgstr "reunião"
+#: models.py:71
+#| msgid "training steps"
+msgid "update training step message"
+msgstr "Mensagem de alteração em etapa de treinamento"
 
-#: models.py:98
-msgid "meetings_per_week"
-msgstr "reuniões por semana"
+#: models.py:72
+#| msgid "update_time"
+msgid "update post message"
+msgstr "Mensagem de alteração notícia"
 
-#: models.py:99
-msgid "weeks"
-msgstr "semanas"
+#: models.py:73
+msgid "update media message"
+msgstr "Mensagem de alteração de mídia"
 
-#: models.py:100
-msgid "nr_contacts"
-msgstr "número de contatos"
-
-#: models.py:115
-msgid "training step"
-msgstr "etapa de treinamento"
-
-#: models.py:116
-msgid "training steps"
-msgstr "etapas de treinamento"
-
-#: models.py:126
-msgid "gift"
-msgstr "presente"
-
-#: models.py:127 models.py:412 models.py:460
-msgid "group"
-msgstr "grupo"
-
-#: models.py:128
-msgid "points_range_from"
-msgstr "pontuação inicial"
-
-#: models.py:129
-msgid "points_range_to"
-msgstr "pontuação final"
-
-#: models.py:134 models.py:161 models.py:332 models.py:525
-msgid "level"
-msgstr "graduação"
-
-#: models.py:135
-msgid "levels"
-msgstr "graduações"
-
-#: models.py:142 models.py:410
+#: models.py:83 models.py:310 models.py:528
 msgid "user"
 msgstr "usuário"
 
-#: models.py:143
-msgid "parent"
-msgstr "pai"
+#: models.py:92
+msgid "acronym"
+msgstr "sigla"
 
-#: models.py:144
-msgid "external_id"
-msgstr "id externo"
+#: models.py:93 models.py:106 models.py:142 models.py:314 models.py:417
+#: models.py:472 models.py:571 models.py:629 models.py:640
+msgid "name"
+msgstr "nome"
 
-#: models.py:146
-msgid "quickblox_id"
-msgstr "id do quickblox"
+#: models.py:94 models.py:107 models.py:127 models.py:143 models.py:190
+#: models.py:233 models.py:332 models.py:430 models.py:445 models.py:460
+#: models.py:476 models.py:493 models.py:518 models.py:536 models.py:644
+#: models.py:680 models.py:697
+msgid "create_time"
+msgstr "data de criação"
+
+#: models.py:95 models.py:108 models.py:128 models.py:144 models.py:191
+#: models.py:234 models.py:333 models.py:431 models.py:446 models.py:461
+#: models.py:477 models.py:494 models.py:519 models.py:537 models.py:645
+#: models.py:681 models.py:698
+msgid "update_time"
+msgstr "data de alteração"
+
+#: models.py:98 models.py:105 models.py:323 models.py:427 models.py:595
+msgid "state"
+msgstr "estado"
+
+#: models.py:99
+msgid "states"
+msgstr "estados"
+
+#: models.py:111 models.py:121 models.py:322 models.py:426 models.py:594
+msgid "city"
+msgstr "cidade"
+
+#: models.py:112
+msgid "citys"
+msgstr "cidades"
+
+#: models.py:122
+msgid "street"
+msgstr "rua"
+
+#: models.py:123
+msgid "neighborhood"
+msgstr "bairro"
+
+#: models.py:124 models.py:321 models.py:424 models.py:592
+msgid "postal_code"
+msgstr "CEP"
+
+#: models.py:125
+msgid "street_type"
+msgstr "tipo de rua"
+
+#: models.py:126
+msgid "approved"
+msgstr "aprovado"
+
+#: models.py:131
+msgid "postal code"
+msgstr "CEP"
+
+#: models.py:132
+msgid "postal codes"
+msgstr "CEPs"
 
 #: models.py:147
-msgid "quickblox_password"
-msgstr "senha do quickblox"
+msgid "previous training"
+msgstr "treinamentos anteriores"
 
-#: models.py:148 models.py:363 models.py:379
-msgid "points"
-msgstr "pontos"
+#: models.py:148 models.py:181
+msgid "day_1_notification_description"
+msgstr "descrição da notificação do dia 1"
 
-#: models.py:149 models.py:304
-msgid "avatar"
-msgstr "avatar"
+#: models.py:149 models.py:182
+msgid "day_2_notification_description"
+msgstr "descrição da notificação do dia 2"
 
-#: models.py:150 models.py:309
-msgid "phone"
-msgstr "fone"
+#: models.py:150 models.py:183
+msgid "day_3_notification_description"
+msgstr "descrição da notificação do dia 3"
 
-#: models.py:151 models.py:306
-msgid "gender"
-msgstr "sexo"
+#: models.py:151 models.py:184
+msgid "day_4_notification_description"
+msgstr "descrição da notificação do dia 4"
 
-#: models.py:155 models.py:318
-msgid "address"
-msgstr "endereço"
+#: models.py:152 models.py:185
+msgid "day_5_notification_description"
+msgstr "descrição da notificação do dia 5"
 
-#: models.py:156 models.py:319
-#| msgid "address"
-msgid "address_number"
-msgstr "número"
+#: models.py:153 models.py:186
+msgid "day_6_notification_description"
+msgstr "descrição da notificação do dia 6"
 
-#: models.py:157
-msgid "dream1"
-msgstr "sonho 1"
+#: models.py:154 models.py:187
+msgid "day_7_notification_description"
+msgstr "descrição da notificação do dia 7"
 
-#: models.py:158
-msgid "dream2"
-msgstr "sonho 2"
+#: models.py:155 models.py:188
+msgid "day_14_notification_description"
+msgstr "descrição da notificação do dia 14"
 
-#: models.py:159
-msgid "status"
-msgstr "status"
+#: models.py:156 models.py:189
+msgid "day_28_notification_description"
+msgstr "descrição da notificação do dia 28"
 
-#: models.py:160 models.py:311
-msgid "birthday"
-msgstr "data de nascimento"
+#: models.py:160 models.py:167
+msgid "training"
+msgstr "treinamento"
 
-#: models.py:162
-msgid "outpooring"
-msgstr "derramamento"
+#: models.py:161
+msgid "trainings"
+msgstr "treinamentos"
 
-#: models.py:251 models.py:278 models.py:291 models.py:303 models.py:331
-#: models.py:345 models.py:375
-msgid "member"
-msgstr "membro"
+#: models.py:168 models.py:225 models.py:529 models.py:584
+msgid "title"
+msgstr "título"
 
-#: models.py:252 models.py:466
-msgid "members"
-msgstr "membros"
-
-#: models.py:279
-msgid "training_step"
-msgstr "etapa de treinamento"
-
-#: models.py:280
-msgid "answer"
-msgstr "resposta"
-
-#: models.py:283
-msgid "member traing step"
-msgstr "etapa de treinamento do membro"
-
-#: models.py:284
-msgid "member traing steps"
-msgstr "etapas de treinamento do membro"
-
-#: models.py:290 models.py:459
-msgid "owner"
-msgstr "dono"
-
-#: models.py:292
-msgid "position"
-msgstr "posição"
-
-#: models.py:295
-msgid "member team"
-msgstr "time"
-
-#: models.py:296
-msgid "member teams"
-msgstr "times"
-
-#: models.py:302
-#| msgid "duplicates"
-msgid "upline"
-msgstr "upline"
-
-#: models.py:305
-msgid "contact_category"
-msgstr "categoria do contato"
-
-#: models.py:308
-msgid "email"
-msgstr "email"
-
-#: models.py:310
-msgid "cellphone"
-msgstr "celular"
-
-#: models.py:312
-msgid "cpf"
-msgstr "CPF"
-
-#: models.py:313
-msgid "rg"
-msgstr "RG"
-
-#: models.py:315
-msgid "region"
-msgstr "região"
-
-#: models.py:324
-msgid "contact"
-msgstr "contato"
-
-#: models.py:325
-msgid "contacts"
-msgstr "contatos"
-
-#: models.py:333
-msgid "date"
-msgstr "data"
-
-#: models.py:338
-msgid "goal"
-msgstr "meta"
-
-#: models.py:339
-msgid "goals"
-msgstr "metas"
-
-#: models.py:346
-msgid "ipv4_address"
-msgstr "endereço ipv4"
-
-#: models.py:347
-msgid "ipv6_address"
-msgstr "edereço ipv6"
-
-#: models.py:348
-msgid "agent"
-msgstr "navegador"
-
-#: models.py:353
-msgid "log member login"
-msgstr "login de membro"
-
-#: models.py:354
-msgid "log member logins"
-msgstr "login de membro"
-
-#: models.py:362 models.py:377
-msgid "active"
-msgstr "ativo"
-
-#: models.py:364
-msgid "table_value"
-msgstr "valor de tabela"
-
-#: models.py:368 models.py:394
-msgid "product"
-msgstr "produto"
-
-#: models.py:369
-msgid "products"
-msgstr "produtos"
-
-#: models.py:376
-msgid "client"
-msgstr "cliente"
-
-#: models.py:378 models.py:397
-msgid "total"
-msgstr "total"
-
-#: models.py:380
-msgid "paid"
-msgstr "pago"
-
-#: models.py:381 models.py:527
-msgid "sent"
-msgstr "enviado"
-
-#: models.py:384
-msgid "send_time"
-msgstr "data de envio"
-
-#: models.py:387 models.py:395
-msgid "sale"
-msgstr "venda"
-
-#: models.py:388
-msgid "sales"
-msgstr "vendas"
-
-#: models.py:396
-msgid "quantity"
-msgstr "quantidade"
-
-#: models.py:398
-msgid "notificate_at"
-msgstr "notificar em"
-
-#: models.py:399
-msgid "notified"
-msgstr "notificado"
-
-#: models.py:403
-msgid "sale item"
-msgstr "item da venda"
-
-#: models.py:404
-msgid "sale items"
-msgstr "itens da venda"
-
-#: models.py:413
-msgid "content"
-msgstr "conteúdo"
-
-#: models.py:415 models.py:491
+#: models.py:170 models.py:533 models.py:638
 msgid "media_type"
 msgstr "tipo de midia"
 
-#: models.py:421
+#: models.py:171 models.py:534 models.py:642
+msgid "thumbnail"
+msgstr ""
+
+#: models.py:173
+msgid "step"
+msgstr "etapa"
+
+#: models.py:174 models.py:228
+msgid "description"
+msgstr "descrição"
+
+#: models.py:175
+msgid "need_answer"
+msgstr "necessita resposta"
+
+#: models.py:176
+msgid "answer_type"
+msgstr "tipo de resposta"
+
+#: models.py:176
+msgid "text"
+msgstr "texto"
+
+#: models.py:176
+msgid "audio"
+msgstr "áudio"
+
+#: models.py:176
+msgid "video"
+msgstr "video"
+
+#: models.py:176 models.py:226
+msgid "image"
+msgstr "imagem"
+
+#: models.py:176
+msgid "list"
+msgstr "lista"
+
+#: models.py:176
+msgid "meeting"
+msgstr "reunião"
+
+#: models.py:177
+msgid "meetings_per_week"
+msgstr "reuniões por semana"
+
+#: models.py:178
+msgid "weeks"
+msgstr "semanas"
+
+#: models.py:179
+msgid "nr_contacts"
+msgstr "número de contatos"
+
+#: models.py:194
+msgid "training step"
+msgstr "etapa de treinamento"
+
+#: models.py:195
+msgid "training steps"
+msgstr "etapas de treinamento"
+
+#: models.py:229
+msgid "gift"
+msgstr "presente"
+
+#: models.py:230 models.py:530 models.py:583
+msgid "group"
+msgstr "grupo"
+
+#: models.py:231
+msgid "points_range_from"
+msgstr "pontuação inicial"
+
+#: models.py:232
+msgid "points_range_to"
+msgstr "pontuação final"
+
+#: models.py:248 models.py:330 models.py:443 models.py:677
+msgid "level"
+msgstr "graduação"
+
+#: models.py:249
+msgid "levels"
+msgstr "graduações"
+
+#: models.py:256 models.py:312
+msgid "parent"
+msgstr "pai"
+
+#: models.py:313
+msgid "external_id"
+msgstr "id externo"
+
+#: models.py:315
+msgid "quickblox_id"
+msgstr "id do quickblox"
+
+#: models.py:316
+msgid "quickblox_password"
+msgstr "senha do quickblox"
+
+#: models.py:317 models.py:474 models.py:490
+msgid "points"
+msgstr "pontos"
+
+#: models.py:318 models.py:414
+msgid "avatar"
+msgstr "avatar"
+
+#: models.py:319 models.py:419
+msgid "phone"
+msgstr "fone"
+
+#: models.py:320 models.py:416
+msgid "gender"
+msgstr "sexo"
+
+#: models.py:324 models.py:428 models.py:596
+msgid "address"
+msgstr "endereço"
+
+#: models.py:325 models.py:429 models.py:597
+msgid "address_number"
+msgstr "número"
+
+#: models.py:326
+msgid "dream1"
+msgstr "sonho 1"
+
+#: models.py:327
+msgid "dream2"
+msgstr "sonho 2"
+
+#: models.py:328
+msgid "status"
+msgstr "status"
+
+#: models.py:329 models.py:421
+msgid "birthday"
+msgstr "data de nascimento"
+
+#: models.py:331
+msgid "outpooring"
+msgstr "derramamento"
+
+#: models.py:372 models.py:399 models.py:413 models.py:442 models.py:456
+#: models.py:486
+msgid "member"
+msgstr "membro"
+
+#: models.py:373 models.py:589
+msgid "members"
+msgstr "membros"
+
+#: models.py:400
+msgid "training_step"
+msgstr "etapa de treinamento"
+
+#: models.py:401
+msgid "answer"
+msgstr "resposta"
+
+#: models.py:405
+msgid "member traing step"
+msgstr "etapa de treinamento do membro"
+
+#: models.py:406
+msgid "member traing steps"
+msgstr "etapas de treinamento do membro"
+
+#: models.py:412
+msgid "upline"
+msgstr "upline"
+
+#: models.py:415
+msgid "contact_category"
+msgstr "categoria do contato"
+
+#: models.py:418
+msgid "email"
+msgstr "email"
+
+#: models.py:420
+msgid "cellphone"
+msgstr "celular"
+
+#: models.py:422
+msgid "cpf"
+msgstr "CPF"
+
+#: models.py:423
+msgid "rg"
+msgstr "RG"
+
+#: models.py:425 models.py:593
+msgid "region"
+msgstr "região"
+
+#: models.py:434
+msgid "contact"
+msgstr "contato"
+
+#: models.py:435
+msgid "contacts"
+msgstr "contatos"
+
+#: models.py:444
+msgid "date"
+msgstr "data"
+
+#: models.py:449
+msgid "goal"
+msgstr "meta"
+
+#: models.py:450
+msgid "goals"
+msgstr "metas"
+
+#: models.py:457
+msgid "ipv4_address"
+msgstr "endereço ipv4"
+
+#: models.py:458
+msgid "ipv6_address"
+msgstr "edereço ipv6"
+
+#: models.py:459
+msgid "agent"
+msgstr "navegador"
+
+#: models.py:464
+msgid "log member login"
+msgstr "login de membro"
+
+#: models.py:465
+msgid "log member logins"
+msgstr "login de membro"
+
+#: models.py:473 models.py:488
+msgid "active"
+msgstr "ativo"
+
+#: models.py:475
+msgid "table_value"
+msgstr "valor de tabela"
+
+#: models.py:479 models.py:512
+msgid "product"
+msgstr "produto"
+
+#: models.py:480
+msgid "products"
+msgstr "produtos"
+
+#: models.py:487
+msgid "client"
+msgstr "cliente"
+
+#: models.py:489 models.py:515
+msgid "total"
+msgstr "total"
+
+#: models.py:492
+msgid "pontuated"
+msgstr ""
+
+#: models.py:495
+msgid "send_time"
+msgstr "data de envio"
+
+#: models.py:504 models.py:513
+msgid "sale"
+msgstr "venda"
+
+#: models.py:505
+msgid "sales"
+msgstr "vendas"
+
+#: models.py:514
+msgid "quantity"
+msgstr "quantidade"
+
+#: models.py:516
+msgid "notificate_at"
+msgstr "notificar em"
+
+#: models.py:517
+msgid "notified"
+msgstr "notificado"
+
+#: models.py:521
+msgid "sale item"
+msgstr "item da venda"
+
+#: models.py:522
+msgid "sale items"
+msgstr "itens da venda"
+
+#: models.py:531
+msgid "content"
+msgstr "conteúdo"
+
+#: models.py:540
 msgid "post"
 msgstr "notícia"
 
-#: models.py:422
+#: models.py:541
 msgid "posts"
 msgstr "notícias"
 
-#: models.py:452 models.py:467
+#: models.py:575 models.py:590
 msgid "calendar"
 msgstr "calendário"
 
-#: models.py:453
+#: models.py:576
 msgid "calendars"
 msgstr "calendários"
 
-#: models.py:462
+#: models.py:582
+msgid "owner"
+msgstr "dono"
+
+#: models.py:585
 msgid "all_day"
 msgstr "o dia inteiro"
 
-#: models.py:463
+#: models.py:586
 msgid "begin_time"
 msgstr "data de início"
 
-#: models.py:464
+#: models.py:587
 msgid "end_time"
 msgstr "data final"
 
-#: models.py:465
+#: models.py:588
 msgid "invited"
 msgstr "convidados"
 
-#: models.py:468
+#: models.py:591
 msgid "note"
 msgstr "nota"
 
-#: models.py:470
-msgid "number"
-msgstr "número"
-
-#: models.py:471
+#: models.py:598
 msgid "complement"
 msgstr "complemento"
 
-#: models.py:472
+#: models.py:599
 msgid "lat"
 msgstr "latitude"
 
-#: models.py:473
+#: models.py:600
 msgid "lng"
 msgstr "longitude"
 
-#: models.py:476
+#: models.py:610
+#, fuzzy
+#| msgid "invited"
+msgid "inviter"
+msgstr "convidados"
+
+#: models.py:613
 msgid "event"
 msgstr "evento"
 
-#: models.py:477
+#: models.py:614
 msgid "events"
 msgstr "eventos"
 
-#: models.py:484
+#: models.py:622
 msgid "alert_date"
 msgstr "data do alerta"
 
-#: models.py:487
+#: models.py:625
 msgid "Event Alert"
 msgstr "alerta do evento"
 
-#: models.py:488
+#: models.py:626
 msgid "Event Alerts"
 msgstr "alertas do evento"
 
-#: models.py:494
+#: models.py:631
 msgid "media category"
 msgstr "categoria de midia"
 
-#: models.py:495
+#: models.py:632
 msgid "media categorys"
 msgstr "categorias de midia"
 
-#: models.py:501
+#: models.py:639
 msgid "media_category"
 msgstr "categoria de midia"
 
-#: models.py:508
+#: models.py:648
 msgid "media"
 msgstr "midia"
 
-#: models.py:509
+#: models.py:649
 msgid "medias"
 msgstr "midia"
 
-#: models.py:526
+#: models.py:678
 msgid "message"
 msgstr "mensagem"
 
-#: models.py:526
+#: models.py:678
 msgid "255 characters"
 msgstr "255 caracteres"
+
+#: models.py:679
+msgid "sent"
+msgstr "enviado"
 
 #: templates/403.html:4
 msgid "forbidden"
@@ -631,8 +678,8 @@ msgstr "Limpar seleção"
 
 #: templates/admin/app_index.html:8
 #: templates/admin/auth/user/change_password.html:19
-#: templates/admin/base.html:102 templates/admin/change_form.html:62
-#: templates/admin/change_list.html:42
+#: templates/admin/base.html:104 templates/admin/change_form.html:61
+#: templates/admin/change_list.html:44
 #: templates/admin/cms/page/change_form.html:46
 #: templates/admin/cms/page/change_list.html:8
 #: templates/admin/cms/page/plugin_change_form.html:82
@@ -641,7 +688,8 @@ msgstr "Limpar seleção"
 #: templates/admin/filer/breadcrumbs.html:5
 #: templates/admin/filer/folder/change_form.html:8
 #: templates/admin/import_export/base.html:10
-#: templates/admin/object_history.html:7
+#: templates/admin/invite_list.html:44 templates/admin/object_history.html:7
+#: templates/admin/solo/change_form.html:61
 #: templates/registration/logged_out.html:6
 #: templates/registration/password_change_form.html:26
 #: templates/reversion/recover_form.html:8
@@ -675,11 +723,12 @@ msgid "Change password"
 msgstr "Alterar senha"
 
 #: templates/admin/auth/user/change_password.html:45
-#: templates/admin/change_form.html:141 templates/admin/change_list.html:86
+#: templates/admin/change_form.html:140 templates/admin/change_list.html:88
 #: templates/admin/cms/page/change_form.html:137
 #: templates/admin/cms/page/plugin_change_form.html:99
 #: templates/admin/filer/folder/new_folder_form.html:10
-#: templates/admin/login.html:27
+#: templates/admin/invite_list.html:89 templates/admin/login.html:27
+#: templates/admin/solo/change_form.html:140
 #: templates/registration/password_change_form.html:44
 msgid "Please correct the error below."
 msgid_plural " Please correct the errors below."
@@ -720,56 +769,63 @@ msgid "Log out"
 msgstr "Sair"
 
 #: templates/admin/change_form.html:22
+#: templates/admin/solo/change_form.html:22
 msgid "You have unsaved changes"
 msgstr "Vovê possui alterações não salvas"
 
-#: templates/admin/change_form.html:51 templates/admin/change_form.html:77
+#: templates/admin/change_form.html:50 templates/admin/change_form.html:76
 #: templates/admin/cms/page/change_form.html:53
 #: templates/admin/cms/page/plugin_change_form.html:85
-#: templates/admin/index.html:135
+#: templates/admin/index.html:138 templates/admin/solo/change_form.html:50
+#: templates/admin/solo/change_form.html:76
 msgid "Add"
 msgstr "Adicionar"
 
-#: templates/admin/change_form.html:99
+#: templates/admin/change_form.html:98
 #: templates/admin/filer/image/change_form.html:7
+#: templates/admin/solo/change_form.html:98
 msgid "tools"
 msgstr "ferramentas"
 
-#: templates/admin/change_form.html:103
+#: templates/admin/change_form.html:102
 #: templates/admin/cms/page/change_form.html:105
 #: templates/admin/filer/folder/change_form.html:33
 #: templates/admin/filer/image/change_form.html:10
 #: templates/admin/object_history.html:15
+#: templates/admin/solo/change_form.html:102
 #: templates/reversion/revision_form.html:16
 msgid "History"
 msgstr "Histórico"
 
-#: templates/admin/change_form.html:107
+#: templates/admin/change_form.html:106
 #: templates/admin/cms/page/change_form.html:104
 #: templates/admin/edit_inline/stacked.html:15
 #: templates/admin/filer/folder/change_form.html:37
 #: templates/admin/filer/image/change_form.html:15
+#: templates/admin/solo/change_form.html:106
 msgid "View on site"
 msgstr "Ver no site"
 
-#: templates/admin/change_form.html:113 templates/admin/change_list.html:68
-#: templates/admin/change_list.html:116
+#: templates/admin/change_form.html:112 templates/admin/change_list.html:70
+#: templates/admin/change_list.html:118
 #: templates/admin/cms/page/change_form.html:108
 #: templates/admin/cms/page/change_list.html:112
 #: templates/admin/cms/page/change_list.html:140
+#: templates/admin/invite_list.html:71 templates/admin/invite_list.html:119
+#: templates/admin/solo/change_form.html:112
 #, python-format
 msgid "Add %(name)s"
 msgstr "Adicionar %(name)s"
 
-#: templates/admin/change_list.html:110
+#: templates/admin/change_list.html:112 templates/admin/invite_list.html:113
 msgid "Nothing found"
 msgstr "Nada encontrado"
 
-#: templates/admin/change_list.html:112
+#: templates/admin/change_list.html:114 templates/admin/invite_list.html:115
 msgid "Reset search and filters"
 msgstr "Reiniciar busca e filtros"
 
-#: templates/admin/change_list.html:114
+#: templates/admin/change_list.html:116 templates/admin/invite_list.html:117
 #, python-format
 msgid "%(name_plural)s are not created yet"
 msgstr "%(name_plural)s não foram criados ainda"
@@ -975,7 +1031,7 @@ msgstr "Remover"
 #: templates/admin/filer/folder/directory_listing.html:86
 #: templates/admin/filer/folder/directory_table.html:27
 #: templates/admin/filer/folder/directory_table.html:43
-#: templates/admin/index.html:127
+#: templates/admin/index.html:130
 msgid "Change"
 msgstr "Alterar"
 
@@ -1393,36 +1449,36 @@ msgstr ""
 msgid "Confirm import"
 msgstr ""
 
-#: templates/admin/index.html:120
+#: templates/admin/index.html:123
 #, python-format
 msgid "Models available in the %(name)s application."
 msgstr "Itens disponíveis na aplicação %(name)s"
 
-#: templates/admin/index.html:146
+#: templates/admin/index.html:149
 msgid "You don't have permission to edit anything."
 msgstr "Você não possui permissão para editar nada."
 
-#: templates/admin/index.html:259
+#: templates/admin/index.html:276
 msgid "My Actions"
 msgstr "Minhas ações"
 
-#: templates/admin/index.html:264
+#: templates/admin/index.html:281
 msgid "None available"
 msgstr "Nada disponível"
 
-#: templates/admin/index.html:273
+#: templates/admin/index.html:290
 msgid "added"
 msgstr "adicionado"
 
-#: templates/admin/index.html:274
+#: templates/admin/index.html:291
 msgid "changed"
 msgstr "alterado"
 
-#: templates/admin/index.html:275
+#: templates/admin/index.html:292
 msgid "deleted"
 msgstr "apagado"
 
-#: templates/admin/index.html:281
+#: templates/admin/index.html:298
 msgid "Unknown content"
 msgstr "Conteúdo desconhecido"
 
@@ -1579,6 +1635,21 @@ msgstr "Voltar"
 #: templates/suit/error_base.html:93
 msgid "Go to admin home"
 msgstr "Ir para a home"
+
+#~ msgid "position"
+#~ msgstr "posição"
+
+#~ msgid "member team"
+#~ msgstr "time"
+
+#~ msgid "member teams"
+#~ msgstr "times"
+
+#~ msgid "paid"
+#~ msgstr "pago"
+
+#~ msgid "number"
+#~ msgstr "número"
 
 #~ msgid "public"
 #~ msgstr "público"

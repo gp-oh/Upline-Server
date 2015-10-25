@@ -21,6 +21,7 @@ from django.db.models.signals import pre_delete
 from django.dispatch.dispatcher import receiver
 from django.template.loader import render_to_string
 from django.core.mail import EmailMultiAlternatives
+from solo.models import SingletonModel
 
 
 def avatar_path(instance, filename):
@@ -58,6 +59,24 @@ def contacts_path(instance, filename):
     filename = '{}.{}'.format(uuid.uuid4().hex, ext)
     return os.path.join('image', filename)
 
+
+class SiteConfiguration(SingletonModel):
+    new_event_message = models.CharField(max_length=255,null=True,blank=True,default=None, verbose_name=_('new event message'))
+    new_training_message = models.CharField(max_length=255,null=True,blank=True,default=None, verbose_name=_('new training message'))
+    # new_training_step_message = models.CharField(max_length=255,null=True,blank=True,default=None, verbose_name=_('new training step message'))
+    new_post_message = models.CharField(max_length=255,null=True,blank=True,default=None, verbose_name=_('new post message'))
+    new_media_message = models.CharField(max_length=255,null=True,blank=True,default=None, verbose_name=_('new media message'))
+    update_event_message = models.CharField(max_length=255,null=True,blank=True,default=None, verbose_name=_('update event message'))
+    update_training_message = models.CharField(max_length=255,null=True,blank=True,default=None, verbose_name=_('update training message'))
+    # update_training_step_message = models.CharField(max_length=255,null=True,blank=True,default=None, verbose_name=_('update training step message'))
+    update_post_message = models.CharField(max_length=255,null=True,blank=True,default=None, verbose_name=_('update post message'))
+    update_media_message = models.CharField(max_length=255,null=True,blank=True,default=None, verbose_name=_('update media message'))
+
+    def __unicode__(self):
+        return u"Site Configuration"
+
+    class Meta:
+        verbose_name = "Site Configuration"
 
 
 class Avatar(models.Model):
