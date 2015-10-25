@@ -50,10 +50,34 @@ class TrainingSetpSerializer(serializers.HyperlinkedModelSerializer):
         model = TrainingStep
         fields = ("id",'training','title','media','step','description',)
 
+class MemberTrainingStepSerializer(serializers.HyperlinkedModelSerializer):
+    training_step_id = serializers.PrimaryKeyRelatedField(write_only=True,many=False,source="training_step",queryset=TrainingStep.objects.all())
+    training_step = TrainingSetpSerializer(many=False,read_only=True)
+    media_base64 = serializers.CharField(write_only=True,required=False,allow_blank=True)
+
+    def create(self,validated_data):
+        validated_data['member'] = Member.objects.get(user=self.context['request'].user)
+        return super(MemberTrainingStepSerializer, self).create(validated_data)
+
+    def save(self):
+        print self.validated_data
+        if 'media_base64' in self.validated_data:
+            media = self.validated_data.pop('media_base64')
+            if len(media) > 0:
+                media_base64 = media.split(',')[1]
+                media_mime = media.split(';')[0].split(':')[1]
+                media_extension = media_mime.split('/')[1]
+                self.media = SimpleUploadedFile(name=str(uuid.uuid4())+'.'+media_extension, content=base64.b64decode(media_base64), content_type=media_mime)
+        super(MemberTrainingStepSerializer, self).save()
+
+    class Meta:
+        model = MemberTrainingStep
+        fields = ('id','answer','training_step_id','training_step','media','media_base64')
+
 class UplineSerializer(serializers.HyperlinkedModelSerializer):
     user = UserSerializer(many=False,read_only=True)
     level = LevelSerializer(many=False, read_only=True)
-    answers = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
+    answers = MemberTrainingStepSerializer(many=True, read_only=True)
     descendant_count = serializers.SerializerMethodField()
     downline_count = serializers.SerializerMethodField()
     binary = serializers.SerializerMethodField()
@@ -83,7 +107,7 @@ class UplineSerializer(serializers.HyperlinkedModelSerializer):
 
 class DownlineSerializer(serializers.HyperlinkedModelSerializer):
     level = LevelSerializer(many=False, read_only=True)
-    answers = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
+    answers = MemberTrainingStepSerializer(many=True, read_only=True)
     downline_count = serializers.SerializerMethodField()
     binary = serializers.SerializerMethodField()
     descendant_count = serializers.SerializerMethodField()
@@ -114,7 +138,7 @@ class DownlineSerializer(serializers.HyperlinkedModelSerializer):
 class MemberSerializer(serializers.HyperlinkedModelSerializer):
     user = UserSerializer(many=False,read_only=True)
     level = LevelSerializer(many=False, read_only=True)
-    answers = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
+    answers = MemberTrainingStepSerializer(many=True, read_only=True)
     parent = UplineSerializer(many=False, read_only=True)
     downlines = DownlineSerializer(many=True, read_only=True)
     avatar_base64 = serializers.CharField(required=False,allow_blank=True)
@@ -240,7 +264,7 @@ class MemberRegisterSerializer(serializers.HyperlinkedModelSerializer):
 class MemberSerializer(serializers.HyperlinkedModelSerializer):
     user = UserSerializer(many=False,read_only=True)
     level = LevelSerializer(many=False, read_only=True)
-    answers = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
+    answers = MemberTrainingStepSerializer(many=True, read_only=True)
     parent = UplineSerializer(many=False, read_only=True)
     downlines = DownlineSerializer(many=True, read_only=True)
     avatar_base64 = serializers.CharField(write_only=True,required=False,allow_blank=True)
@@ -283,7 +307,7 @@ class MemberSerializer(serializers.HyperlinkedModelSerializer):
 class MemberLoginSerializer(serializers.HyperlinkedModelSerializer):
     user = UserSerializer(many=False,read_only=True)
     level = LevelSerializer(many=False, read_only=True)
-    answers = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
+    answers = MemberTrainingStepSerializer(many=True, read_only=True)
     parent = UplineSerializer(many=False, read_only=True)
     downlines = DownlineSerializer(many=True, read_only=True)
     descendant_count = serializers.SerializerMethodField()
@@ -425,30 +449,6 @@ class TrainingStepSerializer(serializers.HyperlinkedModelSerializer):
         model = TrainingStep
         fields = ('id','status','answer','title','media',"thumbnail","media_type",'step','description','need_answer',"answer_type","meetings_per_week","weeks","nr_contacts")
 
-
-class MemberTrainingStepSerializer(serializers.HyperlinkedModelSerializer):
-    training_step = serializers.PrimaryKeyRelatedField(many=False,queryset=TrainingStep.objects.all())
-    media_base64 = serializers.CharField(write_only=True,required=False,allow_blank=True)
-
-    def create(self,validated_data):
-        validated_data['member'] = Member.objects.get(user=self.context['request'].user)
-        return super(MemberTrainingStepSerializer, self).create(validated_data)
-
-    def save(self):
-        print self.validated_data
-        if 'media_base64' in self.validated_data:
-            media = self.validated_data.pop('media_base64')
-            print 'batata'
-            if len(media) > 0:
-                media_base64 = media.split(',')[1]
-                media_mime = media.split(';')[0].split(':')[1]
-                media_extension = media_mime.split('/')[1]
-                self.media = SimpleUploadedFile(name=str(uuid.uuid4())+'.'+media_extension, content=base64.b64decode(media_base64), content_type=media_mime)
-        super(MemberTrainingStepSerializer, self).save()
-
-    class Meta:
-        model = MemberTrainingStep
-        fields = ('id','answer','training_step','media','media_base64')
 
 class TrainingSerializer(serializers.HyperlinkedModelSerializer):
     training_steps = TrainingStepSerializer(many=True,read_only=True)
