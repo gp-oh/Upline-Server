@@ -265,6 +265,11 @@ class EventViewSet(viewsets.ModelViewSet):
         else:
             return EventSerializer
 
+    def list(self, request):
+        queryset = Event.objects.filter(owner=request.user)
+        serializer = EventSerializer(queryset, many=True,context={'request': request})
+        return Response(serializer.data)
+
 class InviteViewSet(viewsets.ModelViewSet):
     queryset = Invite.objects.all()
     serializer_class = InviteSerializer
