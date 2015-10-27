@@ -287,14 +287,14 @@ class MediaCategoryViewSet(viewsets.ReadOnlyModelViewSet):
 def push_event(sender, instance, **kwargs):
     devices = GCMDevice.objects.filter(user=instance.owner)
     if len(devices) > 0:
-        devices.send_message(SiteConfiguration.get_solo().new_event_message, extra={"event":EventSerializer(instance, many=False).data})
+        devices.send_message(SiteConfiguration.get_solo().new_event_message, extra={"type":"event","object":EventSerializer(instance, many=False).data})
 
 post_save.connect(push_event, sender=Event, dispatch_uid="push_event")
 
 def push_delete_event(sender, instance, **kwargs):
     devices = GCMDevice.objects.filter(user=instance.owner)
     if len(devices) > 0:
-        devices.send_message(SiteConfiguration.get_solo().update_event_message, extra={"event":EventDeleteSerializer(instance, many=False).data})
+        devices.send_message(SiteConfiguration.get_solo().update_event_message, extra={"type":"event","object":EventDeleteSerializer(instance, many=False).data})
 
 pre_delete.connect(push_delete_event, sender=Event, dispatch_uid="push_event")
 
