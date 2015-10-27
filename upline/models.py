@@ -281,7 +281,10 @@ class Binary(MPTTModel):
                 b.can_right = True
                 descendants = Binary.objects.get(member=member.parent).get_leafnodes().filter(can_right=True)
             b.member = member
-            b.parent = descendants[0]
+            if len(descendants) > 0:
+                b.parent = descendants[0]
+            else:
+                b.parent = Binary.objects.get(member=member.parent)
             b.node_position = len(b.parent.get_children())
             b.save()
 

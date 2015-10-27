@@ -163,6 +163,12 @@ class MemberSerializer(serializers.HyperlinkedModelSerializer):
     binary = serializers.SerializerMethodField()
     today_descendant_count = serializers.SerializerMethodField()
 
+    def get_downlines(self, obj):
+        user = self.context['request'].user
+        downlines = Member.objects.filter(parent=obj,member_type=0)
+        serializer = DownlineSerializer(downlines)
+        return serializer.data
+
     def get_answers(self,member):
         answers = MemberTrainingStep.objects.select_related('training_step').filter(member=member)
         ret = []
@@ -294,6 +300,12 @@ class MemberSerializer(serializers.HyperlinkedModelSerializer):
     binary = serializers.SerializerMethodField()
     today_descendant_count = serializers.SerializerMethodField()
 
+    def get_downlines(self, obj):
+        user = self.context['request'].user
+        downlines = Member.objects.filter(parent=obj,member_type=0)
+        serializer = DownlineSerializer(downlines)
+        return serializer.data
+        
     def get_answers(self,member):
         answers = MemberTrainingStep.objects.select_related('training_step').filter(member=member)
         ret = []
@@ -342,6 +354,12 @@ class MemberLoginSerializer(serializers.HyperlinkedModelSerializer):
     downline_count = serializers.SerializerMethodField()
     binary = serializers.SerializerMethodField()
     today_descendant_count = serializers.SerializerMethodField()
+
+    def get_downlines(self, obj):
+        user = self.context['request'].user
+        downlines = Member.objects.filter(parent=obj,member_type=0)
+        serializer = DownlineSerializer(downlines)
+        return serializer.data
 
     def get_answers(self,member):
         answers = MemberTrainingStep.objects.select_related('training_step').filter(member=member)
