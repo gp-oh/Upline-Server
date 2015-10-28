@@ -51,7 +51,7 @@ class TrainingSetpSerializer(serializers.HyperlinkedModelSerializer):
         fields = ("id",'training','title','media','step','description',)
 
 class MemberTrainingStepSerializer(serializers.HyperlinkedModelSerializer):
-    training_step = serializers.PrimaryKeyRelatedField(write_only=True,many=False,queryset=TrainingStep.objects.all())
+    training_step = serializers.PrimaryKeyRelatedField(many=False,queryset=TrainingStep.objects.all())
     # training_step = TrainingSetpSerializer(many=False,read_only=True)
     media_base64 = serializers.CharField(write_only=True,required=False,allow_blank=True)
 
