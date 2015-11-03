@@ -102,10 +102,10 @@ class UplineSerializer(serializers.HyperlinkedModelSerializer):
         return len(member.get_children())
 
     def get_binary(self,member):
-        if len(member.get_siblings().filter(id__lt=member.id,member_type=0)) < 2 :
-            return True
-        else:
+        if len(member.get_children().filter(member_type=0)) < 2 :
             return False
+        else:
+            return True
 
     class Meta:
         model = Member
@@ -139,10 +139,10 @@ class DownlineSerializer(serializers.HyperlinkedModelSerializer):
         return len(member.get_descendants().filter(member_type=0))
 
     def get_binary(self,member):
-        if len(member.get_siblings().filter(id__lt=member.id,member_type=0)) < 2 :
-            return True
-        else:
+        if len(member.get_children().filter(member_type=0)) < 2 :
             return False
+        else:
+            return True
 
     class Meta:
         model = Member
@@ -188,10 +188,10 @@ class MemberSerializer(serializers.HyperlinkedModelSerializer):
         return len(member.get_children())
         
     def get_binary(self,member):
-        if len(member.get_siblings().filter(id__lt=member.id,member_type=0)) < 2 :
-            return True
-        else:
+        if len(member.get_children().filter(member_type=0)) < 2 :
             return False
+        else:
+            return True
     
     class Meta:
         model = Member
@@ -325,10 +325,10 @@ class MemberSerializer(serializers.HyperlinkedModelSerializer):
         return len(member.get_children())
         
     def get_binary(self,member):
-        if len(member.get_siblings().filter(id__lt=member.id,member_type=0)) < 2 :
-            return True
-        else:
+        if len(member.get_children().filter(member_type=0)) < 2 :
             return False
+        else:
+            return True
 
     def save(self):
         if 'avatar_base64' in self.validated_data:
@@ -380,10 +380,10 @@ class MemberLoginSerializer(serializers.HyperlinkedModelSerializer):
         return len(member.get_children())
         
     def get_binary(self,member):
-        if len(member.get_siblings().filter(id__lt=member.id,member_type=0)) < 2 :
-            return True
-        else:
+        if len(member.get_children().filter(member_type=0)) < 2 :
             return False
+        else:
+            return True
 
     class Meta:
         model = Member
