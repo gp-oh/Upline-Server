@@ -620,7 +620,7 @@ class Event(models.Model):
     inviter = models.ForeignKey(Member,verbose_name=_('inviter'),null=True,blank=True,related_name='Invited')
     
     def send_invite(self):
-        for invited in self.invited.all()
+        for invited in self.invited.all():
             try:
                 validate_email(invited.email)
             except ValidationError as e:
