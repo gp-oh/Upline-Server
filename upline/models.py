@@ -22,6 +22,11 @@ from django.dispatch.dispatcher import receiver
 from django.template.loader import render_to_string
 from django.core.mail import EmailMultiAlternatives
 from solo.models import SingletonModel
+from django.core.exceptions import ValidationError
+from django.core.validators import validate_email
+
+
+
 
 
 def avatar_path(instance, filename):
@@ -255,6 +260,7 @@ class Binary(MPTTModel):
 
     @staticmethod
     def create_member(member):
+        print member.id
         if member.is_root_node():
             b = Binary()
             b.member = member
@@ -285,6 +291,11 @@ class Binary(MPTTModel):
                 b.parent = descendants[0]
             else:
                 b.parent = Binary.objects.get(member=member.parent)
+            if b.parent.can_left and not b.parent.get_previous_sibling():
+                b.can_left = True
+            elif b.parent.can_right:
+                b.can_right = True
+                b.node_position = 1
             b.node_position = len(b.parent.get_children())
             b.save()
 
@@ -608,6 +619,21 @@ class Event(models.Model):
     is_invited = models.BooleanField(default=False)
     inviter = models.ForeignKey(Member,verbose_name=_('inviter'),null=True,blank=True,related_name='Invited')
     
+    def send_invite(self):
+        for invited in self.invited.all()
+            try:
+                validate_email(invited.email)
+            except ValidationError as e:
+                print "oops! wrong email"
+            else:
+                subject, from_email, to = 'Convite '+settings.APPLICATION_NAME, settings.EMAIL_HOST_USER, self.email
+                text_content = render_to_string('event.txt', {'app': settings.APPLICATION_NAME,'member':self.member,'name':self.name,'link':settings.APPLICATION_URL})
+                html_content = render_to_string('event.html', {'app': settings.APPLICATION_NAME,'member':self.member,'name':self.name,'link':settings.APPLICATION_URL})
+                msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+                msg.attach_alternative(html_content, "text/html")
+                msg.send()
+            
+
     class Meta:
         verbose_name = _("event")
         verbose_name_plural = _("events")

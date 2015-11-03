@@ -25,7 +25,7 @@ class TrainingAdmin(admin.ModelAdmin):
         for instance in queryset:
             devices = GCMDevice.objects.filter()
             if len(devices) > 0:
-                devices.send_message(SiteConfiguration.get_solo().new_training_message , extra={"type":"training","object":TrainingSerializer(instance, many=False).data})
+                devices.send_message(SiteConfiguration.get_solo().new_training_message , extra={"type":"training","object":TrainingSerializer(instance, many=False, context={'request': request}).data})
         queryset.update(notified=True)
 
     send.short_description = u"Enviar notificações"
@@ -338,7 +338,7 @@ class PostAdmin(ForeignKeyAutocompleteAdmin):
         for instance in queryset:
             devices = GCMDevice.objects.filter()
             if len(devices) > 0:
-                devices.send_message(SiteConfiguration.get_solo().new_post_message , extra={"type":"post","object":PostSerializer(instance, many=False).data})
+                devices.send_message(SiteConfiguration.get_solo().new_post_message , extra={"type":"post","object":PostSerializer(instance, many=False,context={'request': request}).data})
         queryset.update(notified=True)
 
     def get_readonly_fields(self, request, obj=None):
@@ -375,7 +375,7 @@ class MediaAdmin(admin.ModelAdmin):
         for instance in queryset:
             devices = GCMDevice.objects.filter()
             if len(devices) > 0:
-                devices.send_message(SiteConfiguration.get_solo().new_media_message , extra={"type":"media","object":MediaSerializer(instance, many=False).data})
+                devices.send_message(SiteConfiguration.get_solo().new_media_message , extra={"type":"media","object":MediaSerializer(instance, many=False,context={'request': request}).data})
         queryset.update(notified=True)
 
     def get_readonly_fields(self, request, obj=None):

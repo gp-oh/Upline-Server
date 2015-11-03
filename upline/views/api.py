@@ -23,6 +23,7 @@ from rest_framework_bulk import BulkCreateModelMixin
 from django.db.models.signals import post_save, m2m_changed, pre_delete
 from django.dispatch import receiver
 
+
 class Login(APIView,OAuthLibMixin):
     permission_classes = (permissions.AllowAny,)
     server_class = Server
@@ -288,6 +289,7 @@ def push_event(sender, instance, **kwargs):
     devices = GCMDevice.objects.filter(user=instance.owner)
     if len(devices) > 0:
         devices.send_message(SiteConfiguration.get_solo().new_event_message, extra={"type":"event","object":EventSerializer(instance, many=False).data})
+    instance.send_invite()
 
 post_save.connect(push_event, sender=Event, dispatch_uid="push_event")
 

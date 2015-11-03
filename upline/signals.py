@@ -8,32 +8,8 @@ def push_event(sender, instance, created, **kwargs):
     if len(devices) > 0:
         devices.send_message(SiteConfiguration.get_solo().new_event_message if created else SiteConfiguration.get_solo().update_event_message , extra={"event":EventSerializer(instance, many=False).data})
 
-def push_training(instance):
-    instance.notified = True
-    instance.save()
-    devices = GCMDevice.objects.all()
-    if len(devices) > 0:
-        devices.send_message(SiteConfiguration.get_solo().new_training_message , extra={"event":TrainingSerializer(instance, many=False).data})
+post_save.connect(push_event, sender=Event, dispatch_uid="push_event")
 
-def push_post(instance):
-    instance.notified = True
-    instance.save()
-    devices = GCMDevice.objects.all()
-    if len(devices) > 0:
-        devices.send_message(SiteConfiguration.get_solo().new_post_message , extra={"post":PostSerializer(instance, many=False).data})
-
-def push_media(instance):
-    instance.notified = True
-    instance.save()
-    devices = GCMDevice.objects.filter()
-    if len(devices) > 0:
-        devices.send_message(SiteConfiguration.get_solo().new_media_message , extra={"media":MediaSerializer(instance, many=False).data})
-
-# post_save.connect(push_event, sender=Event, dispatch_uid="push_event")
-# post_save.connect(push_training, sender=Training, dispatch_uid="push_training")
-# post_save.connect(push_training_step, sender=TrainingStep, dispatch_uid="push_training_step")
-# post_save.connect(push_post, sender=Post, dispatch_uid="push_post")
-# post_save.connect(push_media, sender=Media, dispatch_uid="push_media")
 
 def push_delete_event(sender, instance, **kwargs):
     devices = GCMDevice.objects.filter(user=instance.owner)
