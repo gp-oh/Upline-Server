@@ -581,7 +581,7 @@ class PostalCodeSerializer(serializers.HyperlinkedModelSerializer):
 
 class GoalSerializer(serializers.HyperlinkedModelSerializer):
     level = LevelSerializer(many=False, read_only=True)
-    level_id = serializers.PrimaryKeyRelatedField(many=False, queryset=Level.objects.all(),write_only=True)
+    level_id = serializers.PrimaryKeyRelatedField(many=False, queryset=Level.objects.all(),write_only=True,source="level")
 
     def create(self,validated_data):
         goal = Goal()
