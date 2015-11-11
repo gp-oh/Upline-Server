@@ -353,6 +353,8 @@ class PostAdmin(ForeignKeyAutocompleteAdmin):
             return u'<audio src="'+unicode(obj.media)+'" controls>Your browser does not support the <code>audio</code> element.</audio>'
         elif obj.media_type == 2:
             return u'<video style="width:300px" controls><source src="'+unicode(obj.media)+'" type="video/mp4">Seu navegador nao suporta o elemento <code>video</code>.</video>'
+        elif obj.media_type == 3:
+            return ''
         else:
             return u'<a target="_blank" class="pdf" href="'+unicode(obj.media)+'">'+unicode(obj.name)+'</a>'
 
