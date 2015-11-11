@@ -249,6 +249,7 @@ class Level(models.Model):
     class Meta:
         verbose_name = _("level")
         verbose_name_plural = _("levels")
+        ordering = ['points_range_to']
 
     def __unicode__(self):
         return self.title
