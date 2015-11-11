@@ -102,13 +102,13 @@ class GCMDeviceViewSet(DeviceViewSetMixin, ModelViewSet):
         if len(device) == 0:
             serializer = GCMDeviceSerializer(data=request.data)
             if serializer.is_valid():
-                s = serializer.save()
+                s = serializer.save(user=self.request.user)
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         else:
             serializer = GCMDeviceSerializer(device[0],data=request.data,partial=True)
             if serializer.is_valid():
-                s = serializer.save()
+                s = serializer.save(user=self.request.user)
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
