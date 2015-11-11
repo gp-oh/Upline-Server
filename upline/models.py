@@ -539,7 +539,7 @@ class Post(models.Model):
     group = models.ForeignKey(Group,verbose_name=_('group'),null=True)
     content = models.TextField(null=True,blank=True,default=None,verbose_name=_('content'))
     media = S3DirectField(dest='posts', null=True)
-    media_type = models.IntegerField(choices=((0,'Imagem'),(1,'Audio'),(2,'Video')),verbose_name=_('media_type'),default=0,editable=False)
+    media_type = models.IntegerField(choices=((0,'Imagem'),(1,'Audio'),(2,'Video'),(3,'Texto')),verbose_name=_('media_type'),default=0,editable=False)
     thumbnail = models.ImageField(upload_to=thumbnails_path,blank=True, null=True,verbose_name=_('thumbnail'),editable=True)
     converted = models.BooleanField(default=False)
     create_time = models.DateTimeField(auto_now_add=True,verbose_name=_('create_time'))
@@ -570,9 +570,12 @@ class Post(models.Model):
                 self.media_type = 1
             elif t == 'video':
                 self.media_type = 2
+            else:
+                self.media_type = 3
+
         super(Post, self).save(*args, **kwargs)
             
-        if not self.converted:
+        if not self.converted and self.media_type != 3:
             q = Queue(connection=conn)
             result = q.enqueue(convert_media, self)
 
