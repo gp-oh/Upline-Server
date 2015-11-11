@@ -538,7 +538,7 @@ class Post(models.Model):
     title = models.CharField(max_length=255,verbose_name=_('title'))
     group = models.ForeignKey(Group,verbose_name=_('group'),null=True)
     content = models.TextField(null=True,blank=True,default=None,verbose_name=_('content'))
-    media = S3DirectField(dest='posts', null=True)
+    media = S3DirectField(dest='posts', null=True,blank=True,default=None)
     media_type = models.IntegerField(choices=((0,'Imagem'),(1,'Audio'),(2,'Video'),(3,'Texto')),verbose_name=_('media_type'),default=0,editable=False)
     thumbnail = models.ImageField(upload_to=thumbnails_path,blank=True, null=True,verbose_name=_('thumbnail'),editable=True)
     converted = models.BooleanField(default=False)
