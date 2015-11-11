@@ -167,7 +167,7 @@ class TrainingStep(models.Model):
     training = models.ForeignKey(Training,related_name='training_steps',verbose_name=_('training'))
     title = models.CharField(max_length=255,verbose_name=_('title'))
     media = S3DirectField(dest='training_steps', null=True,blank=True)
-    media_type = models.IntegerField(choices=((0,'Imagem'),(1,'Audio'),(2,'Video')),verbose_name=_('media_type'),default=0,editable=False)
+    media_type = models.IntegerField(choices=((0,'Imagem'),(1,'Audio'),(2,'Video'),(3,'Texto')),verbose_name=_('media_type'),default=0,editable=False)
     thumbnail = models.ImageField(upload_to=thumbnails_path,blank=True, null=True,verbose_name=_('thumbnail'),editable=True)
     converted = models.BooleanField(default=False)
     step = models.IntegerField(verbose_name=_('step'))
@@ -202,15 +202,17 @@ class TrainingStep(models.Model):
         if self.media and len(self.media) > 3:
             mime = MimeTypes()
             mime_type = mime.guess_type(self.media)
-            
-            t = mime_type[0].split('/')[0]
+            if mime_type[0] != None:
+                t = mime_type[0].split('/')[0]
 
-            if t == 'image':
-                self.media_type = 0
-            elif t == 'audio':
-                self.media_type = 1
-            elif t == 'video':
-                self.media_type = 2
+                if t == 'image':
+                    self.media_type = 0
+                elif t == 'audio':
+                    self.media_type = 1
+                elif t == 'video':
+                    self.media_type = 2
+                else:
+                    self.media_type = 3
             else:
                 self.media_type = 3
 
@@ -558,18 +560,21 @@ class Post(models.Model):
         if self.media:
             mime = MimeTypes()
             mime_type = mime.guess_type(self.media)
-            t = mime_type[0].split('/')[0]
+            if mime_type[0] != None:
+                t = mime_type[0].split('/')[0]
 
-            # conn = S3Connection(settings.AWS_ACCESS_KEY_ID, settings.AWS_SECRET_ACCESS_KEY)
-            # b = Bucket(conn, settings.AWS_STORAGE_BUCKET_NAME)
-            # k = b.get_key(self.media.replace('https://s3.amazonaws.com/upline-virtual/',''))
-            # t = k.content_type.split('/')[0]
-            if t == 'image':
-                self.media_type = 0
-            elif t == 'audio':
-                self.media_type = 1
-            elif t == 'video':
-                self.media_type = 2
+                # conn = S3Connection(settings.AWS_ACCESS_KEY_ID, settings.AWS_SECRET_ACCESS_KEY)
+                # b = Bucket(conn, settings.AWS_STORAGE_BUCKET_NAME)
+                # k = b.get_key(self.media.replace('https://s3.amazonaws.com/upline-virtual/',''))
+                # t = k.content_type.split('/')[0]
+                if t == 'image':
+                    self.media_type = 0
+                elif t == 'audio':
+                    self.media_type = 1
+                elif t == 'video':
+                    self.media_type = 2
+                else:
+                    self.media_type = 3
             else:
                 self.media_type = 3
 
@@ -666,7 +671,7 @@ class Media(models.Model):
     media_type = models.IntegerField(choices=((0,'Imagem'),(1,'Audio'),(2,'Video'),(3,'PDF')),default=0,verbose_name=_('media_type'),editable=False)
     media_category = models.ForeignKey(MediaCategory,related_name='medias',verbose_name=_('media_category'))
     name = models.CharField(max_length=255,verbose_name=_('name'))
-    media = S3DirectField(dest='media', null=True)
+    media = S3DirectField(dest='media')
     thumbnail = models.ImageField(upload_to=thumbnails_path,blank=True,editable=True, null=True,verbose_name=_('thumbnail'))
     converted = models.BooleanField(default=False, editable=False)
     create_time = models.DateTimeField(auto_now_add=True,verbose_name=_('create_time'))
