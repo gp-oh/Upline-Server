@@ -25,7 +25,7 @@ class TrainingAdmin(admin.ModelAdmin):
         for instance in queryset:
             devices = GCMDevice.objects.filter()
             if len(devices) > 0:
-                devices.send_message(SiteConfiguration.get_solo().new_training_message , extra={"type":"training","object":TrainingSerializer(instance, many=False, context={'request': request}).data})
+                devices.send_message(SiteConfiguration.get_solo().new_training_message , extra={"type":"training","object":OnlyTrainingSerializer(instance, many=False, context={'request': request}).data})
         queryset.update(notified=True)
 
     send.short_description = u"Enviar notificações"

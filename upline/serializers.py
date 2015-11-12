@@ -39,16 +39,37 @@ class LevelSerializer(serializers.HyperlinkedModelSerializer):
         model = Level
         fields = ("id","title","image","color","description","gift","points_range_from","points_range_to")
 
-class TrainingSerializer(serializers.HyperlinkedModelSerializer):
+class OnlyTrainingSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Training
         fields = ("id",'name',)
 
-class TrainingSetpSerializer(serializers.HyperlinkedModelSerializer):
-    training = TrainingSerializer()
+class TrainingStepSerializer(serializers.HyperlinkedModelSerializer):
+    status = serializers.SerializerMethodField()
+    answer = serializers.SerializerMethodField()
+
+    def get_status(self,training_step):
+        members = training_step.members.filter(member__user=self.context['request'].user)
+        if len(members) > 0:
+            return True
+        return False
+
+    def get_answer(self,training_step):
+        members = training_step.members.filter(member__user=self.context['request'].user)
+        if len(members) > 0:
+            return MemberTrainingStepSerializer(members[0]).data
+        return None
+
     class Meta:
         model = TrainingStep
-        fields = ("id",'training','title','media','step','description',)
+        fields = ('id','status','answer','title','media',"thumbnail","media_type",'step','description','need_answer',"answer_type","meetings_per_week","weeks","nr_contacts")
+
+
+class TrainingSerializer(serializers.HyperlinkedModelSerializer):
+    training_steps = TrainingStepSerializer(many=True,read_only=True)
+    class Meta:
+        model = Training
+        fields = ('id','name','training_steps')
 
 class MemberTrainingStepSerializer(serializers.HyperlinkedModelSerializer):
     training_step = serializers.PrimaryKeyRelatedField(many=False,queryset=TrainingStep.objects.all())
@@ -481,33 +502,6 @@ class SaleRegisterSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Sale
         fields = ("id","client_id","sale_items")
-
-class TrainingStepSerializer(serializers.HyperlinkedModelSerializer):
-    status = serializers.SerializerMethodField()
-    answer = serializers.SerializerMethodField()
-
-    def get_status(self,training_step):
-        members = training_step.members.filter(member__user=self.context['request'].user)
-        if len(members) > 0:
-            return True
-        return False
-
-    def get_answer(self,training_step):
-        members = training_step.members.filter(member__user=self.context['request'].user)
-        if len(members) > 0:
-            return MemberTrainingStepSerializer(members[0]).data
-        return None
-
-    class Meta:
-        model = TrainingStep
-        fields = ('id','status','answer','title','media',"thumbnail","media_type",'step','description','need_answer',"answer_type","meetings_per_week","weeks","nr_contacts")
-
-
-class TrainingSerializer(serializers.HyperlinkedModelSerializer):
-    training_steps = TrainingStepSerializer(many=True,read_only=True)
-    class Meta:
-        model = Training
-        fields = ('id','name','training_steps')
 
 class PostSerializer(serializers.HyperlinkedModelSerializer):
     user = UserSerializer(read_only=True)

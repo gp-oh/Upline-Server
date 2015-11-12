@@ -102,7 +102,7 @@ def _gcm_send_json(registration_ids, data, **kwargs):
 			values[k] = v
 
 	data = json.dumps(values, separators=(",", ":"), sort_keys=True).encode("utf-8")  # keys sorted for tests
-
+	print data
 	result = json.loads(_gcm_send(data, "application/json"))
 	if result["failure"]:
 		ids_to_remove = []
