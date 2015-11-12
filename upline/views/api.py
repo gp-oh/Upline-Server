@@ -238,6 +238,12 @@ class GoalViewSet(viewsets.ModelViewSet):
     queryset = Goal.objects.all()
     serializer_class = GoalSerializer
 
+    def list(self, request):
+        member = Member.objects.get(user=request.user)
+        queryset = Goal.objects.filter(member=member,level__points_range_from__gt=member.points)
+        serializer = GoalSerializer(queryset, many=True,context={'request': request})
+        return Response(serializer.data)
+
 class ProductViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
