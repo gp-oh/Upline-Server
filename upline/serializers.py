@@ -44,6 +44,12 @@ class OnlyTrainingSerializer(serializers.HyperlinkedModelSerializer):
         model = Training
         fields = ("id",'name',)
 
+class TrainingStepLoginSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = TrainingStep
+        fields = ('id','title','media',"thumbnail","media_type",'step','description','need_answer',"answer_type","meetings_per_week","weeks","nr_contacts")
+
+
 class TrainingStepSerializer(serializers.HyperlinkedModelSerializer):
     status = serializers.SerializerMethodField()
     answer = serializers.SerializerMethodField()

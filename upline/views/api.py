@@ -39,7 +39,8 @@ class Login(APIView,OAuthLibMixin):
             user = AccessToken.objects.get(token=token["access_token"]).user
             member = Member.objects.get(user=user)
             serializer = MemberLoginSerializer(member,context={'request': request})
-            return Response({"token":token,"member":serializer.data}, status=status.HTTP_201_CREATED)
+            training_step = TrainingStepLoginSerializer(SiteConfiguration.get_solo().first_training,context={'request': request})
+            return Response({"token":token,"member":serializer.data,"first_training_step":training_step.data}, status=status.HTTP_201_CREATED)
         else:
             return Response(token, status=status.HTTP_400_BAD_REQUEST)
 

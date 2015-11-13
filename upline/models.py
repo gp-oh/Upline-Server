@@ -71,7 +71,8 @@ class SiteConfiguration(SingletonModel):
     new_post_message = models.CharField(max_length=255,null=True,blank=True,default=None, verbose_name=_('new post message'))
     new_media_message = models.CharField(max_length=255,null=True,blank=True,default=None, verbose_name=_('new media message'))
     update_event_message = models.CharField(max_length=255,null=True,blank=True,default=None, verbose_name=_('update event message'))
-    
+    first_training = models.ForeignKey("TrainingStep",null=True,blank=True,default=None)
+
     def __unicode__(self):
         return _("Notification messages")
 
