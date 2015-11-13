@@ -74,10 +74,10 @@ class SiteConfiguration(SingletonModel):
     first_training = models.ForeignKey("TrainingStep",null=True,blank=True,default=None)
 
     def __unicode__(self):
-        return _("Notification messages")
+        return _("Configuration")
 
     class Meta:
-        verbose_name = _("Notification messages")
+        verbose_name = _("Configuration")
 
 
 class Avatar(models.Model):

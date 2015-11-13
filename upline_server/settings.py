@@ -214,8 +214,9 @@ SUIT_CONFIG = {
     'SHOW_REQUIRED_ASTERISK': True,
     'CONFIRM_UNSAVED_CHANGES': True,
     'MENU': (
+
         {'label': u'Notificações', 'icon':'icon-lock', 'models': (
-            {'label': 'Notificações', 'model':'upline.notification', 'icon':None})},
+            {'label': 'Notificações', 'model':'upline.notification', 'icon':None},)},
          {'label': 'Convites', 'icon':'icon-user', 'models': (
             {'label': 'Convites', 'model':'upline.invite', 'icon':None},
             {'label': 'Convidados', 'model':'upline.invited', 'icon':None},)},
@@ -253,7 +254,8 @@ SUIT_CONFIG = {
             {'label': 'Cidades', 'model':'upline.city', 'icon':None},
             {'label': 'CEPs', 'model':'upline.postalcode', 'icon':None},
         )},
-        {'label': 'Configurações', 'url':'upline.siteconfiguration', 'icon':None},)},
+        {'label': u'Configurações', 'url':'upline.siteconfiguration', 'icon':None},
+        
     )
 }
 
