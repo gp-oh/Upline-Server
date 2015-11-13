@@ -293,9 +293,8 @@ class MediaCategoryViewSet(viewsets.ReadOnlyModelViewSet):
 
 def push_event(sender, instance, **kwargs):
     devices = GCMDevice.objects.filter(user=instance.owner)
-    if len(devices) > 0:
-        devices.send_message(SiteConfiguration.get_solo().new_event_message, extra={"type":"event","object":EventSerializer(instance, many=False).data})
-    instance.send_invite()
+    # if len(devices) > 0:
+    #     devices.send_message(SiteConfiguration.get_solo().new_event_message, extra={"type":"event","object":EventSerializer(instance, many=False).data})
 
 post_save.connect(push_event, sender=Event, dispatch_uid="push_event")
 
@@ -306,13 +305,13 @@ def push_delete_event(sender, instance, **kwargs):
 
 pre_delete.connect(push_delete_event, sender=Event, dispatch_uid="push_event")
 
+@receiver(m2m_changed, sender=Event.invited.through)
+def send_notifications_to_inviteds(sender, instance, action, **kwargs):
+    if action == "post_add" and not instance.is_invited:
+        instance.send_invite()
 
 @receiver(m2m_changed, sender=Event.members.through)
-def recalculate_total(sender, instance, action, **kwargs):
-    """
-    Automatically recalculate total price of an order when a related product is added or removed
-    """
-
+def send_notifications_to_members(sender, instance, action, **kwargs):
     if action == "post_add" and not instance.is_invited:
         members = instance.members.all()
         users = []
