@@ -314,10 +314,16 @@ def send_notifications_to_inviteds(sender, instance, action, **kwargs):
 @receiver(m2m_changed, sender=Event.members.through)
 def send_notifications_to_members(sender, instance, action, **kwargs):
     if action == "post_add" and not instance.is_invited:
-        members = instance.members.all()
+
+        if instance.group != None:
+            members = Member.objects.filter(level__group=instance.group)
+        else:
+            members = instance.members.all()
+
         users = []
         for member in members:
             users.append(member.user)
+        
         related_events = Event.objects.filter(parent_event=instance)
         exclude_events = related_events.exclude(owner__in=users)
         related_event_users = []

@@ -15,8 +15,8 @@ class EventForm(forms.ModelForm):
         widgets = {
             'note': AutosizedTextarea(attrs={'rows': 3, 'class': 'input-xlarge'})
         }
-        fields = '__all__'
-        # exclude = ('members','invited')
+        # fields = '__all__'
+        exclude = ('members','invited')
     
 class TrainingStepForm(forms.ModelForm):
     class Meta:
