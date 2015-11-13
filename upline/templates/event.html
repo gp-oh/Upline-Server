@@ -82,10 +82,12 @@
 						<td class="boxpadding" width="20" style="border-collapse: collapse;"></td>
 						<td class="boxcontent" width="260" align="center" style="border-collapse: collapse; padding-top: 40px; padding-bottom: 30px;">
 							<h2 style="color: #50d2c2; font-weight: normal; font-size: 16px; margin: 0; padding: 0;">CONVITE</h2>
+
 							<p style="margin: 2em 0;">Olá, <b>{{name}}</b>. Tudo bem?</p>
-							<p style="margin: 2em 0;">Estou convidando você para baixar o aplicativo {{app}}.</p>
-							<p style="margin: 2em 0;">Você terá mais informações sobre o desenvolvimento do negócio, novas tendências, além de conhecer todas as linhas de produtos e lançamentos.</p>
-							<p style="margin: 2em 0;">Após baixar o aplicativo, você deverá entrar como convidado e utilizar meu ID:<br><b style="line-height:22pt; font-size: 18px;">{{member.user.username}}</b>.</p>
+							<p style="margin: 2em 0;">stou convidando você para uma reunião de oportunidade de negócio.</p>
+							<p style="margin: 2em 0;">Evento: {{event.title}}</p>
+							<p style="margin: 2em 0;">Data: {{event.begin_time|date:"d/m/Y"}}</p>
+							<p style="margin: 2em 0;">Hora: {{event.begin_time|date:"H:i"}}</p>
 							<table width="100%" cellspacing="0" cellpadding="0" align="center" border="0" style="border-collapse: collapse;">
 								<tbody>
 									<tr>

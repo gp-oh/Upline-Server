@@ -634,8 +634,8 @@ class Event(models.Model):
             try:
                 validate_email(invited.email)
                 subject, from_email, to = 'Convite '+settings.APPLICATION_NAME, settings.EMAIL_HOST_USER, invited.email
-                text_content = render_to_string('event.txt', {'app': settings.APPLICATION_NAME,'member':self.owner,'name':invited.name})
-                html_content = render_to_string('event.html', {'app': settings.APPLICATION_NAME,'member':self.owner,'name':invited.name})
+                text_content = render_to_string('event.txt', {'event': self,'member':self.owner,'name':invited.name})
+                html_content = render_to_string('event.html', {'event': self,'member':self.owner,'name':invited.name})
                 msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
                 msg.attach_alternative(html_content, "text/html")
                 msg.send()
