@@ -215,7 +215,7 @@ SUIT_CONFIG = {
     'CONFIRM_UNSAVED_CHANGES': True,
     'MENU': (
         {'label': u'Notificações', 'icon':'icon-lock', 'models': (
-            {'label': 'Notificações', 'model':'upline.notification', 'icon':None},
+            {'label': 'Notificações', 'model':'upline.notification', 'icon':None})},
          {'label': 'Convites', 'icon':'icon-user', 'models': (
             {'label': 'Convites', 'model':'upline.invite', 'icon':None},
             {'label': 'Convidados', 'model':'upline.invited', 'icon':None},)},
