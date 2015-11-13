@@ -632,15 +632,14 @@ class Event(models.Model):
         for invited in self.invited.all():
             try:
                 validate_email(invited.email)
-            except ValidationError as e:
-                print "oops! wrong email"
-            else:
                 subject, from_email, to = 'Convite '+settings.APPLICATION_NAME, settings.EMAIL_HOST_USER, self.email
                 text_content = render_to_string('event.txt', {'app': settings.APPLICATION_NAME,'member':self.member,'name':self.name,'link':settings.APPLICATION_URL})
                 html_content = render_to_string('event.html', {'app': settings.APPLICATION_NAME,'member':self.member,'name':self.name,'link':settings.APPLICATION_URL})
                 msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
                 msg.attach_alternative(html_content, "text/html")
                 msg.send()
+            except ValidationError as e:
+                print "oops! wrong email"
             
 
     class Meta:
