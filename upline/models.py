@@ -430,7 +430,7 @@ class Contact(models.Model):
     email = models.EmailField(max_length=255,null=True,verbose_name=_('email'),blank=True)
     phone = models.CharField(max_length=45, blank=True, null=True,verbose_name=_('phone'))
     cellphone = models.CharField(max_length=45, blank=True, null=True,verbose_name=_('cellphone'))
-    birthday = models.DateField(null=True,verbose_name=_('birthday'))
+    birthday = models.DateField(null=True,verbose_name=_('birthday'),blank=True,default=None)
     cpf = models.CharField(max_length=45, blank=True, null=True,verbose_name=_('cpf'))
     rg = models.CharField(max_length=45, blank=True, null=True,verbose_name=_('rg'))
     postal_code = models.CharField(max_length=255,verbose_name=_('postal_code'),null=True,blank=True)
