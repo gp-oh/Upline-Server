@@ -758,7 +758,7 @@ def push_event(sender, instance, **kwargs):
     devices = GCMDevice.objects.filter(user=instance.owner)
     if len(devices) > 0:
         devices.send_message(SiteConfiguration.get_solo().new_event_message, extra={"type":"event","object":EventSerializer(instance, many=False).data})
-    if instance.group != None:
+    if instance.group != None and not instance.is_invited:
         create_sub_events(instance)
 
 post_save.connect(push_event, sender=Event, dispatch_uid="push_event")
