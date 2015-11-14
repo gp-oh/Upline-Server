@@ -312,7 +312,7 @@ class EventAdmin(ForeignKeyAutocompleteAdmin):
     }
 
     def get_queryset(self, request):
-        qs = super(EventAdmin, self).get_queryset(request)
+        qs = super(EventAdmin, self).get_queryset(request).filter(is_invited=False)
         ordering = self.get_ordering(request)
         if ordering:
             qs = qs.order_by(*ordering)
