@@ -181,7 +181,7 @@ class MemberSerializer(serializers.HyperlinkedModelSerializer):
     level = LevelSerializer(many=False, read_only=True)
     answers = serializers.SerializerMethodField()
     parent = UplineSerializer(many=False, read_only=True)
-    downlines = DownlineSerializer(many=True, read_only=True)
+    downlines = serializers.SerializerMethodField(read_only=True)
     avatar_base64 = serializers.CharField(required=False,allow_blank=True)
     dream1_base64 = serializers.CharField(required=False,allow_blank=True)
     dream2_base64 = serializers.CharField(required=False,allow_blank=True)
@@ -193,7 +193,7 @@ class MemberSerializer(serializers.HyperlinkedModelSerializer):
     def get_downlines(self, obj):
         user = self.context['request'].user
         downlines = Member.objects.filter(parent=obj,member_type=0)
-        serializer = DownlineSerializer(downlines)
+        serializer = DownlineSerializer(downlines,many=True)
         return serializer.data
 
     def get_answers(self,member):
@@ -315,68 +315,68 @@ class MemberRegisterSerializer(serializers.HyperlinkedModelSerializer):
         model = Member
         fields = ("id","member_type",'avatar_base64',"dream1_base64","dream2_base64",'name','email','grant_type','parent_user','username','password','phone','birthday','gender','postal_code','state','city','address','address_number')
 
-class MemberSerializer(serializers.HyperlinkedModelSerializer):
-    user = UserSerializer(many=False,read_only=True)
-    level = LevelSerializer(many=False, read_only=True)
-    answers = serializers.SerializerMethodField()
-    parent = UplineSerializer(many=False, read_only=True)
-    downlines = DownlineSerializer(many=True, read_only=True)
-    avatar_base64 = serializers.CharField(write_only=True,required=False,allow_blank=True)
-    descendant_count = serializers.SerializerMethodField()
-    downline_count = serializers.SerializerMethodField()
-    binary = serializers.SerializerMethodField()
-    today_descendant_count = serializers.SerializerMethodField()
+# class MemberSerializer(serializers.HyperlinkedModelSerializer):
+#     user = UserSerializer(many=False,read_only=True)
+#     level = LevelSerializer(many=False, read_only=True)
+#     answers = serializers.SerializerMethodField()
+#     parent = UplineSerializer(many=False, read_only=True)
+#     downlines = erializers.SerializerMethodField(read_only=True)
+#     avatar_base64 = serializers.CharField(write_only=True,required=False,allow_blank=True)
+#     descendant_count = serializers.SerializerMethodField()
+#     downline_count = serializers.SerializerMethodField()
+#     binary = serializers.SerializerMethodField()
+#     today_descendant_count = serializers.SerializerMethodField()
 
-    def get_downlines(self, obj):
-        user = self.context['request'].user
-        downlines = Member.objects.filter(parent=obj,member_type=0)
-        serializer = DownlineSerializer(downlines)
-        return serializer.data
+#     def get_downlines(self, obj):
+#         user = self.context['request'].user
+#         downlines = Member.objects.filter(parent=obj,member_type=0)
+#         serializer = DownlineSerializer(downlines,many=True)
+#         return serializer.data
         
-    def get_answers(self,member):
-        answers = MemberTrainingStep.objects.select_related('training_step').filter(member=member)
-        ret = []
-        for answer in answers:
-            ret.append(answer.training_step.id)
-        return ret
+#     def get_answers(self,member):
+#         answers = MemberTrainingStep.objects.select_related('training_step').filter(member=member)
+#         ret = []
+#         for answer in answers:
+#             ret.append(answer.training_step.id)
+#         return ret
 
-    def get_today_descendant_count(self,member):
-        today_min = datetime.datetime.combine(datetime.date.today(), datetime.time.min)
-        today_max = datetime.datetime.combine(datetime.date.today(), datetime.time.max)
-        return len(member.get_descendants().filter(create_time__range=(today_min, today_max),member_type=0))
+#     def get_today_descendant_count(self,member):
+#         today_min = datetime.datetime.combine(datetime.date.today(), datetime.time.min)
+#         today_max = datetime.datetime.combine(datetime.date.today(), datetime.time.max)
+#         return len(member.get_descendants().filter(create_time__range=(today_min, today_max),member_type=0))
 
-    def get_descendant_count(self,member):
-        return len(member.get_descendants().filter(member_type=0))
+#     def get_descendant_count(self,member):
+#         return len(member.get_descendants().filter(member_type=0))
     
-    def get_downline_count(self,member):
-        return len(member.get_children())
+#     def get_downline_count(self,member):
+#         return len(member.get_children())
         
-    def get_binary(self,member):
-        if len(member.get_children().filter(member_type=0)) < 2 :
-            return False
-        else:
-            return True
+#     def get_binary(self,member):
+#         if len(member.get_children().filter(member_type=0)) < 2 :
+#             return False
+#         else:
+#             return True
 
-    def save(self):
-        if 'avatar_base64' in self.validated_data:
-            avatar = self.validated_data.pop('avatar_base64')
-            if len(avatar) > 0:
-                avatar_base64 = avatar.split(',')[1]
-                avatar_mime = avatar.split(';')[0].split(':')[1]
-                avatar_extension = avatar_mime.split('/')[1]
-                self.avatar = SimpleUploadedFile(name=str(uuid.uuid4())+'.'+avatar_extension, content=base64.b64decode(avatar_base64), content_type=avatar_mime)
-        super(MemberSerializer, self).save()
+#     def save(self):
+#         if 'avatar_base64' in self.validated_data:
+#             avatar = self.validated_data.pop('avatar_base64')
+#             if len(avatar) > 0:
+#                 avatar_base64 = avatar.split(',')[1]
+#                 avatar_mime = avatar.split(';')[0].split(':')[1]
+#                 avatar_extension = avatar_mime.split('/')[1]
+#                 self.avatar = SimpleUploadedFile(name=str(uuid.uuid4())+'.'+avatar_extension, content=base64.b64decode(avatar_base64), content_type=avatar_mime)
+#         super(MemberSerializer, self).save()
 
-    class Meta:
-        model = Member
-        fields = ("id","descendant_count","today_descendant_count","binary","downline_count","member_type","user","avatar_base64",'quickblox_id','parent','downlines','create_time','external_id','name','points','avatar','phone','gender','postal_code','city','state','address','address_number','dream1','dream2','status','level','answers','birthday')
+#     class Meta:
+#         model = Member
+#         fields = ("id","descendant_count","today_descendant_count","binary","downline_count","member_type","user","avatar_base64",'quickblox_id','parent','downlines','create_time','external_id','name','points','avatar','phone','gender','postal_code','city','state','address','address_number','dream1','dream2','status','level','answers','birthday')
 
 class MemberLoginSerializer(serializers.HyperlinkedModelSerializer):
     user = UserSerializer(many=False,read_only=True)
     level = LevelSerializer(many=False, read_only=True)
     answers = serializers.SerializerMethodField()
     parent = UplineSerializer(many=False, read_only=True)
-    downlines = DownlineSerializer(many=True, read_only=True)
+    downlines = serializers.SerializerMethodField(read_only=True)
     descendant_count = serializers.SerializerMethodField()
     downline_count = serializers.SerializerMethodField()
     binary = serializers.SerializerMethodField()
@@ -385,7 +385,8 @@ class MemberLoginSerializer(serializers.HyperlinkedModelSerializer):
     def get_downlines(self, obj):
         user = self.context['request'].user
         downlines = Member.objects.filter(parent=obj,member_type=0)
-        serializer = DownlineSerializer(downlines)
+        print downlines
+        serializer = DownlineSerializer(downlines,many=True)
         return serializer.data
 
     def get_answers(self,member):

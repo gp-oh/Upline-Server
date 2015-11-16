@@ -496,6 +496,7 @@ class Product(models.Model):
 
 class Sale(models.Model):
     member = models.ForeignKey(Member,verbose_name=_('member'))
+    external_id = models.IntegerField(null=True,blank=True,default=None)
     client = models.ForeignKey(Contact,verbose_name=_('client'))
     active = models.BooleanField(default=True,verbose_name=_('active'))
     total = models.DecimalField(max_digits=11, decimal_places=2,default="0.00",verbose_name=_('total'))
