@@ -159,7 +159,7 @@ pt_formats.DATE_FORMAT = "d/m/Y"
 pt_formats.SHORT_DATE_FORMAT = "d/m/Y"
 pt_formats.DATE_INPUT_FORMATS = "d/m/Y"   
 
-TIME_ZONE = 'America/Sao_Paulo'
+TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
