@@ -139,6 +139,7 @@ class PostalCode(models.Model):
 
 
 class Training(models.Model):
+    position = models.IntegerField(default=99999,verbose_name=_('position'))
     name = models.CharField(max_length=255,verbose_name=_('name'))
     create_time = models.DateTimeField(auto_now_add=True,verbose_name=_('create_time'))
     update_time = models.DateTimeField(auto_now=True,verbose_name=_('update_time'))
@@ -159,6 +160,7 @@ class Training(models.Model):
     class Meta:
         verbose_name = _("training")
         verbose_name_plural = _("trainings")
+        ordering = ['position']
 
     def __unicode__(self):
         return self.name
