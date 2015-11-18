@@ -145,7 +145,7 @@ class Training(models.Model):
     update_time = models.DateTimeField(auto_now=True,verbose_name=_('update_time'))
     notified = models.BooleanField(default=False,editable=False)
     have_notifications = models.BooleanField(default=False)
-    count_messages_after_finish = models.ForeignKey('Training',verbose_name=_('previous training'),null=True)
+    previous_training = models.ForeignKey('Training',verbose_name=_('previous training'),null=True,blank=True,default=None)
     day_1_notification_description = models.TextField(blank=True, null=True,verbose_name=_('day_1_notification_description'))
     day_2_notification_description = models.TextField(blank=True, null=True,verbose_name=_('day_2_notification_description'))
     day_3_notification_description = models.TextField(blank=True, null=True,verbose_name=_('day_3_notification_description'))
