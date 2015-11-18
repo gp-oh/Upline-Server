@@ -222,7 +222,7 @@ class MemberSerializer(serializers.HyperlinkedModelSerializer):
     
     class Meta:
         model = Member
-        fields = ("id","descendant_count","today_descendant_count","binary","downline_count","member_type","user","avatar_base64","dream1_base64","avatar_base64",'quickblox_id','parent','downlines','create_time','external_id','name','points','avatar','phone','gender','postal_code','city','state','address','address_number','dream1','dream2','status','level','answers','birthday')
+        fields = ("id","descendant_count","today_descendant_count","binary","downline_count","member_type","user","avatar_base64","dream1_base64","dream2_base64","avatar_base64",'quickblox_id','parent','downlines','create_time','external_id','name','points','avatar','phone','gender','postal_code','city','state','address','address_number','dream1','dream2','status','level','answers','birthday')
 
 class MemberRegisterSerializer(serializers.HyperlinkedModelSerializer):
     username = serializers.SlugField()
