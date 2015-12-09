@@ -607,8 +607,9 @@ class Event(models.Model):
     all_day = models.BooleanField(default=False,verbose_name=_('all_day'))
     begin_time = models.DateTimeField(null=True,verbose_name=_('begin_time'))
     end_time = models.DateTimeField(null=True,verbose_name=_('end_time'))
-    invited = models.ManyToManyField(Contact,blank=True,verbose_name=_('invited'))
+    invited = models.ManyToManyField(Contact,blank=True,verbose_name=_('contacts'))
     members = models.ManyToManyField(Member,blank=True,verbose_name=_('members'))
+    invited_members = models.ManyToManyField(Member,blank=True,verbose_name=_('invited members'),related_name="invited_members")
     calendar = models.ForeignKey(Calendar,related_name='events',verbose_name=_('calendar'))
     note = models.TextField(null=True,blank=True,verbose_name=_('note'))
     postal_code = models.CharField(max_length=255,verbose_name=_('postal_code'),null=True,blank=True)
@@ -780,8 +781,12 @@ def send_notifications_to_inviteds(sender, instance, action, **kwargs):
 
 def create_sub_events(instance):
     members = instance.members.all()
+    invited_members = instance.invited_members.all()
     users = []
     for member in members:
+        users.append(member.user)
+
+    for member in invited_members:
         users.append(member.user)
 
     members = Member.objects.filter(level__group=instance.group)
