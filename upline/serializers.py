@@ -526,7 +526,7 @@ class CalendarSerializer(serializers.HyperlinkedModelSerializer):
 class EventSerializer(serializers.HyperlinkedModelSerializer):
     invited = ContactSerializer(many=True,read_only=True)
     members = DownlineSerializer(many=True,read_only=True)
-    invited_members = DownlineSerializer(many=True,read_only=True)
+    invited_members = DownlineSerializer(many=True,read_only=True,required=False)
     calendar = CalendarSerializer(read_only=True)
     deleted = serializers.SerializerMethodField()
     inviter = UplineSerializer(many=False,read_only=True)
@@ -553,7 +553,7 @@ class EventDeleteSerializer(serializers.HyperlinkedModelSerializer):
 class EventRegisterSerializer(serializers.HyperlinkedModelSerializer):
     invited = serializers.PrimaryKeyRelatedField(many=True, queryset=Contact.objects.all())
     members = serializers.PrimaryKeyRelatedField(many=True, queryset=Member.objects.all())
-    invited_members = serializers.PrimaryKeyRelatedField(many=True, queryset=Member.objects.all())
+    invited_members = serializers.PrimaryKeyRelatedField(many=True, queryset=Member.objects.all(),required=False)
     calendar_id = serializers.PrimaryKeyRelatedField(many=False, queryset=Calendar.objects.all(),source='calendar')
 
     def create(self,validated_data):
