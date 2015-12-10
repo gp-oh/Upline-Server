@@ -36,4 +36,5 @@ rq==0.5.5
 shortuuid==0.4.2
 six==1.9.0
 static3==0.6.1
+urllib3==1.12
 wheel==0.24.0
