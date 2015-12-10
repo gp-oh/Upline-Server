@@ -102,7 +102,7 @@ def convert_video(media):
     k.set_acl('public-read')
 
 
-    c.thumbnail(video_name.rsplit( ".", 1 )[ 0 ]+'.mp4', 10, video_name.rsplit( ".", 1 )[ 0 ]+'.jpg')
+    c.thumbnail(video_name.rsplit( ".", 1 )[ 0 ]+'.mp4', 0, video_name.rsplit( ".", 1 )[ 0 ]+'.jpg')
     thumbnail_file = mp4_file = open(video_name.rsplit( ".", 1 )[ 0 ]+'.png','r')
 
     media.thumbnail = SimpleUploadedFile(name=str(uuid.uuid4())+'.jpg', content=thumbnail_file.read(), content_type='image/jpg')
