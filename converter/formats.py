@@ -17,14 +17,6 @@ class BaseFormat(object):
         return ['-f', self.ffmpeg_format_name]
 
 
-class RawvideoFormat(BaseFormat):
-    """
-    Rawvideo equal to no container, mostly used for media analyses.
-    """
-    format_name = 'rawvideo'
-    ffmpeg_format_name = 'rawvideo'
-
-
 class OggFormat(BaseFormat):
     """
     Ogg container format, mostly used with Vorbis and Theora.
@@ -66,21 +58,7 @@ class FlvFormat(BaseFormat):
     ffmpeg_format_name = 'flv'
 
 
-class BaseMovMp4Format(BaseFormat):
-    """
-    Base MOV/MP4 format class.
-
-    Supported formats are: mov, mp4
-    """
-
-    def parse_options(self, opt):
-        opt_list = super(BaseMovMp4Format, self).parse_options(opt)
-        if opt.get('faststart'):
-            opt_list = ['-movflags', 'faststart'] + opt_list
-        return opt_list
-
-
-class MovFormat(BaseMovMp4Format):
+class MovFormat(BaseFormat):
     """
     Mov container format, used mostly with H.264 video
     content, often for mobile platforms.
@@ -89,7 +67,7 @@ class MovFormat(BaseMovMp4Format):
     ffmpeg_format_name = 'mov'
 
 
-class Mp4Format(BaseMovMp4Format):
+class Mp4Format(BaseFormat):
     """
     Mp4 container format, the default Format for H.264
     video content.
@@ -114,34 +92,7 @@ class Mp3Format(BaseFormat):
     ffmpeg_format_name = 'mp3'
 
 
-class HLSFormat(BaseFormat):
-    """
-    ts container, segments
-    """
-    format_name = 'hls'
-    ffmpeg_format_name = 'segment'
-
-    def parse_options(self, opt):
-        if 'format' not in opt or opt.get('format') != self.format_name:
-            raise ValueError('invalid Format format')
-
-        optlist = []
-        optlist.extend(['-dn'])
-        optlist.extend(['-f', self.ffmpeg_format_name])
-        if 'flags' in opt:
-            optlist.extend(['-flags', str(opt.get('flags'))])
-        if 'segment_list' in opt:
-            optlist.extend(['-segment_list', str(opt.get('segment_list'))])
-        if 'segment_time' in opt:
-            optlist.extend(['-segment_time', str(opt.get('segment_time'))])
-        if 'segment_format' in opt:
-            optlist.extend(['-segment_format', str(opt.get('segment_format'))])
-        if 'segment_list_type' in opt:
-            optlist.extend(['-segment_list_type', str(opt.get('segment_list_type'))])
-
-        return optlist
-
 format_list = [
-    RawvideoFormat, OggFormat, AviFormat, MkvFormat, WebmFormat, FlvFormat,
-    MovFormat, Mp4Format, MpegFormat, Mp3Format, HLSFormat
+    OggFormat, AviFormat, MkvFormat, WebmFormat, FlvFormat,
+    MovFormat, Mp4Format, MpegFormat, Mp3Format
 ]

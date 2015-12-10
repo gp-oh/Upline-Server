@@ -4,7 +4,7 @@ import os
 
 from converter.avcodecs import video_codec_list, audio_codec_list, subtitle_codec_list
 from converter.formats import format_list
-from converter.ffmpeg import FFMpeg, parse_time, timecode_to_seconds, FFMpegError
+from converter.ffmpeg import FFMpeg, FFMpegError, FFMpegConvertError
 
 
 class ConverterError(Exception):
@@ -121,16 +121,6 @@ class Converter(object):
             else:
                 format_options.extend(['-map', str(m)])
 
-        if 'start' in opt:
-            start = parse_time(opt['start'])
-            format_options.extend(['-ss', start])
-
-        if 'duration' in opt:
-            duration = parse_time(opt['duration'])
-            format_options.extend(['-t', duration])
-        elif 'end' in opt:
-            end = parse_time(opt['end'])
-            format_options.extend(['-to', end])
 
         # aggregate all options
         optlist = audio_options + video_options + subtitle_options + format_options
@@ -142,7 +132,7 @@ class Converter(object):
 
         return optlist
 
-    def convert(self, infile, outfile, options, twopass=False, timeout=10, nice=None):
+    def convert(self, infile, outfile, options, twopass=False, timeout=10):
         """
         Convert media file (infile) according to specified options, and
         save it to outfile. For two-pass encoding, specify the pass (1 or 2)
@@ -188,96 +178,42 @@ class Converter(object):
         if not isinstance(options, dict):
             raise ConverterError('Invalid options')
 
-        if not os.path.exists(infile) and not self.ffmpeg.is_url(infile):
+        if not os.path.exists(infile):
             raise ConverterError("Source file doesn't exist: " + infile)
 
         info = self.ffmpeg.probe(infile)
         if info is None:
             raise ConverterError("Can't get information about source file")
 
-        if 'video' not in info and 'audio' not in info:
+        if not info.video and not info.audio:
             raise ConverterError('Source file has no audio or video streams')
 
-        if 'video' in info and 'video' in options:
+        if info.video and 'video' in options:
             options = options.copy()
             v = options['video'] = options['video'].copy()
-            v['src_width'] = info['video']['width']
-            v['src_height'] = info['video']['height']
-            if 'tags' in info['video'] and 'rotate' in info['video']['tags']:
-                v['src_rotate'] = info['video']['tags']['rotate']
+            v['src_width'] = info.video.video_width
+            v['src_height'] = info.video.video_height
 
-        if info['format']['duration'] < 0.01:
+        if info.format.duration < 0.01:
             raise ConverterError('Zero-length media')
-
-        if 'duration' in options:
-            duration = timecode_to_seconds(options['duration'])
-        elif 'start' in options:
-            if 'end' in options:
-                duration = timecode_to_seconds(options['end']) - timecode_to_seconds(options['start'])
-            else:
-                duration = info['format']['duration'] - timecode_to_seconds(options['start'])
-        elif 'end' in options:
-            duration = timecode_to_seconds(options['end'])
-        else:
-            duration = info['format']['duration']
 
         if twopass:
             optlist1 = self.parse_options(options, 1)
             for timecode in self.ffmpeg.convert(infile, outfile, optlist1,
-                                                timeout=timeout, nice=nice):
-                yield int((50.0 * timecode) / duration)
+                                                timeout=timeout):
+                yield int((50.0 * timecode) / info.format.duration)
 
             optlist2 = self.parse_options(options, 2)
             for timecode in self.ffmpeg.convert(infile, outfile, optlist2,
-                                                timeout=timeout, nice=nice):
-                yield int(50.0 + (50.0 * timecode) / duration)
+                                                timeout=timeout):
+                yield int(50.0 + (50.0 * timecode) / info.format.duration)
         else:
             optlist = self.parse_options(options, twopass)
             for timecode in self.ffmpeg.convert(infile, outfile, optlist,
-                                                timeout=timeout, nice=nice):
-                yield int((100.0 * timecode) / duration)
+                                                timeout=timeout):
+                yield int((100.0 * timecode) / info.format.duration)
 
-    def analyze(self, infile, audio_level=True, interlacing=True, crop=False, start=None, duration=None, end=None, timeout=10, nice=None):
-        """
-        Analyze the video frames to find if the video need to be deinterlaced.
-        Or/and analyze the audio to find if the audio need to be normalize
-        and by how much. Both analyses are together so FFMpeg can do both
-        analyses in the same pass.
-
-        :param audio_level: Set it to True to get by how much dB the audio need
-        to be normalize, defaults to True.
-        :param interlacing: Set it to True to check if the video need to be
-        deinterlaced, defaults to True.
-        :param timeout: How long should the operation be blocked in case ffmpeg
-        gets stuck and doesn't report back, defaults to 10 sec.
-        """
-        if not os.path.exists(infile) and not self.ffmpeg.is_url(infile):
-            raise ConverterError("Source file doesn't exist: " + infile)
-
-        info = self.ffmpeg.probe(infile)
-        if info is None:
-            raise ConverterError("Can't get information about source file")
-
-        if 'video' not in info and 'audio' not in info:
-            raise ConverterError('Source file has no audio or video streams')
-
-        if 'audio' not in info:
-            audio_level = False
-
-        if 'video' not in info:
-            interlacing = False
-            crop = False
-
-        if info['format']['duration'] < 0.01:
-            raise ConverterError('Zero-length media')
-        for timecode in self.ffmpeg.analyze(infile, audio_level, interlacing,
-                                            crop, start, duration, end, timeout, nice):
-            if isinstance(timecode, float):
-                yield int((100.0 * timecode) / info['format']['duration'])
-            else:
-                yield timecode
-
-    def probe(self, *args, **kwargs):
+    def probe(self, fname, posters_as_video=True):
         """
         Examine the media file. See the documentation of
         converter.FFMpeg.probe() for details.
@@ -285,69 +221,18 @@ class Converter(object):
         :param posters_as_video: Take poster images (mainly for audio files) as
             A video stream, defaults to True
         """
-        return self.ffmpeg.probe(*args, **kwargs)
+        return self.ffmpeg.probe(fname, posters_as_video)
 
-    def validate(self, source, duration=None):
-        if not os.path.exists(source) and not self.ffmpeg.is_url(source):
-            yield "Source file doesn't exist: " + source
-            raise StopIteration
-
-        info = self.ffmpeg.probe(source)
-        if info is None:
-            yield 'no info'
-            raise StopIteration
-
-        if 'video' not in info and 'audio' not in info:
-            yield 'no stream'
-            raise StopIteration
-
-        opts = ['-f', 'null']
-        if duration:
-            opts += ['-t', str(duration)]
-            duration = timecode_to_seconds(duration)
-        else:
-            duration = info['format']['duration']
-
-        processed = self.ffmpeg.convert(source, '/dev/null', opts,
-                                        timeout=100, nice=15, get_output=True)
-        for timecode in processed:
-            if isinstance(timecode, basestring):
-                if 'rror while decoding' in timecode:
-                    yield 'error'
-                    raise StopIteration
-            elif duration:
-                yield int((100.0 * timecode) / duration)
-            else:
-                yield timecode
-
-    def thumbnail(self, *args, **kwargs):
+    def thumbnail(self, fname, time, outfile, size=None, quality=FFMpeg.DEFAULT_JPEG_QUALITY):
         """
         Create a thumbnail of the media file. See the documentation of
         converter.FFMpeg.thumbnail() for details.
         """
-        return self.ffmpeg.thumbnail(*args, **kwargs)
+        return self.ffmpeg.thumbnail(fname, time, outfile, size, quality)
 
-    def thumbnails(self, *args, **kwargs):
+    def thumbnails(self, fname, option_list):
         """
         Create one or more thumbnail of the media file. See the documentation
         of converter.FFMpeg.thumbnails() for details.
         """
-        return self.ffmpeg.thumbnails(*args, **kwargs)
-
-    def thumbnails_by_interval(self, *args, **kwargs):
-        """
-        Create one or more thumbnail of the media file. See the documentation
-        of converter.FFMpeg.thumbnails() for details.
-        """
-        return self.ffmpeg.thumbnails_by_interval(*args, **kwargs)
-
-
-def is_faststart(source):
-    """
-    Check if the given file is 'faststart' or not.
-    """
-    with open(source) as source:
-        head = source.read(64)
-    if 'moov' in head:
-        return True
-    return False
+        return self.ffmpeg.thumbnails(fname, option_list)
