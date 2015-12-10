@@ -102,15 +102,15 @@ def convert_video(media):
     k.set_acl('public-read')
 
 
-    c.thumbnail(video_name.rsplit( ".", 1 )[ 0 ]+'.mp4', 10, video_name.rsplit( ".", 1 )[ 0 ]+'.png')
+    c.thumbnail(video_name.rsplit( ".", 1 )[ 0 ]+'.mp4', 10, video_name.rsplit( ".", 1 )[ 0 ]+'.jpg')
     thumbnail_file = mp4_file = open(video_name.rsplit( ".", 1 )[ 0 ]+'.png','r')
 
-    media.thumbnail = SimpleUploadedFile(name=str(uuid.uuid4())+'.png', content=thumbnail_file.read(), content_type='image/png')
+    media.thumbnail = SimpleUploadedFile(name=str(uuid.uuid4())+'.jpg', content=thumbnail_file.read(), content_type='image/jpg')
     media.converted =True
     media.media = "https://upline-virtual.s3.amazonaws.com/"+media.media.split('/')[-2]+"/"+video_name.rsplit( ".", 1 )[ 0 ]+'.mp4'
     media.save()
     mp4_file.close()
     thumbnail_file.close()
     os.unlink(video_name.rsplit( ".", 1 )[ 0 ]+'1.mp4')
-    os.unlink(video_name.rsplit( ".", 1 )[ 0 ]+'.png')
+    os.unlink(video_name.rsplit( ".", 1 )[ 0 ]+'.jpg')
     os.unlink(video_name)
