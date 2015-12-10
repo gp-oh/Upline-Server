@@ -1,2 +1,2 @@
-web: gunicorn upline_server.wsgi --timeout 360
-worker: python worker.py
+web: gunicorn upline_server.wsgi --timeout 600
+worker: python worker.py 
