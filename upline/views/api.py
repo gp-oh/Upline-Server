@@ -200,7 +200,7 @@ class PostViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = PostSerializer
 
     def list(self, request):
-        queryset = Post.objects.filter(group__in=request.user.groups.all())
+        queryset = Post.objects.filter(groups__in=request.user.groups.all())
         serializer = PostSerializer(queryset, many=True,context={'request': request})
         return Response(serializer.data)
 
