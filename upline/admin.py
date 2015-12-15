@@ -301,7 +301,7 @@ class EventDateFilter(SimpleListFilter):
 
 class EventAdmin(ForeignKeyAutocompleteAdmin):
     form = EventForm
-    list_display = ["id","title","calendar","begin_time","group"]
+    list_display = ["id","title","calendar","begin_time"]
     search_fields = ['name']
     list_filter = [EventDateFilter]
     related_search_fields = {
@@ -327,7 +327,7 @@ class EventAdmin(ForeignKeyAutocompleteAdmin):
         return Q(member_type=0)
 
 class PostAdmin(ForeignKeyAutocompleteAdmin):
-    list_display = ['user','title','group','content','create_time','media_type','get_media_file','notified']
+    list_display = ['user','title','content','create_time','media_type','get_media_file','notified']
     form = PostForm
     related_search_fields = {
        'user': ('first_name', 'email'),

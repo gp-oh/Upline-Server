@@ -542,7 +542,7 @@ class SaleItem(models.Model):
 class Post(models.Model):
     user = models.ForeignKey(User,related_name='posts',verbose_name=_('user'))
     title = models.CharField(max_length=255,verbose_name=_('title'))
-    group = models.ForeignKey(Group,verbose_name=_('group'),null=True)
+    groups = models.ManyToManyField(Group,null=True,blank=True,default=None,verbose_name=_('groups'))
     content = models.TextField(null=True,blank=True,default=None,verbose_name=_('content'))
     media = S3DirectField(dest='posts', null=True,blank=True,default=None)
     media_type = models.IntegerField(choices=((0,'Imagem'),(1,'Audio'),(2,'Video'),(3,'Texto')),verbose_name=_('media_type'),default=0,editable=False)
@@ -602,7 +602,7 @@ class Calendar(models.Model):
 
 class Event(models.Model):
     owner = models.ForeignKey(User,verbose_name=_('owner'))
-    group = models.ForeignKey(Group,null=True,blank=True,default=None,verbose_name=_('group'))
+    groups = models.ManyToManyField(Group,null=True,blank=True,default=None,verbose_name=_('groups'))
     title = models.CharField(max_length=255,verbose_name=_('title'))
     all_day = models.BooleanField(default=False,verbose_name=_('all_day'))
     begin_time = models.DateTimeField(null=True,verbose_name=_('begin_time'))
@@ -762,7 +762,7 @@ def push_event(sender, instance, **kwargs):
     devices = GCMDevice.objects.filter(user=instance.owner)
     if len(devices) > 0:
         devices.send_message(SiteConfiguration.get_solo().new_event_message, extra={"type":"event","object":EventSerializer(instance, many=False).data})
-    if instance.group != None and not instance.is_invited:
+    if len(instance.groups.all()) > 0 and not instance.is_invited:
         create_sub_events(instance)
 
 post_save.connect(push_event, sender=Event, dispatch_uid="push_event")
@@ -789,7 +789,7 @@ def create_sub_events(instance):
     for member in invited_members:
         users.append(member.user)
 
-    members = Member.objects.filter(level__group=instance.group)
+    members = Member.objects.filter(level__group__in=instance.groups.all())
     for member in members:
         users.append(member.user)
 
@@ -824,7 +824,7 @@ def create_sub_events(instance):
 
     for event in related_events:
         if event not in exclude_events:
-            event.group = instance.group
+            # event.group = instance.group
             event.title = instance.title
             event.all_day = instance.all_day
             event.begin_time = instance.begin_time
