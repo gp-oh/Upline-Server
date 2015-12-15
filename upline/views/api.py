@@ -67,7 +67,7 @@ class MemberViewSet(viewsets.ModelViewSet):
 
         if "member_type" in request.GET and len(request.GET['member_type']) == 1:
             queryset = queryset.filter(member_type=request.GET['member_type'])
-        serializer = MemberSerializer(queryset, many=True,context={'request': request,'only_children':only_children})
+        serializer = MemberSerializer(queryset, many=True,context={'request': request})
         return Response(serializer.data)
 
     def create(self, request, *args, **kwargs):
