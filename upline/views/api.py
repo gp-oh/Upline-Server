@@ -60,10 +60,14 @@ class MemberViewSet(viewsets.ModelViewSet):
     oauthlib_backend_class = oauth2_settings.OAUTH2_BACKEND_CLASS
 
     def list(self, request):
-        queryset = Member.objects.filter(parent__user=request.user)
+        if "only_children" in request.GET and len(request.GET['only_children']) == 1 and request.GET['only_children'] == 0:
+            queryset = Member.objects.get(user=request.user).get_descendants()
+        else:
+            queryset = Member.objects.filter(parent__user=request.user)
+
         if "member_type" in request.GET and len(request.GET['member_type']) == 1:
             queryset = queryset.filter(member_type=request.GET['member_type'])
-        serializer = MemberSerializer(queryset, many=True,context={'request': request})
+        serializer = MemberSerializer(queryset, many=True,context={'request': request,'only_children':only_children})
         return Response(serializer.data)
 
     def create(self, request, *args, **kwargs):
