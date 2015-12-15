@@ -336,7 +336,7 @@ class PostAdmin(ForeignKeyAutocompleteAdmin):
 
     def send(modeladmin, request, queryset):
         for instance in queryset:
-            devices = GCMDevice.objects.filter()
+            devices = GCMDevice.objects.filter(user__group=instance.group)
             if len(devices) > 0:
                 devices.send_message(SiteConfiguration.get_solo().new_post_message , extra={"type":"post","object":PostSerializer(instance, many=False,context={'request': request}).data})
         queryset.update(notified=True)
