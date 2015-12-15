@@ -192,8 +192,8 @@ class MemberSerializer(serializers.HyperlinkedModelSerializer):
 
     def get_downlines(self, obj):
         user = self.context['request'].user
-        # downlines = Member.objects.filter(parent=obj,member_type=0)
-        downlines = obj.get_descendants()
+        downlines = Member.objects.filter(parent=obj,member_type=0)
+        # downlines = obj.get_descendants()
         serializer = DownlineSerializer(downlines,many=True)
         return serializer.data
 
@@ -385,8 +385,8 @@ class MemberLoginSerializer(serializers.HyperlinkedModelSerializer):
 
     def get_downlines(self, obj):
         user = self.context['request'].user
-        # downlines = Member.objects.filter(parent=obj,member_type=0)
-        downlines = obj.get_descendants()
+        downlines = Member.objects.filter(parent=obj,member_type=0)
+        # downlines = obj.get_descendants()
         print downlines
         serializer = DownlineSerializer(downlines,many=True)
         return serializer.data
