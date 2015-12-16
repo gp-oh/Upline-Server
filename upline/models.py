@@ -774,6 +774,11 @@ def push_delete_event(sender, instance, **kwargs):
 
 pre_delete.connect(push_delete_event, sender=Event, dispatch_uid="push_event")
 
+@receiver(m2m_changed, sender=Event.groups.through)
+def send_notifications_to_inviteds(sender, instance, action, **kwargs):
+    if action == "post_add" and not instance.is_invited:
+        instance.send_invite()
+
 @receiver(m2m_changed, sender=Event.invited.through)
 def send_notifications_to_inviteds(sender, instance, action, **kwargs):
     if action == "post_add" and not instance.is_invited:
