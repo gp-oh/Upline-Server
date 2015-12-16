@@ -849,5 +849,6 @@ def send_notifications_to_members(sender, instance, action, **kwargs):
 
 @receiver(m2m_changed, sender=Event.groups.through)
 def send_notifications_to_groups(sender, instance, action, **kwargs):
+    print "Event groups changed =>" + action
     if action == "post_add" and not instance.is_invited:
-        instance.send_invite()
+        create_sub_events(instance)
