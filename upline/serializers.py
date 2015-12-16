@@ -530,6 +530,8 @@ class EventSerializer(serializers.HyperlinkedModelSerializer):
     calendar = CalendarSerializer(read_only=True)
     deleted = serializers.SerializerMethodField()
     inviter = UplineSerializer(many=False,read_only=True)
+    begin_time = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S%z")
+    end_time = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S%z")
 
     def get_deleted(self,instance):
         return False
