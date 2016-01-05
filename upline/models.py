@@ -758,28 +758,34 @@ class Invite(models.Model):
 
 from upline.serializers import EventSerializer, EventDeleteSerializer
 
+
 def push_event(sender, instance, **kwargs):
     devices = GCMDevice.objects.filter(user=instance.owner)
     if len(devices) > 0:
-        devices.send_message(SiteConfiguration.get_solo().new_event_message, extra={"type":"event","object":EventSerializer(instance, many=False).data})
+        print "push_event"
+        devices.send_message(SiteConfiguration.get_solo().new_event_message, extra={"type": "event", "object": EventSerializer(instance, many=False).data})
     if len(instance.groups.all()) > 0 and not instance.is_invited:
         create_sub_events(instance)
 
 post_save.connect(push_event, sender=Event, dispatch_uid="push_event")
 
+
 def push_delete_event(sender, instance, **kwargs):
     devices = GCMDevice.objects.filter(user=instance.owner)
     if len(devices) > 0:
-        devices.send_message(SiteConfiguration.get_solo().update_event_message, extra={"type":"event","object":EventDeleteSerializer(instance, many=False).data})
+        devices.send_message(SiteConfiguration.get_solo().update_event_message, extra={"type": "event", "object": EventDeleteSerializer(instance, many=False).data})
 
 pre_delete.connect(push_delete_event, sender=Event, dispatch_uid="push_event")
+
 
 @receiver(m2m_changed, sender=Event.invited.through)
 def send_notifications_to_inviteds(sender, instance, action, **kwargs):
     if action == "post_add" and not instance.is_invited:
         instance.send_invite()
 
+
 def create_sub_events(instance):
+    print "create_sub_events"
     members = instance.members.all()
     invited_members = instance.invited_members.all()
     users = []
@@ -809,13 +815,13 @@ def create_sub_events(instance):
         e.owner = user
         e.is_invited = True
         e.parent_event_id = instance_id
-        e.alert_at_hour = False
-        e.alert_5_mins = False
-        e.alert_15_mins = False
-        e.alert_30_mins = False
-        e.alert_1_hour = False
-        e.alert_2_hours = False
-        e.alert_1_day = False
+        # e.alert_at_hour = False
+        # e.alert_5_mins = False
+        # e.alert_15_mins = False
+        # e.alert_30_mins = False
+        # e.alert_1_hour = False
+        # e.alert_2_hours = False
+        # e.alert_1_day = False
         e.inviter = Member.objects.get(user=instance.owner)
         e.save()
 
@@ -842,10 +848,12 @@ def create_sub_events(instance):
             event.lng = instance.lng
             event.save()
 
+
 @receiver(m2m_changed, sender=Event.members.through)
 def send_notifications_to_members(sender, instance, action, **kwargs):
     if action == "post_add" and not instance.is_invited:
         create_sub_events(instance)
+
 
 @receiver(m2m_changed, sender=Event.groups.through)
 def send_notifications_to_groups(sender, instance, action, **kwargs):
