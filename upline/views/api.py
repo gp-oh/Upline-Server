@@ -60,7 +60,7 @@ class MemberViewSet(viewsets.ModelViewSet):
     oauthlib_backend_class = oauth2_settings.OAUTH2_BACKEND_CLASS
 
     def list(self, request):
-        if "only_children" in request.GET and len(request.GET['only_children']) == 1 and request.GET['only_children'] == 0:
+        if "only_children" in request.GET and len(request.GET['only_children']) == 1 and request.GET['only_children'] == "0":
             queryset = Member.objects.get(user=request.user).get_descendants()
         else:
             queryset = Member.objects.filter(parent__user=request.user)
