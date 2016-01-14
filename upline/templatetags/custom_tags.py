@@ -1,13 +1,10 @@
 # -*- coding: utf-8 -*-
 from django import template
-import inspect, datetime
+import datetime
 register = template.Library()
 from django.template.loader import render_to_string
 from upline.models import *
 from django.db.models import Count, Sum
-import re
-
-register = Library()
 
 
 @register.filter
