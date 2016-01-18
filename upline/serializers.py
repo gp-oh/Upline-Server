@@ -1,24 +1,29 @@
- # -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 from django.contrib.auth.models import User, Group
 from upline.models import *
 from rest_framework import serializers
 from django.core.files.uploadedfile import SimpleUploadedFile
-import mimetypes, json, base64, uuid, datetime
+import base64
+import uuid
+import datetime
 from rest_framework_bulk import (
     BulkListSerializer,
     BulkSerializerMixin
 )
 
+
 class GroupSerializer(serializers.HyperlinkedModelSerializer):
+
     class Meta:
         model = Group
         fields = ("id", 'name')
 
+
 class UserSerializer(serializers.HyperlinkedModelSerializer):
-    groups = GroupSerializer(read_only=True,many=True)
+    groups = GroupSerializer(read_only=True, many=True)
     avatar = serializers.SerializerMethodField()
-    
-    def get_avatar(self,user):
+
+    def get_avatar(self, user):
         avatar = Avatar.objects.filter(user=user)
         if len(avatar) > 0:
             return avatar[0].image.url
@@ -27,63 +32,81 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = User
-        fields = ("id",'groups', 'username', 'email',"avatar")
+        fields = ("id", 'groups', 'username', 'email', "avatar")
+
 
 class UsernameSerializer(serializers.HyperlinkedModelSerializer):
+
     class Meta:
         model = User
         fields = ('username')
 
+
 class LevelSerializer(serializers.HyperlinkedModelSerializer):
+
     class Meta:
         model = Level
-        fields = ("id","title","image","color","description","gift","points_range_from","points_range_to")
+        fields = ("id", "title", "image", "color", "description",
+                  "gift", "points_range_from", "points_range_to")
+
 
 class OnlyTrainingSerializer(serializers.HyperlinkedModelSerializer):
+
     class Meta:
         model = Training
-        fields = ("id",'name',)
+        fields = ("id", 'name',)
+
 
 class TrainingStepLoginSerializer(serializers.HyperlinkedModelSerializer):
+
     class Meta:
         model = TrainingStep
-        fields = ('id','title','media',"thumbnail","media_type",'step','description','need_answer',"answer_type","meetings_per_week","weeks","nr_contacts")
+        fields = ('id', 'title', 'media', "thumbnail", "media_type", 'step', 'description',
+                  'need_answer', "answer_type", "meetings_per_week", "weeks", "nr_contacts")
 
 
 class TrainingStepSerializer(serializers.HyperlinkedModelSerializer):
     status = serializers.SerializerMethodField()
     answer = serializers.SerializerMethodField()
 
-    def get_status(self,training_step):
-        members = training_step.members.filter(member__user=self.context['request'].user)
+    def get_status(self, training_step):
+        members = training_step.members.filter(
+            member__user=self.context['request'].user)
         if len(members) > 0:
             return True
         return False
 
-    def get_answer(self,training_step):
-        members = training_step.members.filter(member__user=self.context['request'].user)
+    def get_answer(self, training_step):
+        members = training_step.members.filter(
+            member__user=self.context['request'].user)
         if len(members) > 0:
             return MemberTrainingStepSerializer(members[0]).data
         return None
 
     class Meta:
         model = TrainingStep
-        fields = ('id','status','answer','title','media',"thumbnail","media_type",'step','description','need_answer',"answer_type","meetings_per_week","weeks","nr_contacts")
+        fields = ('id', 'status', 'answer', 'title', 'media', "thumbnail", "media_type", 'step',
+                  'description', 'need_answer', "answer_type", "meetings_per_week", "weeks", "nr_contacts")
 
 
 class TrainingSerializer(serializers.HyperlinkedModelSerializer):
-    training_steps = TrainingStepSerializer(many=True,read_only=True)
+    training_steps = TrainingStepSerializer(many=True, read_only=True)
+
     class Meta:
         model = Training
-        fields = ('id','name','training_steps')
+        fields = ('id', 'name', 'training_steps')
+
 
 class MemberTrainingStepSerializer(serializers.HyperlinkedModelSerializer):
-    training_step = serializers.PrimaryKeyRelatedField(many=False,queryset=TrainingStep.objects.all())
+    training_step = serializers.PrimaryKeyRelatedField(
+        many=False, queryset=TrainingStep.objects.all())
     # training_step = TrainingSetpSerializer(many=False,read_only=True)
-    media_base64 = serializers.CharField(write_only=True,required=False,allow_blank=True)
+    media_base64 = serializers.CharField(
+        write_only=True, required=False, allow_blank=True)
 
-    def create(self,validated_data):
-        validated_data['member'] = Member.objects.get(user=self.context['request'].user)
+    def create(self, validated_data):
+        validated_data['member'] = Member.objects.get(
+            user=self.context['request'].user)
         return super(MemberTrainingStepSerializer, self).create(validated_data)
 
     def save(self):
@@ -94,15 +117,17 @@ class MemberTrainingStepSerializer(serializers.HyperlinkedModelSerializer):
                 media_base64 = media.split(',')[1]
                 media_mime = media.split(';')[0].split(':')[1]
                 media_extension = media_mime.split('/')[1]
-                self.media = SimpleUploadedFile(name=str(uuid.uuid4())+'.'+media_extension, content=base64.b64decode(media_base64), content_type=media_mime)
+                self.media = SimpleUploadedFile(name=str(uuid.uuid4(
+                )) + '.' + media_extension, content=base64.b64decode(media_base64), content_type=media_mime)
         super(MemberTrainingStepSerializer, self).save()
 
     class Meta:
         model = MemberTrainingStep
-        fields = ('id','answer','training_step','media','media_base64')
+        fields = ('id', 'answer', 'training_step', 'media', 'media_base64')
+
 
 class UplineSerializer(serializers.HyperlinkedModelSerializer):
-    user = UserSerializer(many=False,read_only=True)
+    user = UserSerializer(many=False, read_only=True)
     level = LevelSerializer(many=False, read_only=True)
     answers = serializers.SerializerMethodField()
     descendant_count = serializers.SerializerMethodField()
@@ -110,33 +135,37 @@ class UplineSerializer(serializers.HyperlinkedModelSerializer):
     binary = serializers.SerializerMethodField()
     today_descendant_count = serializers.SerializerMethodField()
 
-    def get_answers(self,member):
-        answers = MemberTrainingStep.objects.select_related('training_step').filter(member=member)
+    def get_answers(self, member):
+        answers = MemberTrainingStep.objects.select_related(
+            'training_step').filter(member=member)
         ret = []
         for answer in answers:
             ret.append(answer.training_step.id)
         return ret
 
-    def get_today_descendant_count(self,member):
-        today_min = datetime.datetime.combine(datetime.date.today(), datetime.time.min)
-        today_max = datetime.datetime.combine(datetime.date.today(), datetime.time.max)
-        return len(member.get_descendants().filter(create_time__range=(today_min, today_max),member_type=0))
+    def get_today_descendant_count(self, member):
+        today_min = datetime.datetime.combine(
+            datetime.date.today(), datetime.time.min)
+        today_max = datetime.datetime.combine(
+            datetime.date.today(), datetime.time.max)
+        return len(member.get_descendants().filter(create_time__range=(today_min, today_max), member_type=0))
 
-    def get_descendant_count(self,member):
+    def get_descendant_count(self, member):
         return len(member.get_descendants().filter(member_type=0))
-    
-    def get_downline_count(self,member):
+
+    def get_downline_count(self, member):
         return len(member.get_children())
 
-    def get_binary(self,member):
-        if len(member.get_children().filter(member_type=0)) < 2 :
+    def get_binary(self, member):
+        if len(member.get_children().filter(member_type=0)) < 2:
             return False
         else:
             return True
 
     class Meta:
         model = Member
-        fields = ("id","descendant_count","today_descendant_count","binary","downline_count","member_type","user",'quickblox_id','create_time','external_id','name','points','avatar','phone','gender','postal_code','city','state','address','address_number','dream1','dream2','status','level','answers','birthday')
+        fields = ("id", "descendant_count", "today_descendant_count", "binary", "downline_count", "member_type", "user", 'quickblox_id', 'create_time', 'external_id', 'name',
+                  'points', 'avatar', 'phone', 'gender', 'postal_code', 'city', 'state', 'address', 'address_number', 'dream1', 'dream2', 'status', 'level', 'answers', 'birthday')
 
 
 class DownlineSerializer(serializers.HyperlinkedModelSerializer):
@@ -147,44 +176,48 @@ class DownlineSerializer(serializers.HyperlinkedModelSerializer):
     descendant_count = serializers.SerializerMethodField()
     today_descendant_count = serializers.SerializerMethodField()
 
-    def get_answers(self,member):
-        answers = MemberTrainingStep.objects.select_related('training_step').filter(member=member)
+    def get_answers(self, member):
+        answers = MemberTrainingStep.objects.select_related(
+            'training_step').filter(member=member)
         ret = []
         for answer in answers:
             ret.append(answer.training_step.id)
         return ret
 
-    def get_today_descendant_count(self,member):
-        today_min = datetime.datetime.combine(datetime.date.today(), datetime.time.min)
-        today_max = datetime.datetime.combine(datetime.date.today(), datetime.time.max)
-        return len(member.get_descendants().filter(create_time__range=(today_min, today_max),member_type=0))
+    def get_today_descendant_count(self, member):
+        today_min = datetime.datetime.combine(
+            datetime.date.today(), datetime.time.min)
+        today_max = datetime.datetime.combine(
+            datetime.date.today(), datetime.time.max)
+        return len(member.get_descendants().filter(create_time__range=(today_min, today_max), member_type=0))
 
-    def get_downline_count(self,member):
+    def get_downline_count(self, member):
         return len(member.get_children())
 
-    def get_descendant_count(self,member):
+    def get_descendant_count(self, member):
         return len(member.get_descendants().filter(member_type=0))
 
-    def get_binary(self,member):
-        if len(member.get_children().filter(member_type=0)) < 2 :
+    def get_binary(self, member):
+        if len(member.get_children().filter(member_type=0)) < 2:
             return False
         else:
             return True
 
     class Meta:
         model = Member
-        fields = ("id","descendant_count","today_descendant_count","binary","downline_count","member_type",'quickblox_id','create_time','external_id','name','points','avatar','phone','gender','postal_code','city','state','address','address_number','dream1','dream2','status','level','answers')
+        fields = ("id", "descendant_count", "today_descendant_count", "binary", "downline_count", "member_type", 'quickblox_id', 'create_time', 'external_id', 'name',
+                  'points', 'avatar', 'phone', 'gender', 'postal_code', 'city', 'state', 'address', 'address_number', 'dream1', 'dream2', 'status', 'level', 'answers')
 
 
 class MemberSerializer(serializers.HyperlinkedModelSerializer):
-    user = UserSerializer(many=False,read_only=True)
+    user = UserSerializer(many=False, read_only=True)
     level = LevelSerializer(many=False, read_only=True)
     answers = serializers.SerializerMethodField()
     parent = UplineSerializer(many=False, read_only=True)
     downlines = serializers.SerializerMethodField(read_only=True)
-    avatar_base64 = serializers.CharField(required=False,allow_blank=True)
-    dream1_base64 = serializers.CharField(required=False,allow_blank=True)
-    dream2_base64 = serializers.CharField(required=False,allow_blank=True)
+    avatar_base64 = serializers.CharField(required=False, allow_blank=True)
+    dream1_base64 = serializers.CharField(required=False, allow_blank=True)
+    dream2_base64 = serializers.CharField(required=False, allow_blank=True)
     descendant_count = serializers.SerializerMethodField()
     downline_count = serializers.SerializerMethodField()
     binary = serializers.SerializerMethodField()
@@ -192,38 +225,43 @@ class MemberSerializer(serializers.HyperlinkedModelSerializer):
 
     def get_downlines(self, obj):
         user = self.context['request'].user
-        downlines = Member.objects.filter(parent=obj,member_type=0)
+        downlines = Member.objects.filter(parent=obj, member_type=0)
         # downlines = obj.get_descendants()
-        serializer = DownlineSerializer(downlines,many=True)
+        serializer = DownlineSerializer(downlines, many=True)
         return serializer.data
 
-    def get_answers(self,member):
-        answers = MemberTrainingStep.objects.select_related('training_step').filter(member=member)
+    def get_answers(self, member):
+        answers = MemberTrainingStep.objects.select_related(
+            'training_step').filter(member=member)
         ret = []
         for answer in answers:
             ret.append(answer.training_step.id)
         return ret
 
-    def get_today_descendant_count(self,member):
-        today_min = datetime.datetime.combine(datetime.date.today(), datetime.time.min)
-        today_max = datetime.datetime.combine(datetime.date.today(), datetime.time.max)
-        return len(member.get_descendants().filter(create_time__range=(today_min, today_max),member_type=0))
+    def get_today_descendant_count(self, member):
+        today_min = datetime.datetime.combine(
+            datetime.date.today(), datetime.time.min)
+        today_max = datetime.datetime.combine(
+            datetime.date.today(), datetime.time.max)
+        return len(member.get_descendants().filter(create_time__range=(today_min, today_max), member_type=0))
 
-    def get_descendant_count(self,member):
+    def get_descendant_count(self, member):
         return len(member.get_descendants().filter(member_type=0))
-    
-    def get_downline_count(self,member):
+
+    def get_downline_count(self, member):
         return len(member.get_children())
-        
-    def get_binary(self,member):
-        if len(member.get_children().filter(member_type=0)) < 2 :
+
+    def get_binary(self, member):
+        if len(member.get_children().filter(member_type=0)) < 2:
             return False
         else:
             return True
-    
+
     class Meta:
         model = Member
-        fields = ("id","descendant_count","today_descendant_count","binary","downline_count","member_type","user","avatar_base64","dream1_base64","dream2_base64","avatar_base64",'quickblox_id','parent','downlines','create_time','external_id','name','points','avatar','phone','gender','postal_code','city','state','address','address_number','dream1','dream2','status','level','answers','birthday')
+        fields = ("id", "descendant_count", "today_descendant_count", "binary", "downline_count", "member_type", "user", "avatar_base64", "dream1_base64", "dream2_base64", "avatar_base64", 'quickblox_id', 'parent',
+                  'downlines', 'create_time', 'external_id', 'name', 'points', 'avatar', 'phone', 'gender', 'postal_code', 'city', 'state', 'address', 'address_number', 'dream1', 'dream2', 'status', 'level', 'answers', 'birthday')
+
 
 class MemberRegisterSerializer(serializers.HyperlinkedModelSerializer):
     username = serializers.SlugField()
@@ -231,12 +269,12 @@ class MemberRegisterSerializer(serializers.HyperlinkedModelSerializer):
     grant_type = serializers.CharField(initial="password")
     password = serializers.CharField(style={'input_type': 'password'})
     parent_user = serializers.SlugField()
-    avatar_base64 = serializers.CharField(required=False,allow_blank=True)
-    dream1_base64 = serializers.CharField(required=False,allow_blank=True)
-    dream2_base64 = serializers.CharField(required=False,allow_blank=True)
+    avatar_base64 = serializers.CharField(required=False, allow_blank=True)
+    dream1_base64 = serializers.CharField(required=False, allow_blank=True)
+    dream2_base64 = serializers.CharField(required=False, allow_blank=True)
 
-    def validate_parent_user(self,value):
-        members = Member.objects.filter(user__username=value,member_type=0)
+    def validate_parent_user(self, value):
+        members = Member.objects.filter(user__username=value, member_type=0)
         if len(members) != 1:
             raise serializers.ValidationError("Invalid Parent ID")
         return value
@@ -252,7 +290,6 @@ class MemberRegisterSerializer(serializers.HyperlinkedModelSerializer):
         if len(users) > 0:
             raise serializers.ValidationError("Username already registered")
         return value
-
 
     def save(self):
         user = User()
@@ -270,23 +307,27 @@ class MemberRegisterSerializer(serializers.HyperlinkedModelSerializer):
                 avatar_base64 = avatar.split(',')[1]
                 avatar_mime = avatar.split(';')[0].split(':')[1]
                 avatar_extension = avatar_mime.split('/')[1]
-                member.avatar = SimpleUploadedFile(name=str(uuid.uuid4())+'.'+avatar_extension, content=base64.b64decode(avatar_base64), content_type=avatar_mime)
+                member.avatar = SimpleUploadedFile(name=str(uuid.uuid4(
+                )) + '.' + avatar_extension, content=base64.b64decode(avatar_base64), content_type=avatar_mime)
         if 'dream1_base64' in self.validated_data:
             dream1 = self.validated_data.pop('dream1_base64')
             if len(dream1) > 0:
                 dream1_base64 = dream1.split(',')[1]
                 dream1_mime = dream1.split(';')[0].split(':')[1]
                 dream1_extension = dream1_mime.split('/')[1]
-                self.dream1 = SimpleUploadedFile(name=str(uuid.uuid4())+'.'+dream1_extension, content=base64.b64decode(dream1_base64), content_type=dream1_mime)
+                self.dream1 = SimpleUploadedFile(name=str(uuid.uuid4(
+                )) + '.' + dream1_extension, content=base64.b64decode(dream1_base64), content_type=dream1_mime)
         if 'dream2_base64' in self.validated_data:
             dream2 = self.validated_data.pop('dream2_base64')
             if len(dream2) > 0:
                 dream2_base64 = dream2.split(',')[1]
                 dream2_mime = dream2.split(';')[0].split(':')[1]
                 dream2_extension = dream2_mime.split('/')[1]
-                self.dream2 = SimpleUploadedFile(name=str(uuid.uuid4())+'.'+dream2_extension, content=base64.b64decode(dream2_base64), content_type=dream2_mime)
+                self.dream2 = SimpleUploadedFile(name=str(uuid.uuid4(
+                )) + '.' + dream2_extension, content=base64.b64decode(dream2_base64), content_type=dream2_mime)
 
-        member.parent = Member.objects.get(user__username=self.validated_data['parent_user'])
+        member.parent = Member.objects.get(
+            user__username=self.validated_data['parent_user'])
         member.member_type = 1
 
         if 'name' in self.validated_data:
@@ -314,66 +355,12 @@ class MemberRegisterSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Member
-        fields = ("id","member_type",'avatar_base64',"dream1_base64","dream2_base64",'name','email','grant_type','parent_user','username','password','phone','birthday','gender','postal_code','state','city','address','address_number')
+        fields = ("id", "member_type", 'avatar_base64', "dream1_base64", "dream2_base64", 'name', 'email', 'grant_type', 'parent_user',
+                  'username', 'password', 'phone', 'birthday', 'gender', 'postal_code', 'state', 'city', 'address', 'address_number')
 
-# class MemberSerializer(serializers.HyperlinkedModelSerializer):
-#     user = UserSerializer(many=False,read_only=True)
-#     level = LevelSerializer(many=False, read_only=True)
-#     answers = serializers.SerializerMethodField()
-#     parent = UplineSerializer(many=False, read_only=True)
-#     downlines = erializers.SerializerMethodField(read_only=True)
-#     avatar_base64 = serializers.CharField(write_only=True,required=False,allow_blank=True)
-#     descendant_count = serializers.SerializerMethodField()
-#     downline_count = serializers.SerializerMethodField()
-#     binary = serializers.SerializerMethodField()
-#     today_descendant_count = serializers.SerializerMethodField()
-
-#     def get_downlines(self, obj):
-#         user = self.context['request'].user
-#         downlines = Member.objects.filter(parent=obj,member_type=0)
-#         serializer = DownlineSerializer(downlines,many=True)
-#         return serializer.data
-        
-#     def get_answers(self,member):
-#         answers = MemberTrainingStep.objects.select_related('training_step').filter(member=member)
-#         ret = []
-#         for answer in answers:
-#             ret.append(answer.training_step.id)
-#         return ret
-
-#     def get_today_descendant_count(self,member):
-#         today_min = datetime.datetime.combine(datetime.date.today(), datetime.time.min)
-#         today_max = datetime.datetime.combine(datetime.date.today(), datetime.time.max)
-#         return len(member.get_descendants().filter(create_time__range=(today_min, today_max),member_type=0))
-
-#     def get_descendant_count(self,member):
-#         return len(member.get_descendants().filter(member_type=0))
-    
-#     def get_downline_count(self,member):
-#         return len(member.get_children())
-        
-#     def get_binary(self,member):
-#         if len(member.get_children().filter(member_type=0)) < 2 :
-#             return False
-#         else:
-#             return True
-
-#     def save(self):
-#         if 'avatar_base64' in self.validated_data:
-#             avatar = self.validated_data.pop('avatar_base64')
-#             if len(avatar) > 0:
-#                 avatar_base64 = avatar.split(',')[1]
-#                 avatar_mime = avatar.split(';')[0].split(':')[1]
-#                 avatar_extension = avatar_mime.split('/')[1]
-#                 self.avatar = SimpleUploadedFile(name=str(uuid.uuid4())+'.'+avatar_extension, content=base64.b64decode(avatar_base64), content_type=avatar_mime)
-#         super(MemberSerializer, self).save()
-
-#     class Meta:
-#         model = Member
-#         fields = ("id","descendant_count","today_descendant_count","binary","downline_count","member_type","user","avatar_base64",'quickblox_id','parent','downlines','create_time','external_id','name','points','avatar','phone','gender','postal_code','city','state','address','address_number','dream1','dream2','status','level','answers','birthday')
 
 class MemberLoginSerializer(serializers.HyperlinkedModelSerializer):
-    user = UserSerializer(many=False,read_only=True)
+    user = UserSerializer(many=False, read_only=True)
     level = LevelSerializer(many=False, read_only=True)
     answers = serializers.SerializerMethodField()
     parent = UplineSerializer(many=False, read_only=True)
@@ -385,47 +372,53 @@ class MemberLoginSerializer(serializers.HyperlinkedModelSerializer):
 
     def get_downlines(self, obj):
         user = self.context['request'].user
-        downlines = Member.objects.filter(parent=obj,member_type=0)
+        downlines = Member.objects.filter(parent=obj, member_type=0)
         # downlines = obj.get_descendants()
         print downlines
-        serializer = DownlineSerializer(downlines,many=True)
+        serializer = DownlineSerializer(downlines, many=True)
         return serializer.data
 
-    def get_answers(self,member):
-        answers = MemberTrainingStep.objects.select_related('training_step').filter(member=member)
+    def get_answers(self, member):
+        answers = MemberTrainingStep.objects.select_related(
+            'training_step').filter(member=member)
         ret = []
         for answer in answers:
             ret.append(answer.training_step.id)
         return ret
 
-    def get_descendant_count(self,member):
+    def get_descendant_count(self, member):
         return len(member.get_descendants().filter(member_type=0))
 
-    def get_today_descendant_count(self,member):
-        today_min = datetime.datetime.combine(datetime.date.today(), datetime.time.min)
-        today_max = datetime.datetime.combine(datetime.date.today(), datetime.time.max)
-        return len(member.get_descendants().filter(create_time__range=(today_min, today_max),member_type=0))
-    
-    def get_downline_count(self,member):
+    def get_today_descendant_count(self, member):
+        today_min = datetime.datetime.combine(
+            datetime.date.today(), datetime.time.min)
+        today_max = datetime.datetime.combine(
+            datetime.date.today(), datetime.time.max)
+        return len(member.get_descendants().filter(create_time__range=(today_min, today_max), member_type=0))
+
+    def get_downline_count(self, member):
         return len(member.get_children())
-        
-    def get_binary(self,member):
-        if len(member.get_children().filter(member_type=0)) < 2 :
+
+    def get_binary(self, member):
+        if len(member.get_children().filter(member_type=0)) < 2:
             return False
         else:
             return True
 
     class Meta:
         model = Member
-        fields = ("id","descendant_count","today_descendant_count","binary","downline_count","member_type",'user','member_uid','quickblox_id','quickblox_password','parent','downlines','create_time','external_id','name','points','avatar','phone','gender','postal_code','city','state','address','address_number','dream1','dream2','status','level','birthday','answers')
+        fields = ("id", "descendant_count", "today_descendant_count", "binary", "downline_count", "member_type", 'user', 'member_uid', 'quickblox_id', 'quickblox_password', 'parent', 'downlines', 'create_time',
+                  'external_id', 'name', 'points', 'avatar', 'phone', 'gender', 'postal_code', 'city', 'state', 'address', 'address_number', 'dream1', 'dream2', 'status', 'level', 'birthday', 'answers')
+
 
 class ContactSerializer(BulkSerializerMixin, serializers.HyperlinkedModelSerializer):
     member = MemberSerializer(read_only=True)
-    avatar_base64 = serializers.CharField(write_only=True,required=False,allow_blank=True)
+    avatar_base64 = serializers.CharField(
+        write_only=True, required=False, allow_blank=True)
 
     list_serializer_class = BulkListSerializer
 
-    def create(self,validated_data):
+    def create(self, validated_data):
         contact = Contact()
         member = Member.objects.get(user=self.context['request'].user)
         contact.owner = member
@@ -436,9 +429,9 @@ class ContactSerializer(BulkSerializerMixin, serializers.HyperlinkedModelSeriali
                 avatar_base64 = avatar.split(',')[1]
                 avatar_mime = avatar.split(';')[0].split(':')[1]
                 avatar_extension = avatar_mime.split('/')[1]
-                contact.avatar = SimpleUploadedFile(name=str(uuid.uuid4())+'.'+avatar_extension, content=base64.b64decode(avatar_base64), content_type=avatar_mime)
+                contact.avatar = SimpleUploadedFile(name=str(uuid.uuid4(
+                )) + '.' + avatar_extension, content=base64.b64decode(avatar_base64), content_type=avatar_mime)
 
-        
         if 'email' in validated_data:
             contact.email = validated_data.pop('email')
         if 'cellphone' in validated_data:
@@ -472,123 +465,166 @@ class ContactSerializer(BulkSerializerMixin, serializers.HyperlinkedModelSeriali
 
     class Meta:
         model = Contact
-        fields = ("id","avatar_base64","avatar","email","cellphone","birthday","cpf","rg","region",'member','contact_category','name','phone','gender','postal_code','city','state','address')
+        fields = ("id", "avatar_base64", "avatar", "email", "cellphone", "birthday", "cpf", "rg", "region",
+                  'member', 'contact_category', 'name', 'phone', 'gender', 'postal_code', 'city', 'state', 'address')
+
 
 class ContactDownlineSerializer(serializers.HyperlinkedModelSerializer):
     member = DownlineSerializer(read_only=True)
+
     class Meta:
         model = Contact
-        fields = ("id","avatar","email","cellphone","birthday","cpf","rg","region",'member','contact_category','name','phone','gender','postal_code','city','state','address')
+        fields = ("id", "avatar", "email", "cellphone", "birthday", "cpf", "rg", "region", 'member',
+                  'contact_category', 'name', 'phone', 'gender', 'postal_code', 'city', 'state', 'address')
+
 
 class ProductSerializer(serializers.HyperlinkedModelSerializer):
+
     class Meta:
         model = Product
-        fields = ("id","name","active","points","table_value","create_time")
+        fields = ("id", "name", "active", "points",
+                  "table_value", "create_time")
+
 
 class SaleItemSerializer(serializers.HyperlinkedModelSerializer):
     product = ProductSerializer()
+
     class Meta:
         model = SaleItem
-        fields = ("id","product","quantity","total","notificate_at")
+        fields = ("id", "product", "quantity", "total", "notificate_at")
+
 
 class SaleItemRegisterSerializer(serializers.HyperlinkedModelSerializer):
-    sale = serializers.PrimaryKeyRelatedField(many=False, queryset=Sale.objects.all(),write_only=True)
-    product = serializers.PrimaryKeyRelatedField(many=False, queryset=Product.objects.all())
+    sale = serializers.PrimaryKeyRelatedField(
+        many=False, queryset=Sale.objects.all(), write_only=True)
+    product = serializers.PrimaryKeyRelatedField(
+        many=False, queryset=Product.objects.all())
+
     class Meta:
         model = SaleItem
-        fields = ("id","product","quantity","notificate_at","sale")
+        fields = ("id", "product", "quantity", "notificate_at", "sale")
+
 
 class SaleSerializer(serializers.HyperlinkedModelSerializer):
     client = ContactDownlineSerializer(read_only=True)
-    sale_items = SaleItemSerializer(many=True,read_only=True)
+    sale_items = SaleItemSerializer(many=True, read_only=True)
+
     class Meta:
         model = Sale
-        fields = ("id","client","sale_items","active","total","points","create_time","status","send_time")
+        fields = ("id", "client", "sale_items", "active", "total",
+                  "points", "create_time", "status", "send_time")
+
 
 class SaleRegisterSerializer(serializers.HyperlinkedModelSerializer):
-    client_id = serializers.PrimaryKeyRelatedField(many=False, queryset=Contact.objects.all(),source="client")
+    client_id = serializers.PrimaryKeyRelatedField(
+        many=False, queryset=Contact.objects.all(), source="client")
     sale_items = SaleItemRegisterSerializer(many=True)
+
     class Meta:
         model = Sale
-        fields = ("id","client_id","sale_items")
+        fields = ("id", "client_id", "sale_items")
+
 
 class PostSerializer(serializers.HyperlinkedModelSerializer):
     user = UserSerializer(read_only=True)
+
     class Meta:
         model = Post
-        fields = ('id',"user","title","content","media","thumbnail","media_type","create_time","update_time")
+        fields = ('id', "user", "title", "content", "media",
+                  "thumbnail", "media_type", "create_time", "update_time")
+
 
 class CalendarSerializer(serializers.HyperlinkedModelSerializer):
+
     class Meta:
         model = Calendar
-        fields = ("id","name","color")
+        fields = ("id", "name", "color")
+
 
 class EventSerializer(serializers.HyperlinkedModelSerializer):
-    invited = ContactSerializer(many=True,read_only=True)
-    members = DownlineSerializer(many=True,read_only=True)
-    invited_members = DownlineSerializer(many=True,read_only=True,required=False)
+    invited = ContactSerializer(many=True, read_only=True)
+    members = DownlineSerializer(many=True, read_only=True)
+    invited_members = DownlineSerializer(
+        many=True, read_only=True, required=False)
     calendar = CalendarSerializer(read_only=True)
     deleted = serializers.SerializerMethodField()
-    inviter = UplineSerializer(many=False,read_only=True)
+    inviter = UplineSerializer(many=False, read_only=True)
     begin_time = serializers.DateTimeField(format="%Y-%m-%dT%H:%M:%S+00:00")
     end_time = serializers.DateTimeField(format="%Y-%m-%dT%H:%M:%S+00:00")
 
-    def get_deleted(self,instance):
+    def get_deleted(self, instance):
         return False
 
     class Meta:
         model = Event
-        fields = ("id","is_invited","invited_members","inviter","deleted","alert_at_hour","alert_5_mins","alert_15_mins","alert_30_mins","alert_1_hour","alert_2_hours","alert_1_day","title","all_day","begin_time","end_time","invited","members","calendar","note","postal_code","complement","lat","lng",'state','city','address','address_number')
+        fields = ("id", "is_invited", "invited_members", "inviter", "deleted", "alert_at_hour", "alert_5_mins", "alert_15_mins", "alert_30_mins", "alert_1_hour", "alert_2_hours", "alert_1_day",
+                  "title", "all_day", "begin_time", "end_time", "invited", "members", "calendar", "note", "postal_code", "complement", "lat", "lng", 'state', 'city', 'address', 'address_number')
+
 
 class EventDeleteSerializer(serializers.HyperlinkedModelSerializer):
     calendar = CalendarSerializer(read_only=True)
     deleted = serializers.SerializerMethodField()
-    inviter = UplineSerializer(many=False,read_only=True)
+    inviter = UplineSerializer(many=False, read_only=True)
 
-    def get_deleted(self,instance):
+    def get_deleted(self, instance):
         return True
 
     class Meta:
         model = Event
-        fields = ("id","is_invited","inviter","deleted","alert_at_hour","alert_5_mins","alert_15_mins","alert_30_mins","alert_1_hour","alert_2_hours","alert_1_day","title","all_day","begin_time","end_time","calendar","note","postal_code","complement","lat","lng",'state','city','address','address_number')
+        fields = ("id", "is_invited", "inviter", "deleted", "alert_at_hour", "alert_5_mins", "alert_15_mins", "alert_30_mins", "alert_1_hour", "alert_2_hours", "alert_1_day",
+                  "title", "all_day", "begin_time", "end_time", "calendar", "note", "postal_code", "complement", "lat", "lng", 'state', 'city', 'address', 'address_number')
+
 
 class EventRegisterSerializer(serializers.HyperlinkedModelSerializer):
-    invited = serializers.PrimaryKeyRelatedField(many=True, queryset=Contact.objects.all())
-    members = serializers.PrimaryKeyRelatedField(many=True, queryset=Member.objects.all())
-    invited_members = serializers.PrimaryKeyRelatedField(many=True, queryset=Member.objects.all(),required=False)
-    calendar_id = serializers.PrimaryKeyRelatedField(many=False, queryset=Calendar.objects.all(),source='calendar')
+    invited = serializers.PrimaryKeyRelatedField(
+        many=True, queryset=Contact.objects.all())
+    members = serializers.PrimaryKeyRelatedField(
+        many=True, queryset=Member.objects.all())
+    invited_members = serializers.PrimaryKeyRelatedField(
+        many=True, queryset=Member.objects.all(), required=False)
+    calendar_id = serializers.PrimaryKeyRelatedField(
+        many=False, queryset=Calendar.objects.all(), source='calendar')
 
-    def create(self,validated_data):
+    def create(self, validated_data):
         validated_data['owner'] = self.context['request'].user
         return super(EventRegisterSerializer, self).create(validated_data)
 
     class Meta:
         model = Event
-        fields = ("id","alert_at_hour","invited_members","alert_5_mins","alert_15_mins","alert_30_mins","alert_1_hour","alert_2_hours","alert_1_day","title","all_day","begin_time","end_time","invited","members","calendar_id","note","postal_code","complement","lat","lng",'state','city','address','address_number')
+        fields = ("id", "alert_at_hour", "invited_members", "alert_5_mins", "alert_15_mins", "alert_30_mins", "alert_1_hour", "alert_2_hours", "alert_1_day", "title", "all_day",
+                  "begin_time", "end_time", "invited", "members", "calendar_id", "note", "postal_code", "complement", "lat", "lng", 'state', 'city', 'address', 'address_number')
 
 
 class StateSerializer(serializers.HyperlinkedModelSerializer):
+
     class Meta:
         model = State
-        fields = ("id","acronym","name")
+        fields = ("id", "acronym", "name")
+
 
 class CitySerializer(serializers.HyperlinkedModelSerializer):
     state = StateSerializer(many=False)
+
     class Meta:
         model = State
-        fields = ("id","state","name")
+        fields = ("id", "state", "name")
+
 
 class PostalCodeSerializer(serializers.HyperlinkedModelSerializer):
     city = CitySerializer(many=False)
+
     class Meta:
         model = PostalCode
-        fields = ("city","street","neighborhood","postal_code","street_type")
+        fields = ("city", "street", "neighborhood",
+                  "postal_code", "street_type")
+
 
 class GoalSerializer(serializers.HyperlinkedModelSerializer):
     level = LevelSerializer(many=False, read_only=True)
-    level_id = serializers.PrimaryKeyRelatedField(many=False, queryset=Level.objects.all(),write_only=True,source="level")
+    level_id = serializers.PrimaryKeyRelatedField(
+        many=False, queryset=Level.objects.all(), write_only=True, source="level")
 
-    def create(self,validated_data):
+    def create(self, validated_data):
         goal = Goal()
         goal.level = validated_data.pop('level_id')
         member = Member.objects.get(user=self.context['request'].user)
@@ -599,26 +635,31 @@ class GoalSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Goal
-        fields = ("id","level","level_id","date")
+        fields = ("id", "level", "level_id", "date")
+
 
 class MediaSerializer(serializers.HyperlinkedModelSerializer):
+
     class Meta:
         model = Media
-        fields = ("id","name","media","thumbnail","media_type")
+        fields = ("id", "name", "media", "thumbnail", "media_type")
+
 
 class MediaCategorySerializer(serializers.HyperlinkedModelSerializer):
-    medias = MediaSerializer(many=True,read_only=True)
+    medias = MediaSerializer(many=True, read_only=True)
+
     class Meta:
         model = MediaCategory
-        fields = ("id","name","medias")
+        fields = ("id", "name", "medias")
+
 
 class InviteSerializer(serializers.HyperlinkedModelSerializer):
+
     class Meta:
         model = Invite
-        fields = ("id","name","email")
+        fields = ("id", "name", "email")
 
-    def create(self,validated_data):
-        validated_data['member'] = Member.objects.get(user=self.context['request'].user)
+    def create(self, validated_data):
+        validated_data['member'] = Member.objects.get(
+            user=self.context['request'].user)
         return super(InviteSerializer, self).create(validated_data)
-    
-
