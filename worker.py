@@ -8,7 +8,7 @@ from rq import Worker, Queue, Connection
 
 listen = ['high', 'default', 'low']
 
-redis_url = os.getenv('REDISTOGO_URL', 'redis://redistogo:a6174191576f0394ab151a0eee4cb03e@barb.redistogo.com:9179/')
+redis_url = os.getenv('REDISTOGO_URL', 'redis://redistogo:b63c57d5f901fca3b650b121d4a4eec2@gar.redistogo.com:9946/')
 
 conn = redis.from_url(redis_url)
 
