@@ -358,6 +358,65 @@ class MemberRegisterSerializer(serializers.HyperlinkedModelSerializer):
         fields = ("id", "member_type", 'avatar_base64', "dream1_base64", "dream2_base64", 'name', 'email', 'grant_type', 'parent_user',
                   'username', 'password', 'phone', 'birthday', 'gender', 'postal_code', 'state', 'city', 'address', 'address_number')
 
+# class MemberSerializer(serializers.HyperlinkedModelSerializer):
+#     user = UserSerializer(many=False,read_only=True)
+#     level = LevelSerializer(many=False, read_only=True)
+#     answers = serializers.SerializerMethodField()
+#     parent = UplineSerializer(many=False, read_only=True)
+#     downlines = erializers.SerializerMethodField(read_only=True)
+#     avatar_base64 = serializers.CharField(write_only=True,required=False,allow_blank=True)
+#     descendant_count = serializers.SerializerMethodField()
+#     downline_count = serializers.SerializerMethodField()
+#     binary = serializers.SerializerMethodField()
+#     today_descendant_count = serializers.SerializerMethodField()
+
+#     def get_downlines(self, obj):
+#         user = self.context['request'].user
+#         downlines = Member.objects.filter(parent=obj,member_type=0)
+#         serializer = DownlineSerializer(downlines,many=True)
+#         return serializer.data
+
+#     def get_answers(self,member):
+#         answers = MemberTrainingStep.objects.select_related('training_step').filter(member=member)
+#         ret = []
+#         for answer in answers:
+#             ret.append(answer.training_step.id)
+#         return ret
+
+#     def get_today_descendant_count(self,member):
+#         today_min = datetime.datetime.combine(datetime.date.today(), datetime.time.min)
+#         today_max = datetime.datetime.combine(datetime.date.today(), datetime.time.max)
+# return
+# len(member.get_descendants().filter(create_time__range=(today_min,
+# today_max),member_type=0))
+
+#     def get_descendant_count(self,member):
+#         return len(member.get_descendants().filter(member_type=0))
+
+#     def get_downline_count(self,member):
+#         return len(member.get_children())
+
+#     def get_binary(self,member):
+#         if len(member.get_children().filter(member_type=0)) < 2 :
+#             return False
+#         else:
+#             return True
+
+#     def save(self):
+#         if 'avatar_base64' in self.validated_data:
+#             avatar = self.validated_data.pop('avatar_base64')
+#             if len(avatar) > 0:
+#                 avatar_base64 = avatar.split(',')[1]
+#                 avatar_mime = avatar.split(';')[0].split(':')[1]
+#                 avatar_extension = avatar_mime.split('/')[1]
+#                 self.avatar = SimpleUploadedFile(name=str(uuid.uuid4())+'.'+avatar_extension, content=base64.b64decode(avatar_base64), content_type=avatar_mime)
+#         super(MemberSerializer, self).save()
+
+#     class Meta:
+#         model = Member
+# fields =
+# ("id","descendant_count","today_descendant_count","binary","downline_count","member_type","user","avatar_base64",'quickblox_id','parent','downlines','create_time','external_id','name','points','avatar','phone','gender','postal_code','city','state','address','address_number','dream1','dream2','status','level','answers','birthday')
+
 
 class MemberLoginSerializer(serializers.HyperlinkedModelSerializer):
     user = UserSerializer(many=False, read_only=True)
@@ -576,23 +635,89 @@ class EventDeleteSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class EventRegisterSerializer(serializers.HyperlinkedModelSerializer):
-    invited = serializers.PrimaryKeyRelatedField(
-        many=True, queryset=Contact.objects.all())
-    members = serializers.PrimaryKeyRelatedField(
-        many=True, queryset=Member.objects.all())
-    invited_members = serializers.PrimaryKeyRelatedField(
-        many=True, queryset=Member.objects.all(), required=False)
+    invited = ContactSerializer(read_only=True, many=True)
+    members = DownlineSerializer(read_only=True, many=True)
+    invited_members = DownlineSerializer(
+        read_only=True, many=True)
+    invited_ids = serializers.PrimaryKeyRelatedField(
+        many=True, queryset=Contact.objects.all(), write_only=True, source="invited")
+    member_ids = serializers.PrimaryKeyRelatedField(
+        many=True, queryset=Member.objects.all(), write_only=True, source="members")
+    invited_member_ids = serializers.PrimaryKeyRelatedField(
+        many=True, queryset=Member.objects.all(), required=False, write_only=True, source="invited_members")
     calendar_id = serializers.PrimaryKeyRelatedField(
         many=False, queryset=Calendar.objects.all(), source='calendar')
 
     def create(self, validated_data):
         validated_data['owner'] = self.context['request'].user
-        return super(EventRegisterSerializer, self).create(validated_data)
+        print validated_data
+        event = Event()
+        if 'owner' in validated_data:
+            event.owner = validated_data['owner']
+        if 'title' in validated_data:
+            event.title = validated_data['title']
+        if 'all_day' in validated_data:
+            event.all_day = validated_data['all_day']
+        if 'begin_time' in validated_data:
+            event.begin_time = validated_data['begin_time']
+        if 'end_time' in validated_data:
+            event.end_time = validated_data['end_time']
+        if 'calendar' in validated_data:
+            event.calendar = validated_data['calendar']
+        if 'note' in validated_data:
+            event.note = validated_data['note']
+        if 'postal_code' in validated_data:
+            event.postal_code = validated_data['postal_code']
+        if 'region' in validated_data:
+            event.region = validated_data['region']
+        if 'city' in validated_data:
+            event.city = validated_data['city']
+        if 'state' in validated_data:
+            event.state = validated_data['state']
+        if 'address' in validated_data:
+            event.address = validated_data['address']
+        if 'address_number' in validated_data:
+            event.address_number = validated_data['address_number']
+        if 'complement' in validated_data:
+            event.complement = validated_data['complement']
+        if 'lat' in validated_data:
+            event.lat = validated_data['lat']
+        if 'lng' in validated_data:
+            event.lng = validated_data['lng']
+        if 'alert_at_hour' in validated_data:
+            event.alert_at_hour = validated_data['alert_at_hour']
+        if 'alert_5_mins' in validated_data:
+            event.alert_5_mins = validated_data['alert_5_mins']
+        if 'alert_15_mins' in validated_data:
+            event.alert_15_mins = validated_data['alert_15_mins']
+        if 'alert_30_mins' in validated_data:
+            event.alert_30_mins = validated_data['alert_30_mins']
+        if 'alert_1_hour' in validated_data:
+            event.alert_1_hour = validated_data['alert_1_hour']
+        if 'alert_2_hours' in validated_data:
+            event.alert_2_hours = validated_data['alert_2_hours']
+        if 'alert_1_day' in validated_data:
+            event.alert_1_day = validated_data['alert_1_day']
+        if 'parent_event' in validated_data:
+            event.parent_event = validated_data['parent_event']
+        if 'is_invited' in validated_data:
+            event.is_invited = validated_data['is_invited']
+        if 'inviter' in validated_data:
+            event.inviter = validated_data['inviter']
+        event.save()
+        if 'invited' in validated_data:
+            event.invited = validated_data['invited']
+        if 'members' in validated_data:
+            event.members = validated_data['members']
+        if 'invited_members' in validated_data:
+            event.invited_members = validated_data['invited_members']
+        return event
+        # return super(EventRegisterSerializer, self).create(validated_data)
 
     class Meta:
         model = Event
-        fields = ("id", "alert_at_hour", "invited_members", "alert_5_mins", "alert_15_mins", "alert_30_mins", "alert_1_hour", "alert_2_hours", "alert_1_day", "title", "all_day",
-                  "begin_time", "end_time", "invited", "members", "calendar_id", "note", "postal_code", "complement", "lat", "lng", 'state', 'city', 'address', 'address_number')
+        fields = ("id", "alert_at_hour", "invited_ids", "invited", "alert_5_mins", "alert_15_mins", "alert_30_mins", "alert_1_hour", "alert_2_hours", "alert_1_day", "title", "all_day",
+                  "begin_time", "end_time", "member_ids", "members", "invited_member_ids", "invited_members", "calendar_id", "note", "postal_code", "complement", "lat", "lng", 'state', 'city', 'address', 'address_number')
 
 
 class StateSerializer(serializers.HyperlinkedModelSerializer):
