@@ -10,6 +10,21 @@ from rest_framework_bulk import (
     BulkListSerializer,
     BulkSerializerMixin
 )
+from django.utils.timezone import utc
+
+
+class UTCDateTimeField(serializers.DateTimeField):
+
+    def to_representation(self, value):
+        if self.format is None:
+            return value
+
+        # if self.format.lower() == ISO_8601:
+        value = value.isoformat()
+        # if value.endswith('+00:00'):
+        #     value = value[:-6] + 'Z'
+        return value
+        # return value.strftime(self.format)
 
 
 class GroupSerializer(serializers.HyperlinkedModelSerializer):
@@ -608,8 +623,11 @@ class EventSerializer(serializers.HyperlinkedModelSerializer):
     calendar = CalendarSerializer(read_only=True)
     deleted = serializers.SerializerMethodField()
     inviter = UplineSerializer(many=False, read_only=True)
-    begin_time = serializers.DateTimeField(format="%Y-%m-%dT%H:%M:%S+00:00")
-    end_time = serializers.DateTimeField(format="%Y-%m-%dT%H:%M:%S+00:00")
+    begin_time = UTCDateTimeField()
+    end_time = UTCDateTimeField()
+
+    def transform_begin_time(self, instance):
+        return 'batata'
 
     def get_deleted(self, instance):
         return False
