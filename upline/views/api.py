@@ -1,4 +1,4 @@
- # -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 import json
 import datetime
 from django.contrib.auth.models import User, Group
@@ -32,10 +32,16 @@ class Login(APIView, OAuthLibMixin):
         token = json.loads(body)
         if s == 200:
             user = AccessToken.objects.get(token=token["access_token"]).user
-            member = Member.objects.get(user=user)
-            serializer = MemberLoginSerializer(member, context={'request': request})
-            training_step = TrainingStepLoginSerializer(SiteConfiguration.get_solo().first_training, context={'request': request})
-            return Response({"token": token, "member": serializer.data, "first_training_step": training_step.data}, status=status.HTTP_201_CREATED)
+            members = Member.objects.filter(user=user)
+            if len(members) > 0:
+                member = members[0]
+                serializer = MemberLoginSerializer(
+                    member, context={'request': request})
+                training_step = TrainingStepLoginSerializer(
+                    SiteConfiguration.get_solo().first_training, context={'request': request})
+                return Response({"token": token, "member": serializer.data, "first_training_step": training_step.data}, status=status.HTTP_201_CREATED)
+            else:
+                return Response({"token": token}, status=status.HTTP_201_CREATED)
         else:
             return Response(token, status=status.HTTP_400_BAD_REQUEST)
 
@@ -67,11 +73,13 @@ class MemberViewSet(viewsets.ModelViewSet):
 
         if "member_type" in request.GET and len(request.GET['member_type']) == 1:
             queryset = queryset.filter(member_type=request.GET['member_type'])
-        serializer = MemberSerializer(queryset, many=True, context={'request': request})
+        serializer = MemberSerializer(
+            queryset, many=True, context={'request': request})
         return Response(serializer.data)
 
     def create(self, request, *args, **kwargs):
-        serializer = MemberRegisterSerializer(data=request.data, context={'request': request})
+        serializer = MemberRegisterSerializer(
+            data=request.data, context={'request': request})
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -79,7 +87,8 @@ class MemberViewSet(viewsets.ModelViewSet):
 
     def partial_update(self, request, *args, **kwargs):
         instance = self.get_object()
-        serializer = MemberSerializer(instance, data=request.data, partial=True)
+        serializer = MemberSerializer(
+            instance, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
 
@@ -89,7 +98,8 @@ class MemberViewSet(viewsets.ModelViewSet):
                     avatar_base64 = avatar.split(',')[1]
                     avatar_mime = avatar.split(';')[0].split(':')[1]
                     avatar_extension = avatar_mime.split('/')[1]
-                    instance.avatar = SimpleUploadedFile(name=str(uuid.uuid4())+'.'+avatar_extension, content=base64.b64decode(avatar_base64), content_type=avatar_mime)
+                    instance.avatar = SimpleUploadedFile(name=str(uuid.uuid4(
+                    )) + '.' + avatar_extension, content=base64.b64decode(avatar_base64), content_type=avatar_mime)
 
             if 'dream1_base64' in request.data:
                 dream1 = request.data['dream1_base64']
@@ -97,7 +107,8 @@ class MemberViewSet(viewsets.ModelViewSet):
                     dream1_base64 = dream1.split(',')[1]
                     dream1_mime = dream1.split(';')[0].split(':')[1]
                     dream1_extension = dream1_mime.split('/')[1]
-                    instance.dream1 = SimpleUploadedFile(name=str(uuid.uuid4())+'.'+dream1_extension, content=base64.b64decode(dream1_base64), content_type=dream1_mime)
+                    instance.dream1 = SimpleUploadedFile(name=str(uuid.uuid4(
+                    )) + '.' + dream1_extension, content=base64.b64decode(dream1_base64), content_type=dream1_mime)
 
             if 'dream2_base64' in request.data:
                 dream2 = request.data['dream2_base64']
@@ -105,7 +116,8 @@ class MemberViewSet(viewsets.ModelViewSet):
                     dream2_base64 = dream2.split(',')[1]
                     dream2_mime = dream2.split(';')[0].split(':')[1]
                     dream2_extension = dream2_mime.split('/')[1]
-                    instance.dream2 = SimpleUploadedFile(name=str(uuid.uuid4())+'.'+dream2_extension, content=base64.b64decode(dream2_base64), content_type=dream2_mime)
+                    instance.dream2 = SimpleUploadedFile(name=str(uuid.uuid4(
+                    )) + '.' + dream2_extension, content=base64.b64decode(dream2_base64), content_type=dream2_mime)
             instance.save()
             serializer = self.get_serializer(instance)
             return Response(serializer.data, status=status.HTTP_200_OK)
@@ -125,8 +137,10 @@ class ContactViewSet(viewsets.ModelViewSet, BulkCreateModelMixin):
     def list(self, request):
         queryset = Contact.objects.filter(owner__user=request.user)
         if "contact_category" in request.GET and len(request.GET['contact_category']) == 1:
-            queryset = queryset.filter(contact_category=request.GET['contact_category'])
-        serializer = ContactSerializer(queryset, many=True, context={'request': request})
+            queryset = queryset.filter(
+                contact_category=request.GET['contact_category'])
+        serializer = ContactSerializer(
+            queryset, many=True, context={'request': request})
         return Response(serializer.data)
 
 
@@ -158,7 +172,8 @@ class SaleViewSet(viewsets.ModelViewSet):
         queryset = Sale.objects.filter(member__user=request.user)
         if 'status' in request.GET:
             queryset = queryset.filter(status=int(request.GET['status']))
-        serializer = SaleSerializer(queryset, many=True, context={'request': request})
+        serializer = SaleSerializer(
+            queryset, many=True, context={'request': request})
         return Response(serializer.data)
 
     def create(self, request, *args, **kwargs):
@@ -184,7 +199,8 @@ class SaleViewSet(viewsets.ModelViewSet):
         sale.save()
         serializer = SaleSerializer(sale)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
-        # return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        # return Response(serializer.errors,
+        # status=status.HTTP_400_BAD_REQUEST)
 
     def get_serializer_class(self):
         if self.action == "create" or self.action == "update":
@@ -203,8 +219,10 @@ class PostViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = PostSerializer
 
     def list(self, request):
-        queryset = Post.objects.filter(groups__in=request.user.groups.all(), converted=True)
-        serializer = PostSerializer(queryset, many=True, context={'request': request})
+        queryset = Post.objects.filter(
+            groups__in=request.user.groups.all(), converted=True)
+        serializer = PostSerializer(
+            queryset, many=True, context={'request': request})
         return Response(serializer.data)
 
 
@@ -214,6 +232,7 @@ class LevelViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 class UsernameViewSet(mixins.RetrieveModelMixin, viewsets.GenericViewSet):
+
     def retrieve(self, request, pk=None):
         queryset = User.objects.filter(username=pk)
         if len(queryset) > 0:
@@ -225,6 +244,7 @@ class UsernameViewSet(mixins.RetrieveModelMixin, viewsets.GenericViewSet):
 
 
 class PostalCodeViewSet(mixins.RetrieveModelMixin, viewsets.GenericViewSet):
+
     def retrieve(self, request, pk=None):
         queryset = PostalCode.objects.all()
         user = get_object_or_404(queryset, postal_code=pk)
@@ -242,6 +262,7 @@ class StateViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 class CityViewSet(mixins.RetrieveModelMixin, viewsets.GenericViewSet):
+
     def retrieve(self, request, pk=None):
         queryset = City.objects.filter(state__acronym=pk)
         serializer = CitySerializer(queryset, many=True)
@@ -257,8 +278,10 @@ class GoalViewSet(viewsets.ModelViewSet):
 
     def list(self, request):
         member = Member.objects.get(user=request.user)
-        queryset = Goal.objects.filter(member=member, level__points_range_from__gt=member.points)
-        serializer = GoalSerializer(queryset, many=True, context={'request': request})
+        queryset = Goal.objects.filter(
+            member=member, level__points_range_from__gt=member.points)
+        serializer = GoalSerializer(
+            queryset, many=True, context={'request': request})
         return Response(serializer.data)
 
 
@@ -273,7 +296,8 @@ class MemberTrainingStepViewSet(viewsets.ModelViewSet):
 
     def list(self, request):
         queryset = MemberTrainingStep.objects.filter(member__user=request.user)
-        serializer = MemberTrainingStepSerializer(queryset, many=True, context={'request': request})
+        serializer = MemberTrainingStepSerializer(
+            queryset, many=True, context={'request': request})
         return Response(serializer.data)
 
 
@@ -295,7 +319,8 @@ class EventViewSet(viewsets.ModelViewSet):
 
     def list(self, request):
         queryset = Event.objects.filter(owner=request.user)
-        serializer = EventSerializer(queryset, many=True, context={'request': request})
+        serializer = EventSerializer(
+            queryset, many=True, context={'request': request})
         return Response(serializer.data)
 
 
@@ -305,7 +330,8 @@ class InviteViewSet(viewsets.ModelViewSet):
 
     def list(self, request):
         queryset = Invite.objects.filter(member__user=request.user)
-        serializer = InviteSerializer(queryset, many=True, context={'request': request})
+        serializer = InviteSerializer(
+            queryset, many=True, context={'request': request})
         return Response(serializer.data)
 
 
