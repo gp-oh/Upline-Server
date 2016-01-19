@@ -119,7 +119,7 @@ DATABASES = {
         'NAME': 'upline',
         'USER': 'upline',
         'PASSWORD': 'batatinhafrita123',
-        'HOST': 'sandbox-busca-premiada-upline.c5rmgxifqspm.us-east-1.rds.amazonaws.com',
+        'HOST': 'upline.c5rmgxifqspm.us-east-1.rds.amazonaws.com',
         'PORT': '5432',
     }
 }
