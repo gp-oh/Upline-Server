@@ -106,6 +106,17 @@ STATIC_URL = '/static/'
 #         'ENGINE': 'django.db.backends.mysql',
 #         'NAME': 'upline',
 #         'USER': 'root',
+#         'PASSWORD': 'LCLvyk45429',
+#         'HOST': 'mysql65762-upline.jelasticlw.com.br',
+#         'PORT': '3306',
+#     }
+# }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'upline',
+#         'USER': 'root',
 #         'PASSWORD': '',
 #         'HOST': '127.0.0.1',
 #         'PORT': '3306',
@@ -170,7 +181,7 @@ DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 
 AWS_ACCESS_KEY_ID = 'AKIAJML75IMVN3ZTEVTQ'
 AWS_SECRET_ACCESS_KEY = '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'
-AWS_STORAGE_BUCKET_NAME = 'busca-premiada-upline-virtual'
+AWS_STORAGE_BUCKET_NAME = 'upline-virtual'
 AWS_QUERYSTRING_AUTH = False
 S3DIRECT_REGION = 'us-east-1'
 
