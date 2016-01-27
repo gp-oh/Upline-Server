@@ -102,7 +102,7 @@ body {
 /* Wrapper for page content to push down footer */
 #wrap {
   min-height: 100%;
-  height: auto !important;
+  height: auto;
   height: 100%;
   /* Negative indent footer by it's height */
   margin: 0 auto -60px;
@@ -225,50 +225,6 @@ h1.page-title { border-bottom: solid 1px #46b0a3; display: block; font-size: 32p
 }
 .footer .content a { color: #46b0a3; text-decoration: none; }
 .footer .content a:hover { color: #46b0a3; text-decoration: underline; }
-
-
-
-/*HOME*/
-
-section.panel {
-	clear: both;
-	margin-bottom: 2em;
-	overflow: hidden;
-	position: relative;
-	width: auto;
-}
-
-section.panel .panel-heading {
-	background: rgba(0, 0, 0, 0) -moz-linear-gradient(center top , #f3f3f3 0%, #e5e5e5 100%) repeat scroll 0 0;
-	border: 1px solid #dddddd;
-	height: 40px;
-	line-height: 40px;
-	padding: 0 15px
-	position: relative;
-}
-
-section.panel .panel-heading i { float: left; margin: 12px 6px 0 10px; }
-section.panel .panel-heading h3 {
-    color: #525252;
-    display: inline-block;
-    font-size: 14px;
-    font-weight: 800;
-    line-height: 18px;
-    position: relative;
-    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5);
-    padding: 0;
-}
-
-section.panel .panel-body	{
-	background: #fff none repeat scroll 0 0;
-    border: 1px solid #dddddd;
-    border-radius: 5px;
-    padding: 20px 15px 15px;
-    border-top: medium none;
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-}
-
 
 .nav-quick-search {
   margin: 20px 0 2px 15px;

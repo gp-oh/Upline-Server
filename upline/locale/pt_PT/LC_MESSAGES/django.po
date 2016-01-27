@@ -1,0 +1,1662 @@
+# sOme DesCRIptIVe tItle.
+# Copyright (C) YeAR tHe pACKAGe's COpYRIGHt HOlDeR
+# this file is distributed under the same license as the pACKAGe package.
+# FIRst AUtHOR <emAIl@ADDRess>, YeAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: pACKAGe VeRsIOn\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-10-25 14:10-0200\n"
+"PO-Revision-Date: YeAR-mO-DA HO:mI+ZOne\n"
+"Last-Translator: FUll nAme <emAIl@ADDRess>\n"
+"Language-Team: lAnGUAGe <ll@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: admin.py:278
+msgid "Data"
+msgstr ""
+
+#: admin.py:282
+msgid "Previous"
+msgstr "Anteriores"
+
+#: admin.py:283
+msgid "After"
+msgstr "Próximos"
+
+#: models.py:64
+msgid "new event message"
+msgstr "Mensagem de novo evento"
+
+#: models.py:65
+msgid "new training message"
+msgstr "Mensagem de novo treinamento"
+
+#: models.py:67
+msgid "new post message"
+msgstr "Mensagem de nova notícia"
+
+#: models.py:68
+msgid "new media message"
+msgstr "Mensagem de nova mídia"
+
+#: models.py:69
+msgid "update event message"
+msgstr "Mensagem de evento alterado"
+
+#: models.py:70
+msgid "update training message"
+msgstr "Mensagem de alteração de treinamento"
+
+#: models.py:72
+msgid "update post message"
+msgstr "Mensagem de alteração notícia"
+
+#: models.py:73
+msgid "update media message"
+msgstr "Mensagem de alteração de mídia"
+
+#: models.py:76 models.py:79
+msgid "Notification messages"
+msgstr "Mensagens de notificação"
+
+#: models.py:83 models.py:310 models.py:528
+msgid "user"
+msgstr "usuário"
+
+#: models.py:92
+msgid "acronym"
+msgstr "sigla"
+
+#: models.py:93 models.py:106 models.py:142 models.py:314 models.py:417
+#: models.py:472 models.py:571 models.py:629 models.py:640
+msgid "name"
+msgstr "nome"
+
+#: models.py:94 models.py:107 models.py:127 models.py:143 models.py:190
+#: models.py:233 models.py:332 models.py:430 models.py:445 models.py:460
+#: models.py:476 models.py:493 models.py:518 models.py:536 models.py:644
+#: models.py:680 models.py:697
+msgid "create_time"
+msgstr "data de criação"
+
+#: models.py:95 models.py:108 models.py:128 models.py:144 models.py:191
+#: models.py:234 models.py:333 models.py:431 models.py:446 models.py:461
+#: models.py:477 models.py:494 models.py:519 models.py:537 models.py:645
+#: models.py:681 models.py:698
+msgid "update_time"
+msgstr "data de alteração"
+
+#: models.py:98 models.py:105 models.py:323 models.py:427 models.py:595
+msgid "state"
+msgstr "estado"
+
+#: models.py:99
+msgid "states"
+msgstr "estados"
+
+#: models.py:111 models.py:121 models.py:322 models.py:426 models.py:594
+msgid "city"
+msgstr "cidade"
+
+#: models.py:112
+msgid "citys"
+msgstr "cidades"
+
+#: models.py:122
+msgid "street"
+msgstr "rua"
+
+#: models.py:123
+msgid "neighborhood"
+msgstr "bairro"
+
+#: models.py:124 models.py:321 models.py:424 models.py:592
+msgid "postal_code"
+msgstr "CEP"
+
+#: models.py:125
+msgid "street_type"
+msgstr "tipo de rua"
+
+#: models.py:126
+msgid "approved"
+msgstr "aprovado"
+
+#: models.py:131
+msgid "postal code"
+msgstr "CEP"
+
+#: models.py:132
+msgid "postal codes"
+msgstr "CEPs"
+
+#: models.py:147
+msgid "previous training"
+msgstr "treinamentos anteriores"
+
+#: models.py:148 models.py:181
+msgid "day_1_notification_description"
+msgstr "descrição da notificação do dia 1"
+
+#: models.py:149 models.py:182
+msgid "day_2_notification_description"
+msgstr "descrição da notificação do dia 2"
+
+#: models.py:150 models.py:183
+msgid "day_3_notification_description"
+msgstr "descrição da notificação do dia 3"
+
+#: models.py:151 models.py:184
+msgid "day_4_notification_description"
+msgstr "descrição da notificação do dia 4"
+
+#: models.py:152 models.py:185
+msgid "day_5_notification_description"
+msgstr "descrição da notificação do dia 5"
+
+#: models.py:153 models.py:186
+msgid "day_6_notification_description"
+msgstr "descrição da notificação do dia 6"
+
+#: models.py:154 models.py:187
+msgid "day_7_notification_description"
+msgstr "descrição da notificação do dia 7"
+
+#: models.py:155 models.py:188
+msgid "day_14_notification_description"
+msgstr "descrição da notificação do dia 14"
+
+#: models.py:156 models.py:189
+msgid "day_28_notification_description"
+msgstr "descrição da notificação do dia 28"
+
+#: models.py:160 models.py:167
+msgid "training"
+msgstr "treinamento"
+
+#: models.py:161
+msgid "trainings"
+msgstr "treinamentos"
+
+#: models.py:168 models.py:225 models.py:529 models.py:584
+msgid "title"
+msgstr "título"
+
+#: models.py:170 models.py:533 models.py:638
+msgid "media_type"
+msgstr "tipo de midia"
+
+#: models.py:171 models.py:534 models.py:642
+msgid "thumbnail"
+msgstr ""
+
+#: models.py:173
+msgid "step"
+msgstr "etapa"
+
+#: models.py:174 models.py:228
+msgid "description"
+msgstr "descrição"
+
+#: models.py:175
+msgid "need_answer"
+msgstr "necessita resposta"
+
+#: models.py:176
+msgid "answer_type"
+msgstr "tipo de resposta"
+
+#: models.py:176
+msgid "text"
+msgstr "texto"
+
+#: models.py:176
+msgid "audio"
+msgstr "áudio"
+
+#: models.py:176
+msgid "video"
+msgstr "video"
+
+#: models.py:176 models.py:226
+msgid "image"
+msgstr "imagem"
+
+#: models.py:176
+msgid "list"
+msgstr "lista"
+
+#: models.py:176
+msgid "meeting"
+msgstr "reunião"
+
+#: models.py:177
+msgid "meetings_per_week"
+msgstr "reuniões por semana"
+
+#: models.py:178
+msgid "weeks"
+msgstr "semanas"
+
+#: models.py:179
+msgid "nr_contacts"
+msgstr "número de contatos"
+
+#: models.py:194
+msgid "training step"
+msgstr "etapa de treinamento"
+
+#: models.py:195
+msgid "training steps"
+msgstr "etapas de treinamento"
+
+#: models.py:229
+msgid "gift"
+msgstr "presente"
+
+#: models.py:230 models.py:530 models.py:583
+msgid "group"
+msgstr "grupo"
+
+#: models.py:231
+msgid "points_range_from"
+msgstr "pontuação inicial"
+
+#: models.py:232
+msgid "points_range_to"
+msgstr "pontuação final"
+
+#: models.py:248 models.py:330 models.py:443 models.py:677
+msgid "level"
+msgstr "graduação"
+
+#: models.py:249
+msgid "levels"
+msgstr "graduações"
+
+#: models.py:256 models.py:312
+msgid "parent"
+msgstr "pai"
+
+#: models.py:313
+msgid "external_id"
+msgstr "id externo"
+
+#: models.py:315
+msgid "quickblox_id"
+msgstr "id do quickblox"
+
+#: models.py:316
+msgid "quickblox_password"
+msgstr "senha do quickblox"
+
+#: models.py:317 models.py:474 models.py:490
+msgid "points"
+msgstr "pontos"
+
+#: models.py:318 models.py:414
+msgid "avatar"
+msgstr "avatar"
+
+#: models.py:319 models.py:419
+msgid "phone"
+msgstr "fone"
+
+#: models.py:320 models.py:416
+msgid "gender"
+msgstr "sexo"
+
+#: models.py:324 models.py:428 models.py:596
+msgid "address"
+msgstr "endereço"
+
+#: models.py:325 models.py:429 models.py:597
+msgid "address_number"
+msgstr "número"
+
+#: models.py:326
+msgid "dream1"
+msgstr "sonho 1"
+
+#: models.py:327
+msgid "dream2"
+msgstr "sonho 2"
+
+#: models.py:328
+msgid "status"
+msgstr "status"
+
+#: models.py:329 models.py:421
+msgid "birthday"
+msgstr "data de nascimento"
+
+#: models.py:331
+msgid "outpooring"
+msgstr "derramamento"
+
+#: models.py:372 models.py:399 models.py:413 models.py:442 models.py:456
+#: models.py:486
+msgid "member"
+msgstr "membro"
+
+#: models.py:373 models.py:589
+msgid "members"
+msgstr "membros"
+
+#: models.py:400
+msgid "training_step"
+msgstr "etapa de treinamento"
+
+#: models.py:401
+msgid "answer"
+msgstr "resposta"
+
+#: models.py:405
+msgid "member traing step"
+msgstr "etapa de treinamento do membro"
+
+#: models.py:406
+msgid "member traing steps"
+msgstr "etapas de treinamento do membro"
+
+#: models.py:412
+msgid "upline"
+msgstr "upline"
+
+#: models.py:415
+msgid "contact_category"
+msgstr "categoria do contato"
+
+#: models.py:418
+msgid "email"
+msgstr "email"
+
+#: models.py:420
+msgid "cellphone"
+msgstr "celular"
+
+#: models.py:422
+msgid "cpf"
+msgstr "CPF"
+
+#: models.py:423
+msgid "rg"
+msgstr "RG"
+
+#: models.py:425 models.py:593
+msgid "region"
+msgstr "região"
+
+#: models.py:434
+msgid "contact"
+msgstr "contato"
+
+#: models.py:435
+msgid "contacts"
+msgstr "contatos"
+
+#: models.py:444
+msgid "date"
+msgstr "data"
+
+#: models.py:449
+msgid "goal"
+msgstr "meta"
+
+#: models.py:450
+msgid "goals"
+msgstr "metas"
+
+#: models.py:457
+msgid "ipv4_address"
+msgstr "endereço ipv4"
+
+#: models.py:458
+msgid "ipv6_address"
+msgstr "edereço ipv6"
+
+#: models.py:459
+msgid "agent"
+msgstr "navegador"
+
+#: models.py:464
+msgid "log member login"
+msgstr "login de membro"
+
+#: models.py:465
+msgid "log member logins"
+msgstr "login de membro"
+
+#: models.py:473 models.py:488
+msgid "active"
+msgstr "ativo"
+
+#: models.py:475
+msgid "table_value"
+msgstr "valor de tabela"
+
+#: models.py:479 models.py:512
+msgid "product"
+msgstr "produto"
+
+#: models.py:480
+msgid "products"
+msgstr "produtos"
+
+#: models.py:487
+msgid "client"
+msgstr "cliente"
+
+#: models.py:489 models.py:515
+msgid "total"
+msgstr "total"
+
+#: models.py:492
+msgid "pontuated"
+msgstr ""
+
+#: models.py:495
+msgid "send_time"
+msgstr "data de envio"
+
+#: models.py:504 models.py:513
+msgid "sale"
+msgstr "venda"
+
+#: models.py:505
+msgid "sales"
+msgstr "vendas"
+
+#: models.py:514
+msgid "quantity"
+msgstr "quantidade"
+
+#: models.py:516
+msgid "notificate_at"
+msgstr "notificar em"
+
+#: models.py:517
+msgid "notified"
+msgstr "notificado"
+
+#: models.py:521
+msgid "sale item"
+msgstr "item da venda"
+
+#: models.py:522
+msgid "sale items"
+msgstr "itens da venda"
+
+#: models.py:531
+msgid "content"
+msgstr "conteúdo"
+
+#: models.py:540
+msgid "post"
+msgstr "notícia"
+
+#: models.py:541
+msgid "posts"
+msgstr "notícias"
+
+#: models.py:575 models.py:590
+msgid "calendar"
+msgstr "calendário"
+
+#: models.py:576
+msgid "calendars"
+msgstr "calendários"
+
+#: models.py:582
+msgid "owner"
+msgstr "dono"
+
+#: models.py:585
+msgid "all_day"
+msgstr "o dia inteiro"
+
+#: models.py:586
+msgid "begin_time"
+msgstr "data de início"
+
+#: models.py:587
+msgid "end_time"
+msgstr "data final"
+
+#: models.py:588
+msgid "invited"
+msgstr "convidados"
+
+#: models.py:591
+msgid "note"
+msgstr "nota"
+
+#: models.py:598
+msgid "complement"
+msgstr "complemento"
+
+#: models.py:599
+msgid "lat"
+msgstr "latitude"
+
+#: models.py:600
+msgid "lng"
+msgstr "longitude"
+
+#: models.py:610
+#, fuzzy
+#| msgid "invited"
+msgid "inviter"
+msgstr "convidados"
+
+#: models.py:613
+msgid "event"
+msgstr "evento"
+
+#: models.py:614
+msgid "events"
+msgstr "eventos"
+
+#: models.py:622
+msgid "alert_date"
+msgstr "data do alerta"
+
+#: models.py:625
+msgid "Event Alert"
+msgstr "alerta do evento"
+
+#: models.py:626
+msgid "Event Alerts"
+msgstr "alertas do evento"
+
+#: models.py:631
+msgid "media category"
+msgstr "categoria de midia"
+
+#: models.py:632
+msgid "media categorys"
+msgstr "categorias de midia"
+
+#: models.py:639
+msgid "media_category"
+msgstr "categoria de midia"
+
+#: models.py:648
+msgid "media"
+msgstr "midia"
+
+#: models.py:649
+msgid "medias"
+msgstr "midia"
+
+#: models.py:678
+msgid "message"
+msgstr "mensagem"
+
+#: models.py:678
+msgid "255 characters"
+msgstr "255 caracteres"
+
+#: models.py:679
+msgid "sent"
+msgstr "enviado"
+
+#: templates/403.html:4
+msgid "forbidden"
+msgstr "proibido"
+
+#: templates/403.html:6 templates/404.html:6 templates/500.html:6
+#: templates/suit/error_base.html:76
+msgid "error"
+msgstr "erro"
+
+#: templates/403.html:9
+msgid "We're sorry, but the requested action is forbidden"
+msgstr "Sentimos muito, mas a ação requisitada é proibida"
+
+#: templates/404.html:4
+msgid "Page not found"
+msgstr "Página não encontrada"
+
+#: templates/404.html:9
+msgid "We're sorry, but the requested page could not be found."
+msgstr "Sentimos muito, mas página requisitada não pode ser encontrada."
+
+#: templates/500.html:4
+msgid "Server Error"
+msgstr "Erro de Servidor"
+
+#: templates/500.html:9
+msgid ""
+"There's been an error. It's been reported to the site administrators via e-"
+"mail and should be fixed shortly. Thanks for your patience."
+msgstr ""
+"Ocorreu um erro. Ele foi repostado para os administradores do site via e-"
+"mail e  deve ser corrigido em pouco tempo. Obrigado pela sua paciência."
+
+#: templates/admin/actions.html:14 templates/admin/filer/actions.html:5
+msgid "Run the selected action"
+msgstr "Executa a ação selecionada"
+
+#: templates/admin/actions.html:14 templates/admin/filer/actions.html:5
+msgid "Go"
+msgstr "Ir"
+
+#: templates/admin/actions.html:22 templates/admin/filer/actions.html:14
+msgid "Click here to select the objects across all pages"
+msgstr "Clique aqui para selecionar os objetos entre as páginas"
+
+#: templates/admin/actions.html:23
+#, python-format
+msgid ""
+"Select all %(total_count)s\n"
+"                    %(module_name)s"
+msgstr ""
+"Selecionar todos %(total_count)s\n"
+"                    %(module_name)s"
+
+#: templates/admin/actions.html:26 templates/admin/filer/actions.html:16
+msgid "Clear selection"
+msgstr "Limpar seleção"
+
+#: templates/admin/app_index.html:8
+#: templates/admin/auth/user/change_password.html:19
+#: templates/admin/base.html:104 templates/admin/change_form.html:61
+#: templates/admin/change_list.html:44
+#: templates/admin/cms/page/change_form.html:46
+#: templates/admin/cms/page/change_list.html:8
+#: templates/admin/cms/page/plugin_change_form.html:82
+#: templates/admin/delete_confirmation.html:7
+#: templates/admin/delete_selected_confirmation.html:7
+#: templates/admin/filer/breadcrumbs.html:5
+#: templates/admin/filer/folder/change_form.html:8
+#: templates/admin/import_export/base.html:10
+#: templates/admin/invite_list.html:44 templates/admin/object_history.html:7
+#: templates/admin/solo/change_form.html:61
+#: templates/registration/logged_out.html:6
+#: templates/registration/password_change_form.html:26
+#: templates/reversion/recover_form.html:8
+#: templates/reversion/recover_list.html:8
+#: templates/reversion/revision_form.html:8 templates/suit/menu.html:10
+msgid "Home"
+msgstr ""
+
+#: templates/admin/app_index.html:11
+#, python-format
+msgid "%(name)s"
+msgstr ""
+
+#: templates/admin/auth/user/add_form.html:6
+msgid ""
+"First, enter a username and password. Then, you'll be able to edit more user "
+"options."
+msgstr ""
+"Primeiro digite usuário e senha. Depois você poderá editar mais opções de "
+"usuário"
+
+#: templates/admin/auth/user/add_form.html:8
+msgid "Enter a username and password."
+msgstr "Digite um usuário e senha."
+
+#: templates/admin/auth/user/change_password.html:32
+#: templates/admin/auth/user/change_password.html:75
+#: templates/admin/base.html:80
+#: templates/registration/password_change_form.html:19
+msgid "Change password"
+msgstr "Alterar senha"
+
+#: templates/admin/auth/user/change_password.html:45
+#: templates/admin/change_form.html:140 templates/admin/change_list.html:88
+#: templates/admin/cms/page/change_form.html:137
+#: templates/admin/cms/page/plugin_change_form.html:99
+#: templates/admin/filer/folder/new_folder_form.html:10
+#: templates/admin/invite_list.html:89 templates/admin/login.html:27
+#: templates/admin/solo/change_form.html:140
+#: templates/registration/password_change_form.html:44
+msgid "Please correct the error below."
+msgid_plural " Please correct the errors below."
+msgstr[0] "Por favor corrija o erro abaixo."
+msgstr[1] "Por favor corrija os erros abaixo."
+
+#: templates/admin/auth/user/change_password.html:48
+#, python-format
+msgid "Enter a new password for the user <strong>%(username)s</strong>."
+msgstr "Digite uma nova senha para o usuário <strong>%(username)s</strong>."
+
+#: templates/admin/auth/user/change_password.html:54
+#: templates/admin/login.html:48
+msgid "Password"
+msgstr "Senha"
+
+#: templates/admin/auth/user/change_password.html:64
+#: templates/registration/password_change_form.html:77
+msgid "Password (again)"
+msgstr "Senha (novamente)"
+
+#: templates/admin/auth/user/change_password.html:68
+msgid "Enter the same password as above, for verification."
+msgstr "Digite a mesma senha digitada acima para verificação."
+
+#: templates/admin/base.html:68
+msgid "Welcome,"
+msgstr "Bem vindo,"
+
+#: templates/admin/base.html:77
+#: templates/registration/password_change_form.html:15
+msgid "Documentation"
+msgstr "Documentação"
+
+#: templates/admin/base.html:82
+#: templates/registration/password_change_form.html:21
+msgid "Log out"
+msgstr "Sair"
+
+#: templates/admin/change_form.html:22
+#: templates/admin/solo/change_form.html:22
+msgid "You have unsaved changes"
+msgstr "Vovê possui alterações não salvas"
+
+#: templates/admin/change_form.html:50 templates/admin/change_form.html:76
+#: templates/admin/cms/page/change_form.html:53
+#: templates/admin/cms/page/plugin_change_form.html:85
+#: templates/admin/index.html:138 templates/admin/solo/change_form.html:50
+#: templates/admin/solo/change_form.html:76
+msgid "Add"
+msgstr "Adicionar"
+
+#: templates/admin/change_form.html:98
+#: templates/admin/filer/image/change_form.html:7
+#: templates/admin/solo/change_form.html:98
+msgid "tools"
+msgstr "ferramentas"
+
+#: templates/admin/change_form.html:102
+#: templates/admin/cms/page/change_form.html:105
+#: templates/admin/filer/folder/change_form.html:33
+#: templates/admin/filer/image/change_form.html:10
+#: templates/admin/object_history.html:15
+#: templates/admin/solo/change_form.html:102
+#: templates/reversion/revision_form.html:16
+msgid "History"
+msgstr "Histórico"
+
+#: templates/admin/change_form.html:106
+#: templates/admin/cms/page/change_form.html:104
+#: templates/admin/edit_inline/stacked.html:15
+#: templates/admin/filer/folder/change_form.html:37
+#: templates/admin/filer/image/change_form.html:15
+#: templates/admin/solo/change_form.html:106
+msgid "View on site"
+msgstr "Ver no site"
+
+#: templates/admin/change_form.html:112 templates/admin/change_list.html:70
+#: templates/admin/change_list.html:118
+#: templates/admin/cms/page/change_form.html:108
+#: templates/admin/cms/page/change_list.html:112
+#: templates/admin/cms/page/change_list.html:140
+#: templates/admin/invite_list.html:71 templates/admin/invite_list.html:119
+#: templates/admin/solo/change_form.html:112
+#, python-format
+msgid "Add %(name)s"
+msgstr "Adicionar %(name)s"
+
+#: templates/admin/change_list.html:112 templates/admin/invite_list.html:113
+msgid "Nothing found"
+msgstr "Nada encontrado"
+
+#: templates/admin/change_list.html:114 templates/admin/invite_list.html:115
+msgid "Reset search and filters"
+msgstr "Reiniciar busca e filtros"
+
+#: templates/admin/change_list.html:116 templates/admin/invite_list.html:117
+#, python-format
+msgid "%(name_plural)s are not created yet"
+msgstr "%(name_plural)s não foram criados ainda"
+
+#: templates/admin/change_list_results.html:19
+#, python-format
+msgid "Sorting priority: %(priority_number)s"
+msgstr "Prioridade de ordenação: %(priority_number)s"
+
+#: templates/admin/change_list_results.html:20
+msgid "Toggle sorting"
+msgstr "Alternar ordenação"
+
+#: templates/admin/change_list_results.html:22
+msgid "Remove from sorting"
+msgstr "Remover da ordenação"
+
+#: templates/admin/cms/page/change_form.html:4
+msgid "Change a page"
+msgstr "Alterar a página"
+
+#: templates/admin/cms/page/change_form.html:64
+msgid "Confirm delete"
+msgstr "Confirmar exclusão"
+
+#: templates/admin/cms/page/change_form.html:65
+msgid "Remove delete request"
+msgstr "Remover requisição de exclusão"
+
+#: templates/admin/cms/page/change_form.html:68
+msgid "Confirm page deletion"
+msgstr "Confirmar deleção da página"
+
+#: templates/admin/cms/page/change_form.html:93
+msgid "actions"
+msgstr "ações"
+
+#: templates/admin/cms/page/change_form.html:97
+#: templates/admin/cms/page/change_list.html:77
+msgid "Publish"
+msgstr "Publicar"
+
+#: templates/admin/cms/page/change_form.html:97
+#: templates/admin/cms/page/change_form.html:98
+msgid "draft"
+msgstr "rascunho"
+
+#: templates/admin/cms/page/change_form.html:98
+#: templates/admin/import_export/import.html:51
+msgid "Preview"
+msgstr "Prever"
+
+#: templates/admin/cms/page/change_form.html:100
+msgid "Revert to public"
+msgstr "Reverter para público"
+
+#: templates/admin/cms/page/change_form.html:157
+msgid "All permissions"
+msgstr "Todas as permissões"
+
+#: templates/admin/cms/page/change_form.html:158
+#: templates/admin/cms/page/change_form.html:169
+msgid "Loading..."
+msgstr "Carregando..."
+
+#: templates/admin/cms/page/change_form.html:168
+msgid "Page states"
+msgstr "Página estados"
+
+#: templates/admin/cms/page/change_list.html:3
+msgid "List of pages"
+msgstr "Lista de páginas"
+
+#: templates/admin/cms/page/change_list.html:68
+msgid "Successfully moved"
+msgstr "Movido com sucesso"
+
+#: templates/admin/cms/page/change_list.html:86
+msgid "An error occured. Please reload the page"
+msgstr "Um erro ocorreu. Por favor recarregue a página"
+
+#: templates/admin/cms/page/change_list.html:109
+#: templates/reversion/change_list.html:8
+#: templates/reversion/recover_form.html:14
+#: templates/reversion/recover_list.html:14
+#, python-format
+msgid "Recover deleted %(name)s"
+msgstr "Recuperar %(name)s excluídos"
+
+#: templates/admin/cms/page/change_list.html:124
+msgid "Pages on:"
+msgstr "Páginas em:"
+
+#: templates/admin/cms/page/plugin_change_form.html:128
+#: templates/admin/filer/folder/new_folder_form.html:43
+#: templates/admin/page_submit_line.html:3 templates/admin/pagination.html:4
+#: templates/admin/submit_line.html:3
+msgid "Save"
+msgstr "Salvar"
+
+#: templates/admin/cms/page/plugin_change_form.html:129
+msgid "Cancel"
+msgstr "Cancelar"
+
+#: templates/admin/delete_confirmation.html:18
+#: templates/admin/delete_confirmation.html:49
+#: templates/admin/filer/folder/directory_table.html:42
+#: templates/admin/import_export/import.html:69
+#: templates/admin/page_submit_line.html:8 templates/admin/submit_line.html:8
+msgid "Delete"
+msgstr "Excluir"
+
+#: templates/admin/delete_confirmation.html:26
+#: templates/admin/filer/delete_confirmation.html:12
+#, python-format
+msgid ""
+"Deleting the %(object_name)s '%(escaped_object)s' would result in deleting "
+"related objects, but your account doesn't have permission to delete the "
+"following types of objects:"
+msgstr ""
+"Excluir o %(object_name)s '%(escaped_object)s' vai resultar na exclusão de "
+"objetos relacionados, mas a sua conta não possui permissão para excluir "
+"osseguintes tipos de objetos:"
+
+#: templates/admin/delete_confirmation.html:36
+#: templates/admin/filer/delete_confirmation.html:21
+#, python-format
+msgid ""
+"Deleting the %(object_name)s '%(escaped_object)s' would require deleting the "
+"following protected related objects:"
+msgstr ""
+"Excluir o %(object_name)s '%(escaped_object)s' vai resultar na exclusão dos "
+"seguintes objetos relacionados protegidos:"
+
+#: templates/admin/delete_confirmation.html:51
+#: templates/admin/filer/delete_confirmation.html:31
+#, python-format
+msgid ""
+"Are you sure you want to delete the %(object_name)s \"%(escaped_object)s\"? "
+"All of the following related items will be deleted:"
+msgstr ""
+"Você tem certeza que deseja excluir o %(object_name)s \"%(escaped_object)s"
+"\"? Todos os itens relacionados abaixo também serão excluidos:"
+
+#: templates/admin/delete_confirmation.html:57
+#: templates/admin/delete_selected_confirmation.html:61
+#: templates/admin/filer/delete_confirmation.html:36
+#: templates/admin/filer/delete_selected_files_confirmation.html:47
+msgid "Yes, I'm sure"
+msgstr "Sim, tenho certeza"
+
+#: templates/admin/delete_selected_confirmation.html:15
+msgid "Delete multiple objects"
+msgstr "Deletar múltiplos objetos"
+
+#: templates/admin/delete_selected_confirmation.html:23
+#, python-format
+msgid ""
+"Deleting the selected %(objects_name)s would result in deleting related "
+"objects, but your account doesn't have permission to delete the following "
+"types of objects:"
+msgstr ""
+"Excluir os %(objects_name)s selecionados vai resultar na exclusão de objetos "
+"relacionados, mas sua conta não possui permissão para apagar os seguintes "
+"tipos de objetos:"
+
+#: templates/admin/delete_selected_confirmation.html:33
+#, python-format
+msgid ""
+"Deleting the selected %(objects_name)s would require deleting the following "
+"protected related objects:"
+msgstr ""
+"Excluir os %(objects_name)s selecionados vai resultar na exclusão dos "
+"seguintesobjetos protegidos relacionados:"
+
+#: templates/admin/delete_selected_confirmation.html:51
+msgid "Confirm deletion"
+msgstr "Confirmar exclusão"
+
+#: templates/admin/delete_selected_confirmation.html:54
+#, python-format
+msgid ""
+"Are you sure you want to delete the selected %(objects_name)s? All of the "
+"following objects and their related items will be deleted:"
+msgstr ""
+"Você tem certeza que quer apagar os %(objects_name)s selecionados? Todos os "
+"objetos abaixo e seus itens relacionados serão apagados:"
+
+#: templates/admin/edit_inline/stacked.html:73
+#: templates/admin/edit_inline/tabular.html:128
+#, python-format
+msgid "Add another %(verbose_name)s"
+msgstr "Adicionar outro %(verbose_name)s"
+
+#: templates/admin/edit_inline/stacked.html:76
+#: templates/admin/edit_inline/tabular.html:131
+msgid "Remove"
+msgstr "Remover"
+
+#: templates/admin/edit_inline/tabular.html:18
+#: templates/admin/edit_inline/tabular.html:68
+#: templates/admin/filer/folder/change_form.html:24
+#: templates/admin/filer/folder/directory_listing.html:86
+#: templates/admin/filer/folder/directory_table.html:27
+#: templates/admin/filer/folder/directory_table.html:43
+#: templates/admin/index.html:130
+msgid "Change"
+msgstr "Alterar"
+
+#: templates/admin/edit_inline/tabular.html:19
+msgid "Delete?"
+msgstr "Excluir?"
+
+#: templates/admin/filer/actions.html:14
+#, python-format
+msgid "Select all %(total_count)s files and/or folders"
+msgstr "Selecionar todos %(total_count)s arquivos e/ou pastas"
+
+#: templates/admin/filer/breadcrumbs.html:5
+msgid "Go back to admin homepage"
+msgstr "Voltar para a página de administração"
+
+#: templates/admin/filer/breadcrumbs.html:8
+msgid "Go back to Filer app"
+msgstr "Voltar para a aplicação de Arquivos"
+
+#: templates/admin/filer/breadcrumbs.html:8
+#: templates/admin/filer/folder/change_form.html:12
+msgid "Filer"
+msgstr "Arquivos"
+
+#: templates/admin/filer/breadcrumbs.html:12
+msgid "Go back to root folder"
+msgstr "Voltar para a pasta raíz"
+
+#: templates/admin/filer/breadcrumbs.html:12
+#: templates/admin/filer/folder/change_form.html:15
+#: templates/admin/filer/folder/directory_listing.html:80
+msgid "root"
+msgstr "raíz"
+
+#: templates/admin/filer/breadcrumbs.html:17
+#: templates/admin/filer/breadcrumbs.html:23
+#: templates/admin/filer/folder/change_form.html:19
+#, python-format
+msgid "Go back to '%(folder_name)s' folder"
+msgstr "Voltar para a pasta '%(folder_name)s'"
+
+#: templates/admin/filer/change_form.html:30
+msgid "duplicates"
+msgstr "duplicar"
+
+#: templates/admin/filer/delete_selected_files_confirmation.html:11
+msgid ""
+"Deleting the selected files and/or folders would result in deleting related "
+"objects, but your account doesn't have permission to delete the following "
+"types of objects:"
+msgstr ""
+
+#: templates/admin/filer/delete_selected_files_confirmation.html:20
+msgid ""
+"Deleting the selected files and/or folders would require deleting the "
+"following protected related objects:"
+msgstr ""
+
+#: templates/admin/filer/delete_selected_files_confirmation.html:30
+msgid ""
+"<p>Are you sure you want to delete the selected files and/or folders? All of "
+"the following objects and their related items will be deleted:</p>"
+msgstr ""
+
+#: templates/admin/filer/folder/change_form.html:8
+#: templates/admin/filer/folder/change_form.html:12
+#: templates/admin/filer/folder/change_form.html:15
+#: templates/admin/filer/folder/directory_listing.html:80
+msgid "Go back to"
+msgstr ""
+
+#: templates/admin/filer/folder/change_form.html:8
+msgid "admin homepage"
+msgstr ""
+
+#: templates/admin/filer/folder/change_form.html:15
+#: templates/admin/filer/folder/directory_listing.html:80
+#: templates/admin/filer/folder/new_folder_form.html:4
+#: templates/admin/filer/tools/clipboard/clipboard.html:15
+msgid "folder"
+msgstr ""
+
+#: templates/admin/filer/folder/change_form.html:50
+#: templates/admin/filer/folder/directory_listing.html:81
+#: templates/admin/filer/folder/directory_listing.html:91
+#: templates/admin/filer/folder/directory_table.html:23
+msgid "Folder Icon"
+msgstr ""
+
+#: templates/admin/filer/folder/choose_copy_destination.html:12
+msgid ""
+"Your account doesn't have permissions to copy all of the selected files and/"
+"or folders."
+msgstr ""
+
+#: templates/admin/filer/folder/choose_copy_destination.html:15
+#: templates/admin/filer/folder/choose_move_destination.html:15
+msgid "There are no destination folders available."
+msgstr ""
+
+#: templates/admin/filer/folder/choose_copy_destination.html:18
+msgid "There are no files and/or folders available to copy."
+msgstr ""
+
+#: templates/admin/filer/folder/choose_copy_destination.html:21
+msgid ""
+"The following files and/or folders will be copied to a destination folder "
+"(retaining their tree structure):"
+msgstr ""
+
+#: templates/admin/filer/folder/choose_copy_destination.html:31
+#: templates/admin/filer/folder/choose_move_destination.html:32
+msgid "Destination folder:"
+msgstr ""
+
+#: templates/admin/filer/folder/choose_copy_destination.html:38
+msgid "Copy"
+msgstr ""
+
+#: templates/admin/filer/folder/choose_images_resize_options.html:12
+msgid ""
+"Your account doesn't have permissions to resize all of the selected images."
+msgstr ""
+
+#: templates/admin/filer/folder/choose_images_resize_options.html:15
+msgid "There are no images available to resize."
+msgstr ""
+
+#: templates/admin/filer/folder/choose_images_resize_options.html:18
+msgid "The following images will be resized:"
+msgstr ""
+
+#: templates/admin/filer/folder/choose_images_resize_options.html:29
+msgid "Choose an existing thumbnail option or enter resize parameters:"
+msgstr ""
+
+#: templates/admin/filer/folder/choose_images_resize_options.html:32
+msgid "Choose resize parameters:"
+msgstr ""
+
+#: templates/admin/filer/folder/choose_images_resize_options.html:35
+msgid ""
+"Warning: Images will be resized in-place and originals will be lost. Maybe "
+"first make a copy of them to retain the originals."
+msgstr ""
+
+#: templates/admin/filer/folder/choose_images_resize_options.html:36
+msgid "Resize"
+msgstr ""
+
+#: templates/admin/filer/folder/choose_move_destination.html:12
+msgid ""
+"Your account doesn't have permissions to move all of the selected files and/"
+"or folders."
+msgstr ""
+
+#: templates/admin/filer/folder/choose_move_destination.html:18
+msgid "There are no files and/or folders available to move."
+msgstr ""
+
+#: templates/admin/filer/folder/choose_move_destination.html:21
+msgid ""
+"The following files and/or folders will be moved to a destination folder "
+"(retaining their tree structure):"
+msgstr ""
+
+#: templates/admin/filer/folder/choose_move_destination.html:38
+msgid "Move"
+msgstr ""
+
+#: templates/admin/filer/folder/choose_rename_format.html:12
+msgid ""
+"Your account doesn't have permissions to rename all of the selected files."
+msgstr ""
+
+#: templates/admin/filer/folder/choose_rename_format.html:15
+msgid "There are no files available to rename."
+msgstr ""
+
+#: templates/admin/filer/folder/choose_rename_format.html:18
+msgid ""
+"The following files will be renamed (they will stay in their folders and "
+"keep original filename, only displayed filename will be changed):"
+msgstr ""
+
+#: templates/admin/filer/folder/choose_rename_format.html:31
+msgid "Rename"
+msgstr ""
+
+#: templates/admin/filer/folder/directory_listing.html:71
+msgid "Adds a new Folder"
+msgstr ""
+
+#: templates/admin/filer/folder/directory_listing.html:71
+msgid "New Folder"
+msgstr ""
+
+#: templates/admin/filer/folder/directory_listing.html:72
+msgid "upload files"
+msgstr ""
+
+#: templates/admin/filer/folder/directory_listing.html:72
+msgid "Upload"
+msgstr ""
+
+#: templates/admin/filer/folder/directory_listing.html:80
+msgid "Go back to the parent folder"
+msgstr ""
+
+#: templates/admin/filer/folder/directory_listing.html:82
+#: templates/admin/filer/folder/directory_table.html:30
+#: templates/admin/filer/tools/search_form.html:19
+#, python-format
+msgid "1 folder"
+msgid_plural "%(counter)s folders"
+msgstr[0] ""
+msgstr[1] ""
+
+#: templates/admin/filer/folder/directory_listing.html:82
+#: templates/admin/filer/folder/directory_table.html:30
+#: templates/admin/filer/tools/search_form.html:20
+#, python-format
+msgid "1 file"
+msgid_plural "%(counter)s files"
+msgstr[0] ""
+msgstr[1] ""
+
+#: templates/admin/filer/folder/directory_listing.html:86
+msgid "Change current folder details"
+msgstr ""
+
+#: templates/admin/filer/folder/directory_table.html:13
+msgid "Name"
+msgstr ""
+
+#: templates/admin/filer/folder/directory_table.html:23
+#: templates/admin/filer/folder/directory_table.html:27
+#: templates/admin/filer/folder/directory_table.html:29
+#, python-format
+msgid "Change '%(item_label)s' folder details"
+msgstr ""
+
+#: templates/admin/filer/folder/directory_table.html:30
+#: templates/admin/filer/folder/directory_table.html:45
+msgid "Owner"
+msgstr ""
+
+#: templates/admin/filer/folder/directory_table.html:37
+msgid "Select this file"
+msgstr ""
+
+#: templates/admin/filer/folder/directory_table.html:39
+#: templates/admin/filer/folder/directory_table.html:43
+#: templates/admin/filer/folder/directory_table.html:44
+#, python-format
+msgid "Change '%(item_label)s' details"
+msgstr ""
+
+#: templates/admin/filer/folder/directory_table.html:42
+#, python-format
+msgid "Delete '%(item_label)s'"
+msgstr ""
+
+#: templates/admin/filer/folder/directory_table.html:45
+msgid "Permissions"
+msgstr ""
+
+#: templates/admin/filer/folder/directory_table.html:45
+msgid "disabled"
+msgstr ""
+
+#: templates/admin/filer/folder/directory_table.html:45
+msgid "enabled"
+msgstr ""
+
+#: templates/admin/filer/folder/directory_table.html:49
+msgid "Move to clipboard"
+msgstr ""
+
+#: templates/admin/filer/folder/directory_table.html:57
+msgid "there are no files or subfolders"
+msgstr ""
+
+#: templates/admin/filer/folder/directory_table.html:64
+msgid "previous"
+msgstr ""
+
+#: templates/admin/filer/folder/directory_table.html:68
+#, python-format
+msgid ""
+"\n"
+"            Page %(number)s of %(num_pages)s\n"
+"            "
+msgstr ""
+
+#: templates/admin/filer/folder/directory_table.html:74
+msgid "next"
+msgstr ""
+
+#: templates/admin/filer/folder/new_folder_form.html:4
+msgid "Add new"
+msgstr ""
+
+#: templates/admin/filer/image/change_form.html:31
+msgid "Full size preview"
+msgstr ""
+
+#: templates/admin/filer/tools/clipboard/clipboard.html:4
+msgid "Clipboard"
+msgstr ""
+
+#: templates/admin/filer/tools/clipboard/clipboard.html:15
+msgid "discard"
+msgstr ""
+
+#: templates/admin/filer/tools/clipboard/clipboard.html:15
+msgid "Move all clipboard files to"
+msgstr ""
+
+#: templates/admin/filer/tools/clipboard/clipboard.html:15
+msgid "unfiled files"
+msgstr ""
+
+#: templates/admin/filer/tools/clipboard/clipboard.html:24
+#, fuzzy
+#| msgid "sale items"
+msgid "Paste all items here"
+msgstr "itens da venda"
+
+#: templates/admin/filer/tools/clipboard/clipboard.html:63
+msgid "the clipboard is empty"
+msgstr ""
+
+#: templates/admin/filer/tools/clipboard/clipboard_item_rows.html:10
+msgid "upload failed"
+msgstr ""
+
+#: templates/admin/filer/tools/search_form.html:11
+msgid "Enter your search phrase here"
+msgstr ""
+
+#: templates/admin/filer/tools/search_form.html:12
+#: templates/admin/search_form.html:26
+msgid "Search"
+msgstr ""
+
+#: templates/admin/filer/tools/search_form.html:12
+msgid "Click here to"
+msgstr ""
+
+#: templates/admin/filer/tools/search_form.html:12
+msgid "run search for entered phrase"
+msgstr ""
+
+#: templates/admin/filer/tools/search_form.html:15
+msgid "Check it to"
+msgstr ""
+
+#: templates/admin/filer/tools/search_form.html:15
+msgid "limit the search to current folder"
+msgstr ""
+
+#: templates/admin/filer/tools/search_form.html:19
+msgid "found"
+msgstr ""
+
+#: templates/admin/filer/tools/search_form.html:19
+msgid "and"
+msgstr ""
+
+#: templates/admin/filer/tools/search_form.html:20
+msgid "cancel search"
+msgstr ""
+
+#: templates/admin/import_export/change_list_export.html:5
+#: templates/admin/import_export/change_list_import_export.html:6
+#: templates/admin/import_export/export.html:5
+#: templates/admin/import_export/export.html:12
+msgid "Export"
+msgstr ""
+
+#: templates/admin/import_export/change_list_import.html:5
+#: templates/admin/import_export/change_list_import_export.html:5
+#: templates/admin/import_export/import.html:6
+#: templates/admin/import_export/import.html:25
+msgid "Import"
+msgstr ""
+
+#: templates/admin/import_export/import.html:17
+msgid "This importer will import the following fields: "
+msgstr ""
+
+#: templates/admin/import_export/import.html:34
+msgid "Errors"
+msgstr ""
+
+#: templates/admin/import_export/import.html:42
+msgid "Line number"
+msgstr ""
+
+#: templates/admin/import_export/import.html:65
+msgid "New"
+msgstr ""
+
+#: templates/admin/import_export/import.html:67
+msgid "Skipped"
+msgstr ""
+
+#: templates/admin/import_export/import.html:71
+msgid "Update"
+msgstr ""
+
+#: templates/admin/import_export/import.html:90
+msgid "Confirm import"
+msgstr ""
+
+#: templates/admin/index.html:123
+#, python-format
+msgid "Models available in the %(name)s application."
+msgstr "Itens disponíveis na aplicação %(name)s"
+
+#: templates/admin/index.html:149
+msgid "You don't have permission to edit anything."
+msgstr "Você não possui permissão para editar nada."
+
+#: templates/admin/index.html:276
+msgid "My Actions"
+msgstr "Minhas ações"
+
+#: templates/admin/index.html:281
+msgid "None available"
+msgstr "Nada disponível"
+
+#: templates/admin/index.html:290
+msgid "added"
+msgstr "adicionado"
+
+#: templates/admin/index.html:291
+msgid "changed"
+msgstr "alterado"
+
+#: templates/admin/index.html:292
+msgid "deleted"
+msgstr "apagado"
+
+#: templates/admin/index.html:298
+msgid "Unknown content"
+msgstr "Conteúdo desconhecido"
+
+#: templates/admin/login.html:56
+msgid "Forgotten your password or username?"
+msgstr "Perdeu seu usuário ou senha?"
+
+#: templates/admin/login.html:60
+msgid "Log in"
+msgstr "Entrar"
+
+#: templates/admin/object_history.html:27
+#: templates/reversion/object_history.html:15
+#: templates/reversion/recover_list.html:27
+msgid "Date/time"
+msgstr "Data/hora"
+
+#: templates/admin/object_history.html:28
+#: templates/reversion/object_history.html:16
+msgid "User"
+msgstr "Usuário"
+
+#: templates/admin/object_history.html:29
+msgid "Action"
+msgstr "Ação"
+
+#: templates/admin/object_history.html:43
+#: templates/reversion/object_history.html:36
+msgid ""
+"This object doesn't have a change history. It probably wasn't added via this "
+"admin site."
+msgstr ""
+"Este objeto não tem um histórico de alteração. Ele provavelmente não foi "
+"cadastrado por este sistema administrativo."
+
+#: templates/admin/page_submit_line.html:4 templates/admin/submit_line.html:4
+msgid "Save and continue editing"
+msgstr "Salvar e continuar editando"
+
+#: templates/admin/page_submit_line.html:5 templates/admin/submit_line.html:5
+msgid "Save as new"
+msgstr "Salvar como novo"
+
+#: templates/admin/page_submit_line.html:6 templates/admin/submit_line.html:6
+msgid "Save and add another"
+msgstr "Salvar e adicionar outro"
+
+#: templates/admin/page_submit_line.html:14
+#, python-format
+msgid "Delete %(language)s translation"
+msgstr "Apagar tradução %(language)s"
+
+#: templates/admin/pagination.html:26
+msgid "Show all"
+msgstr "Mostrato todos"
+
+#: templates/admin/search_form.html:8
+msgid "keyword"
+msgstr "buscar"
+
+#: templates/admin/search_form.html:29
+#, python-format
+msgid "%(counter)s result"
+msgid_plural "%(counter)s results"
+msgstr[0] "%(counter)s resultado"
+msgstr[1] "%(counter)s resultados"
+
+#: templates/admin/search_form.html:31
+#, python-format
+msgid "%(full_result_count)s total"
+msgstr "%(full_result_count)s total"
+
+#: templates/autocomplete_light/widget.html:27
+#, fuzzy
+#| msgid "Save and add another"
+msgid "Add another"
+msgstr "Salvar e adicionar outro"
+
+#: templates/registration/logged_out.html:9
+msgid "Thanks for spending some quality time with the Web site today."
+msgstr "Obrigado por gastar seu tempo com este Site hoje."
+
+#: templates/registration/logged_out.html:12
+msgid "Log in again"
+msgstr ""
+
+#: templates/registration/password_change_form.html:28
+#: templates/registration/password_change_form.html:32
+msgid "Password change"
+msgstr "Alterar senha"
+
+#: templates/registration/password_change_form.html:40
+msgid ""
+"Please enter your old password, for security's sake, and then enter your new "
+"password twice so we can verify you typed it in correctly."
+msgstr ""
+"Por favor entre sua senha antiga, e em seguida sua senha nova duas vezes, "
+"assim conseguimos checar se a senha foi digitada corretamente."
+
+#: templates/registration/password_change_form.html:55
+msgid "Old password"
+msgstr "Senha antiga"
+
+#: templates/registration/password_change_form.html:66
+msgid "New password"
+msgstr "Nova senha"
+
+#: templates/registration/password_change_form.html:88
+msgid "Change my password"
+msgstr "Alterar minha senha"
+
+#: templates/reversion/object_history.html:8
+msgid ""
+"Choose a date from the list below to revert to a previous version of this "
+"object."
+msgstr ""
+"Selecione a data da lista abaixo para reverter o objeto para uma "
+"versãoanterir."
+
+#: templates/reversion/object_history.html:17
+msgid "Comment"
+msgstr "Comentário"
+
+#: templates/reversion/recover_form.html:22
+msgid "Press the save button below to recover this version of the object."
+msgstr "Aperte o botão salvar abaixo para restalrar o objeto para esta versão"
+
+#: templates/reversion/recover_list.html:21
+msgid ""
+"Choose a date from the list below to recover a deleted version of an object."
+msgstr ""
+
+#: templates/reversion/recover_list.html:41
+msgid "There are no deleted objects to recover."
+msgstr ""
+
+#: templates/reversion/revision_form.html:18
+#, python-format
+msgid "Revert %(verbose_name)s"
+msgstr ""
+
+#: templates/reversion/revision_form.html:31
+msgid "Press the save button below to revert to this version of the object."
+msgstr ""
+
+#: templates/suit/error_base.html:87
+msgid "Close window"
+msgstr "Fechar janela"
+
+#: templates/suit/error_base.html:90
+msgid "Go back"
+msgstr "Voltar"
+
+#: templates/suit/error_base.html:93
+msgid "Go to admin home"
+msgstr "Ir para a home"
+
+#~| msgid "training steps"
+#~ msgid "new training step message"
+#~ msgstr "Mensagem de nova etapa de treinamento"
+
+#~| msgid "training steps"
+#~ msgid "update training step message"
+#~ msgstr "Mensagem de alteração em etapa de treinamento"
+
+#~ msgid "position"
+#~ msgstr "posição"
+
+#~ msgid "member team"
+#~ msgstr "time"
+
+#~ msgid "member teams"
+#~ msgstr "times"
+
+#~ msgid "paid"
+#~ msgstr "pago"
+
+#~ msgid "number"
+#~ msgstr "número"
+
+#~ msgid "public"
+#~ msgstr "público"
+
+#~ msgid "quickblox_login"
+#~ msgstr "login do quickblox"
+
+#~ msgid "media_file"
+#~ msgstr "arquivo de midia"
+
+#~| msgid "mediatypes"
+#~ msgid "media types"
+#~ msgstr "tipos de midia"

@@ -6,7 +6,12 @@
   <link rel="stylesheet" type="text/css" href="{% block stylesheet %}{% endblock %}"/>
   <link rel="stylesheet" type="text/css" href="{% static 'suit/bootstrap/css/bootstrap.min.css' %}" media="all"/>
   <link rel="stylesheet" type="text/css" href="{% static 'suit/css/suit.css' %}" media="all">
+  <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" media="all"/>
+  <link href='https://fonts.googleapis.com/css?family=Roboto:400,700' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,700' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" type="text/css" href="{% static 'admin/css/forms.css' %}" media="all">
+  <link rel="stylesheet" type="text/css" href="{% static 'admin/css/bootstrap-checkbox.css' %}" media="all">
+  <link rel="stylesheet" type="text/css" href="{% static 'admin/css/custom.css' %}" media="all">
   {% block extrastyle %}{% endblock %}
   {% if LANGUAGE_BIDI %}<link rel="stylesheet" type="text/css" href="{% block stylesheet_rtl %}{% static "admin/css/rtl.css" %}{% endblock %}"/>{% endif %}
   <script type="text/javascript">window.__admin_media_prefix__ = "{% filter escapejs %}{% static "admin/" %}{% endfilter %}";</script>
@@ -41,12 +46,8 @@
 
 			{% block header_time %}
 			<div class="header-content header-content-first">
-			  <div class="header-column icon">
-				<i class="icon-time"></i>
-			  </div>
 			  <div class="header-column">
-				<span class="date"> {% suit_date %}</span><br>
-				<span class="time" id="clock">{% suit_time %}</span>
+				<span class="date"> {% suit_date %}</span> <i class="fa fa-clock-o"></i> <span class="time" id="clock">{% suit_time %}</span>
 			  </div>
 			</div>
 			{% endblock %}
@@ -64,24 +65,29 @@
 
 			{% if user.is_active and user.is_staff %}
 			  <div id="user-tools">
+			   <span>
 				{% block welcome-msg %}
 				  {% trans 'Welcome,' %}
-				  <strong>
-					{% filter force_escape %}
-					  {% firstof user.first_name user.username %}{% endfilter %}</strong>.
-				{% endblock %}
-				<span class="user-links">
-				{% block userlinks %}
-				  {% url 'django-admindocs-docroot' as docsroot %}
-				  {% if docsroot %}
-					<a href="{{ docsroot }}">{% trans 'Documentation' %}</a>
-					<span class="separator">|</span>
-				  {% endif %}
-				  <a href="{% url 'admin:password_change' %}">{% trans 'Change password' %}</a>
-				  <span class="separator">|</span>
-				  <a href="{% url 'admin:logout' %}">{% trans 'Log out' %}</a>
-				{% endblock %}
 				</span>
+				<dl id="user-menu">
+					<dt>
+					{% filter force_escape %}
+						{% firstof user.first_name user.username %}{% endfilter %}
+					{% endblock %} <i class="fa fa-caret-down"></i>
+					</dt>
+					<dd>
+						<span class="user-links">
+							{% block userlinks %}
+							  {% url 'django-admindocs-docroot' as docsroot %}
+							  {% if docsroot %}
+								<a href="{{ docsroot }}"> <i class="fa fa-file-o"></i> {% trans 'Documentation' %} </a>
+							  {% endif %}
+							  <a href="{% url 'admin:password_change' %}"> <i class="fa fa-key"></i> {% trans 'Change password' %} </a>
+							  <a href="{% url 'admin:logout' %}"><i class="fa fa-power-off"></i> {% trans 'Log out' %} </a>
+							{% endblock %}
+						</span>
+					</dd>
+				</dl>
 			  </div>
 			{% endif %}
 			{% block nav-global %}{% endblock %}
@@ -95,9 +101,6 @@
 
 		{% block content-center %}
 		  <div id="suit-center" class="suit-column">
-			
-			<h1 class="page-title">{% block h1-title %} {{ title }} {% endblock %}</h1>
-
 			{% if not is_popup %}
 			  {% block breadcrumbs %}
 				<ul class="breadcrumb">
@@ -112,6 +115,9 @@
 				</ul>
 			  {% endblock %}
 			{% endif %}
+
+			<h1 class="page-title">{% block h1-title %} {{ title }} {% endblock %}</h1>
+
 
 			{% block messages %}
 			  {% if messages %}
@@ -132,7 +138,7 @@
 				<h2 class="content-title">{{ title }}</h2>
 			  {% endif %}{% endblock %}
 			  {% block content %}
-				{% block object-tools %}{% endblock %}
+				
 				{{ content }}
 			  {% endblock %}
 			  {% block sidebar_content %}
@@ -182,7 +188,7 @@
 		<div class="content">
 			<div class="left">
 				{% block footer_links %}
-					&copy; 2015 Upline Virtual. Todos os direitos reservados.
+					&copy; {% now "Y" %} Upline Virtual. Todos os direitos reservados.
 				{% endblock %}
 			</div>
 
@@ -193,14 +199,7 @@
 			</div>
 
 			<div class="branding">
-				{% block footer_branding %}
-					{% with 'ADMIN_NAME'|suit_conf as admin_name %}
-						{{ admin_name }}
-					{% if admin_name == 'Django Suit' %}
-						v{{ 'VERSION'|suit_conf }}
-					{% endif %}
-					{% endwith %}
-				{% endblock %}
+				<img src="{% static 'admin/images/simbol-footer.png' %}" alt="">
 			</div>
 		</div>
 	</div>
@@ -208,6 +207,7 @@
 {% endblock %}
 
 <script src="{% static 'suit/js/suit.js' %}"></script>
+<script src="{% static 'admin/js/custom.js' %}"></script>
 {% block extrajs %}{% endblock %}
 
 </body>

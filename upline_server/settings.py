@@ -215,12 +215,12 @@ SUIT_CONFIG = {
     'CONFIRM_UNSAVED_CHANGES': True,
     'MENU': (
 
-        {'label': u'Notificações', 'icon': 'icon-lock', 'models': (
+        {'label': u'Notificações', 'icon': 'fa fa-bullhorn', 'models': (
             {'label': 'Notificações', 'model': 'upline.notification', 'icon': None},)},
-        {'label': 'Convites', 'icon': 'icon-user', 'models': (
+        {'label': 'Convites', 'icon': 'fa fa-user-plus', 'models': (
             {'label': 'Convites', 'model': 'upline.invite', 'icon': None},
             {'label': 'Convidados', 'model': 'upline.invited', 'icon': None},)},
-        {'label': 'Pessoas', 'icon': 'icon-user', 'models': (
+        {'label': 'Pessoas', 'icon': 'fa fa-user', 'models': (
             {'label': 'Usuários', 'model': 'auth.user', 'icon': None},
             {'label': 'Grupos', 'model': 'auth.group', 'icon': None},
             {'label': 'Membros', 'model': 'upline.member', 'icon': None},
@@ -231,34 +231,34 @@ SUIT_CONFIG = {
             {'label': 'Aparelhos Android',
                 'model': 'push_notifications.gcmdevice', 'icon': None},
         )},
-        {'label': 'Vendas', 'icon': 'icon-shopping-cart', 'models': (
+        {'label': 'Vendas', 'icon': 'fa fa-dollar', 'models': (
             {'label': 'Produtos', 'model': 'upline.product', 'icon': None},
             {'label': 'Vendas', 'model': 'upline.sale', 'icon': None},
         )},
-        {'label': u'Calendários', 'icon': 'icon-calendar', 'models': (
+        {'label': u'Calendários', 'icon': 'fa fa-calendar', 'models': (
             {'label': 'Calendarios', 'model': 'upline.calendar', 'icon': None},
             {'label': 'Eventos', 'model': 'upline.event', 'icon': None},
         )},
-        {'label': 'Noticias', 'url': 'upline.post', 'icon': 'icon-pencil'},
-        {'label': 'Midias', 'icon': 'icon-file', 'models': (
+        {'label': 'Noticias', 'url': 'upline.post', 'icon': 'fa fa-newspaper-o'},
+        {'label': 'Midias', 'icon': 'fa fa-picture-o', 'models': (
             {'label': 'Tipos de Midia', 'model': 'upline.mediatype', 'icon': None},
             {'label': 'Categorias de Midia',
                 'model': 'upline.mediacategory', 'icon': None},
             {'label': 'Midias', 'model': 'upline.media', 'icon': None},
         )},
-        {'label': 'Treinamentos', 'icon': 'icon-tasks', 'models': (
+        {'label': 'Treinamentos', 'icon': 'fa fa-university', 'models': (
             {'label': 'Graduações', 'model': 'upline.level', 'icon': None},
             {'label': 'Treinamentos', 'model': 'upline.training', 'icon': None},
             {'label': 'Etapas de Treinamento',
                 'model': 'upline.trainingstep', 'icon': None},
             # {'label': 'Metas', 'model':'upline.media', 'icon':None},
         )},
-        {'label': 'Locais', 'icon': 'icon-map-marker', 'models': (
+        {'label': 'Locais', 'icon': 'fa fa-globe', 'models': (
             {'label': 'Estados', 'model': 'upline.state', 'icon': None},
             {'label': 'Cidades', 'model': 'upline.city', 'icon': None},
             {'label': 'CEPs', 'model': 'upline.postalcode', 'icon': None},
         )},
-        {'label': u'Configurações', 'url': 'upline.siteconfiguration', 'icon': None},
+        {'label': u'Configurações', 'url': 'upline.siteconfiguration', 'icon': 'fa fa-cogs'},
 
     )
 }
