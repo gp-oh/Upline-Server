@@ -60,4 +60,7 @@ $(function(){
     $('#id_answer_type').change(function(event) {
         toggle_aswer_type();
     });
+
+    //CUSTOM SCRIPTS
+    alert("teste");
 });

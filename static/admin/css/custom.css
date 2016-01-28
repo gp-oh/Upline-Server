@@ -13,12 +13,10 @@ h1, h2, h3, h4, h5, h6 { text-shadow: 0; }
 
 textarea,
 textarea:focus,
-input,ƒ
+input,
 input:focus { box-shadow: none !important; border: none !important; outline: none; outline-color: transparent; outline-style: none; }
 
 a { outline: none !important; }
-
-.alert { border-radius: 0; }
 
 
 /* LOGIN ************************************************************************************************
@@ -255,8 +253,6 @@ a { outline: none !important; }
 .breadcrumb li a:hover { color: rgba(63,183,165,1); text-decoration: none; }
 
 
-h1.page-title
-
 /* FOOTER */
 #footer { top: 0; left: 0; position: fixed; width: 100%; }
 .footer .content .branding { padding: 10px 0 0; }
@@ -265,7 +261,7 @@ h1.page-title
 h1.page-title { color: rgba(255,255,255,0.8); text-shadow: none; }
 
 
-.toolbar-content { background: rgba(0,0,0,0.1); border-radius: 5px; margin: 0 0 10px; padding: 12px 15px 0; }
+.toolbar-content { margin: -75px 0 30px; }
 
 
 /* BOTÕES */
@@ -295,7 +291,7 @@ button.btn {
 }
 
 /* TABELAS */
-.table { background: none; border: none; color: rgba(255,255,255,0.8); }
+.table { background: #F90; border: none; color: rgba(255,255,255,0.8); }
 
 .table thead th, .table thead td { color: rgba(255,255,255,1); background: rgba(0,0,0,0.2); border: none; box-shadow: none; font-weight: normal; text-shadow: none;}
 
@@ -315,18 +311,10 @@ button.btn {
 
 .table tr:hover,
 .table tr:hover td,
-.table tr:hover th { background-color: #f92672 !important; }
+.table tr:hover th { background: none !important; }
 
 .table tr td a:hover,
 .table tr th a:hover { color: rgba(63,183,165,1); text-decoration: underline; }
-
-.table tbody > tr.selected:nth-child(2n+1) > td, .table tbody > tr.selected:nth-child(2n+1) > th { background-color: #f92672 !important; }
-.table tbody > tr.selected > th,
-.table tbody > tr.selected > td { background-color: #f92672; border-top: solid 1px rgba(255,255,255,0.2); box-shadow: none; }
-
-.table tbody > tr.selected:nth-child(odd) > td,
-.table tbody > tr.selected:nth-child(odd) > th { background-color: #f92672; }
-
 
 .actions { color: rgba(255,255,255,0.8); }
 
@@ -383,6 +371,3 @@ section.panel .panel-body	{
 
 #chart-graduacoes { height: 250px; margin: 0 0 20px; }
 .chart-graduacoes .chart-legend { display: block; width: 100%; }
-
-/* form */
-.checkbox label { margin-bottom: 0 }

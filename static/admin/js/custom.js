@@ -19,29 +19,6 @@ $(function(){
 	});
 
 
-	//TABLES
-	$('.table').find('.checkbox').append( "<label>&nbsp</label>" );
-
-	$('.table').find('.checkbox').find('label').click(function() {
-		//alert("teste");
-
-		var check = $(this).parent().find('input[type=checkbox]');
-
-		if( $(check).is(':checked')) {
-			$(check).prop('checked', false);
-			$(this).parents('tr').removeClass('selected');
-		}else{
-			$(check).prop('checked', true);
-			$(this).parents('tr').addClass('selected');
-		}
-
-		//$(check).prop('checked', true);
-
-	});
-
-
-
-
 
 
 	//ADJUST HEIGHT
