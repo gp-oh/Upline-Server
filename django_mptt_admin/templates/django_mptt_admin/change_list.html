@@ -5,30 +5,6 @@
 {% block extrastyle %}
     {{ block.super }}
   <link href="{% static 'django_mptt_admin/fancytree/skin-bootstrap/ui.fancytree.css' %}" rel="stylesheet" type="text/css">
-<style type="text/css">
-
-
-span.fancytree-icon {
-  position: relative;
-}
-span.fancytree-childcounter {
-  color: #fff;
-  background: #428BCA;
-/*  border: 1px solid gray; */
-  position: absolute;
-  top: -6px;
-  right: -6px;
-  min-width: 10px;
-  height: 10px;
-  line-height: 1;
-  vertical-align: baseline;
-  border-radius: 10px; /*50%;*/
-  padding: 2px;
-  text-align: center;
-  font-size: 9px;
-}
-</style>
-
 {% endblock %}
 
 {% block extrahead %}
@@ -86,7 +62,7 @@ span.fancytree-childcounter {
 
             glyph_opts = {
                 map: {
-                  doc: "icon-file",
+                  doc: "fa fa-file",
                   docOpen: "icon-file",
                   checkbox: "icon-unchecked",
                   checkboxSelected: "icon-check",
@@ -95,10 +71,10 @@ span.fancytree-childcounter {
                   dropMarker: "icon-arrow-right",
                   error: "icon-warning-sign",
                   expanderClosed: "icon-plus-sign",
-                  expanderLazy: "icon-plus-sign",  // icon-expand
-                  expanderOpen: "icon-minus-sign",  // icon-collapse-down
-                  folder: "icon-folder-close",
-                  folderOpen: "icon-folder-open",
+                  expanderLazy: "fa fa-plus-circle",  // icon-expand
+                  expanderOpen: "fa fa-minus-circle",  // icon-collapse-down
+                  folder: "fa fa-folder",
+                  folderOpen: "fa fa-folder-open",
                   loading: "icon-refresh"
                 }
               };
