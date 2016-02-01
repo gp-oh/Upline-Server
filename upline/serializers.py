@@ -7,10 +7,7 @@ from django.contrib.auth.models import Group, User
 from django.core.files.uploadedfile import SimpleUploadedFile
 from rest_framework import serializers
 from rest_framework_bulk import BulkListSerializer, BulkSerializerMixin
-from upline.models import (Calendar, Contact, Event, Goal, Group, Invite,
-                           Level, Media, MediaCategory, Member,
-                           MemberTrainingStep, Post, PostalCode, Product, Sale,
-                           SaleItem, State, Training, TrainingStep, User)
+from upline.models import *
 
 
 class UTCDateTimeField(serializers.DateTimeField):
