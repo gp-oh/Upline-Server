@@ -56,6 +56,7 @@ class Command(BaseCommand):
             time_distance = (tz.localize(datetime.datetime.today(), is_dst=None).astimezone(pytz.utc) -
                              member.create_time).days
 
+            message = ''
             if time_distance == 1:
                 message = next_training_step.day_1_notification_description
             elif time_distance == 2:

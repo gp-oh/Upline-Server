@@ -260,6 +260,9 @@ class TrainingStep(models.Model):
             return training_steps[0]
         return None
 
+    def send_notification(self):
+        pass
+
     def save(self, *args, **kwargs):
         if self.media and len(self.media) > 3:
             mime = MimeTypes()
@@ -718,6 +721,15 @@ class Post(models.Model):
     def __unicode__(self):
         return self.title
 
+    def send_notification(self):
+        from upline.serializers import PostSerializer
+        devices = GCMDevice.objects.filter(user__groups__in=self.groups.all())
+        if len(devices) > 0:
+            devices.send_message(SiteConfiguration.get_solo().new_post_message, extra={
+                "type": "post", "object": PostSerializer(self, many=False).data})
+        self.notified = True
+        self.save()
+
     def save(self, *args, **kwargs):
         if self.media:
             mime = MimeTypes()
@@ -725,10 +737,6 @@ class Post(models.Model):
             if mime_type[0] is not None:
                 t = mime_type[0].split('/')[0]
 
-                # conn = S3Connection(settings.AWS_ACCESS_KEY_ID, settings.AWS_SECRET_ACCESS_KEY)
-                # b = Bucket(conn, settings.AWS_STORAGE_BUCKET_NAME)
-                # k = b.get_key(self.media.replace('https://s3.amazonaws.com/upline-virtual/',''))
-                # t = k.content_type.split('/')[0]
                 if t == 'image':
                     self.media_type = 0
                 elif t == 'audio':
@@ -871,6 +879,9 @@ class Media(models.Model):
     update_time = models.DateTimeField(
         auto_now=True, verbose_name=_('update_time'))
     notified = models.BooleanField(default=False, editable=False)
+
+    def send_notification(self):
+        pass
 
     class Meta:
         verbose_name = _("media")
