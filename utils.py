@@ -18,7 +18,6 @@ def convert_media(media):
         convert_audio(media)
     elif media.media_type == 2:
         convert_video(media)
-    media.send_notification()
 
 
 @transaction.atomic
@@ -34,7 +33,7 @@ def thumbnail_image(media):
     media.thumbnail = SimpleUploadedFile(
         name=str(uuid.uuid4()) + image_name, content=im.read(), content_type=mime_type)
     media.converted = True
-    media.save()
+    media.send_notification()
     os.unlink(image_name)
 
 
@@ -74,7 +73,8 @@ def convert_audio(media):
     media.media = "https://upline-virtual.s3.amazonaws.com/" + \
         media.media.split('/')[-2] + "/" + \
         audio_name.rsplit(".", 1)[0] + '.mp3'
-    media.save()
+
+    media.send_notification()
 
     os.unlink(audio_name.rsplit(".", 1)[0] + '.mp3')
     os.unlink(audio_name)
@@ -127,7 +127,8 @@ def convert_video(media):
     media.media = "https://upline-virtual.s3.amazonaws.com/" + \
         media.media.split('/')[-2] + "/" + \
         video_name.rsplit(".", 1)[0] + '.mp4'
-    media.save()
+
+    media.send_notification()
     mp4_file.close()
     thumbnail_file.close()
     os.unlink(video_name.rsplit(".", 1)[0] + '1.mp4')
