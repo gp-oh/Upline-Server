@@ -1,33 +1,30 @@
 # -*- coding: utf-8 -*-
-from django.db import models
-from django.contrib.auth.models import User, Group
-from django.utils.translation import ugettext as _
-from mptt.models import MPTTModel, TreeForeignKey
-from django.db.models import Q
-from rq import Queue
-from worker import conn
-from utils import convert_audio, convert_video, convert_media
-from upline.quickblox import create_user, update_user
-from Crypto.Cipher import AES
+# from upline.quickblox import create_user
 import base64
-import uuid
-from s3direct.fields import S3DirectField
-from push_notifications.models import APNSDevice, GCMDevice
-from colorful.fields import RGBColorField
-from boto.s3.connection import S3Connection, Bucket, Key
-from django.conf import settings
-from mimetypes import MimeTypes
-import urllib
 import os
-from django.db.models.signals import pre_delete
+import uuid
+from mimetypes import MimeTypes
+
+from colorful.fields import RGBColorField
+from Crypto.Cipher import AES
+from django.conf import settings
+from django.contrib.auth.models import Group, User
+from django.core.exceptions import ValidationError
+from django.core.mail import EmailMultiAlternatives
+from django.core.validators import validate_email
+from django.db import models
+from django.db.models import Q
+from django.db.models.signals import m2m_changed, post_save, pre_delete
 from django.dispatch.dispatcher import receiver
 from django.template.loader import render_to_string
-from django.core.mail import EmailMultiAlternatives
+from django.utils.translation import ugettext as _
+from mptt.models import MPTTModel, TreeForeignKey
+from push_notifications.models import GCMDevice
+from rq import Queue
+from s3direct.fields import S3DirectField
 from solo.models import SingletonModel
-from django.core.exceptions import ValidationError
-from django.core.validators import validate_email
-from django.db.models.signals import post_save, m2m_changed, pre_delete
-from django.dispatch import receiver
+from utils import convert_media
+from worker import conn
 
 
 def avatar_path(instance, filename):
@@ -256,11 +253,18 @@ class TrainingStep(models.Model):
     def __unicode__(self):
         return self.title
 
+    def next_training_step(self):
+        training_steps = TrainingStep.objects.filter(Q(training=self.training, step__gt=self.step) | Q(
+            training__position__gt=self.training.position)).order_by("training__position", "step")
+        if len(training_steps) > 0:
+            return training_steps[0]
+        return None
+
     def save(self, *args, **kwargs):
         if self.media and len(self.media) > 3:
             mime = MimeTypes()
             mime_type = mime.guess_type(self.media)
-            if mime_type[0] != None:
+            if mime_type[0] is not None:
                 t = mime_type[0].split('/')[0]
 
                 if t == 'image':
@@ -278,7 +282,7 @@ class TrainingStep(models.Model):
 
         if not self.converted:
             q = Queue(connection=conn)
-            result = q.enqueue(convert_media, self)
+            q.enqueue(convert_media, self)
 
 
 class Level(models.Model):
@@ -510,6 +514,10 @@ class MemberTrainingStep(models.Model):
     answer = models.TextField(verbose_name=_('answer'))
     media = models.FileField(upload_to=answer_path,
                              null=True, blank=True, default=None)
+    create_time = models.DateTimeField(
+        auto_now_add=True, verbose_name=_('create_time'))
+    update_time = models.DateTimeField(
+        auto_now=True, verbose_name=_('update_time'))
 
     class Meta:
         verbose_name = _("member traing step")
@@ -714,7 +722,7 @@ class Post(models.Model):
         if self.media:
             mime = MimeTypes()
             mime_type = mime.guess_type(self.media)
-            if mime_type[0] != None:
+            if mime_type[0] is not None:
                 t = mime_type[0].split('/')[0]
 
                 # conn = S3Connection(settings.AWS_ACCESS_KEY_ID, settings.AWS_SECRET_ACCESS_KEY)
@@ -736,7 +744,7 @@ class Post(models.Model):
 
         if not self.converted and self.media_type != 3:
             q = Queue(connection=conn)
-            result = q.enqueue(convert_media, self)
+            q.enqueue(convert_media, self)
 
 
 class Calendar(models.Model):
@@ -815,6 +823,7 @@ class Event(models.Model):
                 msg.send()
                 print 'email sent'
             except ValidationError as e:
+                print e
                 print "oops! wrong email"
 
     class Meta:
@@ -890,7 +899,7 @@ class Media(models.Model):
 
         if not self.converted:
             q = Queue(connection=conn)
-            result = q.enqueue(convert_media, self)
+            q.enqueue(convert_media, self)
 
 
 class Notification(models.Model):
@@ -946,8 +955,7 @@ class Invite(models.Model):
     def __unicode__(self):
         return self.email
 
-
-from upline.serializers import EventSerializer, EventDeleteSerializer
+from upline.serializers import EventDeleteSerializer, EventSerializer
 
 
 def push_event(sender, instance, **kwargs):
@@ -1008,13 +1016,6 @@ def create_sub_events(instance):
         e.owner = user
         e.is_invited = True
         e.parent_event_id = instance_id
-        # e.alert_at_hour = False
-        # e.alert_5_mins = False
-        # e.alert_15_mins = False
-        # e.alert_30_mins = False
-        # e.alert_1_hour = False
-        # e.alert_2_hours = False
-        # e.alert_1_day = False
         e.inviter = Member.objects.get(user=instance.owner)
         e.save()
 
@@ -1023,7 +1024,6 @@ def create_sub_events(instance):
 
     for event in related_events:
         if event not in exclude_events:
-            # event.group = instance.group
             event.title = instance.title
             event.all_day = instance.all_day
             event.begin_time = instance.begin_time

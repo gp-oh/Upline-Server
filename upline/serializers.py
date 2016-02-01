@@ -1,16 +1,16 @@
 # -*- coding: utf-8 -*-
-from django.contrib.auth.models import User, Group
-from upline.models import *
-from rest_framework import serializers
-from django.core.files.uploadedfile import SimpleUploadedFile
 import base64
-import uuid
 import datetime
-from rest_framework_bulk import (
-    BulkListSerializer,
-    BulkSerializerMixin
-)
-from django.utils.timezone import utc
+import uuid
+
+from django.contrib.auth.models import Group, User
+from django.core.files.uploadedfile import SimpleUploadedFile
+from rest_framework import serializers
+from rest_framework_bulk import BulkListSerializer, BulkSerializerMixin
+from upline.models import (Calendar, Contact, Event, Goal, Group, Invite,
+                           Level, Media, MediaCategory, Member,
+                           MemberTrainingStep, Post, PostalCode, Product, Sale,
+                           SaleItem, State, Training, TrainingStep, User)
 
 
 class UTCDateTimeField(serializers.DateTimeField):
@@ -18,13 +18,8 @@ class UTCDateTimeField(serializers.DateTimeField):
     def to_representation(self, value):
         if self.format is None:
             return value
-
-        # if self.format.lower() == ISO_8601:
         value = value.isoformat()
-        # if value.endswith('+00:00'):
-        #     value = value[:-6] + 'Z'
         return value
-        # return value.strftime(self.format)
 
 
 class GroupSerializer(serializers.HyperlinkedModelSerializer):
@@ -101,6 +96,14 @@ class TrainingStepSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = TrainingStep
         fields = ('id', 'status', 'answer', 'title', 'media', "thumbnail", "media_type", 'step',
+                  'description', 'need_answer', "answer_type", "meetings_per_week", "weeks", "nr_contacts")
+
+
+class TrainingStepTaskSerializer(serializers.HyperlinkedModelSerializer):
+
+    class Meta:
+        model = TrainingStep
+        fields = ('id', 'title', 'media', "thumbnail", "media_type", 'step',
                   'description', 'need_answer', "answer_type", "meetings_per_week", "weeks", "nr_contacts")
 
 
