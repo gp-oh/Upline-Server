@@ -726,6 +726,7 @@ class EventRegisterSerializer(serializers.HyperlinkedModelSerializer):
             event.members = validated_data['members']
         if 'invited_members' in validated_data:
             event.invited_members = validated_data['invited_members']
+        event.save()
         return event
 
     def create(self, validated_data):
