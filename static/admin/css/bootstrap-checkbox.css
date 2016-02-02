@@ -249,7 +249,7 @@ table th .checkbox label {
   height: 16px;
   position: absolute;
   left:3.8px;
-  top:0px;  
+  top:0px;
   font-size:14px;
   transition: border 0.2s linear 0s,color 0.2s linear 0s;
 }

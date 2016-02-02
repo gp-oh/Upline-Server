@@ -61,6 +61,4 @@ $(function(){
         toggle_aswer_type();
     });
 
-    //CUSTOM SCRIPTS
-    alert("teste");
 });
