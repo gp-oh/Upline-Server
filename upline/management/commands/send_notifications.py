@@ -41,7 +41,7 @@ class Command(BaseCommand):
 
                 devices = GCMDevice.objects.filter(
                     user=training_step.member.user)
-                if len(devices) > 0:
+                if len(devices) > 0 and message != '':
                     devices.send_message(message, extra={
                                          "type": "training_step_task", "object": TrainingStepTaskSerializer(next_training_step, many=False).data})
 

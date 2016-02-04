@@ -261,7 +261,13 @@ class TrainingStep(models.Model):
         return None
 
     def send_notification(self):
-        pass
+        from upline.serializers import TrainingStepSerializer
+        devices = GCMDevice.objects.all()
+        if len(devices) > 0:
+            devices.send_message(SiteConfiguration.get_solo().new_training_message, extra={
+                "type": "training_step", "object": TrainingStepSerializer(self, many=False).data})
+        self.notified = True
+        self.save()
 
     def save(self, *args, **kwargs):
         if self.media and len(self.media) > 3:
@@ -378,7 +384,7 @@ class Binary(MPTTModel):
             b.save()
 
     def get_binary(self, level=None):
-        if level == None:
+        if level is None:
             level = self.get_level()
 
         ret = {'obj': self, 'left': None, 'right': None}
@@ -881,7 +887,13 @@ class Media(models.Model):
     notified = models.BooleanField(default=False, editable=False)
 
     def send_notification(self):
-        pass
+        from upline.serializers import MediaSerializer
+        devices = GCMDevice.objects.all()
+        if len(devices) > 0:
+            devices.send_message(SiteConfiguration.get_solo().new_media_message, extra={
+                "type": "media", "object": MediaSerializer(self, many=False).data})
+        self.notified = True
+        self.save()
 
     class Meta:
         verbose_name = _("media")
