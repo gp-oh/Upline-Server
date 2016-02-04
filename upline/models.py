@@ -261,11 +261,11 @@ class TrainingStep(models.Model):
         return None
 
     def send_notification(self):
-        from upline.serializers import TrainingStepSerializer
+        from upline.serializers import TrainingStepTaskSerializer
         devices = GCMDevice.objects.all()
         if len(devices) > 0:
             devices.send_message(SiteConfiguration.get_solo().new_training_message, extra={
-                "type": "training_step", "object": TrainingStepSerializer(self, many=False).data})
+                "type": "training_step", "object": TrainingStepTaskSerializer(self, many=False).data})
         self.notified = True
         self.save()
 
