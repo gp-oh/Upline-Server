@@ -16,7 +16,8 @@ textarea:focus,
 input,ƒ
 input:focus { box-shadow: none !important; border: none !important; outline: none; outline-color: transparent; outline-style: none; }
 
-a { outline: none !important; }
+a,
+select { outline: none !important; }
 
 .alert { border-radius: 0; }
 
@@ -106,21 +107,21 @@ a { outline: none !important; }
 .nav-quick-search { background-color: rgba(255, 255, 255, 0.2); border-radius: 4px; margin: 20px 15px 2px; position: relative; }
 
 .nav-quick-search .search-query { background: none; color: rgba(255, 255, 255, 1);
-    border: none;
-    border-radius: 4px;
-    padding: 8px 4%;
-    width: 76%;
-    height: 18px;
+		border: none;
+		border-radius: 4px;
+		padding: 8px 4%;
+		width: 76%;
+		height: 18px;
 }
 
 .nav-quick-search .submit {
-    background: none;
-    display: block;
-    height: 34px;
-    right: 0;
-    top: 0px;
-    width: 16%;
-    z-index: 999;
+		background: none;
+		display: block;
+		height: 34px;
+		right: 0;
+		top: 0px;
+		width: 16%;
+		z-index: 999;
 }
 
 .nav-quick-search i { color: rgba(63,183,165,1); display: inline-block; font-size: 14px; position: absolute; text-align: center; line-height: 34px; z-index: 1; width: 16%;  }
@@ -128,14 +129,14 @@ a { outline: none !important; }
 
 
 /*background-color: rgba(0, 0, 0, 0.2);
-    border: medium none;
-    border-radius: 4px;
-    color: #fff;
-    font-size: 13px;
-    line-height: 18px;
-    margin: 0;
-    padding: 10px 3%;
-    width: 94%;
+		border: medium none;
+		border-radius: 4px;
+		color: #fff;
+		font-size: 13px;
+		line-height: 18px;
+		margin: 0;
+		padding: 10px 3%;
+		width: 94%;
 }*/
 
 
@@ -196,30 +197,30 @@ a { outline: none !important; }
 
 .left-nav > ul > li ul {
 	background: none;
-  display: none;
-  border: none;
-  border-radius: 0;
-  background-color: none;
-  margin: 0;
-  padding: 0;
-  box-shadow: none;
-  list-style: none;
-  transition: all linear 0.3s;
+	display: none;
+	border: none;
+	border-radius: 0;
+	background-color: none;
+	margin: 0;
+	padding: 0;
+	box-shadow: none;
+	list-style: none;
+	transition: all linear 0.3s;
 }
 
 .left-nav > ul > li.active ul {
-  padding: 10px 0 0;
+	padding: 10px 0 0;
 }
 
 .left-nav > ul > li:not(.active):hover > ul {
-  position: relative;
-  left: 0;
-  display: none;
-  padding: 0;
-  margin: 0;
-  border-radius: none !important;
-  box-shadow: none;
-  z-index: 10;
+	position: relative;
+	left: 0;
+	display: none;
+	padding: 0;
+	margin: 0;
+	border-radius: none !important;
+	box-shadow: none;
+	z-index: 10;
 }
 .left-nav > ul > li:not(.active):hover > ul li,
 .left-nav > ul > li:not(.active):hover > ul li a {
@@ -273,22 +274,17 @@ h1.page-title { color: rgba(255,255,255,0.8); text-shadow: none; }
 
 
 /* BOTÕES */
-.btn {
-    background: rgba(63,183,165,1);
-    box-shadow: none;
-    border: none;
-	border-radius: 0;
-    color: rgba(255,255,255,1);
-    cursor: pointer;
-    display: inline-block;
-    font-size: 12px;
-    line-height: 18px;
-    margin-bottom: 0;
-    padding: 8px 12px;
-    text-align: center;
-    text-shadow: none;
-    vertical-align: middle;
-    transition: all linear 0.2s;
+.btn { background: rgba(63,183,165,1); box-shadow: none; border: none; border-radius: 0; color: rgba(255,255,255,1);
+		cursor: pointer;
+		display: inline-block;
+		font-size: 12px;
+		line-height: 18px;
+		margin-bottom: 0;
+		padding: 8px 12px;
+		text-align: center;
+		text-shadow: none;
+		vertical-align: middle;
+		transition: all linear 0.2s;
 }
 
 .btn.btn-primary {
@@ -372,22 +368,22 @@ section.panel .panel-heading {
 
 section.panel .panel-heading i { background: rgba(63,183,165,1); border-radius: 15px; color: rgba(255,255,255,0.9); float: left; font-size: 16px; height: 30px; line-height: 30px; margin: 2px 8px 0 15px; text-align: center; width: 30px; }
 section.panel .panel-heading h3 {
-    color: rgba(255,255,255,0.9);
-    display: inline-block;
-    font-size: 22px;
-    font-weight: 400;
-    line-height: 26px;
-    position: relative;
-    text-shadow: none !important;
-    padding: 0;
-    font-family: "Roboto Slab", serif;
+		color: rgba(255,255,255,0.9);
+		display: inline-block;
+		font-size: 22px;
+		font-weight: 400;
+		line-height: 26px;
+		position: relative;
+		text-shadow: none !important;
+		padding: 0;
+		font-family: "Roboto Slab", serif;
 }
 
 section.panel .panel-body	{
 	background: none;
-    border: none;
-    border-radius: 0;
-    padding: 20px 15px 15px;
+		border: none;
+		border-radius: 0;
+		padding: 20px 15px 15px;
 }
 
 
@@ -405,10 +401,10 @@ section.panel .panel-body	{
 
 /* morris */
 .morris-chart text {
-  fill: white;
-  font-family: "Roboto Slab", serif !important; }
+	fill: white;
+	font-family: "Roboto Slab", serif !important; }
 .morris-chart svg {
-  width: 100% !important; }
+	width: 100% !important; }
 
 #chart-treinamentos { height: 298px; }
 
@@ -427,13 +423,17 @@ section.panel .panel-body	{
 .search-container input[type=text],
 .control-group input[type=text],
 .control-group input[type=email] { background-color: rgba(255, 255, 255, 0.2); border: none; border-radius: 4px; color: #fff; font-size: 12px;
-    line-height: 18px; padding: 8px 12px; }
+		line-height: 18px; padding: 8px 12px; }
 .search-container select,
 .actions select,
-.control-group select { background-color: rgba(255, 255, 255, 0.2); border: none; border-radius: 4px; color: #fff; font-size: 12px; line-height: 18px; padding: 8px 12px; height: 34px;  }
+.control-group select { border: none; border-radius: 4px; color: #fff; font-size: 12px; line-height: 18px; padding: 8px 24px 8px 12px; height: 34px; background: url(../images/arrow-down.gif) right center no-repeat; background-color: rgba(255, 255, 255, 0.2); -webkit-appearance: none; -moz-appearance:none;*/ }
+
+.search-container select option,
+.actions select option,
+.control-group select option { background: rgba(0,0,0,0.5); color: rgba(255,255,255,0.8); padding: 5px; }
 
 .control-group select[multiple] {
-    height: auto;
+		height: auto;
 }
 
 .control-group textarea { background-color: rgba(255, 255, 255, 0.2); border: none; border-radius: 4px; color: #fff; font-size: 12px; line-height: 18px; padding: 8px 12px; height: 80px;  }
@@ -451,15 +451,15 @@ section.panel .panel-body	{
 
 
 .control-group .add-related:before, .inline-group .add-related:before, .control-group .related-lookup:before, .inline-group .related-lookup:before, .control-group .change-related:before, .inline-group .change-related:before {
-    content: "\f000";
-    font-family: FontAwesome;
-    font-style: normal;
-    font-weight: normal;
-    text-decoration: inherit;
-    color: #000;
-    font-size: 18px;
-    padding-right: 0.5em;
-    position: absolute;
-    top: 10px;
-    left: 0;
+		content: "\f000";
+		font-family: FontAwesome;
+		font-style: normal;
+		font-weight: normal;
+		text-decoration: inherit;
+		color: #000;
+		font-size: 18px;
+		padding-right: 0.5em;
+		position: absolute;
+		top: 10px;
+		left: 0;
 }*/
