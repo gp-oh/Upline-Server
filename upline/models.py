@@ -261,6 +261,7 @@ class TrainingStep(models.Model):
         return None
 
     def send_notification(self):
+        self.save()
         from upline.serializers import TrainingStepTaskSerializer
         devices = GCMDevice.objects.all()
         if len(devices) > 0:
@@ -728,6 +729,7 @@ class Post(models.Model):
         return self.title
 
     def send_notification(self):
+        self.save()
         from upline.serializers import PostSerializer
         devices = GCMDevice.objects.filter(user__groups__in=self.groups.all())
         if len(devices) > 0:
@@ -887,6 +889,7 @@ class Media(models.Model):
     notified = models.BooleanField(default=False, editable=False)
 
     def send_notification(self):
+        self.save()
         from upline.serializers import MediaSerializer
         devices = GCMDevice.objects.all()
         if len(devices) > 0:
