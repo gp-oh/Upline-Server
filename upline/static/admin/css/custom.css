@@ -7,7 +7,7 @@ html { padding: 60px 0; overflow: hidden; }
 
 body { background: url(../images/bg.jpg) 0 0 no-repeat; font-family: "Roboto", serif; min-height: 100%; }
 
-h1, h2, h3, h4, h5, h6 { text-shadow: 0; }
+h1, h2, h3, h4, h5, h6, #content h1, #content h2, #content h3, #content h4 { text-shadow: none !important; }
 
 #wrap { background: none; height: auto; min-height: auto; }
 
@@ -422,7 +422,8 @@ section.panel .panel-body	{
 
 .search-container input[type=text],
 .control-group input[type=text],
-.control-group input[type=email] { background-color: rgba(255, 255, 255, 0.2); border: none; border-radius: 4px; color: #fff; font-size: 12px;
+.control-group input[type=email],
+.control-group input[type=password] { background-color: rgba(255, 255, 255, 0.2); border: none; border-radius: 4px; color: #fff; font-size: 12px;
 		line-height: 18px; padding: 8px 12px; }
 .search-container select,
 .actions select,
@@ -432,12 +433,13 @@ section.panel .panel-body	{
 .actions select option,
 .control-group select option { background: rgba(0,0,0,0.5); color: rgba(255,255,255,0.8); padding: 5px; }
 
-.control-group select[multiple] {
-		height: auto;
-}
+.control-group select[multiple] { height: auto; background-image: none; }
+.control-group select[multiple] option { background: none; }
 
 .control-group textarea { background-color: rgba(255, 255, 255, 0.2); border: none; border-radius: 4px; color: #fff; font-size: 12px; line-height: 18px; padding: 8px 12px; height: 80px;  }
 
+.form-horizontal .control-group .controls .selector .selector-filter input,
+.form-horizontal .control-group .controls .selector .selector-available select { border-radius: 4px; }
 
 .search-container select { margin-top: 6px; }
 
@@ -445,6 +447,24 @@ section.panel .panel-body	{
 
 .search-container .search-filters { margin-right: -3px; }
 .search-container input[type=submit]{ border-radius: 4px; }
+
+#avatar-group h2 { font-weight: normal; text-shadow: none; margin: 15px 0; }
+
+h2.legend, .form-horizontal fieldset .legend {  font-weight: normal; text-shadow: none; }
+
+
+.form-horizontal fieldset .legend { border-top-left-radius: 4px; border-top-right-radius: 4px; position: relative !important; margin: 0; background: rgba(0,0,0,0.2); padding-left: 1%;  width: 99%; }
+
+.form-horizontal .inline-group .inline-related { border: none; }
+.form-horizontal .inline-related h3 { background: rgba(0,0,0,0.2); font-size: 13px; font-weight: normal; text-shadow: none; }
+
+.form-horizontal .control-group .controls .selector .selector-filter { margin-bottom: 10px; }
+.form-horizontal .control-group .controls .selector .selector-filter label { margin-right: -15px; opacity: 0.6; top: 6px; }
+
+
+/* MENU BOX */
+.menu-box li a { border-bottom: 1px solid rgba(255,255,255,0.2); color: rgba(255,255,255,0.8); }
+.menu-box li a:hover { color: rgba(0,0,0,0.6); }
 
 
 /*.control-group .add-related, .inline-group .add-related, .control-group .related-lookup, .inline-group .related-lookup, .control-group .change-related, .inline-group .change-related { background: none; }
