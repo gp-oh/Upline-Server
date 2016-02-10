@@ -20,8 +20,11 @@
 <div class="overflow">
   <div>
   {% if node.obj.parent %}
-  <a href="/upline/member/{{node.obj.parent.member.id}}/binary/">Subir um Nível</a>
-  <a href="/upline/member/{{node.obj.get_root.member.id}}/binary/">Ir ao Topo</a>
+
+  <script>
+  $('body').find('.toolbar-content').find('.object-tools').append('<a class="btn btn-success" href="/upline/member/{{node.obj.parent.member.id}}/binary/">Subir um Nível</a> <a class="btn btn-success" href="/upline/member/{{node.obj.get_root.member.id}}/binary/">Ir ao Topo</a>');
+  </script>
+
   {% endif %}
 	<ul class="tree">
 		<li>{{node.obj|binary}}
