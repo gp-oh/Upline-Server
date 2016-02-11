@@ -260,10 +260,8 @@ select { outline: none !important; }
 .breadcrumb li a:hover { color: rgba(63,183,165,1); text-decoration: none; }
 
 
-h1.page-title
-
 /* FOOTER */
-#footer { top: 0; left: 0; position: fixed; width: 100%; }
+.footer { bottom: 0; left: 0; position: absolute; width: 100%; }
 .footer .content .branding { padding: 10px 0 0; }
 
 /* PAGE HEADER */
@@ -423,7 +421,9 @@ section.panel .panel-body	{
 .search-container input[type=text],
 .control-group input[type=text],
 .control-group input[type=email],
-.control-group input[type=password] { background-color: rgba(255, 255, 255, 0.2); border: none; border-radius: 4px; color: #fff; font-size: 12px;
+.control-group input[type=password],
+.control-group input[type=number],
+.control-group input[type=color] { background-color: rgba(255, 255, 255, 0.2); border: none; border-radius: 4px; color: #fff; font-size: 12px;
 		line-height: 18px; padding: 8px 12px; }
 .search-container select,
 .actions select,
@@ -460,6 +460,10 @@ h2.legend, .form-horizontal fieldset .legend {  font-weight: normal; text-shadow
 
 .form-horizontal .control-group .controls .selector .selector-filter { margin-bottom: 10px; }
 .form-horizontal .control-group .controls .selector .selector-filter label { margin-right: -15px; opacity: 0.6; top: 6px; }
+
+.form-horizontal .control-group .controls p.datetime br { display: none; }
+
+.datetimeshortcuts a:last-child {  margin-left: 0; }
 
 
 /* MENU BOX */

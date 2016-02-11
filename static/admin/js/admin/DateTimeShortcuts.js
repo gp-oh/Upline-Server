@@ -96,7 +96,7 @@ var DateTimeShortcuts = {
         $warning.text(message);
 
         $(inp).parent()
-            .append($('<br>'))
+            .append($('<p></p>'))
             .append($warning)
     },
     // Add clock widget to a given field
@@ -118,7 +118,7 @@ var DateTimeShortcuts = {
         quickElement('img', clock_link, '', 'src', DateTimeShortcuts.admin_media_prefix + 'img/icon_clock.gif', 'alt', gettext('Clock'));
         shortcuts_span.appendChild(document.createTextNode('\240'));
         shortcuts_span.appendChild(now_link);
-        shortcuts_span.appendChild(document.createTextNode('\240|\240'));
+        shortcuts_span.appendChild(document.createTextNode(' '));
         shortcuts_span.appendChild(clock_link);
 
         // Create clock link div
@@ -220,7 +220,7 @@ var DateTimeShortcuts = {
         quickElement('img', cal_link, '', 'src', DateTimeShortcuts.admin_media_prefix + 'img/icon_calendar.gif', 'alt', gettext('Calendar'));
         shortcuts_span.appendChild(document.createTextNode('\240'));
         shortcuts_span.appendChild(today_link);
-        shortcuts_span.appendChild(document.createTextNode('\240|\240'));
+        shortcuts_span.appendChild(document.createTextNode(' '));
         shortcuts_span.appendChild(cal_link);
 
         // Create calendarbox div.
@@ -265,9 +265,9 @@ var DateTimeShortcuts = {
         var shortcuts = quickElement('div', cal_box);
         shortcuts.className = 'calendar-shortcuts';
         quickElement('a', shortcuts, gettext('Yesterday'), 'href', 'javascript:DateTimeShortcuts.handleCalendarQuickLink(' + num + ', -1);');
-        shortcuts.appendChild(document.createTextNode('\240|\240'));
+        shortcuts.appendChild(document.createTextNode(' '));
         quickElement('a', shortcuts, gettext('Today'), 'href', 'javascript:DateTimeShortcuts.handleCalendarQuickLink(' + num + ', 0);');
-        shortcuts.appendChild(document.createTextNode('\240|\240'));
+        shortcuts.appendChild(document.createTextNode(' '));
         quickElement('a', shortcuts, gettext('Tomorrow'), 'href', 'javascript:DateTimeShortcuts.handleCalendarQuickLink(' + num + ', +1);');
 
         // cancel bar

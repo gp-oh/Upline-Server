@@ -2,7 +2,6 @@
 /* CSS Document */
 
 * { margin:0; padding:0; }
-body { background:#eee; }
 .overflow { overflow:auto; position:relative; }
 ul.tree, ul.tree ul { margin: 0; padding:0;}
 ul.tree { display:block; font:12px Arial, Helvetica, sans-serif; color:#000; margin-bottom:250px;  }
