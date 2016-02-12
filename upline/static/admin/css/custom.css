@@ -174,11 +174,11 @@ select { outline: none !important; }
 }
 .left-nav > ul > li > a:after {
 	content: "";
-	display: none;
+	display: block;
 	width: 3px;
 	height: 39px;
-	background: -webkit-linear-gradient(left, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.2) 100%) !important;
-	background: linear-gradient(to right, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.2) 100%)  !important;
+	background: -webkit-linear-gradient(left, rgba(63,183,165,1) 0%, rgba(0, 0, 0, 0) 100%) !important;
+	background: linear-gradient(to right, rgba(63,183,165,1) 0%, rgba(0, 0, 0, 0) 100%)  !important;
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -195,6 +195,12 @@ select { outline: none !important; }
 	width: 100%;
 }
 
+.left-nav > ul > li > a:hover:after {
+    background: -webkit-linear-gradient(left, rgba(63,183,165,1) 0%, rgba(0, 0, 0, 0) 100%);
+    background: linear-gradient(to right, rgba(63,183,165,1) 0%, rgba(0, 0, 0, 0) 100%);
+    width: 100%; 
+}
+
 .left-nav > ul > li ul {
 	background: none;
 	display: none;
@@ -205,7 +211,8 @@ select { outline: none !important; }
 	padding: 0;
 	box-shadow: none;
 	list-style: none;
-	transition: all linear 0.3s;
+	transition: none !important;
+	position: relative;
 }
 
 .left-nav > ul > li.active ul {
@@ -234,7 +241,7 @@ select { outline: none !important; }
 
 .left-nav > ul > li ul li a:hover { color: rgba(63,183,165,1); background-color: none; text-shadow: none; }
 
-.left-nav > ul > li ul li.active a { color: rgba(63,183,165,1) }
+.left-nav > ul > li ul li.active a { color: rgba(63,183,165,1); }
 
 .left-nav > ul > li ul li.active:hover a { background: none; }
 
@@ -317,7 +324,7 @@ button.btn {
 
 .table-striped tbody > tr:nth-child(2n+1) > td, .table-striped tbody > tr:nth-child(2n+1) > th { background: rgba(255,255,255,0.1); }
 
-.table-bordered th, .table-bordered td { border-left: none }
+.table-bordered th, .table-bordered td { border-left: none; }
 
 .table.table-condensed tbody th, .table.table-condensed tbody td { padding: 8px 10px; }
 
@@ -487,3 +494,39 @@ h2.legend, .form-horizontal fieldset .legend {  font-weight: normal; text-shadow
 		top: 10px;
 		left: 0;
 }*/
+
+/* POPUP */
+.popup .content-title {
+	color: rgba(255, 255, 255, 0.8);
+}
+
+
+
+/* RESPONSIVE *********************************************************************************************
+***********************************************************************************************************/
+
+@media (max-width: 1024px) {
+	#suit-left { width: 40px; background: #f90; }
+
+	.left-nav > ul > li { max-height: 40px; max-width: 40px; position: relative; }
+
+	.left-nav > ul > li > a {
+		padding: 0 12px;
+		width: 16px;
+		position: relative;
+		overflow: hidden;
+		white-space: nowrap;
+	}
+
+	.left-nav > ul > li > a i { margin-right: 12px;  }
+
+	.left-nav > ul > li ul,
+	.left-nav > ul > li.active ul {
+	    display: none;
+	}
+
+	.left-nav > ul > li ul,
+	.left-nav > ul > li:not(.active):hover > ul  { background: rgba(63,183,165,1); border-radius: 0; left: 40px; position: absolute; min-width: 160px; top: 0;  }
+
+
+}

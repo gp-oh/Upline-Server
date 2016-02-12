@@ -36,7 +36,7 @@ function showAdminPopup(triggeringLink, name_regexp) {
     } else {
         href  += '&_popup=1';
     }
-    var win = window.open(href, name, 'height=500,width=800,resizable=yes,scrollbars=yes');
+    var win = window.open(href, name, 'height=500,width=900,resizable=yes,scrollbars=yes');
     win.focus();
     return false;
 }
@@ -60,7 +60,7 @@ function showRelatedObjectPopup(triggeringLink) {
     var name = triggeringLink.id.replace(/^(change|add|delete)_/, '');
     name = id_to_windowname(name);
     var href = triggeringLink.href;
-    var win = window.open(href, name, 'height=500,width=800,resizable=yes,scrollbars=yes');
+    var win = window.open(href, name, 'height=500,width=900,resizable=yes,scrollbars=yes');
     win.focus();
     return false;
 }
