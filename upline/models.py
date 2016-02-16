@@ -425,8 +425,8 @@ class Member(MPTTModel):
             self.user.email = self.email
             self.user.save()
         super(Member, self).save(*args, **kwargs)
-        if len(Binary.objects.filter(member=self)) == 0:
-            Binary.create_member(self)
+        # if len(Binary.objects.filter(member=self)) == 0:
+        #     Binary.create_member(self)
 
     class Meta:
         verbose_name = _("member")
