@@ -341,6 +341,20 @@ class Binary(MPTTModel):
     can_left = models.BooleanField(default=False)
     can_right = models.BooleanField(default=False)
 
+    def get_binary(self, level=None):
+        if level is None:
+            level = self.get_level()
+
+        ret = {'obj': self, 'left': None, 'right': None}
+        if self.get_level() < level + 3:
+            left = self.get_children().filter(node_position=0)
+            if len(left) > 0:
+                ret['left'] = left[0].get_binary(level)
+            right = self.get_children().filter(node_position=1)
+            if len(right) > 0:
+                ret['right'] = right[0].get_binary(level)
+        return ret
+
 
 class Member(MPTTModel):
     member_uid = models.UUIDField(unique=True, null=True, editable=False)
