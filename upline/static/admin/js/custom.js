@@ -39,26 +39,37 @@ $(function(){
 
 	});
 
-
-
-
-
-
 	//ADJUST HEIGHT
-	adjustHeight();
+	adjustMeasures();
 
 
 	//RESIZE
 	jQuery(window).resize(function() {
-		adjustHeight();
+		adjustMeasures();
 	});
 });
 
-function adjustHeight() {
+function adjustMeasures() {
 	var bodyHeight = jQuery(window).height();
-	var finalHeight = bodyHeight - 160;
+	var bodyWidth = jQuery(window).width();
+
+	if( bodyWidth < 321 ){
+		var finalHeight = bodyHeight - 100;
+	}else{
+		var finalHeight = bodyHeight - 160;
+	}
+
 
 	jQuery('body').find('#suit-center').css({
 		"height": finalHeight
 	});
+
+	if( bodyWidth < 1025 ){
+		jQuery('body').find('#suit-center').css({
+			"width": bodyWidth - 80
+		});
+
+
+		$('.table').wrap('<div class="wrap-table"></div>');
+	}
 }
