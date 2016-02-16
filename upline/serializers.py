@@ -96,14 +96,6 @@ class TrainingStepSerializer(serializers.HyperlinkedModelSerializer):
                   'description', 'need_answer', "answer_type", "meetings_per_week", "weeks", "nr_contacts")
 
 
-class TrainingStepTaskSerializer(serializers.HyperlinkedModelSerializer):
-
-    class Meta:
-        model = TrainingStep
-        fields = ('id', 'title', 'media', "thumbnail", "media_type", 'step',
-                  'description', 'need_answer', "answer_type", "meetings_per_week", "weeks", "nr_contacts")
-
-
 class TrainingSerializer(serializers.HyperlinkedModelSerializer):
     training_steps = TrainingStepSerializer(many=True, read_only=True)
 
@@ -112,10 +104,18 @@ class TrainingSerializer(serializers.HyperlinkedModelSerializer):
         fields = ('id', 'name', 'training_steps')
 
 
+class TrainingStepTaskSerializer(serializers.HyperlinkedModelSerializer):
+    training = TrainingSerializer(many=False, read_only=False)
+
+    class Meta:
+        model = TrainingStep
+        fields = ('id', 'title', 'media', "thumbnail", "media_type", 'step', 'training'
+                  'description', 'need_answer', "answer_type", "meetings_per_week", "weeks", "nr_contacts")
+
+
 class MemberTrainingStepSerializer(serializers.HyperlinkedModelSerializer):
     training_step = serializers.PrimaryKeyRelatedField(
         many=False, queryset=TrainingStep.objects.all())
-    # training_step = TrainingSetpSerializer(many=False,read_only=True)
     media_base64 = serializers.CharField(
         write_only=True, required=False, allow_blank=True)
 
@@ -125,7 +125,9 @@ class MemberTrainingStepSerializer(serializers.HyperlinkedModelSerializer):
         return super(MemberTrainingStepSerializer, self).create(validated_data)
 
     def save(self):
-        print self.validated_data
+        MemberTrainingStep.objects.filter(
+            training_step=self.validated_data['training_step'],
+            member__user=self.context['request'].user).delete()
         if 'media_base64' in self.validated_data:
             media = self.validated_data.pop('media_base64')
             if len(media) > 0:
