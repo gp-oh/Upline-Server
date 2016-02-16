@@ -564,6 +564,17 @@ h2.legend, .form-horizontal fieldset .legend {  font-weight: normal; text-shadow
 
 @media (max-width: 360px) {
 
+	.login #wrap #content-main {
+		padding: 0 10px;
+		width: 280px;
+	}
+
+	.login #content-main h1 {
+		background-size: 240px 114px;
+		height: 114px;
+		width: 240px;
+	}
+
 }
 
 @media (max-width: 320px) {
