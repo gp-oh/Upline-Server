@@ -93,4 +93,10 @@ function adjustMeasures() {
 			});
 		});
 	}
+
+	if( bodyWidth > 1025 ){
+		jQuery('body').find('#suit-center').css({
+			"width": "100%"
+		});
+	}
 }
