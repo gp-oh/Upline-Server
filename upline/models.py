@@ -341,63 +341,6 @@ class Binary(MPTTModel):
     can_left = models.BooleanField(default=False)
     can_right = models.BooleanField(default=False)
 
-    @staticmethod
-    def create_member(member):
-        print member.id
-        if member.is_root_node():
-            b = Binary()
-            b.member = member
-            b.can_left = True
-            b.can_right = True
-            b.save()
-        elif (len(Binary.objects.filter(member=member.parent)) > 0 and len(Binary.objects.get(member=member.parent).get_children()) < 2):
-            b = Binary()
-            b.member = member
-            b.parent = Binary.objects.get(member=member.parent)
-            b.node_position = len(b.parent.get_children())
-            if b.parent.can_left and not b.parent.get_previous_sibling():
-                b.can_left = True
-            elif b.parent.can_right and b.parent.get_previous_sibling():
-                b.can_right = True
-                b.node_position = 1
-            b.save()
-        elif member.parent.is_root_node():
-            b = Binary()
-            if member.outpooring == 0:
-                b.can_left = True
-                descendants = Binary.objects.get(
-                    member=member.parent).get_leafnodes().filter(can_left=True)
-            elif member.outpooring == 1:
-                b.can_right = True
-                descendants = Binary.objects.get(
-                    member=member.parent).get_leafnodes().filter(can_right=True)
-            b.member = member
-            if len(descendants) > 0:
-                b.parent = descendants[0]
-            else:
-                b.parent = Binary.objects.get(member=member.parent)
-            if b.parent.can_left and not b.parent.get_previous_sibling():
-                b.can_left = True
-            elif b.parent.can_right:
-                b.can_right = True
-                b.node_position = 1
-            b.node_position = len(b.parent.get_children())
-            b.save()
-
-    def get_binary(self, level=None):
-        if level is None:
-            level = self.get_level()
-
-        ret = {'obj': self, 'left': None, 'right': None}
-        if self.get_level() < level + 3:
-            left = self.get_children().filter(node_position=0)
-            if len(left) > 0:
-                ret['left'] = left[0].get_binary(level)
-            right = self.get_children().filter(node_position=1)
-            if len(right) > 0:
-                ret['right'] = right[0].get_binary(level)
-        return ret
-
 
 class Member(MPTTModel):
     member_uid = models.UUIDField(unique=True, null=True, editable=False)
@@ -482,8 +425,8 @@ class Member(MPTTModel):
             self.user.email = self.email
             self.user.save()
         super(Member, self).save(*args, **kwargs)
-        if len(Binary.objects.filter(member=self)) == 0:
-            Binary.create_member(self)
+        # if len(Binary.objects.filter(member=self)) == 0:
+        #     Binary.create_member(self)
 
     class Meta:
         verbose_name = _("member")

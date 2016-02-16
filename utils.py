@@ -116,8 +116,7 @@ def convert_video(media):
     k.set_contents_from_filename(video_name.rsplit(".", 1)[0] + '1.mp4')
     k.set_acl('public-read')
 
-    c.thumbnail(video_name.rsplit(".", 1)[
-                0] + '.mp4', 0, video_name.rsplit(".", 1)[0] + '.png')
+    c.thumbnail(video_name, 0, video_name.rsplit(".", 1)[0] + '.png')
     thumbnail_file = mp4_file = open(
         video_name.rsplit(".", 1)[0] + '.png', 'r')
 

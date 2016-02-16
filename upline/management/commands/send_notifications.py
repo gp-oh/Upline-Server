@@ -52,6 +52,7 @@ class Command(BaseCommand):
         members = Member.objects.filter(member_type=0).exclude(id__in=MemberTrainingStep.objects.values_list(
             'member__id', flat=True).distinct('member__id'))
 
+        print members
         tz = pytz.timezone(settings.TIME_ZONE)
         next_training_step = TrainingStep.objects.all(
         ).order_by('training__position', 'step')[0]
