@@ -71,5 +71,26 @@ function adjustMeasures() {
 
 
 		$('.table').wrap('<div class="wrap-table"></div>');
+
+		$('#suit-left').find('.form-search.nav-quick-search').find('i').click(function() {
+			$(this).parent().find('#quick-search').css({
+				"width": '76%'
+			});
+
+			$(this).parent().find('.submit').css({
+				"width": '16%',
+				"z-index": '999'
+			});
+
+			$(this).css({
+				"width": '16%',
+				"z-index": '1'
+			});
+
+			$(this).parents('.form-search.nav-quick-search').css({
+				"background": '#525155',
+				"width": '250px'
+			});
+		});
 	}
 }

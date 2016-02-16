@@ -40,7 +40,7 @@ select { outline: none !important; }
 .login #wrap section.controls { display: block; margin: 0 0 15px; text-align: left; position: relative; }
 .login #wrap section.controls .checkbox { padding: 0; display: inline-block; margin: 0; }
 .login #wrap section.controls a { color: rgba(63,183,165,1); font-size: 12px; display: inline-block; position: absolute; right: 0; text-decoration: none; top: 0; transition: all linear 0.2s; }
-.login #wrap section.controls a:hover { color: #279d88 }
+.login #wrap section.controls a:hover { color: #279d88; }
 
 
 .login #content-main h1 { background: rgba(0, 0, 0, 0) url(../images/logo-login.png) repeat scroll 0 0 / 278px 132px; display: block; font-size: 0; height: 132px; line-height: 0; margin: 50px auto 0; overflow: hidden; padding: 0; text-indent: 100%; width: 278px; }
@@ -49,7 +49,7 @@ select { outline: none !important; }
 .login #content-main .submit-row { background: none; border-top: 1px solid #000; box-shadow: none; margin: 0; padding: 25px 0 0; }
 
 .login #content-main .submit-row .btn-info { background: rgba(63,183,165,1); border: none; color: #fff; font-size: 14px; padding: 10px 0; text-shadow: none; width: 100%; transition: all linear 0.2s; }
-.login #content-main .submit-row .btn-info:hover { background: #279d88 }
+.login #content-main .submit-row .btn-info:hover { background: #279d88; }
 
 
 /* HEADER ************************************************************************************************
@@ -104,7 +104,7 @@ select { outline: none !important; }
 
 #suit-left { left: 0; margin: 0; position: fixed; width: 250px; }
 
-.nav-quick-search { background-color: rgba(255, 255, 255, 0.2); border-radius: 4px; margin: 20px 15px 2px; position: relative; }
+.nav-quick-search { background-color: rgba(255, 255, 255, 0.2); border-radius: 4px; margin: 20px 15px 2px; position: relative; transition: all linear 0.2s; }
 
 .nav-quick-search .search-query { background: none; color: rgba(255, 255, 255, 1);
 		border: none;
@@ -112,6 +112,7 @@ select { outline: none !important; }
 		padding: 8px 4%;
 		width: 76%;
 		height: 18px;
+		transition: all linear 0.2s;
 }
 
 .nav-quick-search .submit {
@@ -122,9 +123,10 @@ select { outline: none !important; }
 		top: 0px;
 		width: 16%;
 		z-index: 999;
+		transition: all linear 0.2s;
 }
 
-.nav-quick-search i { color: rgba(63,183,165,1); display: inline-block; font-size: 14px; position: absolute; text-align: center; line-height: 34px; z-index: 1; width: 16%;  }
+.nav-quick-search i { color: rgba(63,183,165,1); display: inline-block; font-size: 14px; position: absolute; text-align: center; line-height: 34px; z-index: 1; width: 16%; transition: all linear 0.2s; }
 
 
 
@@ -506,6 +508,12 @@ h2.legend, .form-horizontal fieldset .legend {  font-weight: normal; text-shadow
 
 	.nav-quick-search { background: none; }
 
+	.nav-quick-search .search-query { width: 1%;}
+
+	.nav-quick-search .submit { width: 1%; z-index: 998; }
+
+	.nav-quick-search i { cursor: pointer; width: 150%; z-index: 999; }
+
 
 	.left-nav > ul > li { max-height: 40px; max-width: 40px; position: relative; }
 
@@ -522,6 +530,10 @@ h2.legend, .form-horizontal fieldset .legend {  font-weight: normal; text-shadow
 	.left-nav > ul > li ul,
 	.left-nav > ul > li.active ul {
 	    display: none;
+	}
+
+	.left-nav > ul > li.active ul {
+		padding: 0;
 	}
 
 	.left-nav > ul > li ul,
@@ -548,6 +560,10 @@ h2.legend, .form-horizontal fieldset .legend {  font-weight: normal; text-shadow
 	.row-fluid .span6,
 	.span4,
 	.span6 { float: none; margin-left: 0; width: 100% !important;  }
+}
+
+@media (max-width: 360px) {
+
 }
 
 @media (max-width: 320px) {
