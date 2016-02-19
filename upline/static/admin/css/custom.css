@@ -94,6 +94,7 @@ select { outline: none !important; }
 .header #user-menu dd span.active i { float: right; margin: 3px 0 0; }
 .header #user-menu dd a:hover { background: rgba(63,183,165,1); color: #fff; text-decoration: none; }
 
+.header #user-tools { position: relative; z-index: 999; }
 .header #user-tools .user-links { display: block; margin: 0; }
 
 
@@ -194,12 +195,6 @@ select { outline: none !important; }
 	content: "";
 	margin: 0;
 	float: none;
-	width: 100%;
-}
-
-.left-nav > ul > li > a:hover:after {
-	background: -webkit-linear-gradient(left, rgba(63,183,165,1) 0%, rgba(0, 0, 0, 0) 100%);
-	background: linear-gradient(to right, rgba(63,183,165,1) 0%, rgba(0, 0, 0, 0) 100%);
 	width: 100%;
 }
 
@@ -619,6 +614,18 @@ ul.tree li div.children a { color: #b2e2db !important; }
 
 /* RESPONSIVE *********************************************************************************************
 ***********************************************************************************************************/
+
+/* ACIMA DE 1025 */
+
+@media (min-width: 1025px){
+
+	.left-nav > ul > li > a:hover:after {
+		background: -webkit-linear-gradient(left, rgba(63,183,165,1) 0%, rgba(0, 0, 0, 0) 100%);
+		background: linear-gradient(to right, rgba(63,183,165,1) 0%, rgba(0, 0, 0, 0) 100%);
+		width: 100%;
+	}
+
+}
 
 @media (max-width: 1024px) {
 
