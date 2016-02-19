@@ -2,6 +2,7 @@
 $(function(){
 	//MENU HEADER
 	$('#user-menu').find('dt').click(function() {
+		alert("test");
 		$(this).toggleClass('active');
 		$(this).parents('dl').find('dd').slideToggle("fast");
 	});
