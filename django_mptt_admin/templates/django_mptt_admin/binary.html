@@ -3,67 +3,63 @@
 {% load custom_tags %}
 {% load i18n admin_urls %}
 
-{% block extrastyle %}
-	<link href="{% static 'django_mptt_admin/horizontal-tree/style.css' %}" rel="stylesheet" type="text/css">
-{% endblock %}
+{% block extrastyle %}{% endblock %}
 
-{% block extrahead %}
-	<script src="{% static 'django_mptt_admin/horizontal-tree/jquery-migrate-1.2.1.min.js' %}"></script>
-	<script src="{% static 'django_mptt_admin/horizontal-tree/jquery-ui.js' %}"></script>
-	<script src="{% static 'django_mptt_admin/horizontal-tree/jquery.tree.js' %}"></script>
-{% endblock %}
+{% block extrahead %}{% endblock %}
 
 {% block search %}{% endblock %}
 
 {% block result_list %}
 
 <div class="overflow">
-  <div>
-  {% if node.obj.parent %}
+	<div>
+	{% if node.obj.parent %}
 
-  <script>
-  $('body').find('.toolbar-content').find('.object-tools').append('<a class="btn btn-success" href="/upline/member/{{node.obj.parent.member.id}}/binary/">Subir um Nível</a> <a class="btn btn-success" href="/upline/member/{{node.obj.get_root.member.id}}/binary/">Ir ao Topo</a>');
-  </script>
+	<script>
+		$('body').find('.toolbar-content').find('.object-tools').append('<a class="btn btn-success" href="/upline/member/{{node.obj.parent.member.id}}/binary/">Subir um Nível</a> <a class="btn btn-success" href="/upline/member/{{node.obj.get_root.member.id}}/binary/">Ir ao Topo</a>');
+	</script>
 
-  {% endif %}
+	{% endif %}
 
 
 	<section class="wrapper">
 		<div class="">
 			<div class="span9">
 
-				<div>
-					<ul class="tree">
-						<li>{{node.obj|binary}}
+
+				<div class="responsive-tree">
+					<ul>
+						<li>
+							{{node.obj|binary}}
 							<ul>
-								<li>{{node.left.obj|binary}}
+								<li>
+									{{node.left.obj|binary}}
 									<ul>
-										<li>{{node.left.left.obj|binary}}
+										<li>
+											{{node.left.left.obj|binary}}
 											<ul>
 												<li>
 													{{node.left.left.left.obj|binary}}
-												</li>
-												<li>
+												</li><li>
 													{{node.left.left.right.obj|binary}}
 												</li>
 											</ul>
-										</li>
-										<li>{{node.left.right.obj|binary}}
+										</li><li>
+											{{node.left.right.obj|binary}}
 											<ul>
 												<li>
 													{{node.left.right.left.obj|binary}}
-												</li>
-												<li>
+												</li><li>
 													{{node.left.right.right.obj|binary}}
 												</li>
 											</ul>
 										</li>
 									</ul>
-								</li>
-
-								<li>{{node.right.obj|binary}}
+								</li><li>
+									{{node.right.obj|binary}}
 									<ul>
-										<li>{{node.right.left.obj|binary}}
+										<li>
+											{{node.right.left.obj|binary}}
 											<ul>
 												<li>
 													{{node.right.left.left.obj|binary}}
@@ -72,8 +68,7 @@
 													{{node.right.left.right.obj|binary}}
 												</li>
 											</ul>
-										</li>
-										<li>
+										</li><li>
 											{{node.right.right.obj|binary}}
 											<ul>
 												<li>
@@ -94,9 +89,21 @@
 			</div>
 
 			<div class="span3 dados">
-
-				{% include "django_mptt_admin/binary_item.html" with member=member %}
-
+				{{node.obj|binary}}
+				{{node.left.obj|binary}}
+				{{node.left.left.obj|binary}}
+				{{node.left.left.left.obj|binary}}
+				{{node.left.left.right.obj|binary}}
+				{{node.left.right.obj|binary}}
+				{{node.left.right.left.obj|binary}}
+				{{node.left.right.right.obj|binary}}
+				{{node.right.obj|binary}}
+				{{node.right.left.obj|binary}}
+				{{node.right.left.left.obj|binary}}
+				{{node.right.left.right.obj|binary}}
+				{{node.right.right.obj|binary}}
+				{{node.right.right.left.obj|binary}}
+				{{node.right.right.right.obj|binary}}
 			</div>
 
 		</div>
@@ -105,31 +112,6 @@
 
 </div>
 </div>
-	<script>
-			$(document).ready(function() {
-				$('.tree').tree_structure({
-					'add_option': false,
-					'edit_option': false,
-					'delete_option': false,
-					'confirm_before_delete': false,
-					'animate_option': false,
-					'fullwidth_option': false,
-					'align_option': 'center',
-					'draggable_option': false
-				});
-				$(".enabled").mouseover(function(e){
-					//$(this).find(".binary-tooltip").css('left',e.pageX+"px");
-					//$(this).find(".binary-tooltip").css('top',(e.pageY - window.pageYOffset)+"px");
-					$(this).parents(".wrapper").find(".dados").find(".binary-tooltip").css('display','block');
-					$(this).parents("ul.tree").find("li div").css('z-index','2');
-					$(this).parents("ul.tree").find("li span").css('z-index','1');
-					$(this).css('z-index','999');
-				});
-				$(".enabled").mouseout(function() {
-				  $(this).find(".binary-tooltip").css('display','none');
-				});
-			});
-	</script>
 {% endblock %}
 
 {% block pagination %}{% endblock %}
@@ -139,24 +121,24 @@
 {% endblock %}
 
 {% if not is_popup %}
-  {% block breadcrumbs %}
+	{% block breadcrumbs %}
 	<ul class="breadcrumb">
-	  <li>
+		<li>
 		<a href="{% url 'admin:index' %}">{% trans 'Home' %}</a>
 		<span class="divider">&raquo;</span>
-	  </li>
-	  <li>
+		</li>
+		<li>
 		<a href="{% url 'admin:app_list' app_label=cl.opts.app_label %}">{% firstof cl.opts.app_config.verbose_name app_label|capfirst|escape %}</a>
 		<span class="divider">&raquo;</span>
-	  </li>
-	  <li>
-		  <a href="{% url cl.opts|admin_urlname:'changelist' %}">
+		</li>
+		<li>
+			<a href="{% url cl.opts|admin_urlname:'changelist' %}">
 			{{ cl.opts.verbose_name_plural|capfirst }}</a>
 		<span class="divider">&raquo;</span>
-	  </li>
-	  <li class="active">
+		</li>
+		<li class="active">
 		{{ verbose_name }}
-	  </li>
+		</li>
 	</ul>
-  {% endblock %}
+	{% endblock %}
 {% endif %}
