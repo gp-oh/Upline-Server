@@ -12,7 +12,7 @@ $(function(){
 	//SIDEBAR MENU
 	$('#left-nav').find('li:first').addClass("inicio");
 
-	$('#left-nav').find('li:not(.inicio)').find('a.no-link').click(function() {
+	$('#left-nav').find('li:not(.inicio)').find('a.no-link').attr('href','#').click(function() {
 		$(this).parent().siblings('li').find('ul').slideUp('fast');
 		$(this).parent().find('ul').slideToggle('fast');
 		return false;
