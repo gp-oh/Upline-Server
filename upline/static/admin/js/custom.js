@@ -106,7 +106,7 @@ function adjustMeasures() {
 	var bodyHeight = $(window).height();
 	var bodyWidth = $(window).width();
 
-	if( bodyWidth < 321 ){
+	if( bodyWidth < 481 ){
 		var finalHeight = bodyHeight - 100;
 	}else{
 		var finalHeight = bodyHeight - 160;

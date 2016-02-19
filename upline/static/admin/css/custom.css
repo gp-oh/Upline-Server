@@ -721,6 +721,43 @@ ul.tree li div.children a { color: #b2e2db !important; }
 		display: none;
 	}
 
+	.form-horizontal .control-group,
+	.form-horizontal .control-group div { display: block; width: 100%;  }
+
+	.form-horizontal fieldset { box-shadow: none; }
+
+	.form-horizontal .control-group:last-child .control-label,
+	.form-horizontal .control-group:last-of-type .control-label,
+	.form-horizontal fieldset.wide .control-label:first-child,
+	.form-horizontal .control-label:first-child,
+	.form-horizontal fieldset.wide .control-label,
+	.form-horizontal .control-label { border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-left-radius: 0; border-bottom-right-radius: 0; display: block; float: none; text-align: left; padding: 3% 4%; width: 92%; min-width: 90%; }
+
+	.form-horizontal .control-group:last-child .controls,
+	.form-horizontal .control-group:last-of-type .controls,
+	.form-horizontal .control-group:first-child .controls,
+	.form-horizontal .control-group:first-of-type .controls,
+	.form-horizontal .control-group .controls { border-bottom-left-radius: 4px; border-bottom-right-radius: 4px; border-top-right-radius: 0; border-top-left-radius: 0; display: block; float: none; height: 35px; line-height: inherit; margin: 0 0 10px; padding: 4%; width: 92%; }
+
+	.control-group input[type=text],
+	.control-group input[type=email],
+	.control-group input[type=password],
+	.control-group input[type=number],
+	.control-group input[type=color] { padding: 3% 4%; width: 92%; }
+
+	.control-group select { padding: 3% 10% 3% 4%; width: 100%;  }
+
+	.control-group .change-related, .inline-group .change-related, .control-group .add-related, .inline-group .add-related { display: none;  }
+
+	.form-horizontal .submit-row-bottom { margin: 0; }
+
+	.form-horizontal .submit-row-bottom button.btn, .form-horizontal .submit-row-bottom input.btn[type="submit"] { width: 100%; }
+
+	.inner-two-columns .inner-center-column,
+	.inner-two-columns .inner-right-column { display: block; float: none; width: 100%; }
+
+	.inner-two-columns .inner-right-column .save-box button { width: 100%;  }
+
 	.responsive-tree li {
 		padding: 2em 5px 0;
 	}
@@ -741,6 +778,24 @@ ul.tree li div.children a { color: #b2e2db !important; }
 	.responsive-tree li .disabled a { border-color: #ccc; }
 
 	.responsive-tree li .enabled:hover a { background: rgba(39,157,136,1); color: rgba(255,255,255,1); }
+
+
+	.object-tools {
+		float: none;
+		width: 100%;
+	}
+
+	.search-container .search-filters { display: block; margin: 0; width: 100%; }
+
+	.search-container { border-top: solid 1px #555; margin: 0; padding: 10px 0 0;}
+
+	.search-container input[type="text"], .control-group input[type="text"], .control-group input[type="email"], .control-group input[type="password"], .control-group input[type="number"], .control-group input[type="color"], .object-tools .btn { display: block; margin-left: 0; padding: 8px 4%; width: 92%; }
+
+	.object-tools a.btn { margin-bottom: 10px;  }
+
+	.search-container input[type="submit"] { width: 100%; margin: 0 !important; }
+
+	.search-container select { display: block; float: none; max-width: 100% !important; width: 100%; }
 
 }
 
@@ -768,23 +823,6 @@ ul.tree li div.children a { color: #b2e2db !important; }
 	.header .header-content.header-content-first {
 		display: none;
 	}
-
-	.object-tools {
-		float: none;
-		width: 100%;
-	}
-
-	.search-container .search-filters { display: block; margin: 0; width: 100%; }
-
-	.search-container { border-top: solid 1px #555; margin: 0; padding: 10px 0 0;}
-
-	.search-container input[type="text"], .control-group input[type="text"], .control-group input[type="email"], .control-group input[type="password"], .control-group input[type="number"], .control-group input[type="color"], .object-tools .btn { display: block; margin-left: 0; padding: 8px 4%; width: 92%; }
-
-	.object-tools a.btn { margin-bottom: 10px;  }
-
-	.search-container input[type="submit"] { width: 100%; margin: 0 !important; }
-
-	.search-container select { display: block; float: none; max-width: 100% !important; width: 100%; }
 
 	.actions select { margin-bottom: 10px; width: 80% !important; }
 	.actions .btn { margin-bottom: 10px; }
