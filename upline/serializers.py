@@ -854,7 +854,7 @@ class MediaCategorySerializerNotMedias(serializers.HyperlinkedModelSerializer):
 
 
 class MediaSerializer(serializers.HyperlinkedModelSerializer):
-    media_category = MediaCategorySerializerNotMedias(many=True, read_only=True)
+    media_category = MediaCategorySerializerNotMedias(many=False, read_only=True)
 
     class Meta:
         model = Media
