@@ -850,7 +850,7 @@ class MediaSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Media
-        fields = ("id", "name", "media", "thumbnail", "media_type")
+        fields = ("id", "name", "media", "thumbnail", "media_type", "media_category")
 
 
 class MediaCategorySerializer(serializers.HyperlinkedModelSerializer):
