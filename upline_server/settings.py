@@ -130,10 +130,12 @@ DATABASES = {
         'NAME': 'upline',
         'USER': 'upline',
         'PASSWORD': 'batatinhafrita123',
-        'HOST': 'upline.c5rmgxifqspm.us-east-1.rds.amazonaws.com',
+        'HOST': 'upline-lattitude.c5rmgxifqspm.us-east-1.rds.amazonaws.com',
         'PORT': '5432',
     }
 }
+
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
