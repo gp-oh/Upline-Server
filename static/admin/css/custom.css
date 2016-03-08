@@ -40,7 +40,7 @@ select { outline: none !important; }
 .login #wrap section.controls { display: block; margin: 0 0 15px; text-align: left; position: relative; }
 .login #wrap section.controls .checkbox { padding: 0; display: inline-block; margin: 0; }
 .login #wrap section.controls a { color: rgba(226,141,37,1); font-size: 12px; display: inline-block; position: absolute; right: 0; text-decoration: none; top: 0; transition: all linear 0.2s; }
-.login #wrap section.controls a:hover { color: #e28d25 }
+.login #wrap section.controls a:hover { color: #e28d25; }
 
 
 .login #content-main h1 { background: rgba(0, 0, 0, 0) url(../images/logo-login.png) repeat scroll 0 0 / 278px 132px; display: block; font-size: 0; height: 132px; line-height: 0; margin: 50px auto 0; overflow: hidden; padding: 0; text-indent: 100%; width: 278px; }
@@ -49,7 +49,7 @@ select { outline: none !important; }
 .login #content-main .submit-row { background: none; border-top: 1px solid #000; box-shadow: none; margin: 0; padding: 25px 0 0; }
 
 .login #content-main .submit-row .btn-info { background: rgba(226,141,37,1); border: none; color: #fff; font-size: 14px; padding: 10px 0; text-shadow: none; width: 100%; transition: all linear 0.2s; }
-.login #content-main .submit-row .btn-info:hover { background: #e28d25 }
+.login #content-main .submit-row .btn-info:hover { background: #e28d25; }
 
 
 /* HEADER ************************************************************************************************
@@ -59,6 +59,7 @@ select { outline: none !important; }
 .header i { background: none; }
 
 .header #branding { border: none; min-width: 250px; }
+.header #branding a { text-align: center; }
 
 
 .header .header-content.header-content-first { border-left: 1px solid #000; height: 35px; padding: 25px 0 0 20px; }
@@ -188,7 +189,7 @@ select { outline: none !important; }
 	transition: all 0.2s linear;
 }
 .left-nav > ul > li.active > a:after {
-	background: rgba(63, 183, 165, 1) !important;
+	background: rgba(226,141,37, 1) !important;
 	content: "";
 	margin: 0;
 	float: none;
@@ -261,11 +262,11 @@ select { outline: none !important; }
 
 
 /* FOOTER */
-.footer { bottom: 0; left: 0; position: absolute; width: 100%; }
+.footer { background: rgba(0, 0, 0, 0.3); bottom: 0; left: 0; position: absolute; width: 100%; }
 .footer .content .branding { padding: 10px 0 0; }
 
 /* PAGE HEADER */
-h1.page-title { color: rgba(255,255,255,0.8); text-shadow: none; }
+h1.page-title { border-bottom: 1px solid #e28d25; color: rgba(255,255,255,0.8); text-shadow: none; }
 
 
 .toolbar-content { background: rgba(0,0,0,0.1); border-radius: 5px; margin: 0 0 10px; padding: 12px 15px 0; }
@@ -286,7 +287,7 @@ h1.page-title { color: rgba(255,255,255,0.8); text-shadow: none; }
 }
 
 .btn.btn-primary {
-	background: rgba(88,212,201,1);
+	background: rgba(226,141,37,0.9);
 	transition: all linear 0.2s;
 }
 
@@ -323,17 +324,17 @@ button.btn {
 
 .table tr:hover,
 .table tr:hover td,
-.table tr:hover th { background-color: #f92672 !important; }
+.table tr:hover th { background-color: rgba(226,141,37,0.7) !important; }
 
 .table tr td a:hover,
 .table tr th a:hover { color: rgba(226,141,37,1); text-decoration: underline; }
 
-.table tbody > tr.selected:nth-child(2n+1) > td, .table tbody > tr.selected:nth-child(2n+1) > th { background-color: #f92672 !important; }
+.table tbody > tr.selected:nth-child(2n+1) > td, .table tbody > tr.selected:nth-child(2n+1) > th { background-color: rgba(226,141,37,0.7) !important; }
 .table tbody > tr.selected > th,
-.table tbody > tr.selected > td { background-color: #f92672; border-top: solid 1px rgba(255,255,255,0.2); box-shadow: none; }
+.table tbody > tr.selected > td { background-color: rgba(226,141,37,0.7); border-top: solid 1px rgba(255,255,255,0.2); box-shadow: none; }
 
 .table tbody > tr.selected:nth-child(odd) > td,
-.table tbody > tr.selected:nth-child(odd) > th { background-color: #f92672; }
+.table tbody > tr.selected:nth-child(odd) > th { background-color: rgba(226,141,37,0.7); }
 
 .table#tree tr td { white-space: nowrap; }
 
