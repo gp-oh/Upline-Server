@@ -47,7 +47,7 @@ INSTALLED_APPS = (
     'easy_thumbnails',
     's3direct',
     'django_mptt_admin',
-    'django_extensions',
+    'django_extensions'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -67,7 +67,7 @@ ROOT_URLCONF = 'upline_server.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, '../upline/tempaltes/')],
+        'DIRS': [os.path.join(BASE_DIR, '../upline/templates/')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

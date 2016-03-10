@@ -11,7 +11,22 @@ class HomeView(View):
             'member_levels':self.get_member_levels(),
             'contacts':self.get_contacts(),
             'members':self.get_members(),
-            'clients':self.get_clients()})
+            'clients':self.get_clients(),
+            'trainings':self.get_trainings()
+})
+    
+
+
+
+    def get_trainings(self):
+        from_date = datetime.datetime.today()-datetime.timedelta(days=30)
+        to_date = datetime.datetime.today()
+        training_per_month = Training.objects.all().extra({'published':"date(create_time)"}).values('published','name','position').annotate(total=Count('id')).order_by('published')
+        training_list = []
+        i = -1
+        for training in training_per_month:
+           training_list.append({'published':training['published'],'total':str(training['total']).replace(',','.'),'name':training['name'],'position':training['position']})
+        return training_list
 
     def get_contacts(self):
         from_date = datetime.datetime.today()-datetime.timedelta(days=30)

@@ -439,8 +439,8 @@ class Member(MPTTModel):
             self.user.email = self.email
             self.user.save()
         super(Member, self).save(*args, **kwargs)
-        # if len(Binary.objects.filter(member=self)) == 0:
-        #     Binary.create_member(self)
+        if len(Binary.objects.filter(member=self)) == 0:
+             Binary.create_member(self)
 
     class Meta:
         verbose_name = _("member")
@@ -850,8 +850,12 @@ class Media(models.Model):
         from upline.serializers import MediaSerializer
         devices = GCMDevice.objects.all()
         if len(devices) > 0:
-            devices.send_message(SiteConfiguration.get_solo().new_media_message, extra={
-                "type": "media", "object": MediaSerializer(self, many=False).data})
+            if len(MediaSerializer(self, many=False).data) > 0 :
+                devices.send_message(SiteConfiguration.get_solo().new_media_message, extra={
+                "type": "media", "object":MediaSerializer(self, many=False).data })
+        else:
+            devices.send_message(SiteConfiguration.get_solo().new_media_message)
+
         self.notified = True
         self.save()
 
