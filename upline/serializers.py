@@ -104,12 +104,19 @@ class TrainingSerializer(serializers.HyperlinkedModelSerializer):
         fields = ('id', 'name', 'training_steps')
 
 
+class TrainingTaskSerializer(serializers.HyperlinkedModelSerializer):
+
+    class Meta:
+        model = Training
+        fields = ('id', 'name')
+
+
 class TrainingStepTaskSerializer(serializers.HyperlinkedModelSerializer):
-    training = TrainingSerializer(many=False, read_only=False)
+    training = TrainingTaskSerializer(many=False, read_only=False)
 
     class Meta:
         model = TrainingStep
-        fields = ('id', 'title', 'media', "thumbnail", "media_type", 'step', 'training'
+        fields = ('id', 'title', 'media', "thumbnail", "media_type", 'step', 'training',
                   'description', 'need_answer', "answer_type", "meetings_per_week", "weeks", "nr_contacts")
 
 
@@ -435,6 +442,14 @@ class MemberRegisterSerializer(serializers.HyperlinkedModelSerializer):
 # ("id","descendant_count","today_descendant_count","binary","downline_count","member_type","user","avatar_base64",'quickblox_id','parent','downlines','create_time','external_id','name','points','avatar','phone','gender','postal_code','city','state','address','address_number','dream1','dream2','status','level','answers','birthday')
 
 
+class BinarySerializer(serializers.HyperlinkedModelSerializer):
+    member = models.ForeignKey('Member')
+
+    class Meta:
+        model = Binary
+        fields = ("id", 'member', 'parent', 'node_position')
+
+
 class MemberLoginSerializer(serializers.HyperlinkedModelSerializer):
     user = UserSerializer(many=False, read_only=True)
     level = LevelSerializer(many=False, read_only=True)
@@ -447,7 +462,7 @@ class MemberLoginSerializer(serializers.HyperlinkedModelSerializer):
     today_descendant_count = serializers.SerializerMethodField()
 
     def get_downlines(self, obj):
-        user = self.context['request'].user
+        # user = self.context['request'].user
         downlines = Member.objects.filter(parent=obj, member_type=0)
         # downlines = obj.get_descendants()
         print downlines
