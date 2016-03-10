@@ -2,13 +2,9 @@
 $(function(){
 	//MENU HEADER
 	$('#user-menu').find('dt').click(function() {
-		alert("test");
 		$(this).toggleClass('active');
 		$(this).parents('dl').find('dd').slideToggle("fast");
 	});
-
-
-
 
 	//SIDEBAR MENU
 	$('#left-nav').find('li:first').addClass("inicio");
@@ -24,7 +20,6 @@ $(function(){
 	$('.table').find('.checkbox').append( "<label>&nbsp</label>" );
 
 	$('.table').find('.checkbox').find('label').click(function() {
-		//alert("teste");
 
 		var check = $(this).parent().find('input[type=checkbox]');
 
@@ -85,7 +80,6 @@ $(function(){
 		adjustBinary();
 	});
 });
-
 
 function adjustBinary(){
 
@@ -153,22 +147,3 @@ function adjustMeasures() {
 		});
 	}
 }
-
-//Disable Double Tap Zoom iOS
-
-(function($) {
-  $.fn.nodoubletapzoom = function() {
-      $(this).bind('touchstart', function preventZoom(e) {
-        var t2 = e.timeStamp
-          , t1 = $(this).data('lastTouch') || t2
-          , dt = t2 - t1
-          , fingers = e.originalEvent.touches.length;
-        $(this).data('lastTouch', t2);
-        if (!dt || dt > 500 || fingers > 1) return; // not double-tap
-
-        e.preventDefault(); // double tap - prevent the zoom
-        // also synthesize click events we just swallowed up
-        $(this).trigger('click').trigger('click');
-      });
-  };
-})(jQuery);

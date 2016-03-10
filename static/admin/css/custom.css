@@ -202,7 +202,7 @@ a,
 .left-nav > ul > li.active,
 .left-nav > ul > li.active:after,
 .left-nav > ul > li.active > a,
-.left-nav > ul > li.active > a:after { border: none !important;  }
+.left-nav > ul > li.active > a:after { background: none; border: none; }
 
 .left-nav > ul > li ul {
 	background: none;
