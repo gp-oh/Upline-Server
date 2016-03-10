@@ -19,6 +19,9 @@ input:focus { box-shadow: none !important; border: none !important; outline: non
 a,
 select { outline: none !important; }
 
+a,
+.footer .content a { color: rgba(226,141,37,1); }
+
 .alert { border-radius: 0; }
 
 
@@ -166,7 +169,7 @@ select { outline: none !important; }
 	display: inline-block;
 	text-align: center;
 }
-
+.left-nav > ul > li.active > a { text-shadow: none !important; }
 .left-nav > ul > li.active > a > i { background: none; }
 .left-nav > ul > li > a  > b.dropdown-plus {
 	float: right;
@@ -175,11 +178,11 @@ select { outline: none !important; }
 }
 .left-nav > ul > li > a:after {
 	content: "";
-	display: none;
-	width: 3px;
+	display: block;
+	width: 0;
 	height: 39px;
-	background: -webkit-linear-gradient(left, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.2) 100%) !important;
-	background: linear-gradient(to right, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.2) 100%)  !important;
+	background: -webkit-linear-gradient(left, rgba(226,141,37,1) 0%, rgba(0, 0, 0, 0) 100%) !important;
+	background: linear-gradient(to right, rgba(226,141,37,1) 0%, rgba(0, 0, 0, 0) 100%)  !important;
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -196,6 +199,11 @@ select { outline: none !important; }
 	width: 100%;
 }
 
+.left-nav > ul > li.active,
+.left-nav > ul > li.active:after,
+.left-nav > ul > li.active > a,
+.left-nav > ul > li.active > a:after { border: none !important;  }
+
 .left-nav > ul > li ul {
 	background: none;
 	display: none;
@@ -206,7 +214,8 @@ select { outline: none !important; }
 	padding: 0;
 	box-shadow: none;
 	list-style: none;
-	transition: all linear 0.3s;
+	transition: none !important;
+	position: relative;
 }
 
 .left-nav > ul > li.active ul {
@@ -235,7 +244,7 @@ select { outline: none !important; }
 
 .left-nav > ul > li ul li a:hover { color: rgba(226,141,37,1); background-color: none; text-shadow: none; }
 
-.left-nav > ul > li ul li.active a { color: rgba(226,141,37,1) }
+.left-nav > ul > li ul li.active a { color: rgba(226,141,37,1); }
 
 .left-nav > ul > li ul li.active:hover a { background: none; }
 
@@ -297,9 +306,9 @@ button.btn {
 	transition: all linear 0.2s;
 }
 
-
 .btn.btn-primary:hover,
-.btn.btn-success:hover { background: rgba(39,157,136,1); }
+.btn.btn-success:hover,
+button.btn:hover { background: #d26712;  }
 
 /* TABELAS */
 .table { background: none; border: none; color: rgba(255,255,255,0.8); }
@@ -318,7 +327,7 @@ button.btn {
 
 .table-striped tbody > tr:nth-child(2n+1) > td, .table-striped tbody > tr:nth-child(2n+1) > th { background: rgba(255,255,255,0.1); }
 
-.table-bordered th, .table-bordered td { border-left: none }
+.table-bordered th, .table-bordered td { border-left: none; }
 
 .table.table-condensed tbody th, .table.table-condensed tbody td { padding: 8px 10px; }
 
