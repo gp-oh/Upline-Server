@@ -225,14 +225,23 @@
 		$(function(){
 
 			// Treinamentos
-
+        //{ y: '8 Passos', a: 75 },
 			Morris.Bar({
 				element: 'chart-treinamentos',
 				data: [
-					{ y: '8 Passos', a: 75 },
-					{ y: 'Construtores', a: 50},
-					{ y: 'Dicas', a: 75 },
-					{ y: 'Como nasce um líder', a: 100 }
+					{% for training in trainings%}
+                        {% if forloop.last %}
+							{
+								y: '{{training.name}}',
+								a: {{training.position}}
+							}
+                        {% else %}
+                            {
+								y: '{{training.name}}',
+								a: {{training.position}}
+							},
+                        {% endif %}
+					{% endfor %}
 				],
 				xkey: 'y',
 				ykeys: ['a'],

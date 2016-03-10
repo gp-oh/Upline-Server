@@ -861,11 +861,19 @@ class GoalSerializer(serializers.HyperlinkedModelSerializer):
         fields = ("id", "level", "level_id", "date")
 
 
+class MediaCategorySerializerNotMedias(serializers.HyperlinkedModelSerializer):
+
+    class Meta:
+        model = MediaCategory
+        fields = ("id", "name")
+
+
 class MediaSerializer(serializers.HyperlinkedModelSerializer):
+    media_category = MediaCategorySerializerNotMedias(many=False, read_only=True)
 
     class Meta:
         model = Media
-        fields = ("id", "name", "media", "thumbnail", "media_type")
+        fields = ("id", "name", "media", "thumbnail", "media_type", "media_category")
 
 
 class MediaCategorySerializer(serializers.HyperlinkedModelSerializer):
