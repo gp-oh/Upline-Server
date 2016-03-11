@@ -265,6 +265,7 @@ select { outline: none !important; }
 
 
 /* FOOTER */
+.footer { background: rgba(0, 0, 0, 0.3); bottom: 0; left: 0; position: absolute; width: 100%; }
 .footer { bottom: 0; left: 0; position: absolute; width: 100%; }
 .footer .content .branding { padding: 10px 0 0; }
 
