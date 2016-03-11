@@ -5,7 +5,7 @@ html, body { height: 100%; }
 
 html { padding: 60px 0; overflow: hidden; }
 
-body { background: url(../images/bg.jpg) 0 0 no-repeat !important; font-family: "Roboto", serif; min-height: 100%; }
+body { background: url(../images/bg2.jpg) 0 0 no-repeat !important; background-size: cover !important; font-family: "Roboto", serif; min-height: 100%; }
 
 h1, h2, h3, h4, h5, h6, #content h1, #content h2, #content h3, #content h4 { text-shadow: none !important; }
 
