@@ -324,24 +324,24 @@
 			});
 
 			// Vendas
-			Morris.Line({
-				element: 'vendas',
-				data: [
+			// Morris.Line({
+			// 	element: 'vendas',
+			// 	data: [
 
-					{% for sale in sales %}
-						{% if forloop.last %}
-							{ day: '{{sale.published|date:"d-m"}}', a: {{sale.total}} }
-						{% else %}
-							{ day: '{{sale.published|date:"d-m"}}', a: {{sale.total}} },
-						{% endif %}
-					{% endfor %}
+			// 		{% for sale in sales %}
+			// 			{% if forloop.last %}
+			// 				{ day: '{{sale.published|date:"d-m"}}', a: {{sale.total}} }
+			// 			{% else %}
+			// 				{ day: '{{sale.published|date:"d-m"}}', a: {{sale.total}} },
+			// 			{% endif %}
+			// 		{% endfor %}
 
-				],
-				xkey: 'day',
-				ykeys: ['a'],
-				labels: ['Valores em R$'],
-				lineColors:['#FF0066']
-			});
+			// 	],
+			// 	xkey: 'day',
+			// 	ykeys: ['a'],
+			// 	labels: ['Valores em R$'],
+			// 	lineColors:['#FF0066']
+			// });
 
 			$('#chart-graduacoes').find("path[stroke='#ffffff']").attr('stroke', 'rgba(0,0,0,0)');
 
