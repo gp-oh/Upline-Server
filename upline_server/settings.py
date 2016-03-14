@@ -231,10 +231,6 @@ SUIT_CONFIG = {
             {'label': 'Aparelhos Android',
                 'model': 'push_notifications.gcmdevice', 'icon': None},
         )},
-        {'label': 'Vendas', 'icon': 'fa fa-dollar', 'models': (
-            {'label': 'Produtos', 'model': 'upline.product', 'icon': None},
-            {'label': 'Vendas', 'model': 'upline.sale', 'icon': None},
-        )},
         {'label': u'Calendários', 'icon': 'fa fa-calendar', 'models': (
             {'label': 'Calendarios', 'model': 'upline.calendar', 'icon': None},
             {'label': 'Eventos', 'model': 'upline.event', 'icon': None},
