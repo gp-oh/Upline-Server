@@ -322,6 +322,7 @@ class EventDateFilter(SimpleListFilter):
 
 
 class EventAdmin(ForeignKeyAutocompleteAdmin):
+    change_list_template = 'event_change_list.html'
     form = EventForm
     list_display = ["id", "title", "calendar", "begin_time"]
     search_fields = ['name']

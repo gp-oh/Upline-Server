@@ -190,7 +190,7 @@ a,
 	-webkit-transition: all 0.2s linear;
 	-moz-transition: all 0.2s linear;
 	transition: all 0.2s linear;
-	width: 100%;
+	width: 0;
 }
 .left-nav > ul > li > a:hover:after { width: 100%; }
 

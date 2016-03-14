@@ -1,0 +1,54 @@
+{% extends "admin/change_list.html" %}
+{% load i18n admin_static admin_list %}
+
+{% block extrastyle %}
+	<link rel="stylesheet" type="text/css" href="{% static 'admin/css/fullcalendar.css' %}" media="all">
+	<link rel="stylesheet" type="text/css" href="{% static 'admin/css/fullcalendar.print.css' %}" media="all">
+{% endblock %}
+
+{% block extrahead %}
+	<script src="{% static 'admin/js/moment.min.js' %}"></script>
+	<script src="{% static 'admin/js/fullcalendar.min.js' %}"></script>
+{% endblock %}
+
+
+{% block result_list %}
+
+  {% if action_form and actions_on_top and cl.full_result_count %}{% admin_actions %}{% endif %}
+	{% for event in cl.result_list %}
+		<div style="float:left;margin:10px;">
+			owner: {{event.owner}}<br/>
+			groups: {{event.groups}}<br/>
+			title: {{event.title}}<br/>
+			all_day: {{event.all_day}}<br/>
+			begin_time: {{event.begin_time}}<br/>
+			end_time: {{event.end_time}}<br/>
+			invited: {{event.invited}}<br/>
+			members: {{event.members}}<br/>
+			invited_members: {{event.invited_members}}<br/>
+			calendar: {{event.calendar}}<br/>
+			note: {{event.note}}<br/>
+			postal_code: {{event.postal_code}}<br/>
+			region: {{event.region}}<br/>
+			city: {{event.city}}<br/>
+			state: {{event.state}}<br/>
+			address: {{event.address}}<br/>
+			address_number: {{event.address_number}}<br/>
+			complement: {{event.complement}}<br/>
+			lat: {{event.lat}}<br/>
+			lng: {{event.lng}}<br/>
+			alert_at_hour: {{event.alert_at_hour}}<br/>
+			alert_5_mins: {{event.alert_5_mins}}<br/>
+			alert_15_mins: {{event.alert_15_mins}}<br/>
+			alert_30_mins: {{event.alert_30_mins}}<br/>
+			alert_1_hour: {{event.alert_1_hour}}<br/>
+			alert_2_hours: {{event.alert_2_hours}}<br/>
+			alert_1_day: {{event.alert_1_day}}<br/>
+			parent_event: {{event.parent_event}}<br/>
+			is_invited: {{event.is_invited}}<br/>
+			inviter: {{event.inviter}}<br/>
+		</div>
+	{% endfor%}
+
+  {% if action_form and actions_on_bottom and cl.full_result_count %}{% admin_actions %}{% endif %}
+{% endblock %}
