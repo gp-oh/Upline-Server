@@ -83,6 +83,8 @@
 
 {% block result_list %}
 
+	<div id='calendar'></div>
+
   {% if action_form and actions_on_top and cl.full_result_count %}{% admin_actions %}{% endif %}
 	{% for event in cl.result_list %}
 		<div style="float:left;margin:10px;">
@@ -122,4 +124,3 @@
   {% if action_form and actions_on_bottom and cl.full_result_count %}{% admin_actions %}{% endif %}
 {% endblock %}
 
-<div id='calendar'></div>
