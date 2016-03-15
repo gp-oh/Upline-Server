@@ -10,14 +10,14 @@ from django.conf import settings
 class Command(BaseCommand):
     help = 'Send marketing notifications'
 
-    def notify_sale_items(self):
-        sales = Sale.objects.all().order_by('member__id').distinct('member__id')
-        for sale in sales:
-          devices = GCMDevice.objects.filter(user=sale.member.user)
-          message = 'Sale item done!'
-          if len(devices) > 0:
-             devices.send_message(message, extra={
-                                         "type": "sale", "object": SaleSerializer(sale,many=False).data})
+    #def notify_sale_items(self):
+    #    sales = Sale.objects.all().order_by('member__id').distinct('member__id')
+    #    for sale in sales:
+    #      devices = GCMDevice.objects.filter(user=sale.member.user)
+    #      message = 'Sale item done!'
+    #      if len(devices) > 0:
+    #         devices.send_message(message, extra={
+    #                                     "type": "sale", "object": SaleSerializer(sale,many=False).data})
         
 
     def notify_late_tranings(self):
@@ -99,5 +99,5 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         self.notify_late_tranings()
         self.notify_unstarted_trainigs()
-        self.notify_sale_items()
+        #self.notify_sale_items()
         self.stdout.write('Successfully send notifications')
