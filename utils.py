@@ -60,18 +60,18 @@ def convert_audio(media):
     b = Bucket(conn, settings.AWS_STORAGE_BUCKET_NAME)
     k = Key(b)
     k.key = str(media.media.replace(
-        "https://upline-virtual.s3.amazonaws.com/", ""))
+        "https://%s.s3.amazonaws.com/" % (settings.AWS_STORAGE_BUCKET_NAME), ""))
     b.delete_key(k)
 
     k = Key(b)
-    k.key = media.media.split('/')[-2] + "/" + \
+    k.key = media.media.split('/')[-2] + "/" +
         audio_name.rsplit(".", 1)[0] + '.mp3'
     k.set_contents_from_filename(audio_name.rsplit(".", 1)[0] + '1.mp3')
     k.set_acl('public-read')
 
     media.converted = True
-    media.media = "https://upline-virtual.s3.amazonaws.com/" + \
-        media.media.split('/')[-2] + "/" + \
+    media.media = "https://%s.s3.amazonaws.com/" % (settings.AWS_STORAGE_BUCKET_NAME) +
+        media.media.split('/')[-2] + "/" +
         audio_name.rsplit(".", 1)[0] + '.mp3'
 
     media.send_notification()
@@ -107,11 +107,11 @@ def convert_video(media):
     b = Bucket(conn, settings.AWS_STORAGE_BUCKET_NAME)
     k = Key(b)
     k.key = str(media.media.replace(
-        "https://upline-virtual.s3.amazonaws.com/", ""))
+        "https://%s.s3.amazonaws.com/" % (settings.AWS_STORAGE_BUCKET_NAME), ""))
     b.delete_key(k)
 
     k = Key(b)
-    k.key = media.media.split('/')[-2] + "/" + \
+    k.key = media.media.split('/')[-2] + "/" +
         video_name.rsplit(".", 1)[0] + '.mp4'
     k.set_contents_from_filename(video_name.rsplit(".", 1)[0] + '1.mp4')
     k.set_acl('public-read')
@@ -123,8 +123,8 @@ def convert_video(media):
     media.thumbnail = SimpleUploadedFile(name=str(
         uuid.uuid4()) + '.png', content=thumbnail_file.read(), content_type='image/png')
     media.converted = True
-    media.media = "https://upline-virtual.s3.amazonaws.com/" + \
-        media.media.split('/')[-2] + "/" + \
+    media.media = "https://%s.s3.amazonaws.com/" % (settings.AWS_STORAGE_BUCKET_NAME) +
+        media.media.split('/')[-2] + "/" +
         video_name.rsplit(".", 1)[0] + '.mp4'
 
     media.send_notification()

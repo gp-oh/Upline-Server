@@ -309,10 +309,11 @@ class EventDateFilter(SimpleListFilter):
     parameter_name = 'begin_time'
 
     def lookups(self, request, model_admin):
-        return (
-            ('PREVIOUS', _('Previous')),
-            ('AFTER', _('After')),
-        )
+        month_list = Event.objects.datetimes('begin_time', "month")
+        ret = []
+        for month in month_list:
+            ret.append([month.strftime('%m/%Y'), month.strftime('%m/%Y')])
+        return ret
 
     def queryset(self, request, queryset):
         if self.value() == 'PREVIOUS':
@@ -325,7 +326,7 @@ class EventAdmin(ForeignKeyAutocompleteAdmin):
     change_list_template = 'event_change_list.html'
     form = EventForm
     list_display = ["id", "title", "calendar", "begin_time"]
-    search_fields = ['name']
+    search_fields = ['name', 'owner']
     list_filter = [EventDateFilter]
     related_search_fields = {
         'owner': ['username'],
