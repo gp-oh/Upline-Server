@@ -1,7 +1,7 @@
 from django.core.management.base import BaseCommand, CommandError
 from push_notifications.models import GCMDevice
 from upline.models import *
-from upline.serializers import TrainingStepTaskSerializer
+from upline.serializers import TrainingStepTaskSerializer, SaleItemSerializer, SaleSerializer
 import datetime
 import pytz
 from django.conf import settings
@@ -9,6 +9,16 @@ from django.conf import settings
 
 class Command(BaseCommand):
     help = 'Send marketing notifications'
+
+    #def notify_sale_items(self):
+    #    sales = Sale.objects.all().order_by('member__id').distinct('member__id')
+    #    for sale in sales:
+    #      devices = GCMDevice.objects.filter(user=sale.member.user)
+    #      message = 'Sale item done!'
+    #      if len(devices) > 0:
+    #         devices.send_message(message, extra={
+    #                                     "type": "sale", "object": SaleSerializer(sale,many=False).data})
+        
 
     def notify_late_tranings(self):
         last_training_steps = MemberTrainingStep.objects.all().order_by('member__id', '-training_step__training__position',
@@ -89,5 +99,5 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         self.notify_late_tranings()
         self.notify_unstarted_trainigs()
-
+        #self.notify_sale_items()
         self.stdout.write('Successfully send notifications')
