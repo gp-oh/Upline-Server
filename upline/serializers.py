@@ -599,7 +599,6 @@ class SaleItemRegisterSerializer(serializers.HyperlinkedModelSerializer):
 class SaleSerializer(serializers.HyperlinkedModelSerializer):
     client = ContactDownlineSerializer(read_only=True)
     sale_items = SaleItemSerializer(many=True, read_only=True)
-    
 
     class Meta:
         model = Sale
