@@ -248,7 +248,7 @@ class MemberSerializer(serializers.HyperlinkedModelSerializer):
     today_descendant_count = serializers.SerializerMethodField()
 
     def get_downlines(self, obj):
-        user = self.context['request'].user
+        #user = self.context['request'].user
         downlines = Member.objects.filter(parent=obj, member_type=0)
         # downlines = obj.get_descendants()
         serializer = DownlineSerializer(downlines, many=True)
@@ -599,6 +599,7 @@ class SaleItemRegisterSerializer(serializers.HyperlinkedModelSerializer):
 class SaleSerializer(serializers.HyperlinkedModelSerializer):
     client = ContactDownlineSerializer(read_only=True)
     sale_items = SaleItemSerializer(many=True, read_only=True)
+    
 
     class Meta:
         model = Sale
