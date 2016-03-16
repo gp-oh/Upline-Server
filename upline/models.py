@@ -285,8 +285,10 @@ class TrainingStep(models.Model):
                     self.media_type = 2
                 else:
                     self.media_type = 3
+                    self.converted = True
             else:
                 self.media_type = 3
+                self.converted = True
 
         super(TrainingStep, self).save(*args, **kwargs)
 
@@ -440,7 +442,7 @@ class Member(MPTTModel):
             self.user.save()
         super(Member, self).save(*args, **kwargs)
         if len(Binary.objects.filter(member=self)) == 0:
-             Binary.create_member(self)
+            Binary.create_member(self)
 
     class Meta:
         verbose_name = _("member")
@@ -710,8 +712,10 @@ class Post(models.Model):
                     self.media_type = 2
                 else:
                     self.media_type = 3
+                    self.converted = True
             else:
                 self.media_type = 3
+                self.converted = True
 
         super(Post, self).save(*args, **kwargs)
 
@@ -850,11 +854,12 @@ class Media(models.Model):
         from upline.serializers import MediaSerializer
         devices = GCMDevice.objects.all()
         if len(devices) > 0:
-            if len(MediaSerializer(self, many=False).data) > 0 :
+            if len(MediaSerializer(self, many=False).data) > 0:
                 devices.send_message(SiteConfiguration.get_solo().new_media_message, extra={
-                "type": "media", "object":MediaSerializer(self, many=False).data })
+                    "type": "media", "object": MediaSerializer(self, many=False).data})
         else:
-            devices.send_message(SiteConfiguration.get_solo().new_media_message)
+            devices.send_message(
+                SiteConfiguration.get_solo().new_media_message)
 
         self.notified = True
         self.save()
@@ -881,6 +886,7 @@ class Media(models.Model):
                 self.media_type = 2
             else:
                 self.media_type = 3
+                self.converted = True
 
         super(Media, self).save(*args, **kwargs)
 
