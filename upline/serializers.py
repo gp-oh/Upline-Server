@@ -265,8 +265,60 @@ class MemberSerializer(serializers.HyperlinkedModelSerializer):
     def get_today_descendant_count(self, member):
         today_min = datetime.datetime.combine(
             datetime.date.today(), datetime.time.min)
-        today_max = datetime.datetime.combine(
-            datetime.date.today(), datetime.time.max)
+        today_max = datetime.datetime.combine(datetime.date.today(), datetime.time.max)
+        return len(member.get_descendants().filter(create_time__range=(today_min, today_max), member_type=0))
+
+    def get_descendant_count(self, member):
+        return len(member.get_descendants().filter(member_type=0))
+
+    def get_downline_count(self, member):
+        return len(member.get_children())
+
+    def get_binary(self, member):
+        if len(member.get_children().filter(member_type=0)) < 2:
+            return False
+        else:
+            return True
+
+    class Meta:
+        model = Member
+        fields = ("id", "descendant_count", 'email', "today_descendant_count", "binary", "downline_count", "member_type", "user", "avatar_base64", "dream1_base64", "dream2_base64", "avatar_base64", 'quickblox_id', 'parent',
+                  'downlines', 'create_time', 'external_id', 'name', 'points', 'avatar', 'phone', 'gender', 'postal_code', 'city', 'state', 'address', 'address_number', 'dream1', 'dream2', 'status', 'level', 'answers', 'birthday')
+
+
+class MemberNotificationSerializer(serializers.HyperlinkedModelSerializer):
+    user = UserSerializer(many=False, read_only=True)
+    level = LevelSerializer(many=False, read_only=True)
+    answers = serializers.SerializerMethodField()
+    parent = UplineSerializer(many=False, read_only=True)
+    downlines = serializers.SerializerMethodField(read_only=True)
+    avatar_base64 = serializers.CharField(required=False, allow_blank=True)
+    dream1_base64 = serializers.CharField(required=False, allow_blank=True)
+    dream2_base64 = serializers.CharField(required=False, allow_blank=True)
+    descendant_count = serializers.SerializerMethodField()
+    downline_count = serializers.SerializerMethodField()
+    binary = serializers.SerializerMethodField()
+    today_descendant_count = serializers.SerializerMethodField()
+
+    def get_downlines(self, obj):
+        #user = self.context['request'].user
+        downlines = Member.objects.filter(parent=obj, member_type=0)
+        # downlines = obj.get_descendants()
+        serializer = DownlineSerializer(downlines, many=True)
+        return serializer.data
+
+    def get_answers(self, member):
+        answers = MemberTrainingStep.objects.select_related(
+            'training_step').filter(member=member)
+        ret = []
+        for answer in answers:
+            ret.append(answer.training_step.id)
+        return ret
+
+    def get_today_descendant_count(self, member):
+        today_min = datetime.datetime.combine(
+            datetime.date.today(), datetime.time.min)
+        today_max = datetime.datetime.combine(datetime.date.today(), datetime.time.max)
         return len(member.get_descendants().filter(create_time__range=(today_min, today_max), member_type=0))
 
     def get_descendant_count(self, member):
@@ -594,6 +646,7 @@ class SaleItemRegisterSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = SaleItem
         fields = ("id", "product", "quantity", "notificate_at", "sale")
+
 
 
 class SaleSerializer(serializers.HyperlinkedModelSerializer):
