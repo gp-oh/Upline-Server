@@ -130,7 +130,7 @@ DATABASES = {
         'NAME': 'upline',
         'USER': 'upline',
         'PASSWORD': 'batatinhafrita123',
-        'HOST': 'upline.c5rmgxifqspm.us-east-1.rds.amazonaws.com',
+        'HOST': 'upline-boulevard.c5rmgxifqspm.us-east-1.rds.amazonaws.com',
         'PORT': '5432',
     }
 }
@@ -181,7 +181,7 @@ DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 
 AWS_ACCESS_KEY_ID = 'AKIAJML75IMVN3ZTEVTQ'
 AWS_SECRET_ACCESS_KEY = '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'
-AWS_STORAGE_BUCKET_NAME = 'upline-virtual'
+AWS_STORAGE_BUCKET_NAME = 'upline-boulevard'
 AWS_QUERYSTRING_AUTH = False
 S3DIRECT_REGION = 'us-east-1'
 
