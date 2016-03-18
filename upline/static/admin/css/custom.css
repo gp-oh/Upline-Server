@@ -455,6 +455,8 @@ section.panel .panel-body	{
 .form-horizontal .control-group .controls .selector .selector-available select { border-radius: 4px; }
 
 .search-container select { margin-top: 6px; }
+.search-container input[type=submit]{ border-radius: 4px; }
+.search-container .active { border: none; box-shadow: none; }
 
 .actions button { border-radius: 4px; }
 
