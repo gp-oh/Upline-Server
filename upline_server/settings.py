@@ -197,7 +197,7 @@ OAUTH2_PROVIDER = {
 # STATIC_URL = '/static/'
 
 PUSH_NOTIFICATIONS_SETTINGS = {
-    "GCM_API_KEY": "AIzaSyA7sYwvjQe-x7vtLcb2yvgwXbZqX7KunWQ",
+    "GCM_API_KEY": "AIzaSyA3DfmoFEOFhNz1cbtpa3V1Fv9TVy0PQos",
     # "APNS_CERTIFICATE": "/path/to/your/certificate.pem",
 }
 
