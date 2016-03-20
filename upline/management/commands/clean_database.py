@@ -19,7 +19,6 @@ class Command(BaseCommand):
         SaleItem.objects.all().delete()
         Sale.objects.all().delete()
         Product.objects.all().delete()
-        Level.objects.all().delete()
         LogMemberLogin.objects.all().delete()
         Post.objects.all().delete()
         EventAlert.objects.all().delete()
@@ -33,5 +32,4 @@ class Command(BaseCommand):
         APNSDevice.objects.all().delete()
         Member.objects.all().delete()
         User.objects.all().delete()
-        Group.objects.all().delete()
         self.stdout.write('Cleaned Database')
