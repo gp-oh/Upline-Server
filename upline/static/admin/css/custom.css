@@ -458,7 +458,7 @@ h2.legend, .form-horizontal fieldset .legend {  font-weight: normal; text-shadow
 .form-horizontal .inline-related h3 { background: rgba(0,0,0,0.2); font-size: 13px; font-weight: normal; text-shadow: none; }
 
 .form-horizontal .control-group .controls .selector .selector-filter { margin-bottom: 10px; }
-.form-horizontal .control-group .controls .selector .selector-filter label { margin-right: -15px; opacity: 0.6; top: 4px; }
+.form-horizontal .control-group .controls .selector .selector-filter label { margin-right: -17px; opacity: 0.6; top: 7px; }
 
 .form-horizontal .control-group .controls p.datetime br { display: none; }
 
