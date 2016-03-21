@@ -149,7 +149,7 @@
     <Content Include="static\admin\img\gis\move_vertex_off.png" />
     <Content Include="static\admin\img\gis\move_vertex_on.png" />
     <Content Include="static\admin\img\icon-no.gif" />
-    <Content Include="static\admin\img\icon-unknown.gif" />
+    <Content Include="static\admin\img\icon-unknown.png" />
     <Content Include="static\admin\img\icon-unknown.png" />
     <Content Include="static\admin\img\icon-yes.gif" />
     <Content Include="static\admin\img\icon_addlink.gif" />
@@ -172,7 +172,7 @@
     <Content Include="static\admin\img\nav-bg.gif" />
     <Content Include="static\admin\img\pdf.png" />
     <Content Include="static\admin\img\selector-icons.gif" />
-    <Content Include="static\admin\img\selector-search.gif" />
+    <Content Include="static\admin\img\selector-search.png" />
     <Content Include="static\admin\img\selector-search.png" />
     <Content Include="static\admin\img\sorting-icons.gif" />
     <Content Include="static\admin\img\tooltag-add.png" />
@@ -366,7 +366,7 @@
     <Content Include="upline\static\admin\img\gis\move_vertex_off.png" />
     <Content Include="upline\static\admin\img\gis\move_vertex_on.png" />
     <Content Include="upline\static\admin\img\icon-no.gif" />
-    <Content Include="upline\static\admin\img\icon-unknown.gif" />
+    <Content Include="upline\static\admin\img\icon-unknown.png" />
     <Content Include="upline\static\admin\img\icon-unknown.png" />
     <Content Include="upline\static\admin\img\icon-yes.gif" />
     <Content Include="upline\static\admin\img\icon_addlink.gif" />
@@ -389,7 +389,7 @@
     <Content Include="upline\static\admin\img\nav-bg.gif" />
     <Content Include="upline\static\admin\img\pdf.png" />
     <Content Include="upline\static\admin\img\selector-icons.gif" />
-    <Content Include="upline\static\admin\img\selector-search.gif" />
+    <Content Include="upline\static\admin\img\selector-search.png" />
     <Content Include="upline\static\admin\img\selector-search.png" />
     <Content Include="upline\static\admin\img\sorting-icons.gif" />
     <Content Include="upline\static\admin\img\tooltag-add.png" />
