@@ -281,8 +281,8 @@ table th .checkbox label {
 }
 
 .checkbox input[type=checkbox]:checked + label:before{
-  background: #3fb7a5;
-  border-color: #3fb7a5;
+  background: #8c8151;
+  border-color: #8c8151;
 }
 
 .checkbox input[type=checkbox][disabled]+ label{

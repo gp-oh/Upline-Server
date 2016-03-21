@@ -19,6 +19,9 @@ input:focus { box-shadow: none !important; border: none !important; outline: non
 a,
 select { outline: none !important; }
 
+a,
+.footer .content a { color: rgba(140,129,81,1); }
+
 .alert { border-radius: 0; }
 
 
@@ -129,20 +132,6 @@ select { outline: none !important; }
 
 .nav-quick-search i { color: rgba(140,129,81,1); display: inline-block; font-size: 14px; position: absolute; text-align: center; line-height: 34px; z-index: 1; width: 16%; transition: all linear 0.2s; }
 
-
-
-/*background-color: rgba(0, 0, 0, 0.2);
-		border: medium none;
-		border-radius: 4px;
-		color: #fff;
-		font-size: 13px;
-		line-height: 18px;
-		margin: 0;
-		padding: 10px 3%;
-		width: 94%;
-}*/
-
-
 .left-nav > ul > li > a {
 	border: none;
 	display: inline-block;
@@ -153,7 +142,6 @@ select { outline: none !important; }
 	transition: all 0.2s linear;
 	font-size: 14px;
 	color: rgba(255, 255, 255, 0.9);
-	text-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
 	width: 90%;
 	position: relative;
 	z-index: 2;
@@ -168,7 +156,7 @@ select { outline: none !important; }
 	display: inline-block;
 	text-align: center;
 }
-
+.left-nav > ul > li.active > a { text-shadow: none !important; }
 .left-nav > ul > li.active > a > i { background: none; }
 .left-nav > ul > li > a  > b.dropdown-plus {
 	float: right;
@@ -197,6 +185,11 @@ select { outline: none !important; }
 	float: none;
 	width: 100%;
 }
+
+.left-nav > ul > li.active,
+.left-nav > ul > li.active:after,
+.left-nav > ul > li.active > a,
+.left-nav > ul > li.active > a:after { background: none; border: none; }
 
 .left-nav > ul > li ul {
 	background: none;
@@ -270,8 +263,7 @@ select { outline: none !important; }
 .footer .content .branding { padding: 10px 0 0; }
 
 /* PAGE HEADER */
-h1.page-title { color: rgba(255,255,255,0.8); text-shadow: none; }
-
+h1.page-title { border-bottom: 1px solid #8c8151; color: rgba(255,255,255,0.8); text-shadow: none; }
 
 .toolbar-content { background: rgba(0,0,0,0.1); border-radius: 5px; margin: 0 0 10px; padding: 12px 15px 0; }
 
@@ -466,7 +458,7 @@ h2.legend, .form-horizontal fieldset .legend {  font-weight: normal; text-shadow
 .form-horizontal .inline-related h3 { background: rgba(0,0,0,0.2); font-size: 13px; font-weight: normal; text-shadow: none; }
 
 .form-horizontal .control-group .controls .selector .selector-filter { margin-bottom: 10px; }
-.form-horizontal .control-group .controls .selector .selector-filter label { margin-right: -15px; opacity: 0.6; top: 6px; }
+.form-horizontal .control-group .controls .selector .selector-filter label { margin-right: -17px; opacity: 0.6; top: 7px; }
 
 .form-horizontal .control-group .controls p.datetime br { display: none; }
 
@@ -613,6 +605,11 @@ ul.tree li div.children a { color: #b2e2db !important; }
 .responsive-tree li a:hover + ul ul::before{
 	border-color:  #e9453f;
 }*/
+
+.checkbox input[type=checkbox]:checked + label:before{
+	background: #8c8151;
+	border-color: #8c8151;
+}
 
 
 /* RESPONSIVE *********************************************************************************************
