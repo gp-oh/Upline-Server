@@ -60,7 +60,9 @@
             {
                 title: '{{event.title}}',
                 start: '{{event.begin_time | date:"Y-m-d H:m:s" }}',
-                end: '{{event.end_time | date:"Y-m-d H:m:s" }}'
+                end: '{{event.end_time | date:"Y-m-d H:m:s" }}',
+                editable: true,
+                url: '{{event.id}}'
             },
             {% endfor%}
         ]
