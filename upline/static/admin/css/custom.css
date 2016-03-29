@@ -485,7 +485,7 @@ ul.tree { margin-bottom: 0 !important;  }
 ul.tree li b.thide { display: none !important;  }
 
 ul.tree li div a { color: #c3c3c3 !important; font-weight: normal; line-height: 14px; }
-ul.tree li div.current a { color: #3fb7a5 !important; }
+ul.tree li div.current a { color: #8c8151 !important; }
 ul.tree li div.parent a { color: #f92672 !important; }
 ul.tree li div.children a { color: #b2e2db !important; }
 
@@ -590,27 +590,36 @@ ul.tree li div.children a { color: #b2e2db !important; }
 
 .responsive-tree li .disabled a { background-position: center -200px; cursor: default;  }
 
-.responsive-tree li .enabled:hover a { background-position: center -100px; color: #3fb7a5;  }
-
-/*.responsive-tree li a:hover,
-.responsive-tree li a:hover+ul li a {
-	background: #e9453f;
-  color: #fff;
-  border: 1px solid #e9453f;
-}
-
-.responsive-tree li a:hover + ul li::after,
-.responsive-tree li a:hover + ul li::before,
-.responsive-tree li a:hover + ul::before,
-.responsive-tree li a:hover + ul ul::before{
-	border-color:  #e9453f;
-}*/
+.responsive-tree li .enabled:hover a { background-position: center -100px; color: #8c8151;  }
 
 .checkbox input[type=checkbox]:checked + label:before{
 	background: #8c8151;
 	border-color: #8c8151;
 }
 
+
+/* CALENDARIO *********************************************************************************************
+***********************************************************************************************************/
+#calendar { background: rgba(0, 0, 0, 0.1); border-radius: 5px; margin: 0 0 20px; padding: 10px;  }
+
+.fc-unthemed th, .fc-unthemed td, .fc-unthemed thead, .fc-unthemed tbody, .fc-unthemed .fc-divider, .fc-unthemed .fc-row, .fc-unthemed .fc-popover { border-color: rgba(255, 255, 255, 0.3) !important; }
+
+.fc th { padding: 4px 0 !important; }
+
+.fc-event {
+    background-color: rgba(140,129,81,1) !important;
+    border: 2px solid rgba(255,255,255, 0) !important;
+    margin: 0 !important;
+}
+
+.fc-unthemed .fc-today { background: rgba(140,129,81,0.3) !important ;  }
+
+.fc-state-default { color: rgba(255, 255, 255, 1) !important; background-color: rgba(140,129,81,1) !important; background-image: none !important; text-shadow: none !important; box-shadow: none !important; }
+
+.checkbox input[type=checkbox]:checked + label:before{
+	background: #8c8151;
+	border-color: #8c8151;
+}
 
 /* RESPONSIVE *********************************************************************************************
 ***********************************************************************************************************/
