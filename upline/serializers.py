@@ -404,7 +404,7 @@ class MemberRegisterSerializer(serializers.HyperlinkedModelSerializer):
 
         member.parent = Member.objects.get(
             user__username=self.validated_data['parent_user'])
-        member.member_type = 1
+        member.member_type = 0
 
         if 'name' in self.validated_data:
             member.name = self.validated_data['name']
