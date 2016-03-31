@@ -597,7 +597,6 @@ ul.tree li div.children a { color: #b2e2db !important; }
 	border-color: #3fb7a5;
 }
 
-
 /* CALENDARIO *********************************************************************************************
 ***********************************************************************************************************/
 #calendar { background: rgba(0, 0, 0, 0.1); border-radius: 5px; margin: 0 0 20px; padding: 10px;  }
@@ -616,6 +615,13 @@ ul.tree li div.children a { color: #b2e2db !important; }
 
 .fc-state-default { color: rgba(255, 255, 255, 1) !important; background-color: rgba(63,183,165,1) !important; background-image: none !important; text-shadow: none !important; box-shadow: none !important; }
 
+.event-details { width: 100%; padding 15px 3%; display: none; }
+.event-details h3 { border-bottom: 1px solid rgba(63,183,165,1); padding: 0; margin: 0 0 20px;  }
+.event-details h3 a { float: right; }
+.event-details ul { margin: 0; padding: 1px 0  0 1px; }
+.event-details ul li { float: left; margin: -1px 0 0 -1px; padding: 10px 1% 10px 10px; height: 15px; list-style: none; width:30.9%; border: 1px solid rgba(63,183,165,1); }
+.event-details ul li i { background: rgba(63,183,165,1); color: #fff; float: left; height: 25px; margin: -10px 10px 0 -10px; padding: 10px 0 0;
+    position: relative; text-align: center; width: 36px; }
 
 /* RESPONSIVE *********************************************************************************************
 ***********************************************************************************************************/
@@ -713,6 +719,8 @@ ul.tree li div.children a { color: #b2e2db !important; }
 	.responsive-tree li .disabled a { background-position: center -152px; }
 
 	.responsive-tree li .enabled:hover a { background-position: center -76px; }
+
+	.event-details ul li { float: none; margin: -1px 0 0 0; width: auto; }
 
 }
 

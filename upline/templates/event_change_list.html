@@ -2,102 +2,141 @@
 {% load i18n admin_static admin_list %}
 
 {% block extrastyle %}
-  {{ block.super }}
-  {#  <link rel="stylesheet" type="text/css" href="{% static "admin/css/changelists.css" %}" />#}
-  {% if cl.formset %}
-    {#    <link rel="stylesheet" type="text/css" href="{% static "admin/css/forms.css" %}" />#}
-  {% endif %}
-  {% if cl.formset or action_form %}
-    {% url 'admin:jsi18n' as jsi18nurl %}
-    <script type="text/javascript" src="{{ jsi18nurl|default:'../../jsi18n/' }}"></script>
-  {% endif %}
-  {{ media.css }}
-  {% if not actions_on_top and not actions_on_bottom %}
-    <style>
-      {#      #changelist table thead th:first-child {width: inherit}#}
-    </style>
-  {% endif %}
+	{{ block.super }}
+	{#  <link rel="stylesheet" type="text/css" href="{% static "admin/css/changelists.css" %}" />#}
+	{% if cl.formset %}
+		{#    <link rel="stylesheet" type="text/css" href="{% static "admin/css/forms.css" %}" />#}
+	{% endif %}
+	{% if cl.formset or action_form %}
+		{% url 'admin:jsi18n' as jsi18nurl %}
+		<script type="text/javascript" src="{{ jsi18nurl|default:'../../jsi18n/' }}"></script>
+	{% endif %}
+	{{ media.css }}
+	{% if not actions_on_top and not actions_on_bottom %}
+		<style>
+			{#      #changelist table thead th:first-child {width: inherit}#}
+		</style>
+	{% endif %}
 
-  <link rel="stylesheet" type="text/css" href="{% static 'admin/css/fullcalendar.css' %}" media="all">
+	<link rel="stylesheet" type="text/css" href="{% static 'admin/css/fullcalendar.css' %}" media="all">
+	<link rel="stylesheet" type="text/css" href="{% static 'admin/css/jquery.fancybox.css' %}" media="all">
 {% endblock %}
 
 {% block extrahead %}
-    <script src="{% static 'admin/js/moment.min.js' %}"></script>
-    <script src="{% static 'admin/js/fullcalendar.min.js' %}"></script>
-    <script src="{% static 'admin/js/fullcalendar-pt-br.js' %}"></script>
-  {{ block.super }}
-  {{ media.js }}
-  {% if action_form %}{% if actions_on_top or actions_on_bottom %}
-    <script type="text/javascript">
-      (function ($) {
-        $(document).ready(function ($) {
-          $("tr input.action-select").actions();
+		<script src="{% static 'admin/js/moment.min.js' %}"></script>
+		<script src="{% static 'admin/js/fullcalendar.min.js' %}"></script>
+		<script src="{% static 'admin/js/fullcalendar-pt-br.js' %}"></script>
+		<script src="{% static 'admin/js/jquery.fancybox.js' %}"></script>
+	{{ block.super }}
+	{{ media.js }}
+	{% if action_form %}{% if actions_on_top or actions_on_bottom %}
+		<script type="text/javascript">
+			(function ($) {
+				$(document).ready(function ($) {
+					$("tr input.action-select").actions();
 
-        });
-      })(django.jQuery);
-    </script>
-  {% endif %}{% endif %}
+				});
+			})(django.jQuery);
+		</script>
+	{% endif %}{% endif %}
 {% endblock %}
 
 
 {% block result_list %}
 
-    <div id="calendar"></div>
+		<div id="calendar"></div>
 
-  {% if action_form and actions_on_top and cl.full_result_count %}{% admin_actions %}{% endif %}
+	{% if action_form and actions_on_top and cl.full_result_count %}{% admin_actions %}{% endif %}
 
-  <script type="text/javascript">
+	<script type="text/javascript">
 
-    jQuery('#calendar').fullCalendar({
+		jQuery('#calendar').fullCalendar({
 
-        header: {
-            left: 'prev,next today',
-            center: 'title',
-            right: 'month,basicWeek,basicDay'
-        },
-        events: [
-            {% for event in cl.result_list %}
-            {
-                title: '{{event.title}}',
-                start: '{{event.begin_time | date:"Y-m-d H:m:s" }}',
-                end: '{{event.end_time | date:"Y-m-d H:m:s" }}',
-                editable: true,
-                url: '{{event.id}}'
-            },
-            {% endfor%}
-        ]
-    });
-    </script>
-            <!-- owner: {{event.owner}}<br/>
-            groups: {{event.groups}}<br/>
-            title: {{event.title}}<br/>
-            all_day: {{event.all_day}}<br/>
-            begin_time: {{event.begin_time | date:"Y-m-d H:m:s" }}<br/>
-            end_time: {{event.end_time}}<br/>
-            invited: {{event.invited}}<br/>
-            members: {{event.members}}<br/>
-            invited_members: {{event.invited_members}}<br/>
-            calendar: {{event.calendar}}<br/>
-            note: {{event.note}}<br/>
-            postal_code: {{event.postal_code}}<br/>
-            region: {{event.region}}<br/>
-            city: {{event.city}}<br/>
-            state: {{event.state}}<br/>
-            address: {{event.address}}<br/>
-            address_number: {{event.address_number}}<br/>
-            complement: {{event.complement}}<br/>
-            lat: {{event.lat}}<br/>
-            lng: {{event.lng}}<br/>
-            alert_at_hour: {{event.alert_at_hour}}<br/>
-            alert_5_mins: {{event.alert_5_mins}}<br/>
-            alert_15_mins: {{event.alert_15_mins}}<br/>
-            alert_30_mins: {{event.alert_30_mins}}<br/>
-            alert_1_hour: {{event.alert_1_hour}}<br/>
-            alert_2_hours: {{event.alert_2_hours}}<br/>
-            alert_1_day: {{event.alert_1_day}}<br/>
-            parent_event: {{event.parent_event}}<br/>
-            is_invited: {{event.is_invited}}<br/>
-            inviter: {{event.inviter}}<br/> -->
+				header: {
+						left: 'prev,next today',
+						center: 'title',
+						right: 'month,basicWeek,basicDay'
+				},
+				events: [
+						{% for event in cl.result_list %}
+						{
+								title: '{{event.title}}',
+								start: '{{event.begin_time | date:"Y-m-d H:i:00" }}',
+								end: '{{event.end_time | date:"Y-m-d H:i:00" }}',
+								editable: true,
+								url: '#event-{{event.id}}'
+						},
+						{% endfor%}
+				],
+				eventClick: function(calEvent, jsEvent, view) {
 
-  {% if action_form and actions_on_bottom and cl.full_result_count %}{% admin_actions %}{% endif %}
+					// alert('Teste');
+					// $(this).css('border-color', 'red');
+
+				}
+		});
+
+
+		jQuery('a.fc-event').fancybox({
+			maxWidth	: 800,
+			maxHeight	: 600,
+			fitToView	: false,
+			width		: '70%',
+			height		: '50%',
+			autoSize	: false,
+			closeClick	: false,
+			openEffect	: 'none',
+			closeEffect	: 'none'
+		});
+
+		</script>
+
+
+		{% for event in cl.result_list %}
+
+			<div id="event-{{event.id}}" class="event-details">
+
+				<h3>
+					{{event.title}}
+					<a href="{{event.id}}" target="_parent"><i class="fa fa-pencil"></i></a>
+				</h3>
+
+					<ul>
+						<li><i class="fa fa-calendar"></i> <strong> Início:</strong> {{event.begin_time | date:"Y-m-d H:i:00" }}</li>
+						<li><i class="fa fa-calendar"></i> <strong> Fim:</strong> {{event.begin_time | date:"Y-m-d H:i:00" }}</li>
+						<li><i class="fa fa-calendar"></i> <strong> Calendário:</strong> {{event.calendar}}</li>
+						<li><i class="fa fa-user"></i> <strong> Dono:</strong> {{event.owner}}</li>
+						<li><i class="fa fa-users"></i> <strong> Grupo:</strong> {{event.groups}}</li>
+						<li><i class="fa fa-sticky-note"></i> <strong> Nota:</strong> {{event.note}}</li>
+					</ul>
+
+					<!-- all_day: {{event.all_day}}<br/>
+					invited: {{event.invited}}<br/>
+					members: {{event.members}}<br/>
+					invited_members: {{event.invited_members}}<br/>
+					postal_code: {{event.postal_code}}<br/>
+					region: {{event.region}}<br/>
+					city: {{event.city}}<br/>
+					state: {{event.state}}<br/>
+					address: {{event.address}}<br/>
+					address_number: {{event.address_number}}<br/>
+					complement: {{event.complement}}<br/>
+					lat: {{event.lat}}<br/>
+					lng: {{event.lng}}<br/>
+					alert_at_hour: {{event.alert_at_hour}}<br/>
+					alert_5_mins: {{event.alert_5_mins}}<br/>
+					alert_15_mins: {{event.alert_15_mins}}<br/>
+					alert_30_mins: {{event.alert_30_mins}}<br/>
+					alert_1_hour: {{event.alert_1_hour}}<br/>
+					alert_2_hours: {{event.alert_2_hours}}<br/>
+					alert_1_day: {{event.alert_1_day}}<br/>
+					parent_event: {{event.parent_event}}<br/>
+					is_invited: {{event.is_invited}}<br/>
+					inviter: {{event.inviter}} -->
+			</div>
+
+	{% endfor%}
+						<!--  -->
+
+	{% if action_form and actions_on_bottom and cl.full_result_count %}{% admin_actions %}{% endif %}
 {% endblock %}
