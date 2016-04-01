@@ -130,7 +130,7 @@ DATABASES = {
         'NAME': 'upline',
         'USER': 'upline',
         'PASSWORD': 'batatinhafrita123',
-        'HOST': 'upline-lattitude.c5rmgxifqspm.us-east-1.rds.amazonaws.com',
+        'HOST': 'upline.c5rmgxifqspm.us-east-1.rds.amazonaws.com',
         'PORT': '5432',
     }
 }
