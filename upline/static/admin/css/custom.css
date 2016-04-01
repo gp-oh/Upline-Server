@@ -618,7 +618,7 @@ ul.tree li div.children a { color: #b2e2db !important; }
 .fc-event {
     background-color: rgba(226,141,37,1) !important;
     border: 2px solid rgba(255,255,255, 0) !important;
-    margin: 0 !important;
+    margin: 0 0 2px !important;
 }
 
 .fc-unthemed .fc-today { background: rgba(226,141,37,0.3) !important ;  }
@@ -630,6 +630,13 @@ ul.tree li div.children a { color: #b2e2db !important; }
 	border-color: #e28d25;
 }
 
+.event-details { width: 100%; padding 15px 3%; display: none; }
+.event-details h3 { border-bottom: 1px solid rgba(226,141,37,1); padding: 0; margin: 0 0 20px;  }
+.event-details h3 a { float: right; }
+.event-details ul { margin: 0; padding: 1px 0  0 1px; }
+.event-details ul li { margin: -1px 0 0; padding: 10px; height: 15px; list-style: none; width: auto; border: 1px solid rgba(226,141,37,1); }
+.event-details ul li i { background: rgba(226,141,37,1); color: #fff; float: left; height: 25px; margin: -10px 10px 0 -10px; padding: 10px 0 0;
+    position: relative; text-align: center; width: 36px; }
 
 /* RESPONSIVE *********************************************************************************************
 ***********************************************************************************************************/
@@ -727,6 +734,8 @@ ul.tree li div.children a { color: #b2e2db !important; }
 	.responsive-tree li .disabled a { background-position: center -152px; }
 
 	.responsive-tree li .enabled:hover a { background-position: center -76px; }
+
+	.event-details ul li { float: none; margin: -1px 0 0 0; width: auto; }
 
 }
 
