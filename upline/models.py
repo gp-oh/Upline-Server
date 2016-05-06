@@ -425,11 +425,6 @@ class Member(MPTTModel):
     def save(self, *args, **kwargs):
         if not self.pk:
             self.member_uid = str(uuid.uuid4())
-            # self.quickblox_password = User.objects.make_random_password()
-            # self = create_user(self)
-            # self.encrypt_quickblox_password()
-        # else:
-            # self = update_user(self)
         level = Level.objects.filter(
             points_range_from__lte=self.points, points_range_to__gte=self.points)
         if len(level) > 0:
@@ -441,8 +436,6 @@ class Member(MPTTModel):
             self.user.email = self.email
             self.user.save()
         super(Member, self).save(*args, **kwargs)
-        if len(Binary.objects.filter(member=self)) == 0:
-            Binary.create_member(self)
 
     class Meta:
         verbose_name = _("member")

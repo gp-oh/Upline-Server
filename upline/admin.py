@@ -95,7 +95,7 @@ class InvitedAdmin(admin.ModelAdmin):
                     "name", "points", "phone", "gender"]
     list_display_links = ['id']
     search_fields = ['name']
-    actions = ['delete_model']
+    actions = ['delete_model', 'convert_to_member']
     related_search_fields = {
         'user': ('first_name', 'email'),
         'parent': ('name'),
@@ -105,6 +105,11 @@ class InvitedAdmin(admin.ModelAdmin):
         actions = super(InvitedAdmin, self).get_actions(request)
         del actions['delete_selected']
         return actions
+
+    def convert_to_member(modeladmin, request, queryset):
+        for obj in queryset:
+            obj.member_type = 0
+            obj.save()
 
     def delete_model(modeladmin, request, queryset):
         for obj in queryset:
