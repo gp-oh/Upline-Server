@@ -332,7 +332,7 @@ class EventAdmin(ForeignKeyAutocompleteAdmin):
     form = EventForm
     list_display = ["id", "title", "calendar", "begin_time"]
     search_fields = ['name', 'owner']
-    list_filter = [EventDateFilter]
+    # list_filter = [EventDateFilter]
     related_search_fields = {
         'owner': ['username'],
         'calendar': ['name'],
