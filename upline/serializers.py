@@ -265,7 +265,8 @@ class MemberSerializer(serializers.HyperlinkedModelSerializer):
     def get_today_descendant_count(self, member):
         today_min = datetime.datetime.combine(
             datetime.date.today(), datetime.time.min)
-        today_max = datetime.datetime.combine(datetime.date.today(), datetime.time.max)
+        today_max = datetime.datetime.combine(
+            datetime.date.today(), datetime.time.max)
         return len(member.get_descendants().filter(create_time__range=(today_min, today_max), member_type=0))
 
     def get_descendant_count(self, member):
@@ -318,7 +319,8 @@ class MemberNotificationSerializer(serializers.HyperlinkedModelSerializer):
     def get_today_descendant_count(self, member):
         today_min = datetime.datetime.combine(
             datetime.date.today(), datetime.time.min)
-        today_max = datetime.datetime.combine(datetime.date.today(), datetime.time.max)
+        today_max = datetime.datetime.combine(
+            datetime.date.today(), datetime.time.max)
         return len(member.get_descendants().filter(create_time__range=(today_min, today_max), member_type=0))
 
     def get_descendant_count(self, member):
@@ -344,7 +346,7 @@ class MemberRegisterSerializer(serializers.HyperlinkedModelSerializer):
     email = serializers.EmailField()
     grant_type = serializers.CharField(initial="password")
     password = serializers.CharField(style={'input_type': 'password'})
-    parent_user = serializers.SlugField()
+    parent_user = serializers.SlugField(required=False)
     avatar_base64 = serializers.CharField(required=False, allow_blank=True)
     dream1_base64 = serializers.CharField(required=False, allow_blank=True)
     dream2_base64 = serializers.CharField(required=False, allow_blank=True)
@@ -648,7 +650,6 @@ class SaleItemRegisterSerializer(serializers.HyperlinkedModelSerializer):
         fields = ("id", "product", "quantity", "notificate_at", "sale")
 
 
-
 class SaleSerializer(serializers.HyperlinkedModelSerializer):
     client = ContactDownlineSerializer(read_only=True)
     sale_items = SaleItemSerializer(many=True, read_only=True)
@@ -922,11 +923,13 @@ class MediaCategorySerializerNotMedias(serializers.HyperlinkedModelSerializer):
 
 
 class MediaSerializer(serializers.HyperlinkedModelSerializer):
-    media_category = MediaCategorySerializerNotMedias(many=False, read_only=True)
+    media_category = MediaCategorySerializerNotMedias(
+        many=False, read_only=True)
 
     class Meta:
         model = Media
-        fields = ("id", "name", "media", "thumbnail", "media_type", "media_category")
+        fields = ("id", "name", "media", "thumbnail",
+                  "media_type", "media_category")
 
 
 class MediaCategorySerializer(serializers.HyperlinkedModelSerializer):

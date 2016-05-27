@@ -379,9 +379,9 @@ class Member(MPTTModel):
     phone = models.CharField(max_length=45, blank=True,
                              null=True, verbose_name=_('phone'))
     gender = models.IntegerField(
-        choices=((0, "Masculino"), (1, 'Feminino')), verbose_name=_('gender'))
+        choices=((0, "Masculino"), (1, 'Feminino')), verbose_name=_('gender'), null=True, blank=True, default=None)
     postal_code = models.CharField(
-        max_length=255, verbose_name=_('postal_code'))
+        max_length=255, verbose_name=_('postal_code'), null=True, blank=True, default=None)
     city = models.CharField(max_length=255, blank=True,
                             null=True, verbose_name=_('city'))
     state = models.CharField(max_length=255, blank=True,
@@ -657,7 +657,7 @@ class Post(models.Model):
         User, related_name='posts', verbose_name=_('user'))
     title = models.CharField(max_length=255, verbose_name=_('title'))
     groups = models.ManyToManyField(
-        Group, null=True, blank=True, default=None, verbose_name=_('groups'))
+        Group, blank=True, default=None, verbose_name=_('groups'))
     content = models.TextField(
         null=True, blank=True, default=None, verbose_name=_('content'))
     media = S3DirectField(dest='posts', null=True, blank=True, default=None)
@@ -732,7 +732,7 @@ class Calendar(models.Model):
 class Event(models.Model):
     owner = models.ForeignKey(User, verbose_name=_('owner'))
     groups = models.ManyToManyField(
-        Group, null=True, blank=True, default=None, verbose_name=_('groups'))
+        Group, blank=True, default=None, verbose_name=_('groups'))
     title = models.CharField(max_length=255, verbose_name=_('title'))
     all_day = models.BooleanField(default=False, verbose_name=_('all_day'))
     begin_time = models.DateTimeField(null=True, verbose_name=_('begin_time'))
