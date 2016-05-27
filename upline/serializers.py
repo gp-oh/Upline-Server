@@ -352,6 +352,8 @@ class MemberRegisterSerializer(serializers.HyperlinkedModelSerializer):
     dream2_base64 = serializers.CharField(required=False, allow_blank=True)
 
     def validate_parent_user(self, value):
+        if parent_user is None or len(parent_user) == 0:
+            return value
         members = Member.objects.filter(user__username=value, member_type=0)
         if len(members) != 1:
             raise serializers.ValidationError("Invalid Parent ID")
@@ -404,9 +406,10 @@ class MemberRegisterSerializer(serializers.HyperlinkedModelSerializer):
                 self.dream2 = SimpleUploadedFile(name=str(uuid.uuid4(
                 )) + '.' + dream2_extension, content=base64.b64decode(dream2_base64), content_type=dream2_mime)
 
-        member.parent = Member.objects.get(
-            user__username=self.validated_data['parent_user'])
-        member.member_type = 1
+        if 'parent_user' in self.validated_data and len(self.validated_data['parent_user']) > 0:
+            member.parent = Member.objects.get(
+                user__username=self.validated_data['parent_user'])
+        member.member_type = 0
 
         if 'name' in self.validated_data:
             member.name = self.validated_data['name']
