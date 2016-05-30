@@ -174,7 +174,8 @@ REST_FRAMEWORK = {
     ),
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
-    )
+    ),
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination'
 }
 
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
@@ -258,7 +259,8 @@ SUIT_CONFIG = {
             {'label': 'Cidades', 'model': 'upline.city', 'icon': None},
             {'label': 'CEPs', 'model': 'upline.postalcode', 'icon': None},
         )},
-        {'label': u'Configurações', 'url': 'upline.siteconfiguration', 'icon': 'fa fa-cogs'},
+        {'label': u'Configurações',
+            'url': 'upline.siteconfiguration', 'icon': 'fa fa-cogs'},
 
     )
 }

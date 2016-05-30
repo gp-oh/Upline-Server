@@ -220,7 +220,15 @@ class PostViewSet(viewsets.ReadOnlyModelViewSet):
 
     def list(self, request):
         queryset = Post.objects.filter(
-            groups__in=request.user.groups.all(), converted=True)
+            groups__in=request.user.groups.all(), converted=True).order_by('-update_time')
+        if 'limit' in request.GET and 'offset' in request.GET:
+            offset = int(request.GET['offset'])
+            limit = int(request.GET['offset']) + int(request.GET['limit'])
+            if len(queryset) >= limit:
+                queryset = queryset[offset:limit]
+            elif len(queryset) >= offset:
+                queryset = queryset[offset, len(queryset)]
+
         serializer = PostSerializer(
             queryset, many=True, context={'request': request})
         return Response(serializer.data)
