@@ -227,7 +227,7 @@ class PostViewSet(viewsets.ReadOnlyModelViewSet):
             if len(queryset) >= limit:
                 queryset = queryset[offset:limit]
             elif len(queryset) >= offset:
-                queryset = queryset[offset, len(queryset)]
+                queryset = queryset[offset, len(queryset) - 1]
 
         serializer = PostSerializer(
             queryset, many=True, context={'request': request})
