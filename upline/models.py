@@ -25,6 +25,7 @@ from s3direct.fields import S3DirectField
 from solo.models import SingletonModel
 from utils import convert_media
 from worker import conn
+from django.contrib.contenttypes.models import ContentType
 
 
 def avatar_path(instance, filename):
@@ -362,7 +363,8 @@ class Member(MPTTModel):
     member_uid = models.UUIDField(unique=True, null=True, editable=False)
     member_type = models.IntegerField(default=0, choices=(
         (0, 'Membro'), (1, 'Convidado')), editable=False)
-    user = models.OneToOneField(User, verbose_name=_('user'))
+    user = models.OneToOneField(
+        User, verbose_name=_('user'), related_name='member_user')
     email = models.EmailField(max_length=255, null=True, blank=True)
     parent = TreeForeignKey('self', null=True, blank=True,
                             related_name='downlines', db_index=True, verbose_name=_('parent'))
@@ -963,6 +965,18 @@ def push_delete_event(sender, instance, **kwargs):
                              "type": "event", "object": EventDeleteSerializer(instance, many=False).data})
 
 pre_delete.connect(push_delete_event, sender=Event, dispatch_uid="push_event")
+
+
+@receiver(m2m_changed)
+def update_member_type(sender, instance, action, **kwargs):
+    if ContentType.objects.get_for_model(sender).name == 'user-group relationship' and action == 'post_add':
+        is_invited = 0
+        for group in instance.groups.all():
+            if group.id == 3:
+                is_invited = 1
+                print 'invited'
+        Member.objects.filter(user=instance).update(member_type=is_invited)
+        # instance.member_user.save()
 
 
 @receiver(m2m_changed, sender=Event.invited.through)
