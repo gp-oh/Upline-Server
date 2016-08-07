@@ -376,8 +376,8 @@ class MemberRegisterSerializer(serializers.HyperlinkedModelSerializer):
         user.username = self.validated_data['username']
         user.email = self.validated_data['email']
         user.set_password(self.validated_data['password'])
-        user.save()
-        user.groups.add(Group.objects.get(id=3))
+        user.save()  # set user group ( 4 = consultor, 3 = invited )
+        user.groups.add(Group.objects.get(id=4))
         user.save()
 
         member = Member()
@@ -409,7 +409,7 @@ class MemberRegisterSerializer(serializers.HyperlinkedModelSerializer):
         if 'parent_user' in self.validated_data and len(self.validated_data['parent_user']) > 0:
             member.parent = Member.objects.get(
                 user__username=self.validated_data['parent_user'])
-        member.member_type = 0
+        member.member_type = 0  # member type => 0 - membro , 1 - convidado
 
         if 'name' in self.validated_data:
             member.name = self.validated_data['name']
