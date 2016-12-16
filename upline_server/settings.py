@@ -101,8 +101,8 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'upline',
         'USER': 'upline',
-        'PASSWORD': 'upline',
-        'HOST': 'localhost',
+        'PASSWORD': 'batatinhafrita123',
+        'HOST': 'upline.c5rmgxifqspm.us-east-1.rds.amazonaws.com',
         'PORT': '5432',
     }
 }
