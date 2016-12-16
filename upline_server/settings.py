@@ -13,14 +13,6 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
-from logentries import LogentriesHandler
-import logging
-
-log = logging.getLogger('logentries')
-log.setLevel(logging.INFO)
-
-log.addHandler(LogentriesHandler('e6298ae8-ef60-4065-81b3-78ddf4c06c05'))
-
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
