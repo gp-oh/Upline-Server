@@ -352,11 +352,14 @@ class MemberRegisterSerializer(serializers.HyperlinkedModelSerializer):
     dream2_base64 = serializers.CharField(required=False, allow_blank=True)
 
     def validate_parent_user(self, value):
-        if parent_user is None or len(parent_user) == 0:
-            return value
+        if not value:
+            return
+
         members = Member.objects.filter(user__username=value, member_type=0)
-        if len(members) != 1:
+        
+        if len(members):
             raise serializers.ValidationError("Invalid Parent ID")
+        
         return value
 
     def validate_email(self, value):
