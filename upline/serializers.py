@@ -353,7 +353,7 @@ class MemberRegisterSerializer(serializers.HyperlinkedModelSerializer):
 
     def validate_parent_user(self, value):
         if not value:
-            return
+            raise serializers.ValidationError("Invalid Parent ID")
 
         members = Member.objects.filter(user__username=value, member_type=0)
         
@@ -434,13 +434,16 @@ class MemberRegisterSerializer(serializers.HyperlinkedModelSerializer):
             member.address = self.validated_data['address']
         if 'address_number' in self.validated_data:
             member.address_number = self.validated_data['address_number']
+        if 'cpf' in self.validated_date:
+            member.cpf = self.validated_data['cpf']
+
         member.user = user
         member.save()
 
     class Meta:
         model = Member
         fields = ("id", "member_type", 'avatar_base64', "dream1_base64", "dream2_base64", 'name', 'email', 'grant_type', 'parent_user',
-                  'username', 'password', 'phone', 'birthday', 'gender', 'postal_code', 'state', 'city', 'address', 'address_number')
+                  'username', 'password', 'phone', 'birthday', 'gender', 'postal_code', 'state', 'city', 'address', 'address_number', 'cpf')
 
 
 class BinarySerializer(serializers.HyperlinkedModelSerializer):

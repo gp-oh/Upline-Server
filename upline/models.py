@@ -380,6 +380,8 @@ class Member(MPTTModel):
         upload_to=members_path, blank=True, null=True, verbose_name=_('avatar'))
     phone = models.CharField(max_length=45, blank=True,
                              null=True, verbose_name=_('phone'))
+    cpf = models.CharField(max_length=20, blank=True,
+                             null=True, verbose_name=_('cpf'))
     gender = models.IntegerField(
         choices=((0, "Masculino"), (1, 'Feminino')), verbose_name=_('gender'), null=True, blank=True, default=None)
     postal_code = models.CharField(
