@@ -13,6 +13,15 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+from logentries import LogentriesHandler
+import logging
+
+log = logging.getLogger('logentries')
+log.setLevel(logging.INFO)
+
+log.addHandler(LogentriesHandler('e6298ae8-ef60-4065-81b3-78ddf4c06c05'))
+
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
@@ -95,42 +104,13 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 STATIC_URL = '/static/'
-
-# Parse database configuration from $DATABASE_URL
-# import dj_database_url
-# DATABASES = {}
-# DATABASES['default'] =  dj_database_url.config()
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'upline',
-#         'USER': 'root',
-#         'PASSWORD': 'LCLvyk45429',
-#         'HOST': 'mysql65762-upline.jelasticlw.com.br',
-#         'PORT': '3306',
-#     }
-# }
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'upline',
-#         'USER': 'root',
-#         'PASSWORD': '',
-#         'HOST': '127.0.0.1',
-#         'PORT': '3306',
-#     }
-# }
-
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'upline',
         'USER': 'upline',
-        'PASSWORD': 'batatinhafrita123',
-        'HOST': 'upline.c5rmgxifqspm.us-east-1.rds.amazonaws.com',
+        'PASSWORD': 'upline',
+        'HOST': 'localhost',
         'PORT': '5432',
     }
 }
