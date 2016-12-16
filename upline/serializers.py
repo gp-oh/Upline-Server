@@ -357,7 +357,7 @@ class MemberRegisterSerializer(serializers.HyperlinkedModelSerializer):
 
         members = Member.objects.filter(user__username=value, member_type=0)
         
-        if len(members):
+        if not len(members):
             raise serializers.ValidationError("Invalid Parent ID")
         
         return value
